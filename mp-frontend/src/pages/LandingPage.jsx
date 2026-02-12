@@ -146,12 +146,12 @@ export default function LandingPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link to="/student">
+              <Link to="/login">
                 <Button>
                   Get Started Free <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
-              <Link to="/recruiter">
+              <Link to="/recruiter-dashboard">
                 <Button variant="outline">For Recruiters</Button>
               </Link>
             </div>
