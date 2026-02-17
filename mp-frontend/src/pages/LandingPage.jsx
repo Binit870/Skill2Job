@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
+
 /* -------------------- SIMPLE TAILWIND BUTTON -------------------- */
 function Button({ children, className = "", variant = "primary", ...props }) {
   const base =
@@ -33,24 +34,7 @@ function Button({ children, className = "", variant = "primary", ...props }) {
   );
 }
 
-/* -------------------- SIMPLE NAVBAR -------------------- */
-function Navbar() {
-  return (
-    <nav className="fixed top-0 w-full z-50 bg-white border-b">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <span className="text-xl font-bold">ResumeAI</span>
-        <div className="flex gap-6 text-sm font-medium">
-          <Link to="/student" className="hover:underline">
-            Student
-          </Link>
-          <Link to="/recruiter" className="hover:underline">
-            Recruiter
-          </Link>
-        </div>
-      </div>
-    </nav>
-  );
-}
+
 
 /* -------------------- DATA -------------------- */
 const features = [
@@ -121,7 +105,7 @@ function AnimatedCounter({ target, suffix = "" }) {
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white text-black">
-      <Navbar />
+     
 
       {/* HERO */}
       <section className="pt-32 pb-20">
@@ -234,10 +218,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="border-t py-10 text-center text-sm text-gray-500">
-        © 2024 ResumeAI. All rights reserved.
-      </footer>
+     
     </div>
   );
 }

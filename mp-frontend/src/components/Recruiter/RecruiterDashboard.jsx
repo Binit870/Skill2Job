@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+
 import {
   Users,
   Briefcase,
@@ -84,7 +86,10 @@ function StatusBadge({ status }) {
 }
 
 /* ---------------- PAGE ---------------- */
-export default function RecruiterDashboard() {
+
+  export default function RecruiterDashboard() {
+  const navigate = useNavigate();
+
   const [sortKey, setSortKey] = useState("matchScore");
   const [sortOrder, setSortOrder] = useState("desc");
   const [search, setSearch] = useState("");
@@ -127,18 +132,21 @@ export default function RecruiterDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
+      
       {/* HEADER */}
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-2xl font-bold">Recruiter Dashboard</h1>
-          <p className="text-gray-600">
-            Manage candidates and hiring pipeline
-          </p>
-        </div>
-        <Button>
-          <Briefcase size={16} /> Post Job
-        </Button>
-      </div>
+<div className="flex justify-between items-center mb-6">
+  <div>
+    <h1 className="text-2xl font-bold">Recruiter Dashboard</h1>
+    <p className="text-gray-600">
+      Manage candidates and hiring pipeline
+    </p>
+  </div>
+
+  <Button onClick={() => navigate("/recruiter/my")}>
+    <Briefcase size={16} /> Posted Jobs
+  </Button>
+</div>
+
 
       {/* SEARCH */}
       <div className="flex gap-3 mb-4">

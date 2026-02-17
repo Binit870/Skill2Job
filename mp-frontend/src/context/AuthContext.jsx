@@ -24,14 +24,21 @@ export const AuthProvider = ({ children }) => {
   return res.data.user; // ← IMPORTANT
 };
 
-  const signup = async (name, email, password, role) => {
-    await axios.post("http://localhost:5000/api/auth/signup", {
-      name,
-      email,
-      password,
-      role,
-    });
-  };
+ const signup = async (name, email, password, role) => {
+  const res = await axios.post(
+    "http://localhost:5000/api/auth/signup",
+    { name, email, password, role }
+  );
+
+  localStorage.setItem("token", res.data.token);
+  localStorage.setItem("user", JSON.stringify(res.data.user)); // 🔥 ADD THIS
+
+  setUser(res.data.user);
+
+  return res.data;
+};
+
+
 
   const logout = () => {
     localStorage.clear();

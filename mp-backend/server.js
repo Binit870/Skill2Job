@@ -3,6 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/Db.js";
 import authRoutes from "./routes/authRoutes.js";
+import jobRoutes from "./routes/jobRoutes.js";
+import resumeRoutes from "./routes/resumeRoutes.js";
+import profileRoutes from "./routes/profileRoutes.js";
 
 dotenv.config();
 
@@ -17,7 +20,9 @@ app.use(express.json());
 
 // Routes
 app.use("/api/auth", authRoutes);
-
+app.use("/api/jobs", jobRoutes);
+app.use("/api/resume", resumeRoutes);
+app.use("/api/profile", profileRoutes);
 // Health check route
 app.get("/", (req, res) => {
   res.send("Skill2Job API Running...");

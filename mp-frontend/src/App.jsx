@@ -1,49 +1,94 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthContext";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import ProtectedRoute from "./pages/ProtectedRoute";
 import { Toaster } from "react-hot-toast";
 
+import ProtectedRoute from "./pages/ProtectedRoute";
+
 import LandingPage from "./pages/LandingPage";
-import StudentDashboard from "./components/Student/StudentDashboard";
-import RecruiterDashboard from "./components/Recruiter/RecruiterDashboard";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
+
+import StudentDashboard from "./components/Student/StudentDashboard";
+import FindJobs from "./components/Student/FindJobs";
+import RecommendedJobs from "./components/Student/RecommendedJobs";
+import MyResume from "./components/Student/MyResume";
+import Analytics from "./components/Student/Analytics";
+import StudentProfile from "./components/Student/StudentProfile";
+
+import RecruiterProfile from "./components/Recruiter/RecruiterProfile";
+import RecruiterDashboard from "./components/Recruiter/RecruiterDashboard";
+import PostJob from "./components/Recruiter/PostJob";
+
+import PublicLayout from "./layouts/PublicLayout";
+import StudentLayout from "./layouts/StudentLayout";
+import RecruiterLayout from "./layouts/RecruiterLayout";
+import MyJobs from "./components/Recruiter/MyJobs";
 
 export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-      <Toaster position="top-right" reverseOrder={false} />
+        <Toaster position="top-right" reverseOrder={false} />
+
         <Routes>
 
-          {/* Public Routes */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
+          {/* Public Layout */}
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Route>
 
-          {/* Student Routes */}
+          {/* ================= STUDENT ROUTES ================= */}
           <Route
-            path="/student-dashboard"
+  path="/student/profile"
+  element={
+    <ProtectedRoute role="student">
+      <StudentProfile />
+    </ProtectedRoute>
+  }
+/>
+
+          <Route
             element={
               <ProtectedRoute role="student">
-                <StudentDashboard />
+                <StudentLayout />
               </ProtectedRoute>
             }
-          />
+          >
+            
+            <Route path="/student-dashboard" element={<StudentDashboard />} />
+            <Route path="/student/jobs" element={<FindJobs />} />
+            <Route path="/student/jobs/recommend" element={<RecommendedJobs />} />
+            <Route path="/student/resume" element={<MyResume />} />
+            <Route path="/student/analyze" element={<Analytics />} />
+          </Route>
 
-          {/* Recruiter Routes */}
+          {/* ================= RECRUITER ROUTES ================= */}
           <Route
-            path="/recruiter-dashboard"
+  path="/recruiter/profile"
+  element={
+    <ProtectedRoute role="recruiter">
+      <RecruiterProfile />
+    </ProtectedRoute>
+  }
+/>
+
+          <Route
             element={
               <ProtectedRoute role="recruiter">
-                <RecruiterDashboard />
+                <RecruiterLayout />
               </ProtectedRoute>
             }
-          />
+          >
+            
+            <Route path="/recruiter-dashboard" element={<RecruiterDashboard />} />
+            <Route path="/recruiter/post-job" element={<PostJob />} />
+            <Route path="/recruiter/my" element={<MyJobs />} />
+          </Route>
 
-          {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
 
         </Routes>
@@ -51,3 +96,4 @@ export default function App() {
     </AuthProvider>
   );
 }
+

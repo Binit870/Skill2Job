@@ -14,24 +14,36 @@ const Signup = () => {
     role: "student",
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      await signup(form.name, form.email, form.password, form.role);
+  try {
+    const res = await signup(
+      form.name,
+      form.email,
+      form.password,
+      form.role
+    );
 
-      toast.success("Account created successfully!");
+    toast.success("Account created successfully!");
 
-      setTimeout(() => {
-        navigate("/login");
-      }, 1500);
+    const role = res.user.role;
 
-    } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Something went wrong"
-      );
-    }
-  };
+    setTimeout(() => {
+      if (role === "student") {
+        navigate("/student/profile");
+      } else {
+        navigate("/recruiter/profile");
+      }
+    }, 1000);
+
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message || "Something went wrong"
+    );
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 to-indigo-200">
