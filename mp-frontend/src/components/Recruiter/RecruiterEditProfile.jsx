@@ -1,12 +1,21 @@
 import { useEffect, useState, useCallback, useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Cropper from "react-easy-crop";
+import {
+  Building2,
+  Globe,
+  Briefcase,
+  MapPin,
+  FileText,
+  Image as ImageIcon,
+  Save,
+  Trash2
+} from "lucide-react";
 import { AuthContext } from "../../context/AuthContext";
 
-const RecruiterProfile = () => {
-  const navigate = useNavigate();
+const RecruiterEditProfile = () => {
+
   const { refreshUser } = useContext(AuthContext);
 
   const [form, setForm] = useState({
@@ -19,9 +28,12 @@ const RecruiterProfile = () => {
   });
 
   const [loading, setLoading] = useState(false);
+
+  // Image states
   const [imageSrc, setImageSrc] = useState(null);
   const [croppedImage, setCroppedImage] = useState(null);
   const [cropModalOpen, setCropModalOpen] = useState(false);
+
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
@@ -32,11 +44,14 @@ const RecruiterProfile = () => {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/profile", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await axios.get(
+        "http://localhost:5000/api/profile",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       const user = res.data;
 
@@ -48,8 +63,9 @@ const RecruiterProfile = () => {
         companyLocation: user.companyLocation || "",
         companyLogo: user.companyLogo || "",
       });
+
     } catch (error) {
-      console.error(error);
+      toast.error("Failed to load profile");
     }
   };
 
@@ -132,94 +148,108 @@ const RecruiterProfile = () => {
         }
       );
 
-      await refreshUser(); // 🔥 added
+      await refreshUser(); // 🔥 THIS FIXES NAVBAR UPDATE
 
-      toast.success("Company profile updated!");
-      navigate("/recruiter-dashboard");
+      toast.success("Company profile updated successfully 🚀");
+
     } catch (error) {
-      toast.error("Update failed");
+      toast.error("Update failed. Try again.");
     } finally {
       setLoading(false);
     }
   };
 
+  const InputField = ({ icon: Icon, name, placeholder, type = "text" }) => (
+    <div className="relative">
+      <Icon className="absolute left-3 top-3 text-gray-400" size={18} />
+      <input
+        type={type}
+        name={name}
+        value={form[name]}
+        onChange={handleChange}
+        placeholder={placeholder}
+        className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+      />
+    </div>
+  );
+
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100 p-6">
-      <div className="bg-white shadow-xl rounded-2xl w-full max-w-2xl p-8">
-        <h2 className="text-3xl font-bold mb-6 text-center">
-          Company Profile Setup
+    <div className="min-h-screen bg-gray-100 flex justify-center items-center p-6">
+      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-3xl">
+        <h2 className="text-3xl font-bold mb-6 text-center text-indigo-700">
+          Edit Company Profile
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-4">
 
-          {/* Upload */}
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Upload Company Logo
+            <label className="flex items-center gap-2 mb-2 font-medium text-gray-600">
+              <ImageIcon size={18} /> Upload Company Logo
             </label>
+
             <input
               type="file"
               accept="image/*"
               onChange={onFileChange}
-              className="w-full px-4 py-2 border rounded-lg"
+              className="w-full border rounded-lg px-4 py-2"
             />
           </div>
 
-          {/* Existing Logo */}
           {!croppedImage && form.companyLogo && (
             <div className="flex justify-center">
               <img
                 src={`http://localhost:5000${form.companyLogo}`}
-                alt="Logo"
-                className="w-28 h-28 rounded-xl object-cover border-4 border-indigo-500"
+                alt="Company Logo"
+                className="w-28 h-28 rounded-xl object-cover border-4 border-indigo-500 shadow-md"
               />
             </div>
           )}
 
-          {/* Cropped Preview */}
           {croppedImage && (
-            <div className="flex flex-col items-center space-y-2">
+            <div className="flex flex-col items-center space-y-3">
               <img
                 src={URL.createObjectURL(croppedImage)}
                 alt="Preview"
-                className="w-28 h-28 rounded-xl object-cover border-4 border-indigo-500"
+                className="w-28 h-28 rounded-xl object-cover border-4 border-indigo-500 shadow-md"
               />
               <button
                 type="button"
                 onClick={handleRemoveLogo}
-                className="text-red-500 text-sm"
+                className="flex items-center gap-1 text-red-500 text-sm"
               >
-                Remove Logo
+                <Trash2 size={16} /> Remove Logo
               </button>
             </div>
           )}
 
-          <Input label="Company Name" name="companyName" value={form.companyName} onChange={handleChange} />
-          <Input label="Company Website" name="companyWebsite" value={form.companyWebsite} onChange={handleChange} />
-          <Input label="Industry" name="industry" value={form.industry} onChange={handleChange} />
-          <Input label="Location" name="companyLocation" value={form.companyLocation} onChange={handleChange} />
+          <InputField icon={Building2} name="companyName" placeholder="Company Name" />
+          <InputField icon={Globe} name="companyWebsite" placeholder="Company Website" />
+          <InputField icon={Briefcase} name="industry" placeholder="Industry" />
+          <InputField icon={MapPin} name="companyLocation" placeholder="Company Location" />
 
-          <textarea
-            required
-            name="companyDescription"
-            value={form.companyDescription}
-            onChange={handleChange}
-            rows="4"
-            className="w-full px-4 py-2 border rounded-lg"
-            placeholder="Company Description"
-          />
+          <div className="relative">
+            <FileText className="absolute left-3 top-3 text-gray-400" size={18} />
+            <textarea
+              name="companyDescription"
+              value={form.companyDescription}
+              onChange={handleChange}
+              placeholder="Company Description"
+              rows="4"
+              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none"
+            />
+          </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-600 text-white py-3 rounded-lg"
+            className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg transition duration-200 disabled:opacity-50"
           >
-            {loading ? "Saving..." : "Save & Continue"}
+            <Save size={18} />
+            {loading ? "Saving..." : "Update Profile"}
           </button>
         </form>
       </div>
 
-      {/* Crop Modal */}
       {cropModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-xl w-96 space-y-4">
@@ -242,6 +272,7 @@ const RecruiterProfile = () => {
               >
                 Cancel
               </button>
+
               <button
                 onClick={handleSaveCrop}
                 className="px-4 py-2 bg-indigo-600 text-white rounded"
@@ -256,15 +287,4 @@ const RecruiterProfile = () => {
   );
 };
 
-const Input = ({ label, ...props }) => (
-  <div>
-    <label className="block text-sm font-medium mb-1">{label}</label>
-    <input
-      required
-      className="w-full px-4 py-2 border rounded-lg"
-      {...props}
-    />
-  </div>
-);
-
-export default RecruiterProfile;
+export default RecruiterEditProfile;

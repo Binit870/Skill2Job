@@ -50,6 +50,9 @@ const userSchema = new mongoose.Schema(
         type: String,
       },
     ],
+    profileImage:{
+      type: String,
+    },
 
     // ================= RECRUITER FIELDS =================
     companyName: {
@@ -69,6 +72,9 @@ const userSchema = new mongoose.Schema(
     },
 
     companyLocation: {
+      type: String,
+    },
+    companyLogo:{
       type: String,
     },
   },

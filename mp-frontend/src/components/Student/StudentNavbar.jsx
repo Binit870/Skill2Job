@@ -15,7 +15,6 @@ export default function StudentNavbar() {
     navigate("/login");
   };
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -46,8 +45,18 @@ export default function StudentNavbar() {
           onClick={() => setOpen(!open)}
           className="flex items-center gap-2 cursor-pointer"
         >
-          <div className="w-9 h-9 rounded-full bg-green-600 text-white flex items-center justify-center">
-            <User className="w-5 h-5" />
+          <div className="w-9 h-9 rounded-full overflow-hidden bg-green-600 flex items-center justify-center">
+            
+            {user?.profileImage ? (
+              <img
+                src={`http://localhost:5000${user.profileImage}`}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <User className="w-5 h-5 text-white" />
+            )}
+
           </div>
 
           <span className="text-sm font-medium text-gray-700">
@@ -57,12 +66,11 @@ export default function StudentNavbar() {
           <ChevronDown className="w-4 h-4 text-gray-500" />
         </button>
 
-        {/* Dropdown */}
         {open && (
           <div className="absolute right-0 mt-3 w-48 bg-white border rounded-xl shadow-lg py-2">
             
             <button
-              onClick={() => navigate("/student-dashboard/profile")}
+              onClick={() => navigate("/student/edit-profile")}
               className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
             >
               Edit Profile

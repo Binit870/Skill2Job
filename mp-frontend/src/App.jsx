@@ -16,7 +16,9 @@ import RecommendedJobs from "./components/Student/RecommendedJobs";
 import MyResume from "./components/Student/MyResume";
 import Analytics from "./components/Student/Analytics";
 import StudentProfile from "./components/Student/StudentProfile";
-
+import StudentEditProfile from "./components/Student/StudentEditProfile";
+import MockInterview from "./pages/MockInterview";
+import RecruiterEditProfile from "./components/Recruiter/RecruiterEditProfile";
 import RecruiterProfile from "./components/Recruiter/RecruiterProfile";
 import RecruiterDashboard from "./components/Recruiter/RecruiterDashboard";
 import PostJob from "./components/Recruiter/PostJob";
@@ -43,13 +45,13 @@ export default function App() {
 
           {/* ================= STUDENT ROUTES ================= */}
           <Route
-  path="/student/profile"
-  element={
-    <ProtectedRoute role="student">
-      <StudentProfile />
-    </ProtectedRoute>
-  }
-/>
+            path="/student/profile"
+            element={
+              <ProtectedRoute role="student">
+                <StudentProfile />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             element={
@@ -58,23 +60,25 @@ export default function App() {
               </ProtectedRoute>
             }
           >
-            
+
             <Route path="/student-dashboard" element={<StudentDashboard />} />
             <Route path="/student/jobs" element={<FindJobs />} />
             <Route path="/student/jobs/recommend" element={<RecommendedJobs />} />
             <Route path="/student/resume" element={<MyResume />} />
             <Route path="/student/analyze" element={<Analytics />} />
+            <Route path="/student/edit-profile" element={<StudentEditProfile />} />
+            <Route path="/student/mock-interview" element={<MockInterview />} />
           </Route>
 
           {/* ================= RECRUITER ROUTES ================= */}
           <Route
-  path="/recruiter/profile"
-  element={
-    <ProtectedRoute role="recruiter">
-      <RecruiterProfile />
-    </ProtectedRoute>
-  }
-/>
+            path="/recruiter/profile"
+            element={
+              <ProtectedRoute role="recruiter">
+                <RecruiterProfile />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             element={
@@ -83,10 +87,11 @@ export default function App() {
               </ProtectedRoute>
             }
           >
-            
+
             <Route path="/recruiter-dashboard" element={<RecruiterDashboard />} />
             <Route path="/recruiter/post-job" element={<PostJob />} />
             <Route path="/recruiter/my" element={<MyJobs />} />
+            <Route path="/recruiter/edit-profile" element={<RecruiterEditProfile />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />

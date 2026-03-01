@@ -33,18 +33,25 @@ export const updateStudentProfile = async (req, res) => {
       skills,
     } = req.body;
 
-    user.phone = phone;
-    user.college = college;
-    user.branch = branch;
-    user.graduationYear = graduationYear;
-    user.cgpa = cgpa;
-    user.skills = skills;
+    user.phone = phone ?? user.phone;
+    user.college = college ?? user.college;
+    user.branch = branch ?? user.branch;
+    user.graduationYear = graduationYear ?? user.graduationYear;
+    user.cgpa = cgpa ?? user.cgpa;
+    user.skills = skills ?? user.skills;
+
+    // 🔥 Save uploaded image
+    if (req.file) {
+      user.profileImage = `/uploads/${req.file.filename}`;
+    }
 
     await user.save();
 
+    const updatedUser = await User.findById(user._id).select("-password");
+
     res.json({
       message: "Student profile updated successfully",
-      user,
+      user: updatedUser,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -68,17 +75,26 @@ export const updateRecruiterProfile = async (req, res) => {
       companyLocation,
     } = req.body;
 
-    user.companyName = companyName;
-    user.companyWebsite = companyWebsite;
-    user.companyDescription = companyDescription;
-    user.industry = industry;
-    user.companyLocation = companyLocation;
+    user.companyName = companyName ?? user.companyName;
+    user.companyWebsite = companyWebsite ?? user.companyWebsite;
+    user.companyDescription =
+      companyDescription ?? user.companyDescription;
+    user.industry = industry ?? user.industry;
+    user.companyLocation =
+      companyLocation ?? user.companyLocation;
+
+    // 🔥 Save uploaded logo
+    if (req.file) {
+      user.companyLogo = `/uploads/${req.file.filename}`;
+    }
 
     await user.save();
 
+    const updatedUser = await User.findById(user._id).select("-password");
+
     res.json({
       message: "Recruiter profile updated successfully",
-      user,
+      user: updatedUser,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

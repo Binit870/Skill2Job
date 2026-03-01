@@ -23,6 +23,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/uploads", express.static("uploads"));
 // Health check route
 app.get("/", (req, res) => {
   res.send("Skill2Job API Running...");

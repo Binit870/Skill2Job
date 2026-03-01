@@ -1,10 +1,17 @@
 import Navbar from "../pages/Navbar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 export default function PublicLayout() {
+  const location = useLocation();
+
+  const hideNavbar =
+    location.pathname === "/login" ||
+    location.pathname === "/signup";
+
   return (
     <>
-      <Navbar />
+    {!hideNavbar && <Navbar />}
+    
       <Outlet />
     </>
   );

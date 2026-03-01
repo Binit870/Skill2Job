@@ -15,7 +15,6 @@ const generateToken = (user) => {
 };
 
 // ================== SIGNUP ==================
-// ================== SIGNUP ==================
 export const signup = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
