@@ -94,6 +94,15 @@ export default function StudentSidebar() {
           <Briefcase className="w-5 h-5" />
           {!collapsed && <span>Recommended Jobs</span>}
         </NavLink>
+        <NavLink
+          to="/student/mock-interview"
+          className={({ isActive }) =>
+            `${linkClass} ${isActive ? activeClass : ""}`
+          }
+        >
+          <Briefcase className="w-5 h-5" />
+          {!collapsed && <span>Mock Interview</span>}
+        </NavLink>
 
         <NavLink
           to="/student/analyze"
