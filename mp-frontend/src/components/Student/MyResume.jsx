@@ -8,6 +8,7 @@ import {
   PlusCircle,
   Edit,
   Trash2,
+  Eye, // 👈 VIEW ICON ADD KIYA
 } from "lucide-react";
 
 const MyResume = () => {
@@ -103,15 +104,25 @@ const MyResume = () => {
                 <div>
                   <p className="font-semibold">Your Resume</p>
                   <p className="text-sm text-gray-500">
-                    {existingResume.fileName || "Uploaded Resume"}
+                    {existingResume.fileName || existingResume.fullName || "Uploaded Resume"}
                   </p>
                 </div>
               </div>
 
               <div className="flex gap-3">
+                {/* 👇 VIEW ICON ADD KIYA */}
+                <button
+                  onClick={() => navigate("/student/resume-view", { state: { resume: existingResume } })}
+                  className="flex items-center gap-1 text-green-600 hover:text-green-800"
+                  title="View Resume"
+                >
+                  <Eye size={18} />
+                </button>
+
                 <button
                   onClick={() => navigate("/student/resume-builder")}
                   className="flex items-center gap-1 text-blue-600 hover:text-blue-800"
+                  title="Edit Resume"
                 >
                   <Edit size={16} /> Edit
                 </button>
@@ -119,6 +130,7 @@ const MyResume = () => {
                 <button
                   onClick={handleDelete}
                   className="flex items-center gap-1 text-red-600 hover:text-red-800"
+                  title="Delete Resume"
                 >
                   <Trash2 size={16} /> Delete
                 </button>
