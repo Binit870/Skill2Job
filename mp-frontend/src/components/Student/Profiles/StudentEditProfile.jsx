@@ -3,33 +3,34 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Cropper from "react-easy-crop";
 import {
-  Building2,
-  Globe,
-  Briefcase,
-  MapPin,
-  FileText,
+  Phone,
+  GraduationCap,
+  BookOpen,
+  Calendar,
+  Star,
+  Code,
   Image as ImageIcon,
   Save,
   Trash2
 } from "lucide-react";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
 
-const RecruiterEditProfile = () => {
+const StudentEditProfile = () => {
 
   const { refreshUser } = useContext(AuthContext);
 
   const [form, setForm] = useState({
-    companyName: "",
-    companyWebsite: "",
-    companyDescription: "",
-    industry: "",
-    companyLocation: "",
-    companyLogo: "",
+    phone: "",
+    college: "",
+    branch: "",
+    graduationYear: "",
+    cgpa: "",
+    skills: "",
+    profileImage: "",
   });
 
   const [loading, setLoading] = useState(false);
 
-  // Image states
   const [imageSrc, setImageSrc] = useState(null);
   const [croppedImage, setCroppedImage] = useState(null);
   const [cropModalOpen, setCropModalOpen] = useState(false);
@@ -56,15 +57,16 @@ const RecruiterEditProfile = () => {
       const user = res.data;
 
       setForm({
-        companyName: user.companyName || "",
-        companyWebsite: user.companyWebsite || "",
-        companyDescription: user.companyDescription || "",
-        industry: user.industry || "",
-        companyLocation: user.companyLocation || "",
-        companyLogo: user.companyLogo || "",
+        phone: user.phone || "",
+        college: user.college || "",
+        branch: user.branch || "",
+        graduationYear: user.graduationYear || "",
+        cgpa: user.cgpa || "",
+        skills: user.skills?.join(", ") || "",
+        profileImage: user.profileImage || "",
       });
 
-    } catch (error) {
+    } catch (err) {
       toast.error("Failed to load profile");
     }
   };
@@ -114,10 +116,10 @@ const RecruiterEditProfile = () => {
     setCropModalOpen(false);
   };
 
-  const handleRemoveLogo = () => {
+  const handleRemoveImage = () => {
     setCroppedImage(null);
     setImageSrc(null);
-    setForm({ ...form, companyLogo: "" });
+    setForm({ ...form, profileImage: "" });
   };
 
   const handleSubmit = async (e) => {
@@ -127,18 +129,25 @@ const RecruiterEditProfile = () => {
       setLoading(true);
 
       const formData = new FormData();
-      formData.append("companyName", form.companyName);
-      formData.append("companyWebsite", form.companyWebsite);
-      formData.append("companyDescription", form.companyDescription);
-      formData.append("industry", form.industry);
-      formData.append("companyLocation", form.companyLocation);
+      formData.append("phone", form.phone);
+      formData.append("college", form.college);
+      formData.append("branch", form.branch);
+      formData.append("graduationYear", form.graduationYear);
+      formData.append("cgpa", form.cgpa);
+
+      form.skills
+        .split(",")
+        .map((s) => s.trim())
+        .forEach((skill) =>
+          formData.append("skills[]", skill)
+        );
 
       if (croppedImage) {
-        formData.append("companyLogo", croppedImage, "logo.jpg");
+        formData.append("profileImage", croppedImage, "profile.jpg");
       }
 
       await axios.put(
-        "http://localhost:5000/api/profile/recruiter",
+        "http://localhost:5000/api/profile/student",
         formData,
         {
           headers: {
@@ -148,9 +157,9 @@ const RecruiterEditProfile = () => {
         }
       );
 
-      await refreshUser(); // 🔥 THIS FIXES NAVBAR UPDATE
+      await refreshUser(); // 🔥 ensures navbar updates instantly
 
-      toast.success("Company profile updated successfully 🚀");
+      toast.success("Profile updated successfully 🚀");
 
     } catch (error) {
       toast.error("Update failed. Try again.");
@@ -168,25 +177,24 @@ const RecruiterEditProfile = () => {
         value={form[name]}
         onChange={handleChange}
         placeholder={placeholder}
-        className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
       />
     </div>
   );
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center p-6">
-      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-3xl">
-        <h2 className="text-3xl font-bold mb-6 text-center text-indigo-700">
-          Edit Company Profile
+      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-2xl">
+        <h2 className="text-3xl font-bold mb-6 text-center text-purple-700">
+          Edit Student Profile
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
 
           <div>
             <label className="flex items-center gap-2 mb-2 font-medium text-gray-600">
-              <ImageIcon size={18} /> Upload Company Logo
+              <ImageIcon size={18} /> Upload Profile Image
             </label>
-
             <input
               type="file"
               accept="image/*"
@@ -195,12 +203,12 @@ const RecruiterEditProfile = () => {
             />
           </div>
 
-          {!croppedImage && form.companyLogo && (
+          {!croppedImage && form.profileImage && (
             <div className="flex justify-center">
               <img
-                src={`http://localhost:5000${form.companyLogo}`}
-                alt="Company Logo"
-                className="w-28 h-28 rounded-xl object-cover border-4 border-indigo-500 shadow-md"
+                src={`http://localhost:5000${form.profileImage}`}
+                alt="Profile"
+                className="w-28 h-28 rounded-full object-cover border-4 border-purple-500 shadow-md"
               />
             </div>
           )}
@@ -210,39 +218,29 @@ const RecruiterEditProfile = () => {
               <img
                 src={URL.createObjectURL(croppedImage)}
                 alt="Preview"
-                className="w-28 h-28 rounded-xl object-cover border-4 border-indigo-500 shadow-md"
+                className="w-28 h-28 rounded-full object-cover border-4 border-purple-500 shadow-md"
               />
               <button
                 type="button"
-                onClick={handleRemoveLogo}
+                onClick={handleRemoveImage}
                 className="flex items-center gap-1 text-red-500 text-sm"
               >
-                <Trash2 size={16} /> Remove Logo
+                <Trash2 size={16} /> Remove
               </button>
             </div>
           )}
 
-          <InputField icon={Building2} name="companyName" placeholder="Company Name" />
-          <InputField icon={Globe} name="companyWebsite" placeholder="Company Website" />
-          <InputField icon={Briefcase} name="industry" placeholder="Industry" />
-          <InputField icon={MapPin} name="companyLocation" placeholder="Company Location" />
-
-          <div className="relative">
-            <FileText className="absolute left-3 top-3 text-gray-400" size={18} />
-            <textarea
-              name="companyDescription"
-              value={form.companyDescription}
-              onChange={handleChange}
-              placeholder="Company Description"
-              rows="4"
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none"
-            />
-          </div>
+          <InputField icon={Phone} name="phone" placeholder="Phone" />
+          <InputField icon={GraduationCap} name="college" placeholder="College" />
+          <InputField icon={BookOpen} name="branch" placeholder="Branch" />
+          <InputField icon={Calendar} name="graduationYear" placeholder="Graduation Year" type="number" />
+          <InputField icon={Star} name="cgpa" placeholder="CGPA" />
+          <InputField icon={Code} name="skills" placeholder="Skills (comma separated)" />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg transition duration-200 disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg transition duration-200 disabled:opacity-50"
           >
             <Save size={18} />
             {loading ? "Saving..." : "Update Profile"}
@@ -259,6 +257,7 @@ const RecruiterEditProfile = () => {
                 crop={crop}
                 zoom={zoom}
                 aspect={1}
+                cropShape="round"
                 onCropChange={setCrop}
                 onZoomChange={setZoom}
                 onCropComplete={onCropComplete}
@@ -275,7 +274,7 @@ const RecruiterEditProfile = () => {
 
               <button
                 onClick={handleSaveCrop}
-                className="px-4 py-2 bg-indigo-600 text-white rounded"
+                className="px-4 py-2 bg-purple-600 text-white rounded"
               >
                 Save Crop
               </button>
@@ -287,4 +286,4 @@ const RecruiterEditProfile = () => {
   );
 };
 
-export default RecruiterEditProfile;
+export default StudentEditProfile;

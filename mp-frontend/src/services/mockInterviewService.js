@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "/api/mock",
+  baseURL: "http://localhost:5000/api/mock",
 });
 
 export const generateQuestions = async (data) => {

@@ -15,18 +15,19 @@ import FindJobs from "./components/Student/FindJobs";
 import RecommendedJobs from "./components/Student/RecommendedJobs";
 import MyResume from "./components/Student/MyResume";
 import Analytics from "./components/Student/Analytics";
-import StudentProfile from "./components/Student/StudentProfile";
-import StudentEditProfile from "./components/Student/StudentEditProfile";
-import MockInterview from "./pages/MockInterview";
-import RecruiterEditProfile from "./components/Recruiter/RecruiterEditProfile";
-import RecruiterProfile from "./components/Recruiter/RecruiterProfile";
+import StudentProfile from "./components/Student/Profiles/StudentProfile";
+import StudentEditProfile from "./components/Student/Profiles/StudentEditProfile";
+import MockInterview from "./components/Student/MockInterview/MockInterview";
+
+import RecruiterEditProfile from "./components/Recruiter/Profiles/RecruiterEditProfile";
+import RecruiterProfile from "./components/Recruiter/Profiles/RecruiterProfile";
 import RecruiterDashboard from "./components/Recruiter/RecruiterDashboard";
 import PostJob from "./components/Recruiter/PostJob";
+import MyJobs from "./components/Recruiter/MyJobs";
 
 import PublicLayout from "./layouts/PublicLayout";
 import StudentLayout from "./layouts/StudentLayout";
 import RecruiterLayout from "./layouts/RecruiterLayout";
-import MyJobs from "./components/Recruiter/MyJobs";
 
 export default function App() {
   return (

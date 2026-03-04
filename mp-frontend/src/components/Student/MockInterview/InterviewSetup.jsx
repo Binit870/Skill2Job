@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { generateQuestions } from "../services/mockInterviewService";
+import { generateQuestions } from "../../../services/mockInterviewService";
 
 export default function InterviewSetup({ setRole, setQuestions, setStep }) {
   const [selectedRole, setSelectedRole] = useState("Frontend Developer");
