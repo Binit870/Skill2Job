@@ -1,7 +1,7 @@
 import { useState } from "react";
-import InterviewSetup from "../components/InterviewSetup";
-import InterviewSession from "../components/InterviewSession";
-import FeedbackReport from "../components/FeedbackReport";
+import InterviewSetup from "./InterviewSetup";
+import InterviewSession from "./InterviewSession";
+import FeedbackReport from "./FeedbackReport";
 
 export default function MockInterview() {
   const [step, setStep] = useState("setup");

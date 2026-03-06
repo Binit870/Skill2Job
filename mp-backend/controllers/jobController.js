@@ -1,5 +1,5 @@
 import Job from "../models/Job.js";
-
+import User from "../models/User.js";
 /* =========================
    CREATE JOB
 ========================= */
@@ -11,9 +11,36 @@ export const createJob = async (req, res) => {
       });
     }
 
+    // Fetch recruiter from DB
+    const recruiter = await User.findById(req.user._id);
+
+    if (!recruiter) {
+      return res.status(404).json({ message: "Recruiter not found" });
+    }
+
     const job = await Job.create({
-      ...req.body,
-      recruiter: req.user._id,
+      title: req.body.title,
+      location: req.body.location,
+      jobType: req.body.jobType,
+      experienceMin: req.body.experienceMin,
+      experienceMax: req.body.experienceMax,
+      salaryMin: req.body.salaryMin,
+      salaryMax: req.body.salaryMax,
+      vacancies: req.body.vacancies,
+      skills: req.body.skills,
+      description: req.body.description,
+      deadline: req.body.deadline,
+
+      // 🔥 Auto-fetch from recruiter profile
+      company: recruiter.companyName,
+      companyWebsite: recruiter.companyWebsite,
+      companyDescription: recruiter.companyDescription,
+      companyLogo: recruiter.companyLogo,
+      contact: {
+        email: recruiter.email,
+      },
+
+      recruiter: recruiter._id,
     });
 
     res.status(201).json(job);

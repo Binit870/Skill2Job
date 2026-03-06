@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -21,9 +21,47 @@ const PostJob = () => {
     description: "",
     deadline: "",
     contactEmail: "",
+    companyLogo: "",
   });
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const { data } = await axios.get(
+          "http://localhost:5000/api/profile",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (data.role === "recruiter") {
+          setFormData((prev) => ({
+            ...prev,
+            company: data.companyName || "",
+            companyWebsite: data.companyWebsite || "",
+            companyDescription: data.companyDescription || "",
+            contactEmail: data.email || "",
+            companyLogo: data.companyLogo || "",
+          }));
+        }
+
+        if (data.role === "student") {
+          setFormData((prev) => ({
+            ...prev,
+            contactEmail: data.email || "",
+          }));
+        }
+      } catch (error) {
+        console.error("Profile fetch error:", error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -57,14 +95,10 @@ const PostJob = () => {
           skills: formData.skills
             .split(",")
             .map((skill) => skill.trim()),
-          contact: {
-            email: formData.contactEmail,
-          },
+          contact: { email: formData.contactEmail },
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
@@ -79,170 +113,276 @@ const PostJob = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-center py-10">
-      <div className="bg-white shadow-lg rounded-xl w-full max-w-3xl p-8">
-        <h2 className="text-2xl font-bold mb-6 text-center">
-          Post a New Job
-        </h2>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-12 px-4">
+      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-10">
+        <div className="mb-8 flex items-start justify-between">
+  
+  {/* Left Side - Title */}
+  <div>
+    <h2 className="text-3xl font-bold text-gray-800">
+      Post a New Job
+    </h2>
+    <p className="text-gray-500 mt-2">
+      Fill in the details below to publish your job listing
+    </p>
+  </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+  {/* Right Side - Company Logo */}
+  {formData.companyLogo && (
+    <div className="bg-gray-50 p-3 rounded-xl shadow-sm border border-gray-200">
+      <img
+        src={`http://localhost:5000${formData.companyLogo}`}
+        alt="Company Logo"
+        className="h-16 w-16 object-contain"
+      />
+    </div>
+  )}
 
-          <input
-            type="text"
-            name="title"
-            placeholder="Job Title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-            className="w-full border p-3 rounded-lg"
-          />
+</div>
 
-          <input
-            type="text"
-            name="company"
-            placeholder="Company Name"
-            value={formData.company}
-            onChange={handleChange}
-            required
-            className="w-full border p-3 rounded-lg"
-          />
+        <form onSubmit={handleSubmit} className="space-y-8">
 
-          <input
-            type="text"
-            name="companyWebsite"
-            placeholder="Company Website (optional)"
-            value={formData.companyWebsite}
-            onChange={handleChange}
-            className="w-full border p-3 rounded-lg"
-          />
+  {/* Basic Info */}
+  <div className="space-y-4">
+    <h3 className="text-lg font-semibold text-gray-700 border-b pb-2">
+      Basic Information
+    </h3>
 
-          <textarea
-            name="companyDescription"
-            placeholder="Company Description (optional)"
-            value={formData.companyDescription}
-            onChange={handleChange}
-            className="w-full border p-3 rounded-lg"
-          />
+    <div className="space-y-1">
+      <label className="block text-sm font-medium text-gray-700">
+        Job Title *
+      </label>
+      <input
+        type="text"
+        name="title"
+        value={formData.title}
+        onChange={handleChange}
+        required
+        className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-3 rounded-xl outline-none transition"
+      />
+    </div>
 
-          <input
-            type="text"
-            name="location"
-            placeholder="Location"
-            value={formData.location}
-            onChange={handleChange}
-            required
-            className="w-full border p-3 rounded-lg"
-          />
+    <div className="space-y-1">
+      <label className="block text-sm font-medium text-gray-700">
+        Company Name *
+      </label>
+      <input
+        type="text"
+        name="company"
+        value={formData.company}
+        onChange={handleChange}
+        required
+        className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-3 rounded-xl outline-none transition"
+      />
+    </div>
 
-          <select
-            name="jobType"
-            value={formData.jobType}
-            onChange={handleChange}
-            className="w-full border p-3 rounded-lg"
-          >
-            <option>Full-Time</option>
-            <option>Part-Time</option>
-            <option>Internship</option>
-            <option>Remote</option>
-          </select>
+    <div className="space-y-1">
+      <label className="block text-sm font-medium text-gray-700">
+        Company Website
+      </label>
+      <input
+        type="text"
+        name="companyWebsite"
+        value={formData.companyWebsite}
+        onChange={handleChange}
+        className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-3 rounded-xl outline-none transition"
+      />
+    </div>
 
-          {/* Experience */}
-          <div className="grid grid-cols-2 gap-4">
-            <input
-              type="number"
-              name="experienceMin"
-              placeholder="Minimum Experience (years)"
-              value={formData.experienceMin}
-              onChange={handleChange}
-              className="border p-3 rounded-lg"
-            />
+    <div className="space-y-1">
+      <label className="block text-sm font-medium text-gray-700">
+        Company Description
+      </label>
+      <textarea
+        name="companyDescription"
+        rows="3"
+        value={formData.companyDescription}
+        onChange={handleChange}
+        className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-3 rounded-xl outline-none transition"
+      />
+    </div>
+  </div>
 
-            <input
-              type="number"
-              name="experienceMax"
-              placeholder="Maximum Experience (years)"
-              value={formData.experienceMax}
-              onChange={handleChange}
-              className="border p-3 rounded-lg"
-            />
-          </div>
 
-          {/* Salary */}
-          <div className="grid grid-cols-2 gap-4">
-            <input
-              type="number"
-              name="salaryMin"
-              placeholder="Minimum Salary"
-              value={formData.salaryMin}
-              onChange={handleChange}
-              className="border p-3 rounded-lg"
-            />
+  {/* Job Details */}
+  <div className="space-y-4">
+    <h3 className="text-lg font-semibold text-gray-700 border-b pb-2">
+      Job Details
+    </h3>
 
-            <input
-              type="number"
-              name="salaryMax"
-              placeholder="Maximum Salary"
-              value={formData.salaryMax}
-              onChange={handleChange}
-              className="border p-3 rounded-lg"
-            />
-          </div>
+    <div className="space-y-1">
+      <label className="block text-sm font-medium text-gray-700">
+        Location *
+      </label>
+      <input
+        type="text"
+        name="location"
+        value={formData.location}
+        onChange={handleChange}
+        required
+        className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-3 rounded-xl outline-none transition"
+      />
+    </div>
 
-          <input
-            type="number"
-            name="vacancies"
-            placeholder="Number of Vacancies"
-            value={formData.vacancies}
-            onChange={handleChange}
-            className="w-full border p-3 rounded-lg"
-          />
+    <div className="space-y-1">
+      <label className="block text-sm font-medium text-gray-700">
+        Job Type
+      </label>
+      <select
+        name="jobType"
+        value={formData.jobType}
+        onChange={handleChange}
+        className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-3 rounded-xl outline-none transition"
+      >
+        <option>Full-Time</option>
+        <option>Part-Time</option>
+        <option>Internship</option>
+        <option>Remote</option>
+      </select>
+    </div>
 
-          <input
-            type="date"
-            name="deadline"
-            value={formData.deadline}
-            onChange={handleChange}
-            className="w-full border p-3 rounded-lg"
-          />
+    <div className="grid md:grid-cols-2 gap-4">
+      <div className="space-y-1">
+        <label className="block text-sm font-medium text-gray-700">
+          Minimum Experience (Years)
+        </label>
+        <input
+          type="number"
+          name="experienceMin"
+          value={formData.experienceMin}
+          onChange={handleChange}
+          className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-3 rounded-xl outline-none transition"
+        />
+      </div>
 
-          <input
-            type="text"
-            name="skills"
-            placeholder="Required Skills (comma separated)"
-            value={formData.skills}
-            onChange={handleChange}
-            required
-            className="w-full border p-3 rounded-lg"
-          />
+      <div className="space-y-1">
+        <label className="block text-sm font-medium text-gray-700">
+          Maximum Experience (Years)
+        </label>
+        <input
+          type="number"
+          name="experienceMax"
+          value={formData.experienceMax}
+          onChange={handleChange}
+          className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-3 rounded-xl outline-none transition"
+        />
+      </div>
+    </div>
 
-          <textarea
-            name="description"
-            placeholder="Job Description"
-            rows="5"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            className="w-full border p-3 rounded-lg"
-          />
+    <div className="grid md:grid-cols-2 gap-4">
+      <div className="space-y-1">
+        <label className="block text-sm font-medium text-gray-700">
+          Minimum Salary
+        </label>
+        <input
+          type="number"
+          name="salaryMin"
+          value={formData.salaryMin}
+          onChange={handleChange}
+          className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-3 rounded-xl outline-none transition"
+        />
+      </div>
 
-          <input
-            type="email"
-            name="contactEmail"
-            placeholder="Contact Email"
-            value={formData.contactEmail}
-            onChange={handleChange}
-            required
-            className="w-full border p-3 rounded-lg"
-          />
+      <div className="space-y-1">
+        <label className="block text-sm font-medium text-gray-700">
+          Maximum Salary
+        </label>
+        <input
+          type="number"
+          name="salaryMax"
+          value={formData.salaryMax}
+          onChange={handleChange}
+          className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-3 rounded-xl outline-none transition"
+        />
+      </div>
+    </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition"
-          >
-            {loading ? "Posting..." : "Post Job"}
-          </button>
-        </form>
+    <div className="space-y-1">
+      <label className="block text-sm font-medium text-gray-700">
+        Number of Vacancies
+      </label>
+      <input
+        type="number"
+        name="vacancies"
+        value={formData.vacancies}
+        onChange={handleChange}
+        className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-3 rounded-xl outline-none transition"
+      />
+    </div>
+
+    <div className="space-y-1">
+      <label className="block text-sm font-medium text-gray-700">
+        Application Deadline
+      </label>
+      <input
+        type="date"
+        name="deadline"
+        value={formData.deadline}
+        onChange={handleChange}
+        className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-3 rounded-xl outline-none transition"
+      />
+    </div>
+  </div>
+
+
+  {/* Description & Skills */}
+  <div className="space-y-4">
+    <h3 className="text-lg font-semibold text-gray-700 border-b pb-2">
+      Description & Skills
+    </h3>
+
+    <div className="space-y-1">
+      <label className="block text-sm font-medium text-gray-700">
+        Required Skills *
+      </label>
+      <input
+        type="text"
+        name="skills"
+        value={formData.skills}
+        onChange={handleChange}
+        required
+        className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-3 rounded-xl outline-none transition"
+      />
+    </div>
+
+    <div className="space-y-1">
+      <label className="block text-sm font-medium text-gray-700">
+        Job Description *
+      </label>
+      <textarea
+        name="description"
+        rows="5"
+        value={formData.description}
+        onChange={handleChange}
+        required
+        className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-3 rounded-xl outline-none transition"
+      />
+    </div>
+
+    <div className="space-y-1">
+      <label className="block text-sm font-medium text-gray-700">
+        Contact Email *
+      </label>
+      <input
+        type="email"
+        name="contactEmail"
+        value={formData.contactEmail}
+        onChange={handleChange}
+        required
+        className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-3 rounded-xl outline-none transition"
+      />
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    disabled={loading}
+    className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-xl font-semibold text-lg shadow-md hover:shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all duration-200"
+  >
+    {loading ? "Posting..." : "Post Job"}
+  </button>
+
+</form>
       </div>
     </div>
   );
