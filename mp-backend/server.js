@@ -7,6 +7,8 @@ import jobRoutes from "./routes/jobRoutes.js";
 import resumeRoutes from "./routes/resumeRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import mockInterviewRoutes from "./routes/mockInterviewRoutes.js";
+// import mockAssessementRoutes from "./routes/mockAssessementRoutes.js";
+
 dotenv.config();
 
 const app = express();
@@ -24,6 +26,7 @@ app.use("/api/jobs", jobRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/mock", mockInterviewRoutes);
+// app.use("/api/assessment", mockAssessementRoutes);
 app.use("/uploads", express.static("uploads"));
 // Health check route
 app.get("/", (req, res) => {
