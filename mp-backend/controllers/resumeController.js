@@ -7,6 +7,7 @@ import Resume from "../models/Resume.js";
 // ==========================================
 // 1. ANALYZE RESUME (ML Service Integration)
 // ==========================================
+
 export const analyzeResume = async (req, res) => {
   try {
     if (!req.file) {
@@ -43,6 +44,7 @@ export const analyzeResume = async (req, res) => {
 // ==========================================
 // 2. GET LATEST ANALYSIS
 // ==========================================
+
 export const getLatest = async (req, res) => {
   try {
     const latest = await ResumeAnalysis.findOne({ userId: req.user.id }).sort({ createdAt: -1 });
@@ -56,6 +58,7 @@ export const getLatest = async (req, res) => {
 // ==========================================
 // 3. GET RESUME DATA
 // ==========================================
+
 export const getResume = async (req, res) => {
   try {
     const resume = await Resume.findOne({ userId: req.user.id });
@@ -69,6 +72,7 @@ export const getResume = async (req, res) => {
 // ==========================================
 // 4. CREATE OR UPDATE RESUME (FINAL LOGIC)
 // ==========================================
+
 export const createOrUpdateResume = async (req, res) => {
   try {
     const { 
@@ -139,6 +143,7 @@ export const createOrUpdateResume = async (req, res) => {
 // ==========================================
 // 5. DELETE RESUME
 // ==========================================
+
 export const deleteResume = async (req, res) => {
   try {
     const result = await Resume.findOneAndDelete({ userId: req.user.id });

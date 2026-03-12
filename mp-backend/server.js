@@ -1,19 +1,17 @@
+import  "./config/env.js";
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
+
 import connectDB from "./config/Db.js";
 import authRoutes from "./routes/authRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import resumeRoutes from "./routes/resumeRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import mockInterviewRoutes from "./routes/mockInterviewRoutes.js";
-// import mockAssessementRoutes from "./routes/mockAssessementRoutes.js";
-
-dotenv.config();
 
 const app = express();
 
-// Connect DB
+// Connect Database
 connectDB();
 
 // Middleware
@@ -26,15 +24,14 @@ app.use("/api/jobs", jobRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/mock", mockInterviewRoutes);
-// app.use("/api/assessment", mockAssessementRoutes);
-app.use("/uploads", express.static("uploads"));
-// Health check route
+
+// Test route
 app.get("/", (req, res) => {
   res.send("Skill2Job API Running...");
 });
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () =>
-  console.log(`Server running on port ${PORT}`)
-);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
