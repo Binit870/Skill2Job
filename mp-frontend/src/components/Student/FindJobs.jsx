@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import JobDetails from "./JobDetails";
 
 export default function FindJobs() {
   const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [selectedJob, setSelectedJob] = useState(null);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -20,125 +21,141 @@ export default function FindJobs() {
         );
 
         setJobs(res.data);
-      } catch (error) {
-        console.error("Error fetching jobs:", error);
-      } finally {
-        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching jobs:", err);
       }
     };
 
     fetchJobs();
   }, []);
 
-  if (loading) {
-    return <p className="p-6">Loading jobs...</p>;
-  }
-
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-100 p-10">
+
       <h2 className="text-3xl font-bold mb-8">Find Jobs</h2>
 
-      {jobs.length === 0 && (
-        <p className="text-gray-600">No jobs available.</p>
-      )}
+      <div className="space-y-5">
 
-      <div className="grid gap-6">
         {jobs.map((job) => (
           <div
             key={job._id}
-            className="bg-white shadow-md rounded-xl p-6 border"
+            onClick={() => setSelectedJob(job)}
+            className="bg-white border rounded-xl p-6 hover:shadow-md transition cursor-pointer"
           >
-            <h3 className="text-2xl font-semibold mb-4">
-              {job.title}
-            </h3>
+            <div className="flex justify-between items-start">
 
-            <div className="space-y-2 text-gray-700">
+              {/* LEFT SIDE */}
+              <div className="flex-1">
 
-              <p>
-                <strong>Company:</strong> {job.company}
-              </p>
+                {/* TITLE */}
+                <h3 className="text-xl font-semibold text-gray-800">
+                  {job.title}
+                </h3>
 
-              {job.companyWebsite && (
-                <p>
-                  <strong>Company Website:</strong>{" "}
-                  <a
-                    href={job.companyWebsite}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline"
-                  >
-                    {job.companyWebsite}
-                  </a>
+                <p className="text-gray-600 mt-1">
+                  {job.company}
                 </p>
-              )}
 
-              {job.companyDescription && (
-                <p>
-                  <strong>About Company:</strong> {job.companyDescription}
-                </p>
-              )}
+                {/* JOB META */}
+                <div className="flex flex-wrap gap-5 text-sm text-gray-600 mt-3">
 
-              <p>
-                <strong>Location:</strong> {job.location}
-              </p>
+                  <span>💼 {job.jobType}</span>
 
-              <p>
-                <strong>Job Type:</strong> {job.jobType}
-              </p>
+                  <span>📍 {job.location}</span>
 
-              <p>
-                <strong>Experience Required:</strong>{" "}
-                {job.experienceMin}{" "}
-                {job.experienceMax
-                  ? `- ${job.experienceMax}`
-                  : "+"}{" "}
-                years
-              </p>
+                  <span>
+                    🧑‍💻 {job.experienceMin}+
+                    yrs
+                  </span>
 
-              {(job.salaryMin || job.salaryMax) && (
-                <p>
-                  <strong>Salary Range:</strong>{" "}
-                  ₹{job.salaryMin || 0} - ₹{job.salaryMax || "Not specified"}
-                </p>
-              )}
+                </div>
 
-              <p>
-                <strong>Vacancies:</strong> {job.vacancies}
-              </p>
+                {/* SKILLS */}
+                {job.skills?.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {job.skills.slice(0, 4).map((skill, i) => (
+                      <span
+                        key={i}
+                        className="bg-gray-100 px-3 py-1 text-xs rounded-full"
+                      >
+                        {skill}
+                      </span>
+                    ))}
 
-              {job.deadline && (
-                <p>
-                  <strong>Application Deadline:</strong>{" "}
-                  {new Date(job.deadline).toLocaleDateString()}
-                </p>
-              )}
+                    {job.skills.length > 4 && (
+                      <span className="text-xs text-gray-500">
+                        +{job.skills.length - 4}
+                      </span>
+                    )}
+                  </div>
+                )}
 
-              <p>
-                <strong>Description:</strong> {job.description}
-              </p>
+                {/* FOOTER */}
+                <div className="flex items-center gap-6 mt-4 text-sm text-gray-500">
 
-              {job.skills?.length > 0 && (
-                <p>
-                  <strong>Required Skills:</strong>{" "}
-                  {job.skills.join(", ")}
-                </p>
-              )}
+                  <span>
+                    Posted{" "}
+                    {new Date(job.createdAt).toLocaleDateString()}
+                  </span>
 
-              {job.contact?.email && (
-                <p>
-                  <strong>Contact Email:</strong> {job.contact.email}
-                </p>
-              )}
+                  {job.deadline && (
+                    <span className="text-blue-600">
+                      {Math.ceil(
+                        (new Date(job.deadline) - new Date()) /
+                          (1000 * 60 * 60 * 24)
+                      )}{" "}
+                      days left
+                    </span>
+                  )}
 
-              <p className="text-sm text-gray-500 mt-2">
-                Posted on:{" "}
-                {new Date(job.createdAt).toLocaleDateString()}
-              </p>
+                </div>
+
+              </div>
+
+              {/* RIGHT SIDE */}
+              <div className="flex flex-col items-end gap-4 ml-6">
+
+                <img
+                  src={
+                    job.companyLogo ||
+                    "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                  }
+                  alt="logo"
+                  className="w-14 h-14 rounded-lg border object-cover"
+                />
+
+                {(job.salaryMin || job.salaryMax) && (
+                  <div className="bg-green-100 text-green-700 text-sm font-semibold px-3 py-1 rounded-full">
+                    ₹{job.salaryMin || "?"} - ₹{job.salaryMax || "?"}
+                  </div>
+                )}
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedJob(job);
+                  }}
+                  className="bg-blue-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700"
+                >
+                  View
+                </button>
+
+              </div>
 
             </div>
           </div>
         ))}
+
       </div>
+
+      {/* JOB DETAILS MODAL */}
+      {selectedJob && (
+        <JobDetails
+          job={selectedJob}
+          onClose={() => setSelectedJob(null)}
+        />
+      )}
+
     </div>
   );
 }

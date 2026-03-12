@@ -19,7 +19,7 @@ import Analytics from "./components/Student/Analytics";
 import StudentProfile from "./components/Student/Profiles/StudentProfile";
 import StudentEditProfile from "./components/Student/Profiles/StudentEditProfile";
 import MockInterview from "./components/Student/MockInterview/MockInterview";
-
+import JobDetails from "./components/Student/JobDetails";
 import RecruiterEditProfile from "./components/Recruiter/Profiles/RecruiterEditProfile";
 import RecruiterProfile from "./components/Recruiter/Profiles/RecruiterProfile";
 import RecruiterDashboard from "./components/Recruiter/RecruiterDashboard";
@@ -87,6 +87,7 @@ export default function App() {
           >
             <Route path="/student-dashboard" element={<StudentDashboard />} />
             <Route path="/student/jobs" element={<FindJobs />} />
+            <Route path="/student/jobs/:id" element={<JobDetails />} />
             <Route path="/student/jobs/recommend" element={<RecommendedJobs />} />
             <Route path="/student/resume" element={<MyResume />} />
             <Route path="/student/resume-builder" element={<ResumeBuilder />} />

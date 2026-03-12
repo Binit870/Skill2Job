@@ -1,17 +1,13 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Briefcase, Home, User, Building } from "lucide-react";
 
 const Navbar = () => {
-
   return (
     <nav className="w-full bg-white shadow-md px-8 py-4 flex items-center justify-between">
       
       {/* Left - Logo + Name */}
-      <div className="flex items-center gap-3">
-        <img 
-          src="/logo.png" 
-          alt="Skill2Job Logo" 
-          className="w-10 h-10 object-contain"
-        />
+      <div className="flex items-center gap-2">
+        <Briefcase className="text-blue-600 w-8 h-8" />
         <h1 className="text-2xl font-bold text-blue-600">
           Skill2Job
         </h1>
@@ -19,15 +15,22 @@ const Navbar = () => {
 
       {/* Middle - Navigation Links */}
       <div className="flex items-center gap-8 text-gray-700 font-medium">
-        <Link to="/" className="hover:text-blue-600 transition">
+
+        <Link to="/" className="flex items-center gap-1 hover:text-blue-600 transition">
+          <Home size={18} />
           Home
         </Link>
-        <Link to="/student-dashboard" className="hover:text-blue-600 transition">
+
+        <Link to="/student-dashboard" className="flex items-center gap-1 hover:text-blue-600 transition">
+          <User size={18} />
           Student
         </Link>
-        <Link to="/recruiter-dashboard" className="hover:text-blue-600 transition">
+
+        <Link to="/recruiter-dashboard" className="flex items-center gap-1 hover:text-blue-600 transition">
+          <Building size={18} />
           Recruiter
         </Link>
+
       </div>
 
       {/* Right - Auth Buttons */}

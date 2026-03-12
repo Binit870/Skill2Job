@@ -4,31 +4,32 @@ import {
   updateStudentProfile,
   updateRecruiterProfile,
 } from "../controllers/profileController.js";
-import { protect } from "../middlewares/authMiddleware.js";
 
+import { protect } from "../middlewares/authMiddleware.js";
 import upload from "../middlewares/uploadMiddleware.js";
+
 const router = express.Router();
-// Update student profile
+
+// ================= STUDENT PROFILE UPDATE =================
 router.put(
   "/student",
   protect,
-  upload.single("profileImage"),protect,
+  upload.fields([
+    { name: "profileImage", maxCount: 1 },
+    { name: "resume", maxCount: 1 }
+  ]),
   updateStudentProfile
 );
-// Update recruiter profile
+
+// ================= RECRUITER PROFILE UPDATE =================
 router.put(
   "/recruiter",
   protect,
-  upload.single("companyLogo"),protect,
+  upload.single("companyLogo"),
   updateRecruiterProfile
 );
-// Get logged-in user's profile
+
+// ================= GET PROFILE =================
 router.get("/", protect, getProfile);
-
-
-// router.put("/student", protect, updateStudentProfile);
-
-
-// router.put("/recruiter", protect, updateRecruiterProfile);
 
 export default router;
