@@ -1,33 +1,25 @@
 import cloudinary from "../config/cloudinary.js";
 import streamifier from "streamifier";
 
-export const uploadToCloudinary = (fileBuffer, folder, fileExt = null) => {
+export const uploadToCloudinary = (fileBuffer, folder) => {
 
-  const resourceType =
-    folder === "student_resumes" ? "raw" : "image";
+  const isResume = folder === "student_resumes";
 
   const options = {
-    folder: folder,
-    resource_type: resourceType,
+    folder,
+    resource_type: isResume ? "raw" : "image",
+    use_filename: true,
+    unique_filename: true,
   };
 
-  // Only add format for resumes
-  if (resourceType === "raw" && fileExt) {
-    options.format = fileExt;
-    options.use_filename = true;
-  }
-
   return new Promise((resolve, reject) => {
-
     const stream = cloudinary.uploader.upload_stream(
       options,
       (error, result) => {
-        if (result) resolve(result);
-        else reject(error);
+        if (error) return reject(error);
+        resolve(result);
       }
     );
-
     streamifier.createReadStream(fileBuffer).pipe(stream);
-
   });
 };
