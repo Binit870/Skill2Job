@@ -25,7 +25,7 @@ router.put(
 router.put(
   "/recruiter",
   protect,
-  upload.single("companyLogo"),
+  upload.fields([{ name: "companyLogo", maxCount: 1 }]),
   updateRecruiterProfile
 );
 

@@ -115,9 +115,13 @@ export const updateRecruiterProfile = async (req, res) => {
       companyLocation ?? user.companyLocation;
 
     // 🔥 Cloudinary Logo
-    if (req.file) {
-      user.companyLogo = req.file.path;
-    }
+    if (req.files?.companyLogo) {
+  const result = await uploadToCloudinary(
+    req.files.companyLogo[0].buffer,
+    "recruiter_logos"
+  );
+  user.companyLogo = result.secure_url;
+}
 
     await user.save();
 

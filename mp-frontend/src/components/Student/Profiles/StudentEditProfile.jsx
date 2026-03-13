@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback, useContext } from "react";
+
 import axios from "axios";
 import toast from "react-hot-toast";
 import Cropper from "react-easy-crop";
@@ -7,6 +8,7 @@ import {
   Image as ImageIcon, Save, User, Mail, FileText, Upload, Eye, X, Camera
 } from "lucide-react";
 import { AuthContext } from "../../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 // ✅ Outside component — prevents re-mount on every keystroke (fixes tab-jump bug)
 const InputField = ({ icon: Icon, label, name, placeholder, type = "text", value, onChange }) => (
@@ -34,7 +36,7 @@ const InputField = ({ icon: Icon, label, name, placeholder, type = "text", value
 
 const StudentEditProfile = () => {
   const { refreshUser } = useContext(AuthContext);
-
+const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "", email: "", phone: "", college: "", branch: "",
     graduationYear: "", cgpa: "", skills: "", profileImage: "", resume: "",
@@ -132,7 +134,8 @@ const StudentEditProfile = () => {
         }
       });
       await refreshUser();
-      toast.success("Profile updated successfully 🚀");
+      toast.success("Profile updated successfully");
+      navigate("/student-dashboard");
     } catch (error) {
       toast.error("Update failed. Try again.");
     } finally {
