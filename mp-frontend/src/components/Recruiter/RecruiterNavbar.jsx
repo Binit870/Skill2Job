@@ -1,4 +1,4 @@
-import { LogOut, User, Search, ChevronDown } from "lucide-react";
+import { User, Search, ChevronDown } from "lucide-react";
 import { useContext, useState, useRef, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -21,13 +21,12 @@ export default function RecruiterNavbar() {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
     <div className="w-full h-16 bg-white border-b flex items-center justify-between px-6">
-      
+
       {/* Search Bar */}
       <div className="relative w-1/3">
         <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
@@ -44,19 +43,16 @@ export default function RecruiterNavbar() {
           onClick={() => setOpen(!open)}
           className="flex items-center gap-2 cursor-pointer"
         >
-          {/* Avatar */}
-          <div className="w-9 h-9 rounded-full overflow-hidden bg-blue-600 flex items-center justify-center">
-            
+          <div className="w-9 h-9 rounded-full overflow-hidden bg-green-600 flex items-center justify-center">
             {user?.companyLogo ? (
               <img
-                src={`http://localhost:5000${user.companyLogo}`}
+                src={user.companyLogo} // ✅ FIX: Cloudinary URL is already complete
                 alt="Company Logo"
                 className="w-full h-full object-cover"
               />
             ) : (
               <User className="w-5 h-5 text-white" />
             )}
-
           </div>
 
           <span className="text-sm font-medium text-gray-700">
@@ -66,7 +62,6 @@ export default function RecruiterNavbar() {
           <ChevronDown className="w-4 h-4 text-gray-500" />
         </button>
 
-        {/* Dropdown */}
         {open && (
           <div className="absolute right-0 mt-3 w-48 bg-white border rounded-xl shadow-lg py-2">
             <button

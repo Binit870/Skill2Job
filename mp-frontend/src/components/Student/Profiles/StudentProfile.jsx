@@ -53,9 +53,7 @@ const StudentProfile = () => {
   }, []);
 
   const fetchProfile = async () => {
-
     try {
-
       const res = await axios.get(
         "http://localhost:5000/api/profile",
         {
@@ -92,7 +90,6 @@ const StudentProfile = () => {
   const prev = () => step > 0 && setStep(step - 1);
 
   const onFileChange = (e) => {
-
     const file = e.target.files[0];
     if (!file) return;
 
@@ -110,7 +107,6 @@ const StudentProfile = () => {
   }, []);
 
   const createCroppedImage = async () => {
-
     const image = new Image();
     image.src = imageSrc;
 
@@ -142,14 +138,8 @@ const StudentProfile = () => {
     setImageSrc(null);
   };
 
-  const handleSubmit = async (e) => {
-
-    e.preventDefault();
-
-    if (step !== steps.length - 1) {
-      return;
-    }
-
+  // ✅ FIX: handleSubmit is now called explicitly from the Finish button only
+  const handleSubmit = async () => {
     if (
       !form.name ||
       !form.email ||
@@ -161,12 +151,10 @@ const StudentProfile = () => {
       !form.skills ||
       !resumeFile
     ) {
-     
       return;
     }
 
     try {
-
       setLoading(true);
 
       const formData = new FormData();
@@ -205,14 +193,12 @@ const StudentProfile = () => {
       );
 
       await refreshUser();
-
-      toast.success("Profile updated!");
+      toast.success("Profile created!");
       navigate("/student-dashboard");
 
     } catch (error) {
       toast.error("Update failed");
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -245,34 +231,27 @@ const StudentProfile = () => {
           {steps[step]}
         </h2>
 
-        {/* ONLY CHANGE IS HERE */}
+        {/* ✅ FIX: form has no onSubmit — prevents any accidental submission.
+            All buttons are type="button" so pressing Enter won't trigger submit. */}
         <form
-  onSubmit={handleSubmit}
-  noValidate
-  onKeyDown={(e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-    }
-  }}
-  className="space-y-6"
->
+          noValidate
+          onSubmit={(e) => e.preventDefault()}
+          className="space-y-6"
+        >
 
           {step === 0 && (
             <div className="text-center space-y-5">
 
               <label className="block border-2 border-dashed border-gray-300 rounded-xl p-6 cursor-pointer hover:border-purple-500 transition">
-
                 <input
                   type="file"
                   accept="image/*"
                   onChange={onFileChange}
                   className="hidden"
                 />
-
                 <p className="text-gray-500 text-sm">
                   Click to upload profile picture
                 </p>
-
               </label>
 
               {!croppedImage && form.profileImage && (
@@ -285,13 +264,11 @@ const StudentProfile = () => {
 
               {croppedImage && (
                 <div className="space-y-3">
-
                   <img
                     src={URL.createObjectURL(croppedImage)}
                     alt="Preview"
                     className="w-32 h-32 rounded-full object-cover mx-auto border-4 border-purple-500 shadow"
                   />
-
                   <button
                     type="button"
                     onClick={handleRemoveImage}
@@ -299,7 +276,6 @@ const StudentProfile = () => {
                   >
                     Remove
                   </button>
-
                 </div>
               )}
             </div>
@@ -339,18 +315,15 @@ const StudentProfile = () => {
 
           {step === 9 && (
             <div className="space-y-3">
-
               <label className="block text-sm font-medium text-gray-700">
                 Upload Resume
               </label>
-
               <input
                 type="file"
                 accept=".pdf,.doc,.docx"
                 onChange={(e) => setResumeFile(e.target.files[0])}
                 className="w-full border border-gray-300 rounded-lg px-4 py-3"
               />
-
             </div>
           )}
 
@@ -383,8 +356,10 @@ const StudentProfile = () => {
                 →
               </button>
             ) : (
+              // ✅ FIX: type="button" + onClick instead of type="submit"
               <button
-                type="submit"
+                type="button"
+                onClick={handleSubmit}
                 disabled={loading}
                 className="px-5 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition"
               >
@@ -399,7 +374,6 @@ const StudentProfile = () => {
 
       {cropModalOpen && (
         <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
-
           <div className="bg-white rounded-2xl p-6 w-[420px] shadow-xl space-y-4">
 
             <h3 className="text-lg font-semibold text-center">
@@ -407,7 +381,6 @@ const StudentProfile = () => {
             </h3>
 
             <div className="relative w-full h-64 bg-black rounded-lg overflow-hidden">
-
               <Cropper
                 image={imageSrc}
                 crop={crop}
@@ -418,25 +391,23 @@ const StudentProfile = () => {
                 onZoomChange={setZoom}
                 onCropComplete={onCropComplete}
               />
-
             </div>
 
             <div className="flex justify-between pt-3">
-
               <button
+                type="button"
                 onClick={() => setCropModalOpen(false)}
                 className="px-4 py-2 bg-gray-300 rounded-lg"
               >
                 Cancel
               </button>
-
               <button
+                type="button"
                 onClick={handleSaveCrop}
                 className="px-4 py-2 bg-purple-600 text-white rounded-lg"
               >
                 Save
               </button>
-
             </div>
 
           </div>

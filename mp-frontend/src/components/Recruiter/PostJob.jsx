@@ -131,7 +131,7 @@ const PostJob = () => {
   {formData.companyLogo && (
     <div className="bg-gray-50 p-3 rounded-xl shadow-sm border border-gray-200">
       <img
-        src={`http://localhost:5000${formData.companyLogo}`}
+        src={formData.companyLogo}
         alt="Company Logo"
         className="h-16 w-16 object-contain"
       />
