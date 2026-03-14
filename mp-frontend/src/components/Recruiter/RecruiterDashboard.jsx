@@ -142,7 +142,7 @@ function StatusBadge({ status }) {
     </p>
   </div>
 
-  <Button onClick={() => navigate("/recruiter/my")}>
+  <Button onClick={() => navigate("/recruiter/my-jobs")}>
     <Briefcase size={16} /> Posted Jobs
   </Button>
 </div>
