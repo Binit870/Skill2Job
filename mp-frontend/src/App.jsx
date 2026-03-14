@@ -23,6 +23,7 @@ import JobDetails from "./components/Student/JobDetails";
 import RecruiterEditProfile from "./components/Recruiter/Profiles/RecruiterEditProfile";
 import RecruiterProfile from "./components/Recruiter/Profiles/RecruiterProfile";
 import RecruiterDashboard from "./components/Recruiter/RecruiterDashboard";
+import MyJobs from "./components/Recruiter/MyJobs";
 import PostJob from "./components/Recruiter/PostJob";
 
 
@@ -119,6 +120,7 @@ export default function App() {
           >
             <Route path="/recruiter-dashboard" element={<RecruiterDashboard />} />
             <Route path="/recruiter/post-job" element={<PostJob />} />
+            <Route path="/recruiter/my-jobs" element={<MyJobs />} />
             <Route path="/recruiter/edit-profile" element={<RecruiterEditProfile />} />
             <Route path="/recruiter/candidates" element={<Candidates />} />
           </Route>
