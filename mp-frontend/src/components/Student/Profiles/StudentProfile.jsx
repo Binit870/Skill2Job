@@ -6,6 +6,7 @@ import Cropper from "react-easy-crop";
 import { AuthContext } from "../../../context/AuthContext";
 
 const StudentProfile = () => {
+
   const navigate = useNavigate();
   const { refreshUser } = useContext(AuthContext);
 
@@ -13,15 +14,20 @@ const StudentProfile = () => {
 
   const steps = [
     "Profile Image",
+    "Name",
+    "Email",
     "Phone",
     "College",
     "Branch",
     "Graduation Year",
     "CGPA",
     "Skills",
+    "Resume"
   ];
 
   const [form, setForm] = useState({
+    name: "",
+    email: "",
     phone: "",
     college: "",
     branch: "",
@@ -29,11 +35,12 @@ const StudentProfile = () => {
     cgpa: "",
     skills: "",
     profileImage: "",
+    resume: ""
   });
 
+  const [resumeFile, setResumeFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // SAME CROP LOGIC (unchanged)
   const [imageSrc, setImageSrc] = useState(null);
   const [croppedImage, setCroppedImage] = useState(null);
   const [cropModalOpen, setCropModalOpen] = useState(false);
@@ -47,15 +54,20 @@ const StudentProfile = () => {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/profile", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await axios.get(
+        "http://localhost:5000/api/profile",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      );
 
       const user = res.data;
 
       setForm({
+        name: user.name || "",
+        email: user.email || "",
         phone: user.phone || "",
         college: user.college || "",
         branch: user.branch || "",
@@ -63,7 +75,9 @@ const StudentProfile = () => {
         cgpa: user.cgpa || "",
         skills: user.skills?.join(", ") || "",
         profileImage: user.profileImage || "",
+        resume: user.resume || ""
       });
+
     } catch (error) {
       console.error(error);
     }
@@ -81,6 +95,7 @@ const StudentProfile = () => {
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
+
     reader.onload = () => {
       setImageSrc(reader.result);
       setCropModalOpen(true);
@@ -94,7 +109,8 @@ const StudentProfile = () => {
   const createCroppedImage = async () => {
     const image = new Image();
     image.src = imageSrc;
-    await new Promise((resolve) => (image.onload = resolve));
+
+    await new Promise(resolve => image.onload = resolve);
 
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -103,6 +119,7 @@ const StudentProfile = () => {
 
     canvas.width = width;
     canvas.height = height;
+
     ctx.drawImage(image, x, y, width, height, 0, 0, width, height);
 
     return new Promise((resolve) => {
@@ -121,13 +138,29 @@ const StudentProfile = () => {
     setImageSrc(null);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // ✅ FIX: handleSubmit is now called explicitly from the Finish button only
+  const handleSubmit = async () => {
+    if (
+      !form.name ||
+      !form.email ||
+      !form.phone ||
+      !form.college ||
+      !form.branch ||
+      !form.graduationYear ||
+      !form.cgpa ||
+      !form.skills ||
+      !resumeFile
+    ) {
+      return;
+    }
 
     try {
       setLoading(true);
 
       const formData = new FormData();
+
+      formData.append("name", form.name);
+      formData.append("email", form.email);
       formData.append("phone", form.phone);
       formData.append("college", form.college);
       formData.append("branch", form.branch);
@@ -137,10 +170,15 @@ const StudentProfile = () => {
       form.skills
         .split(",")
         .map((s) => s.trim())
+        .filter((s) => s !== "")
         .forEach((skill) => formData.append("skills[]", skill));
 
       if (croppedImage) {
         formData.append("profileImage", croppedImage, "profile.jpg");
+      }
+
+      if (resumeFile) {
+        formData.append("resume", resumeFile);
       }
 
       await axios.put(
@@ -149,14 +187,15 @@ const StudentProfile = () => {
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "multipart/form-data",
-          },
+            "Content-Type": "multipart/form-data"
+          }
         }
       );
 
       await refreshUser();
-      toast.success("Profile updated!");
+      toast.success("Profile created!");
       navigate("/student-dashboard");
+
     } catch (error) {
       toast.error("Update failed");
     } finally {
@@ -165,42 +204,61 @@ const StudentProfile = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-purple-100 to-indigo-100 p-6">
-      <div className="bg-white shadow-2xl rounded-3xl w-full max-w-xl p-8 relative">
 
-        {/* Progress Bar */}
-        <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
-          <div
-            className="bg-purple-600 h-2 rounded-full transition-all duration-300"
-            style={{ width: `${((step + 1) / steps.length) * 100}%` }}
-          />
+    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 p-6">
+
+      <div className="bg-white/90 backdrop-blur-lg shadow-2xl rounded-3xl w-full max-w-xl p-10 border border-gray-100">
+
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-800">
+            Complete Your Profile
+          </h1>
+          <p className="text-gray-500 text-sm">
+            Help recruiters know more about you
+          </p>
         </div>
 
-        <h2 className="text-2xl font-bold text-center mb-2">
+        <div className="flex items-center gap-2 mb-8">
+          {steps.map((_, i) => (
+            <div
+              key={i}
+              className={`flex-1 h-2 rounded-full transition ${i <= step ? "bg-purple-600" : "bg-gray-200"}`}
+            />
+          ))}
+        </div>
+
+        <h2 className="text-xl font-semibold text-center mb-6">
           {steps[step]}
         </h2>
 
-        <p className="text-center text-sm text-gray-500 mb-6">
-          Step {step + 1} of {steps.length}
-        </p>
+        {/* ✅ FIX: form has no onSubmit — prevents any accidental submission.
+            All buttons are type="button" so pressing Enter won't trigger submit. */}
+        <form
+          noValidate
+          onSubmit={(e) => e.preventDefault()}
+          className="space-y-6"
+        >
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-
-          {/* STEP CONTENT */}
           {step === 0 && (
-            <div className="text-center space-y-4">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={onFileChange}
-                className="w-full border rounded-lg px-4 py-2"
-              />
+            <div className="text-center space-y-5">
+
+              <label className="block border-2 border-dashed border-gray-300 rounded-xl p-6 cursor-pointer hover:border-purple-500 transition">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={onFileChange}
+                  className="hidden"
+                />
+                <p className="text-gray-500 text-sm">
+                  Click to upload profile picture
+                </p>
+              </label>
 
               {!croppedImage && form.profileImage && (
                 <img
-                  src={`http://localhost:5000${form.profileImage}`}
+                  src={form.profileImage}
                   alt="Profile"
-                  className="w-32 h-32 rounded-full object-cover border-4 border-purple-500 mx-auto"
+                  className="w-32 h-32 rounded-full object-cover mx-auto border-4 border-purple-500 shadow"
                 />
               )}
 
@@ -209,12 +267,12 @@ const StudentProfile = () => {
                   <img
                     src={URL.createObjectURL(croppedImage)}
                     alt="Preview"
-                    className="w-32 h-32 rounded-full object-cover border-4 border-purple-500 mx-auto"
+                    className="w-32 h-32 rounded-full object-cover mx-auto border-4 border-purple-500 shadow"
                   />
                   <button
                     type="button"
                     onClick={handleRemoveImage}
-                    className="px-4 py-1 bg-red-500 text-white rounded-full text-sm"
+                    className="text-red-500 text-sm"
                   >
                     Remove
                   </button>
@@ -224,74 +282,105 @@ const StudentProfile = () => {
           )}
 
           {step === 1 && (
+            <Input label="Full Name" name="name" value={form.name} onChange={handleChange} />
+          )}
+
+          {step === 2 && (
+            <Input label="Email" name="email" value={form.email} onChange={handleChange} />
+          )}
+
+          {step === 3 && (
             <Input label="Phone Number" name="phone" value={form.phone} onChange={handleChange} />
           )}
-          {step === 2 && (
+
+          {step === 4 && (
             <Input label="College Name" name="college" value={form.college} onChange={handleChange} />
           )}
-          {step === 3 && (
+
+          {step === 5 && (
             <Input label="Branch" name="branch" value={form.branch} onChange={handleChange} />
           )}
-          {step === 4 && (
+
+          {step === 6 && (
             <Input label="Graduation Year" name="graduationYear" value={form.graduationYear} onChange={handleChange} />
           )}
-          {step === 5 && (
+
+          {step === 7 && (
             <Input label="CGPA" name="cgpa" value={form.cgpa} onChange={handleChange} />
           )}
-          {step === 6 && (
+
+          {step === 8 && (
             <Input label="Skills (comma separated)" name="skills" value={form.skills} onChange={handleChange} />
           )}
 
-          {/* NAVIGATION */}
-          <div className="flex justify-between pt-6">
+          {step === 9 && (
+            <div className="space-y-3">
+              <label className="block text-sm font-medium text-gray-700">
+                Upload Resume
+              </label>
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={(e) => setResumeFile(e.target.files[0])}
+                className="w-full border border-gray-300 rounded-lg px-4 py-3"
+              />
+            </div>
+          )}
+
+          <div className="flex items-center justify-between pt-6">
+
             {step > 0 ? (
               <button
                 type="button"
                 onClick={prev}
-                className="px-5 py-2 bg-gray-300 rounded-lg"
+                className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition"
               >
-                ← Back
+                ←
               </button>
-            ) : (
-              <div />
-            )}
+            ) : <div />}
+
+            <button
+              type="button"
+              onClick={() => navigate("/student-dashboard")}
+              className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100 transition"
+            >
+              Skip
+            </button>
 
             {step < steps.length - 1 ? (
               <button
                 type="button"
                 onClick={next}
-                className="px-6 py-2 bg-purple-600 text-white rounded-lg shadow-md hover:scale-105 transition"
+                className="p-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 transition"
               >
-                Next →
+                →
               </button>
             ) : (
+              // ✅ FIX: type="button" + onClick instead of type="submit"
               <button
-                type="submit"
+                type="button"
+                onClick={handleSubmit}
                 disabled={loading}
-                className="px-6 py-2 bg-green-600 text-white rounded-lg shadow-md"
+                className="px-5 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition"
               >
                 {loading ? "Saving..." : "Finish"}
               </button>
             )}
+
           </div>
 
-          <div className="text-center pt-4">
-            <button
-              type="button"
-              onClick={() => navigate("/student-dashboard")}
-              className="text-sm text-gray-500 underline"
-            >
-              Skip for now
-            </button>
-          </div>
         </form>
       </div>
 
-      {/* CROP MODAL — SAME LOGIC */}
       {cropModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-xl w-96 space-y-4">
-            <div className="relative w-full h-64 bg-black">
+        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
+          <div className="bg-white rounded-2xl p-6 w-[420px] shadow-xl space-y-4">
+
+            <h3 className="text-lg font-semibold text-center">
+              Crop your image
+            </h3>
+
+            <div className="relative w-full h-64 bg-black rounded-lg overflow-hidden">
               <Cropper
                 image={imageSrc}
                 crop={crop}
@@ -304,34 +393,38 @@ const StudentProfile = () => {
               />
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex justify-between pt-3">
               <button
+                type="button"
                 onClick={() => setCropModalOpen(false)}
-                className="px-4 py-2 bg-gray-400 text-white rounded"
+                className="px-4 py-2 bg-gray-300 rounded-lg"
               >
                 Cancel
               </button>
-
               <button
+                type="button"
                 onClick={handleSaveCrop}
-                className="px-4 py-2 bg-purple-600 text-white rounded"
+                className="px-4 py-2 bg-purple-600 text-white rounded-lg"
               >
-                Save Crop
+                Save
               </button>
             </div>
+
           </div>
         </div>
       )}
+
     </div>
   );
 };
 
 const Input = ({ label, ...props }) => (
   <div>
-    <label className="block text-sm font-medium mb-2">{label}</label>
+    <label className="block text-sm font-medium text-gray-700 mb-2">
+      {label}
+    </label>
     <input
-      required
-      className="w-full border-2 border-gray-200 focus:border-purple-500 focus:ring-0 rounded-lg px-4 py-3 outline-none transition"
+      className="w-full border border-gray-300 focus:border-purple-500 rounded-lg px-4 py-3 outline-none transition"
       {...props}
     />
   </div>

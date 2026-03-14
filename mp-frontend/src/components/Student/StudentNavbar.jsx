@@ -28,7 +28,7 @@ export default function StudentNavbar() {
 
   return (
     <div className="w-full h-16 bg-white border-b flex items-center justify-between px-6">
-      
+
       {/* Search Bar */}
       <div className="relative w-1/3">
         <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
@@ -46,10 +46,10 @@ export default function StudentNavbar() {
           className="flex items-center gap-2 cursor-pointer"
         >
           <div className="w-9 h-9 rounded-full overflow-hidden bg-green-600 flex items-center justify-center">
-            
+
             {user?.profileImage ? (
               <img
-                src={`http://localhost:5000${user.profileImage}`}
+                src={user.profileImage}
                 alt="Profile"
                 className="w-full h-full object-cover"
               />
@@ -68,7 +68,7 @@ export default function StudentNavbar() {
 
         {open && (
           <div className="absolute right-0 mt-3 w-48 bg-white border rounded-xl shadow-lg py-2">
-            
+
             <button
               onClick={() => navigate("/student/edit-profile")}
               className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"

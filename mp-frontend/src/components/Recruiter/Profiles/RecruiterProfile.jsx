@@ -31,7 +31,6 @@ const RecruiterProfile = () => {
 
   const [loading, setLoading] = useState(false);
 
-  // SAME CROP LOGIC (UNCHANGED)
   const [imageSrc, setImageSrc] = useState(null);
   const [croppedImage, setCroppedImage] = useState(null);
   const [cropModalOpen, setCropModalOpen] = useState(false);
@@ -75,7 +74,6 @@ const RecruiterProfile = () => {
   const onFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
@@ -92,17 +90,12 @@ const RecruiterProfile = () => {
     const image = new Image();
     image.src = imageSrc;
     await new Promise((resolve) => (image.onload = resolve));
-
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-
     const { width, height, x, y } = croppedAreaPixels;
-
     canvas.width = width;
     canvas.height = height;
-
     ctx.drawImage(image, x, y, width, height, 0, 0, width, height);
-
     return new Promise((resolve) => {
       canvas.toBlob((blob) => resolve(blob), "image/jpeg");
     });
@@ -120,36 +113,26 @@ const RecruiterProfile = () => {
     setForm({ ...form, companyLogo: "" });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     try {
       setLoading(true);
-
       const formData = new FormData();
       formData.append("companyName", form.companyName);
       formData.append("companyWebsite", form.companyWebsite);
       formData.append("companyDescription", form.companyDescription);
       formData.append("industry", form.industry);
       formData.append("companyLocation", form.companyLocation);
-
       if (croppedImage) {
         formData.append("companyLogo", croppedImage, "logo.jpg");
       }
-
-      await axios.put(
-        "http://localhost:5000/api/profile/recruiter",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
+      await axios.put("http://localhost:5000/api/profile/recruiter", formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       await refreshUser();
-      toast.success("Company profile updated!");
+      toast.success("Company profile created!");
       navigate("/recruiter-dashboard");
     } catch (error) {
       toast.error("Update failed");
@@ -159,170 +142,126 @@ const RecruiterProfile = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-indigo-100 to-purple-100 p-6">
-      <div className="bg-white shadow-2xl rounded-3xl w-full max-w-xl p-8">
+    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 p-6">
+      <div className="bg-white/90 backdrop-blur-lg shadow-2xl rounded-3xl w-full max-w-xl p-10 border border-gray-100">
 
-        {/* Progress Bar */}
-        <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
-          <div
-            className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
-            style={{ width: `${((step + 1) / steps.length) * 100}%` }}
-          />
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-800">Complete Your Profile</h1>
+          <p className="text-gray-500 text-sm">Help candidates know more about your company</p>
         </div>
 
-        <h2 className="text-2xl font-bold text-center mb-2">
-          {steps[step]}
-        </h2>
+        <div className="flex items-center gap-2 mb-8">
+          {steps.map((_, i) => (
+            <div
+              key={i}
+              className={`flex-1 h-2 rounded-full transition ${i <= step ? "bg-purple-600" : "bg-gray-200"}`}
+            />
+          ))}
+        </div>
 
-        <p className="text-center text-sm text-gray-500 mb-6">
-          Step {step + 1} of {steps.length}
-        </p>
+        <h2 className="text-xl font-semibold text-center mb-6">{steps[step]}</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-
-          {/* STEP CONTENT */}
+        <form noValidate onSubmit={(e) => e.preventDefault()} className="space-y-6">
 
           {step === 0 && (
-            <div className="text-center space-y-4">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={onFileChange}
-                className="w-full px-4 py-2 border rounded-lg"
-              />
+            <div className="text-center space-y-5">
+              <label className="block border-2 border-dashed border-gray-300 rounded-xl p-6 cursor-pointer hover:border-purple-500 transition">
+                <input type="file" accept="image/*" onChange={onFileChange} className="hidden" />
+                <p className="text-gray-500 text-sm">Click to upload company logo</p>
+              </label>
 
+              {/* ✅ FIX: Cloudinary URL is complete — no localhost prefix needed */}
               {!croppedImage && form.companyLogo && (
                 <img
-                  src={`http://localhost:5000${form.companyLogo}`}
+                  src={form.companyLogo}
                   alt="Logo"
-                  className="w-28 h-28 rounded-xl object-cover border-4 border-indigo-500 mx-auto"
+                  className="w-32 h-32 rounded-full object-cover mx-auto border-4 border-purple-500 shadow"
                 />
               )}
 
               {croppedImage && (
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <img
                     src={URL.createObjectURL(croppedImage)}
                     alt="Preview"
-                    className="w-28 h-28 rounded-xl object-cover border-4 border-indigo-500 mx-auto"
+                    className="w-32 h-32 rounded-full object-cover mx-auto border-4 border-purple-500 shadow"
                   />
-                  <button
-                    type="button"
-                    onClick={handleRemoveLogo}
-                    className="text-red-500 text-sm"
-                  >
-                    Remove Logo
+                  <button type="button" onClick={handleRemoveLogo} className="text-red-500 text-sm">
+                    Remove
                   </button>
                 </div>
               )}
             </div>
           )}
 
-          {step === 1 && (
-            <Input label="Company Name" name="companyName" value={form.companyName} onChange={handleChange} />
-          )}
-
-          {step === 2 && (
-            <Input label="Company Website" name="companyWebsite" value={form.companyWebsite} onChange={handleChange} />
-          )}
-
-          {step === 3 && (
-            <Input label="Industry" name="industry" value={form.industry} onChange={handleChange} />
-          )}
-
-          {step === 4 && (
-            <Input label="Location" name="companyLocation" value={form.companyLocation} onChange={handleChange} />
-          )}
+          {step === 1 && <Input label="Company Name" name="companyName" value={form.companyName} onChange={handleChange} />}
+          {step === 2 && <Input label="Company Website" name="companyWebsite" value={form.companyWebsite} onChange={handleChange} />}
+          {step === 3 && <Input label="Industry" name="industry" value={form.industry} onChange={handleChange} />}
+          {step === 4 && <Input label="Location" name="companyLocation" value={form.companyLocation} onChange={handleChange} />}
 
           {step === 5 && (
-            <textarea
-              required
-              name="companyDescription"
-              value={form.companyDescription}
-              onChange={handleChange}
-              rows="4"
-              className="w-full px-4 py-3 border-2 border-gray-200 focus:border-indigo-500 rounded-lg outline-none transition"
-              placeholder="Company Description"
-            />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <textarea
+                name="companyDescription"
+                value={form.companyDescription}
+                onChange={handleChange}
+                rows="4"
+                className="w-full border border-gray-300 focus:border-purple-500 rounded-lg px-4 py-3 outline-none transition resize-none"
+                placeholder="Tell candidates about your company..."
+              />
+            </div>
           )}
 
-          {/* NAVIGATION */}
-          <div className="flex justify-between pt-6">
+          <div className="flex items-center justify-between pt-6">
             {step > 0 ? (
-              <button
-                type="button"
-                onClick={prev}
-                className="px-5 py-2 bg-gray-300 rounded-lg"
-              >
-                ← Back
-              </button>
-            ) : (
-              <div />
-              
-            )}
+              <button type="button" onClick={prev} className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition">←</button>
+            ) : <div />}
+
+            <button
+              type="button"
+              onClick={() => navigate("/recruiter-dashboard")}
+              className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100 transition"
+            >
+              Skip
+            </button>
 
             {step < steps.length - 1 ? (
-              <button
-                type="button"
-                onClick={next}
-                className="px-6 py-2 bg-indigo-600 text-white rounded-lg shadow-md hover:scale-105 transition"
-              >
-                Next →
-              </button>
+              <button type="button" onClick={next} className="p-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 transition">→</button>
             ) : (
               <button
-                type="submit"
+                type="button"
+                onClick={handleSubmit}
                 disabled={loading}
-                className="px-6 py-2 bg-green-600 text-white rounded-lg shadow-md"
+                className="px-5 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition"
               >
                 {loading ? "Saving..." : "Finish"}
               </button>
             )}
           </div>
 
-          <div className="text-center pt-4">
-            <button
-              type="button"
-              onClick={() => navigate("/recruiter-dashboard")}
-              className="text-sm text-gray-500 underline"
-            >
-              Skip for now
-            </button>
-          </div>
-
         </form>
       </div>
 
-      {/* CROP MODAL — SAME LOGIC */}
       {cropModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-xl w-96 space-y-4">
-            <div className="relative w-full h-64 bg-black">
+        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
+          <div className="bg-white rounded-2xl p-6 w-[420px] shadow-xl space-y-4">
+            <h3 className="text-lg font-semibold text-center">Crop your image</h3>
+            <div className="relative w-full h-64 bg-black rounded-lg overflow-hidden">
               <Cropper
                 image={imageSrc}
                 crop={crop}
                 zoom={zoom}
                 aspect={1}
+                cropShape="round"
                 onCropChange={setCrop}
                 onZoomChange={setZoom}
                 onCropComplete={onCropComplete}
               />
             </div>
-
-            <div className="flex justify-between">
-              <button
-                onClick={() => setCropModalOpen(false)}
-                className="px-4 py-2 bg-gray-400 text-white rounded"
-              >
-                Cancel
-              </button>
-
-              <button
-                onClick={handleSaveCrop}
-                className="px-4 py-2 bg-indigo-600 text-white rounded"
-              >
-                Save Crop
-              </button>
+            <div className="flex justify-between pt-3">
+              <button type="button" onClick={() => setCropModalOpen(false)} className="px-4 py-2 bg-gray-300 rounded-lg">Cancel</button>
+              <button type="button" onClick={handleSaveCrop} className="px-4 py-2 bg-purple-600 text-white rounded-lg">Save</button>
             </div>
           </div>
         </div>
@@ -333,10 +272,9 @@ const RecruiterProfile = () => {
 
 const Input = ({ label, ...props }) => (
   <div>
-    <label className="block text-sm font-medium mb-2">{label}</label>
+    <label className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
     <input
-      required
-      className="w-full px-4 py-3 border-2 border-gray-200 focus:border-indigo-500 rounded-lg outline-none transition"
+      className="w-full border border-gray-300 focus:border-purple-500 rounded-lg px-4 py-3 outline-none transition"
       {...props}
     />
   </div>

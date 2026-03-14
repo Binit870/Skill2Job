@@ -50,13 +50,15 @@ const userSchema = new mongoose.Schema(
         type: String,
       },
     ],
-    profileImage:{
+    profileImage: {
       type: String,
+      default: "",
     },
     resume: {
   type: String,
-  default: ""
+  default: "",
 },
+
 
     // ================= RECRUITER FIELDS =================
     companyName: {
@@ -78,8 +80,12 @@ const userSchema = new mongoose.Schema(
     companyLocation: {
       type: String,
     },
-    companyLogo:{
+
+
+
+    companyLogo: {
       type: String,
+      default: "",
     },
   },
   { timestamps: true }

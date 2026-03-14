@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-
+import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
 // ================= GET PROFILE =================
 export const getProfile = async (req, res) => {
   try {
@@ -25,6 +25,8 @@ export const updateStudentProfile = async (req, res) => {
     }
 
     const {
+      name,
+      email,
       phone,
       college,
       branch,
@@ -33,18 +35,46 @@ export const updateStudentProfile = async (req, res) => {
       skills,
     } = req.body;
 
+    user.name = name ?? user.name;
+    user.email = email ?? user.email;
     user.phone = phone ?? user.phone;
     user.college = college ?? user.college;
     user.branch = branch ?? user.branch;
     user.graduationYear = graduationYear ?? user.graduationYear;
     user.cgpa = cgpa ?? user.cgpa;
-    user.skills = skills ?? user.skills;
 
-    // 🔥 Save uploaded image
-    if (req.file) {
-      user.profileImage = `/uploads/${req.file.filename}`;
+    if (skills) {
+      user.skills = Array.isArray(skills) ? skills : [skills];
     }
 
+    // 🔥 Upload to Cloudinary
+    // 🔥 Upload profile image
+if (req.files?.profileImage) {
+  const result = await uploadToCloudinary(
+    req.files.profileImage[0].buffer,
+    "student_profiles"
+  );
+
+  user.profileImage = result.secure_url;
+}
+    if (req.files?.resume) {
+
+  const resumeFile = req.files.resume[0];
+if (!resumeFile.originalname.toLowerCase().endsWith(".pdf")) {
+    return res.status(400).json({
+      message: "Only PDF resumes allowed"
+    });
+  }
+  const fileExt = resumeFile.originalname.split(".").pop();
+
+  const result = await uploadToCloudinary(
+    resumeFile.buffer,
+    "student_resumes",
+    fileExt
+  );
+
+  user.resume = result.secure_url;
+}
     await user.save();
 
     const updatedUser = await User.findById(user._id).select("-password");
@@ -54,6 +84,7 @@ export const updateStudentProfile = async (req, res) => {
       user: updatedUser,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -83,10 +114,14 @@ export const updateRecruiterProfile = async (req, res) => {
     user.companyLocation =
       companyLocation ?? user.companyLocation;
 
-    // 🔥 Save uploaded logo
-    if (req.file) {
-      user.companyLogo = `/uploads/${req.file.filename}`;
-    }
+    // 🔥 Cloudinary Logo
+    if (req.files?.companyLogo) {
+  const result = await uploadToCloudinary(
+    req.files.companyLogo[0].buffer,
+    "recruiter_logos"
+  );
+  user.companyLogo = result.secure_url;
+}
 
     await user.save();
 
