@@ -24,13 +24,14 @@ import RecruiterEditProfile from "./components/Recruiter/Profiles/RecruiterEditP
 import RecruiterProfile from "./components/Recruiter/Profiles/RecruiterProfile";
 import RecruiterDashboard from "./components/Recruiter/RecruiterDashboard";
 import PostJob from "./components/Recruiter/PostJob";
-import MyJobs from "./components/Recruiter/MyJobs";
+
 
 import PublicLayout from "./layouts/PublicLayout";
 import StudentLayout from "./layouts/StudentLayout";
 import RecruiterLayout from "./layouts/RecruiterLayout";
 
 import ResumeView from "./components/Student/ResumeView";
+import Candidates from "./components/Recruiter/Candidates";
 
 // 👇 GLOBAL ERROR HANDLER - Chrome extension errors ke liye
 // Yeh error sirf console me dikhta hai, app functionality par koi asar nahi
@@ -117,8 +118,8 @@ export default function App() {
           >
             <Route path="/recruiter-dashboard" element={<RecruiterDashboard />} />
             <Route path="/recruiter/post-job" element={<PostJob />} />
-            <Route path="/recruiter/my" element={<MyJobs />} />
             <Route path="/recruiter/edit-profile" element={<RecruiterEditProfile />} />
+            <Route path="/recruiter/candidates" element={<Candidates />} />
           </Route>
 
           {/* 404 Page - catch all */}

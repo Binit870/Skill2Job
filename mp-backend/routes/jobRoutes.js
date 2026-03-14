@@ -1,31 +1,27 @@
-import express from "express";
+// routes/jobRoutes.js
+import express from 'express';
 import {
   createJob,
   getAllJobs,
   getJobById,
+  getRecruiterJobs,
   updateJob,
   deleteJob,
-  closeJob,
-  getRecruiterJobs
-} from "../controllers/jobController.js";
-import { protect } from "../middlewares/authMiddleware.js";
+  closeJob
+} from '../controllers/jobController.js';
+import { protect, authorize } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-router.post("/", protect, createJob);
+// Public routes
+router.get('/', getAllJobs);
+router.get('/:id', getJobById);
 
-// Specific named routes first
-router.get("/my", protect, getRecruiterJobs);
-
-// General collection route
-router.get("/", protect, getAllJobs);
-
-// Dynamic routes after that
-router.get("/:id", protect, getJobById);
-router.put("/:id", protect, updateJob);
-router.delete("/:id", protect, deleteJob);
-
-// More specific dynamic route LAST
-router.patch("/:id/close", protect, closeJob);
+// Protected recruiter routes
+router.post('/', protect, authorize('recruiter'), createJob);
+router.get('/recruiter/my-jobs', protect, authorize('recruiter'), getRecruiterJobs);
+router.put('/:id', protect, authorize('recruiter'), updateJob);
+router.delete('/:id', protect, authorize('recruiter'), deleteJob);
+router.patch('/:id/close', protect, authorize('recruiter'), closeJob);
 
 export default router;

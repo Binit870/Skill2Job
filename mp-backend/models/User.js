@@ -53,6 +53,10 @@ const userSchema = new mongoose.Schema(
     profileImage:{
       type: String,
     },
+    resume: {
+  type: String,
+  default: ""
+},
 
     // ================= RECRUITER FIELDS =================
     companyName: {

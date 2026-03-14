@@ -258,6 +258,7 @@ const RecruiterProfile = () => {
               </button>
             ) : (
               <div />
+              
             )}
 
             {step < steps.length - 1 ? (
