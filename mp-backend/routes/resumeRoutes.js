@@ -1,31 +1,39 @@
-import express from 'express';
-import { 
+import express from "express";
+
+import {
   analyzeResume,
   getLatest,
   getResume,
   createOrUpdateResume,
   deleteResume
-} from '../controllers/resumeController.js';
-import auth from '../middlewares/authMiddleware.js';  // 👈 PATH SAHI KIYA
-import upload from '../middlewares/uploadMiddleware.js';  // 👈 PATH SAHI KIYA
+} from "../controllers/resumeController.js";
+
+import { protect } from "../middlewares/authMiddleware.js";
+import upload from "../middlewares/uploadMiddleware.js";
 
 const router = express.Router();
 
-// Test route
-router.post('/test', (req, res) => {
-  console.log("✅ Test route hit!");
-  res.json({ 
-    success: true, 
-    message: "Test successful! Backend is working.",
-    receivedData: req.body 
+/* TEST ROUTE */
+router.get("/test", (req, res) => {
+  res.json({
+    success: true,
+    message: "Resume route working"
   });
 });
 
-// Protected routes
-router.post('/analyze', auth, upload.single('resume'), analyzeResume);
-router.get('/latest', auth, getLatest);
-router.get('/', auth, getResume);
-router.post('/create', auth, createOrUpdateResume);
-router.delete('/', auth, deleteResume);
+/* ANALYZE RESUME */
+router.post("/analyze", protect, upload.single("resume"), analyzeResume);
+
+
+router.get("/latest", protect, getLatest);
+
+
+router.get("/", protect, getResume);
+
+
+router.post("/create", protect, createOrUpdateResume);
+
+
+router.delete("/", protect, deleteResume);
 
 export default router;

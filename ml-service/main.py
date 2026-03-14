@@ -16,7 +16,7 @@ def generate(data: dict):
     return generate_questions(role, difficulty)
 
 @app.post("/evaluate")
-def evaluate(data: dict):
+def evaluate(data: dict): 
     role = data["role"]
     responses = data["responses"]
     return evaluate_answers(role, responses)

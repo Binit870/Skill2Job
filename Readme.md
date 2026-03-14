@@ -60,7 +60,7 @@ cd ../ml-service
 pip install -r requirements.txt
 
 cd mp-frontend
-npm start
+npm run dev
 
 cd mp-backend
 npm run dev
