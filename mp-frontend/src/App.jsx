@@ -10,30 +10,31 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 
-import StudentDashboard from "./components/Student/StudentDashboard";
-import FindJobs from "./components/Student/FindJobs";
-import RecommendedJobs from "./components/Student/RecommendedJobs";
-import MyResume from "./components/Student/MyResume";
-import ResumeBuilder from "./components/Student/ResumeBuilder";
-import Analytics from "./components/Student/Analytics";
-import StudentProfile from "./components/Student/Profiles/StudentProfile";
-import StudentEditProfile from "./components/Student/Profiles/StudentEditProfile";
-import MockInterview from "./components/Student/MockInterview/MockInterview";
-import JobDetails from "./components/Student/JobDetails";
-import RecruiterEditProfile from "./components/Recruiter/Profiles/RecruiterEditProfile";
-import RecruiterProfile from "./components/Recruiter/Profiles/RecruiterProfile";
-import RecruiterDashboard from "./components/Recruiter/RecruiterDashboard";
-import MyJobs from "./components/Recruiter/MyJobs";
-import PostJob from "./components/Recruiter/PostJob";
-import RecruiterApplications from "./components/Recruiter/RecruiterApplications";
-import MyApplications from "./components/Student/MyApplications";
+import StudentDashboard from "./pages/StudentPages/StudentDashboard";
+import FindJobs from "./pages/StudentPages/FindJobs";
+import MyApplications from "./pages/StudentPages/MyApplications";
+import RecommendedJobs from "./pages/StudentPages/RecommendedJobs";
+import MyResume from "./components/StudentComponents/MyResume";
+import ResumeBuilder from "./components/StudentComponents/ResumeBuilder";
+import Analytics from "./pages/StudentPages/Analytics";
+import StudentProfile from "./components/StudentComponents/Profiles/StudentProfile";
+import StudentEditProfile from "./components/StudentComponents/Profiles/StudentEditProfile";
+import MockInterview from "./components/StudentComponents/MockInterview/MockInterview";
+import JobDetails from "./components/StudentComponents/Jobs/JobDetails";
+import ResumeView from "./components/StudentComponents/ResumeView";
+
+import RecruiterDashboard from "./pages/RecruiterPages/RecruiterDashboard";
+import RecruiterEditProfile from "./components/RecruiterComponents/Profiles/RecruiterEditProfile";
+import RecruiterProfile from "./components/RecruiterComponents/Profiles/RecruiterProfile";
+import MyJobs from "./components/RecruiterComponents/Jobs/MyJobs";
+import PostJob from "./pages/RecruiterPages/PostJob";
+import Candidates from "./components/RecruiterComponents/Candidates";
+import RecruiterApplications from "./pages/RecruiterPages/RecruiterApplications";
 
 import PublicLayout from "./layouts/PublicLayout";
 import StudentLayout from "./layouts/StudentLayout";
 import RecruiterLayout from "./layouts/RecruiterLayout";
 
-import ResumeView from "./components/Student/ResumeView";
-import Candidates from "./components/Recruiter/Candidates";
 
 // 👇 GLOBAL ERROR HANDLER - Chrome extension errors ke liye
 // Yeh error sirf console me dikhta hai, app functionality par koi asar nahi

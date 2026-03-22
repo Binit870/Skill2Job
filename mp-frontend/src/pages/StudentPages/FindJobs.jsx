@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import JobDetails from "./JobDetails";
+import JobDetails from "../../components/StudentComponents/Jobs/JobDetails";
 
 const API = "http://localhost:5000";
 

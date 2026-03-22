@@ -38,9 +38,6 @@ The goal is to simulate real-world interview scenarios, analyze resumes against 
 
 ## 📂 Project Structure
 
---
-
-
 ---
 
 ## ⚙️ Installation & Setup
@@ -52,21 +49,17 @@ cd Skill2Job
 
 cd mp-frontend
 npm install
+npm run dev
 
 cd ../mp-backend
 npm install
+npm start
 
 cd ../ml-service
 pip install -r requirements.txt
-
-cd mp-frontend
-npm run dev
-
-cd mp-backend
-npm run dev
-
-cd ml-service
 uvicorn main:app --reload
+
+
 
 
 

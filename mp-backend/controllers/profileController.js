@@ -49,32 +49,32 @@ export const updateStudentProfile = async (req, res) => {
 
     // 🔥 Upload to Cloudinary
     // 🔥 Upload profile image
-if (req.files?.profileImage) {
-  const result = await uploadToCloudinary(
-    req.files.profileImage[0].buffer,
-    "student_profiles"
-  );
+    if (req.files?.profileImage) {
+      const result = await uploadToCloudinary(
+        req.files.profileImage[0].buffer,
+        "student_profiles"
+      );
 
-  user.profileImage = result.secure_url;
-}
+      user.profileImage = result.secure_url;
+    }
     if (req.files?.resume) {
 
-  const resumeFile = req.files.resume[0];
-if (!resumeFile.originalname.toLowerCase().endsWith(".pdf")) {
-    return res.status(400).json({
-      message: "Only PDF resumes allowed"
-    });
-  }
-  const fileExt = resumeFile.originalname.split(".").pop();
+      const resumeFile = req.files.resume[0];
+      if (!resumeFile.originalname.toLowerCase().endsWith(".pdf")) {
+        return res.status(400).json({
+          message: "Only PDF resumes allowed"
+        });
+      }
+      const fileExt = resumeFile.originalname.split(".").pop();
 
-  const result = await uploadToCloudinary(
-    resumeFile.buffer,
-    "student_resumes",
-    fileExt
-  );
+      const result = await uploadToCloudinary(
+        resumeFile.buffer,
+        "student_resumes",
+        fileExt
+      );
 
-  user.resume = result.secure_url;
-}
+      user.resume = result.secure_url;
+    }
     await user.save();
 
     const updatedUser = await User.findById(user._id).select("-password");
@@ -116,12 +116,12 @@ export const updateRecruiterProfile = async (req, res) => {
 
     // 🔥 Cloudinary Logo
     if (req.files?.companyLogo) {
-  const result = await uploadToCloudinary(
-    req.files.companyLogo[0].buffer,
-    "recruiter_logos"
-  );
-  user.companyLogo = result.secure_url;
-}
+      const result = await uploadToCloudinary(
+        req.files.companyLogo[0].buffer,
+        "recruiter_logos"
+      );
+      user.companyLogo = result.secure_url;
+    }
 
     await user.save();
 
