@@ -82,22 +82,19 @@ export default function InterviewSession({
   };
 
   const handleAnswer = (answerText) => {
-    const updated = [
-      ...responses,
-      {
-        question: questions[currentIndex],
-        student_answer: answerText.trim(),
-      },
-    ];
-
-    setResponses(updated);
-
+  setResponses(prev => {
+    const updated = [...prev, {
+      question: questions[currentIndex],
+      student_answer: answerText.trim(),
+    }];
     if (currentIndex + 1 < questions.length) {
-      setCurrentIndex((prev) => prev + 1);
+      setCurrentIndex(c => c + 1);
     } else {
       submitInterview(updated);
     }
-  };
+    return updated;
+  });
+};
 
   const submitInterview = async (allResponses) => {
     try {
@@ -125,10 +122,14 @@ export default function InterviewSession({
   // Ask question when index changes
   useEffect(() => {
     if (questions.length > 0) {
-      speakQuestion(
-        `Question ${currentIndex + 1}. ${questions[currentIndex]}`
-      );
+      window.speechSynthesis.cancel();
+      speakQuestion(`Question ${currentIndex + 1}. ${questions[currentIndex]}`);
     }
+    return () => {
+      window.speechSynthesis.cancel();
+      clearTimeout(silenceTimerRef.current);
+      recognitionRef.current?.stop();
+    };
   }, [currentIndex, questions]);
 
   return (

@@ -1,58 +1,62 @@
-// models/Application.js
 import mongoose from "mongoose";
 
 const applicationSchema = new mongoose.Schema(
   {
-    jobId: {
+    job: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Job",
       required: true,
     },
-    studentId: {
+    applicant: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    recruiterId: {
+    recruiter: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    studentName: {
-      type: String,
-      required: true,
+
+    // ── Snapshot of student profile at submission time ──────────────────
+    applicantSnapshot: {
+      name:           { type: String },
+      email:          { type: String },
+      phone:          { type: String },
+      college:        { type: String },
+      branch:         { type: String },
+      graduationYear: { type: Number },
+      cgpa:           { type: Number },
+      skills:         [{ type: String }],
+      profileImage:   { type: String },
     },
-    studentEmail: {
-      type: String,
-      required: true,
-    },
-    studentPhone: String,
-    studentCollege: String,
-    studentBranch: String,
-    studentGraduationYear: Number,
-    studentCgpa: Number,
-    studentSkills: [String],
+
+    // ── Application-specific fields (student can edit before submit) ────
+    phone:        { type: String,  default: "" },
+    portfolioUrl: { type: String,  default: "" },
+    coverLetter:  { type: String,  default: "" },
+
+    // ── Resume: local file path or profile URL ──────────────────────────
     resume: {
-      type: String,
-      default: "",
+      url:          { type: String },           // /uploads/resumes/filename or profile URL
+      originalName: { type: String },
+      source:       { type: String, enum: ["profile", "uploaded"], default: "profile" },
     },
-    coverLetter: String,
+
+    // ── Recruiter-managed fields ────────────────────────────────────────
     status: {
       type: String,
-      enum: ["pending", "reviewed", "shortlisted", "rejected", "hired"],
-      default: "pending",
+      enum: ["Pending", "Reviewed", "Shortlisted", "Rejected", "Hired"],
+      default: "Pending",
     },
-    recruiterNotes: String,
-    appliedAt: {
-      type: Date,
-      default: Date.now,
-    },
+    recruiterNote:   { type: String,  default: "" },
+    seenByRecruiter: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
 
-// Ensure one student can apply only once per job
-applicationSchema.index({ jobId: 1, studentId: 1 }, { unique: true });
+// One application per student per job
+applicationSchema.index({ job: 1, applicant: 1 }, { unique: true });
 
 const Application = mongoose.model("Application", applicationSchema);
 export default Application;
