@@ -13,7 +13,10 @@ export const uploadToCloudinary = (buffer, folder, format = null) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         folder,
-        resource_type: format === "pdf" ? "raw" : "auto",
+        resource_type: "auto",  // ✅ works for both images and PDFs
+        type: "upload",
+        access_mode: "public",
+        public_id: `file_${Date.now()}`,
         ...(format && { format }),
       },
       (error, result) => {
@@ -21,7 +24,6 @@ export const uploadToCloudinary = (buffer, folder, format = null) => {
         resolve(result);
       }
     );
-
     streamifier.createReadStream(buffer).pipe(uploadStream);
   });
 };
