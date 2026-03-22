@@ -8,6 +8,9 @@ import jobRoutes from "./routes/jobRoutes.js";
 import resumeRoutes from "./routes/resumeRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import mockInterviewRoutes from "./routes/mockInterviewRoutes.js";
+import path from "path";
+import { fileURLToPath } from "url";
+import applicationRoutes from "./routes/applicationRoutes.js";
 
 const app = express();
 
@@ -18,13 +21,20 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname  = path.dirname(__filename);
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/mock", mockInterviewRoutes);
-
+// Register application routes
+app.use("/api/applications", applicationRoutes);
+ 
+// Serve uploaded files (resumes, profile images, logos) as static assets
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Test route
 app.get("/", (req, res) => {
   res.send("Skill2Job API Running...");

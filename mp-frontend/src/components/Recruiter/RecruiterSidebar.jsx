@@ -87,7 +87,7 @@ export default function RecruiterSidebar() {
 
         {/* Candidates - (Path fixed to match App.jsx) */}
         <NavLink
-          to="/recruiter/candidates"
+          to="/recruiter/applications"
           className={({ isActive }) =>
             `${linkClass} ${isActive ? activeClass : ""}`
           }

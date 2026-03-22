@@ -25,7 +25,8 @@ import RecruiterProfile from "./components/Recruiter/Profiles/RecruiterProfile";
 import RecruiterDashboard from "./components/Recruiter/RecruiterDashboard";
 import MyJobs from "./components/Recruiter/MyJobs";
 import PostJob from "./components/Recruiter/PostJob";
-
+import RecruiterApplications from "./components/Recruiter/RecruiterApplications";
+import MyApplications from "./components/Student/MyApplications";
 
 import PublicLayout from "./layouts/PublicLayout";
 import StudentLayout from "./layouts/StudentLayout";
@@ -97,6 +98,7 @@ export default function App() {
             <Route path="/student/edit-profile" element={<StudentEditProfile />} />
             <Route path="/student/mock-interview" element={<MockInterview />} />
             <Route path="/student/resume-view" element={<ResumeView />} />
+            <Route path="/student/my-applications" element={<MyApplications />} />
           </Route>
 
           {/* ========== RECRUITER ROUTES ========== */}
@@ -123,6 +125,7 @@ export default function App() {
             <Route path="/recruiter/my-jobs" element={<MyJobs />} />
             <Route path="/recruiter/edit-profile" element={<RecruiterEditProfile />} />
             <Route path="/recruiter/candidates" element={<Candidates />} />
+            <Route path="/recruiter/applications" element={<RecruiterApplications />} />
           </Route>
 
           {/* 404 Page - catch all */}

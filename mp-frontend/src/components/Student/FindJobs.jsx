@@ -2,65 +2,65 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import JobDetails from "./JobDetails";
 
-const JOB_TYPES = ["All", "Full-Time", "Part-Time", "Internship", "Remote"];
+const API = "http://localhost:5000";
 
-const typeStyles = {
-  "Full-Time":  "bg-indigo-100 text-indigo-700 border border-indigo-200",
-  "Part-Time":  "bg-purple-100 text-purple-700 border border-purple-200",
-  "Internship": "bg-yellow-100 text-yellow-700 border border-yellow-200",
-  "Remote":     "bg-teal-100 text-teal-700 border border-teal-200",
+const JOB_TYPES = ["All", "Full-Time", "Part-Time", "Internship", "Remote", "Contract"];
+
+const TYPE_STYLES = {
+  "Full-Time":  "bg-blue-50 text-blue-700 border-blue-200",
+  "Part-Time":  "bg-violet-50 text-violet-700 border-violet-200",
+  "Internship": "bg-amber-50 text-amber-700 border-amber-200",
+  "Remote":     "bg-teal-50 text-teal-700 border-teal-200",
+  "Contract":   "bg-rose-50 text-rose-700 border-rose-200",
 };
 
 const deadlineInfo = (deadline) => {
   if (!deadline) return null;
   const days = Math.ceil((new Date(deadline) - new Date()) / 86400000);
-  if (days < 0) return null;
-  if (days <= 3) return { label: `${days}d left`, cls: "bg-red-100 text-red-600 border border-red-200" };
-  if (days <= 7) return { label: `${days}d left`, cls: "bg-yellow-100 text-yellow-600 border border-yellow-200" };
-  return { label: `${days}d left`, cls: "bg-green-100 text-green-600 border border-green-200" };
+  if (days < 0)  return null;
+  if (days <= 3) return { label: `${days}d left`, cls: "bg-red-50 text-red-600 border border-red-200" };
+  if (days <= 7) return { label: `${days}d left`, cls: "bg-amber-50 text-amber-600 border border-amber-200" };
+  return          { label: `${days}d left`, cls: "bg-green-50 text-green-600 border border-green-200" };
 };
 
-/* Skeleton */
-const SkeletonCard = () => (
-  <div className="bg-white border border-gray-200 rounded-2xl p-6 animate-pulse">
-    <div className="flex gap-4">
-      <div className="w-[52px] h-[52px] rounded-xl bg-gray-200 shrink-0" />
-      <div className="flex-1 flex flex-col gap-3">
-        <div className="h-4 w-1/2 rounded-md bg-gray-200" />
-        <div className="h-3 w-1/3 rounded-md bg-gray-200" />
-        <div className="flex gap-2 mt-1">
-          <div className="h-3 w-16 rounded-md bg-gray-200" />
-          <div className="h-3 w-20 rounded-md bg-gray-200" />
+function SkeletonCard() {
+  return (
+    <div className="bg-white border border-slate-200 rounded-2xl p-5 animate-pulse">
+      <div className="flex gap-4">
+        <div className="w-13 h-13 rounded-xl bg-slate-200 shrink-0 w-[52px] h-[52px]" />
+        <div className="flex-1 flex flex-col gap-3">
+          <div className="h-4 w-1/2 rounded-lg bg-slate-200" />
+          <div className="h-3 w-1/3 rounded-lg bg-slate-200" />
+          <div className="flex gap-2">
+            <div className="h-5 w-16 rounded-full bg-slate-200" />
+            <div className="h-5 w-20 rounded-full bg-slate-200" />
+            <div className="h-5 w-14 rounded-full bg-slate-200" />
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+}
 
 export default function FindJobs() {
-  const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [jobs, setJobs]               = useState([]);
+  const [loading, setLoading]         = useState(true);
   const [selectedJob, setSelectedJob] = useState(null);
-  const [filter, setFilter] = useState("All");
-  const [search, setSearch] = useState("");
+  const [filter, setFilter]           = useState("All");
+  const [search, setSearch]           = useState("");
 
   useEffect(() => {
-    const fetchJobs = async () => {
+    (async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/jobs", {
+        const res = await axios.get(`${API}/api/jobs`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-
         const raw = res.data;
-        const list = Array.isArray(raw)
-          ? raw
-          : Array.isArray(raw?.jobs)
-          ? raw.jobs
-          : Array.isArray(raw?.data)
-          ? raw.data
+        const list = Array.isArray(raw) ? raw
+          : Array.isArray(raw?.jobs)    ? raw.jobs
+          : Array.isArray(raw?.data)    ? raw.data
           : [];
-
         setJobs(list);
       } catch (err) {
         console.error("Error fetching jobs:", err);
@@ -68,9 +68,7 @@ export default function FindJobs() {
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchJobs();
+    })();
   }, []);
 
   const filtered = jobs.filter((j) => {
@@ -82,148 +80,165 @@ export default function FindJobs() {
       j.company?.toLowerCase().includes(q) ||
       j.location?.toLowerCase().includes(q) ||
       j.skills?.some((s) => s.toLowerCase().includes(q));
-
     return matchType && matchSearch;
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800">
+    <div className="min-h-screen bg-slate-50">
 
-      {/* Topbar */}
-      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-8 py-[18px] flex items-center justify-between">
-        <span className="text-[22px] font-extrabold text-gray-900 tracking-tight">Find Jobs</span>
-        <span className="text-[13px] font-medium text-gray-600 bg-gray-100 border border-gray-200 px-[14px] py-[5px] rounded-full">
+      {/* ── Topbar ── */}
+      <div className="sticky top-0 z-40 bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between">
+        <div>
+          <h1 className="text-xl font-black text-slate-800 tracking-tight">Find Jobs</h1>
+          <p className="text-xs text-slate-400 mt-0.5">Discover your next opportunity</p>
+        </div>
+        <span className="text-xs font-semibold text-slate-500 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-full">
           {loading ? "Loading…" : `${filtered.length} listing${filtered.length !== 1 ? "s" : ""}`}
         </span>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-2.5 px-8 py-4 border-b border-gray-200 bg-white">
-        <input
-          className="flex-1 min-w-[200px] max-w-xs px-[14px] py-2 rounded-full border border-gray-300 bg-white text-gray-800 text-[13px] placeholder-gray-400 outline-none focus:border-blue-500 transition-colors"
-          placeholder="🔍  Search title, company, skill…"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-
-        {JOB_TYPES.map((t) => (
-          <button
-            key={t}
-            onClick={() => setFilter(t)}
-            className={`px-4 py-[7px] rounded-full text-[13px] font-medium border transition-all ${
-              filter === t
-                ? "bg-blue-600 border-blue-600 text-white shadow-md"
-                : "border-gray-300 text-gray-600 hover:border-blue-500 hover:text-blue-600 bg-white"
-            }`}
+      {/* ── Search + Filters ── */}
+      <div className="bg-white border-b border-slate-100 px-6 py-3 flex flex-wrap items-center gap-3">
+        {/* Search */}
+        <div className="relative flex-1 min-w-[200px] max-w-xs">
+          <svg
+            width="14" height="14" viewBox="0 0 24 24" fill="none"
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
           >
-            {t}
-          </button>
-        ))}
+            <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" />
+            <path d="M21 21l-4.35-4.35" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+          <input
+            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-700 placeholder-slate-400 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+            placeholder="Search title, company, skill…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
+        {/* Type filters */}
+        <div className="flex flex-wrap gap-2">
+          {JOB_TYPES.map((t) => (
+            <button
+              key={t}
+              onClick={() => setFilter(t)}
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold border transition-all
+                ${filter === t
+                  ? "bg-blue-600 border-blue-600 text-white shadow-sm shadow-blue-200"
+                  : "bg-white border-slate-200 text-slate-600 hover:border-blue-300 hover:text-blue-600"
+                }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* List */}
-      <div className="max-w-[860px] mx-auto px-8 py-6 flex flex-col gap-[14px]">
+      {/* ── Job List ── */}
+      <div className="max-w-3xl mx-auto px-6 py-6 flex flex-col gap-4">
 
         {loading ? (
           [0, 1, 2, 3].map((i) => <SkeletonCard key={i} />)
 
         ) : filtered.length === 0 ? (
-          <div className="text-center py-20 text-gray-500">
+          <div className="text-center py-24">
             <div className="text-5xl mb-4">🔭</div>
-            <div className="text-base font-semibold text-gray-600">No jobs found</div>
-            <div className="text-[13.5px] text-gray-400 mt-1.5">Try adjusting your search or filter</div>
+            <h3 className="text-base font-bold text-slate-500">No jobs found</h3>
+            <p className="text-sm text-slate-400 mt-1">Try adjusting your search or filter</p>
           </div>
 
         ) : (
           filtered.map((job, idx) => {
-            const dl = deadlineInfo(job.deadline);
+            const dl         = deadlineInfo(job.deadline);
             const isSelected = selectedJob?._id === job._id;
+            const typeStyle  = TYPE_STYLES[job.jobType] || TYPE_STYLES["Full-Time"];
 
             return (
               <div
                 key={job._id}
                 onClick={() => setSelectedJob(job)}
-                className={`relative bg-white rounded-2xl p-[22px] cursor-pointer
-                  border transition-all duration-200 overflow-hidden
-                  hover:-translate-y-0.5 hover:shadow-lg
-                  hover:border-blue-400
-                  ${
-                    isSelected
-                      ? "border-blue-500 shadow-md"
-                      : "border-gray-200"
-                  }`}
                 style={{ animationDelay: `${idx * 50}ms` }}
+                className={`relative bg-white rounded-2xl p-5 cursor-pointer border transition-all duration-200
+                  hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-200/70
+                  ${isSelected
+                    ? "border-blue-400 shadow-md shadow-blue-100"
+                    : "border-slate-200 hover:border-blue-300"
+                  }`}
               >
-                <div className="flex gap-[18px] items-start">
+                <div className="flex gap-4 items-start">
 
+                  {/* Logo */}
                   <img
                     src={job.companyLogo || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}
                     alt={job.company}
-                    className="w-[52px] h-[52px] rounded-xl border border-gray-200 object-cover bg-gray-100 shrink-0"
+                    className="w-[52px] h-[52px] rounded-xl border border-slate-200 object-cover bg-slate-50 shrink-0"
                   />
 
                   <div className="flex-1 min-w-0">
-
-                    <span className={`inline-block text-[11px] font-bold uppercase tracking-[0.05em] px-[9px] py-[3px] rounded-[6px] mb-2 ${typeStyles[job.jobType] || typeStyles["Full-Time"]}`}>
+                    {/* Type badge */}
+                    <span className={`inline-block text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg border mb-1.5 ${typeStyle}`}>
                       {job.jobType}
                     </span>
 
-                    <div className="text-base font-bold text-gray-900 truncate leading-snug">{job.title}</div>
-                    <div className="text-[13.5px] text-gray-600 font-medium mt-[3px]">{job.company}</div>
+                    {/* Title + company */}
+                    <h3 className="text-[15px] font-black text-slate-800 truncate leading-tight">{job.title}</h3>
+                    <p className="text-sm text-slate-500 font-medium mt-0.5">{job.company}</p>
 
-                    <div className="flex flex-wrap gap-[14px] mt-3">
-                      <span className="text-[12.5px] text-gray-600 font-medium">📍 {job.location}</span>
-                      <span className="text-[12.5px] text-gray-600 font-medium">
-                        🧑‍💻 {job.experienceMin}{job.experienceMax ? `–${job.experienceMax}` : "+"} yrs
+                    {/* Meta row */}
+                    <div className="flex flex-wrap gap-3 mt-2.5">
+                      <span className="text-xs text-slate-500 flex items-center gap-1">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" strokeWidth="2"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="2"/></svg>
+                        {job.location}
+                      </span>
+                      <span className="text-xs text-slate-500 flex items-center gap-1">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="2"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+                        {job.experienceMin}{job.experienceMax ? `–${job.experienceMax}` : "+"} yrs
                       </span>
                       {job.vacancies > 1 && (
-                        <span className="text-[12.5px] text-gray-600 font-medium">
-                          👥 {job.vacancies} openings
-                        </span>
+                        <span className="text-xs text-slate-500">👥 {job.vacancies} openings</span>
                       )}
                     </div>
 
+                    {/* Skills */}
                     {job.skills?.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mt-3">
+                      <div className="flex flex-wrap gap-1.5 mt-2.5">
                         {job.skills.slice(0, 4).map((s, i) => (
-                          <span key={i} className="text-[11.5px] font-semibold px-2.5 py-[3px] rounded-full bg-blue-100 text-blue-700 border border-blue-200">
+                          <span key={i} className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
                             {s}
                           </span>
                         ))}
                         {job.skills.length > 4 && (
-                          <span className="text-[11.5px] text-gray-500 self-center">
-                            +{job.skills.length - 4} more
-                          </span>
+                          <span className="text-[11px] text-slate-400 self-center">+{job.skills.length - 4} more</span>
                         )}
                       </div>
                     )}
 
-                    <div className="flex items-center justify-between mt-[14px] pt-3 border-t border-gray-200">
-                      <div className="flex items-center gap-4">
-                        <span className="text-xs text-gray-500">
+                    {/* Footer row */}
+                    <div className="flex items-center justify-between mt-3.5 pt-3 border-t border-slate-100">
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs text-slate-400">
                           {new Date(job.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
                         </span>
                         {dl && (
-                          <span className={`text-xs font-semibold px-2.5 py-[3px] rounded-full ${dl.cls}`}>
-                            {dl.label}
+                          <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full ${dl.cls}`}>
+                            ⏰ {dl.label}
                           </span>
                         )}
                       </div>
 
                       <div className="flex items-center gap-3">
                         {(job.salaryMin || job.salaryMax) && (
-                          <span className="text-[13px] font-bold text-green-700 bg-green-100 border border-green-200 px-3 py-1 rounded-full">
+                          <span className="text-xs font-bold text-green-700 bg-green-50 border border-green-200 px-3 py-1.5 rounded-full">
                             ₹{job.salaryMin ? `${(job.salaryMin / 1000).toFixed(0)}k` : "?"}–₹{job.salaryMax ? `${(job.salaryMax / 1000).toFixed(0)}k` : "?"}
                           </span>
                         )}
                         <button
                           onClick={(e) => { e.stopPropagation(); setSelectedJob(job); }}
-                          className="px-[18px] py-[7px] rounded-lg bg-blue-600 text-white text-[13px] font-semibold hover:bg-blue-500 transition-all border-none"
+                          className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-sm shadow-blue-200"
                         >
                           View →
                         </button>
                       </div>
-
                     </div>
                   </div>
                 </div>

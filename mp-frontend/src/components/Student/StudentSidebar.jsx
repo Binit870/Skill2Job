@@ -28,9 +28,8 @@ export default function StudentSidebar() {
 
   return (
     <div
-      className={`${
-        collapsed ? "w-20" : "w-64"
-      } h-full bg-white border-r transition-all duration-300 flex flex-col relative`}
+      className={`${collapsed ? "w-20" : "w-64"
+        } h-full bg-white border-r transition-all duration-300 flex flex-col relative`}
     >
       {/* Toggle Button */}
       <button
@@ -76,7 +75,7 @@ export default function StudentSidebar() {
           <FileText className="w-5 h-5" />
           {!collapsed && <span>My Resume</span>}
         </NavLink>
-<NavLink
+        <NavLink
           to="/student/jobs"
           className={({ isActive }) =>
             `${linkClass} ${isActive ? activeClass : ""}`
@@ -84,6 +83,15 @@ export default function StudentSidebar() {
         >
           <Briefcase className="w-5 h-5" />
           {!collapsed && <span>Find Jobs</span>}
+        </NavLink>
+        <NavLink
+          to="/student/my-applications"
+          className={({ isActive }) =>
+            `${linkClass} ${isActive ? activeClass : ""}`
+          }
+        >
+          <Briefcase className="w-5 h-5" />
+          {!collapsed && <span>My Applications</span>}
         </NavLink>
         <NavLink
           to="/student/jobs/recommend"
