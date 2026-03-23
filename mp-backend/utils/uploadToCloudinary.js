@@ -13,10 +13,9 @@ export const uploadToCloudinary = (buffer, folder, format = null) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         folder,
-        resource_type: "auto",  // ✅ works for both images and PDFs
-        type: "upload",
-        access_mode: "public",
-        public_id: `file_${Date.now()}`,
+        resource_type: format === "pdf" ? "raw" : "auto",
+        type: "upload",         
+        access_mode: "public",  
         ...(format && { format }),
       },
       (error, result) => {
