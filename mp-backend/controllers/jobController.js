@@ -276,3 +276,40 @@ export const closeJob = async (req, res) => {
     });
   }
 };
+/* =========================
+   REOPEN JOB
+========================= */
+export const reopenJob = async (req, res) => {
+  try {
+    const job = await Job.findById(req.params.id);
+
+    if (!job) {
+      return res.status(404).json({
+        success: false,
+        message: "Job not found",
+      });
+    }
+
+    if (job.recruiter.toString() !== req.user._id.toString()) {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized",
+      });
+    }
+
+    job.status = "Active";
+    await job.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Job reopened successfully",
+      data: job,
+    });
+  } catch (error) {
+    console.error("REOPEN JOB ERROR:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

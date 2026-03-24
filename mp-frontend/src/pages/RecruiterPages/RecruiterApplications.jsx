@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-
-const API = "http://localhost:5000";
+import API from "../../utils/api";
 
 const STATUS_CFG = {
   Pending:     { color: "text-slate-600",  bg: "bg-slate-100",  border: "border-slate-200",  ring: "ring-slate-300"  },
@@ -41,8 +39,8 @@ function DetailPanel({ app, onClose, onStatusUpdate }) {
     setSaving(true);
     try {
       const token = localStorage.getItem("token");
-      await axios.patch(
-        `${API}/api/applications/${app._id}/status`,
+      await API.patch(
+        `/api/applications/${app._id}/status`,
         { status, recruiterNote: note },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -293,8 +291,8 @@ export default function RecruiterApplications() {
         const token = localStorage.getItem("token");
         const h = { Authorization: `Bearer ${token}` };
         const [appsRes, jobsRes] = await Promise.all([
-          axios.get(`${API}/api/applications/recruiter`, { headers: h }),
-          axios.get(`${API}/api/jobs/recruiter/my-jobs`, { headers: h }),
+          API.get("/api/applications/recruiter", { headers: h }),
+          API.get("/api/jobs/recruiter/my-jobs", { headers: h }),
         ]);
         setApplications(appsRes.data?.data || []);
         setStatusCounts(appsRes.data?.statusCounts || {});

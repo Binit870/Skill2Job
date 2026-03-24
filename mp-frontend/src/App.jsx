@@ -14,9 +14,9 @@ import StudentDashboard from "./pages/StudentPages/StudentDashboard";
 import FindJobs from "./pages/StudentPages/FindJobs";
 import MyApplications from "./pages/StudentPages/MyApplications";
 import RecommendedJobs from "./pages/StudentPages/RecommendedJobs";
+import Analytics from "./pages/StudentPages/Analytics";
 import MyResume from "./components/StudentComponents/MyResume";
 import ResumeBuilder from "./components/StudentComponents/ResumeBuilder";
-import Analytics from "./pages/StudentPages/Analytics";
 import StudentProfile from "./components/StudentComponents/Profiles/StudentProfile";
 import StudentEditProfile from "./components/StudentComponents/Profiles/StudentEditProfile";
 import MockInterview from "./components/StudentComponents/MockInterview/MockInterview";
@@ -28,8 +28,8 @@ import RecruiterEditProfile from "./components/RecruiterComponents/Profiles/Recr
 import RecruiterProfile from "./components/RecruiterComponents/Profiles/RecruiterProfile";
 import MyJobs from "./components/RecruiterComponents/Jobs/MyJobs";
 import PostJob from "./pages/RecruiterPages/PostJob";
-import Candidates from "./components/RecruiterComponents/Candidates";
 import RecruiterApplications from "./pages/RecruiterPages/RecruiterApplications";
+import EditJob from "./components/RecruiterComponents/Jobs/EditJob";
 
 import PublicLayout from "./layouts/PublicLayout";
 import StudentLayout from "./layouts/StudentLayout";
@@ -41,13 +41,13 @@ import RecruiterLayout from "./layouts/RecruiterLayout";
 if (typeof window !== 'undefined') {
   // Original console.error ko save karo
   const originalConsoleError = console.error;
-  
+
   // console.error ko override karo
   console.error = (...args) => {
     // Extension-related errors ko ignore karo
     if (args[0]?.includes?.('listener indicated an asynchronous response') ||
-        args[0]?.includes?.('message channel closed') ||
-        args[0]?.includes?.('Extension context invalidated')) {
+      args[0]?.includes?.('message channel closed') ||
+      args[0]?.includes?.('Extension context invalidated')) {
       return; // In errors ko ignore karo
     }
     // Baaki errors normally show karo
@@ -124,9 +124,10 @@ export default function App() {
             <Route path="/recruiter-dashboard" element={<RecruiterDashboard />} />
             <Route path="/recruiter/post-job" element={<PostJob />} />
             <Route path="/recruiter/my-jobs" element={<MyJobs />} />
+            <Route path="/recruiter/edit-job/:id" element={<EditJob />} />
             <Route path="/recruiter/edit-profile" element={<RecruiterEditProfile />} />
-            <Route path="/recruiter/candidates" element={<Candidates />} />
-            <Route path="/recruiter/applications" element={<RecruiterApplications />} />
+
+            <Route path="/recruiter/candidates-applications" element={<RecruiterApplications />} />
           </Route>
 
           {/* 404 Page - catch all */}

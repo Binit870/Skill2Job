@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../../utils/api";
 import JobDetails from "../../components/StudentComponents/Jobs/JobDetails";
-
-const API = "http://localhost:5000";
 
 const JOB_TYPES = ["All", "Full-Time", "Part-Time", "Internship", "Remote", "Contract"];
 
@@ -53,7 +51,7 @@ export default function FindJobs() {
     (async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(`${API}/api/jobs`, {
+        const res = await API.get("/api/jobs", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const raw = res.data;

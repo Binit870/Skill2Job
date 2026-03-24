@@ -286,6 +286,7 @@ const StudentEditProfile = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}`, "Content-Type": "multipart/form-data" },
       });
       await refreshUser();
+      console.log("User after refresh:", JSON.parse(localStorage.getItem("user")));
       toast.success("Profile updated successfully");
       navigate("/student-dashboard");
     } catch { toast.error("Update failed. Try again."); }
