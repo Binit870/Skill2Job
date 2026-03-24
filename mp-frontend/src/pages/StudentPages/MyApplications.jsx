@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-
-const API = "http://localhost:5000";
+import API from "../../utils/api";
 
 const STATUS_CFG = {
   Pending:     { icon: "🕐", color: "text-slate-600",  bg: "bg-slate-100",   border: "border-slate-200",  left: "border-l-slate-400"  },
@@ -81,7 +79,7 @@ export default function MyApplications() {
     (async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(`${API}/api/applications/my`, {
+        const res = await API.get("/api/applications/my", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setApplications(res.data?.data || []);
@@ -97,7 +95,7 @@ export default function MyApplications() {
     setWithdrawing(true);
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`${API}/api/applications/${withdrawTarget._id}`, {
+      await API.delete(`/api/applications/${withdrawTarget._id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setApplications((p) => p.filter((a) => a._id !== withdrawTarget._id));
