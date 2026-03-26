@@ -7,7 +7,7 @@ model = SentenceTransformer("all-MiniLM-L6-v2")
 
 def evaluate_answers(role, responses):
 
-    with open("dataset/questions.json") as f:
+    with open("dataset/interview_questions.json") as f:
         questions_data = json.load(f)
 
     results = []

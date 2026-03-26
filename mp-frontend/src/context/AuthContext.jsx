@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
     if (storedUser) setUser(storedUser);
   }, []);
 
-  // 🔥 NEW FUNCTION
   const refreshUser = async () => {
     const token = localStorage.getItem("token");
     if (!token) return;

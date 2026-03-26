@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
+  
   {
     name: {
       type: String,
@@ -24,7 +25,8 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    // ================= STUDENT FIELDS =================
+    // ================= STUDENT FIELDS ====================== //
+
     phone: {
       type: String,
     },
@@ -50,17 +52,19 @@ const userSchema = new mongoose.Schema(
         type: String,
       },
     ],
+
     profileImage: {
       type: String,
       default: "",
     },
+
     resume: {
-  type: String,
-  default: "",
-},
+      type: String,
+      default: "",
+    },
 
+    // ================= RECRUITER FIELDS ================= //
 
-    // ================= RECRUITER FIELDS =================
     companyName: {
       type: String,
     },
@@ -81,13 +85,12 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
 
-
-
     companyLogo: {
       type: String,
       default: "",
     },
   },
+
   { timestamps: true }
 );
 

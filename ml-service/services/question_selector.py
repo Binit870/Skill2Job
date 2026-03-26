@@ -5,7 +5,7 @@ import numpy as np
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
 def generate_questions(role, difficulty):
-    with open("dataset/questions.json") as f:
+    with open("dataset/interview_questions.json") as f:
         questions = json.load(f)
 
     role_embedding = model.encode(role)

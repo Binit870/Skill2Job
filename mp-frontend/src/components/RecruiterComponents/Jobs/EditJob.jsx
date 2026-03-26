@@ -15,7 +15,7 @@ const Field = ({ label, required, children }) => (
 );
 
 const inputCls =
-  "w-full border border-gray-200 bg-white rounded-lg px-3.5 py-2.5 text-sm text-gray-800 outline-none focus:border-[#FF9933] focus:ring-2 focus:ring-orange-100 transition placeholder-gray-400";
+  "w-full border border-gray-200 bg-white rounded-lg px-3.5 py-2.5 text-sm text-gray-800 outline-none focus:border-[#FF9933] focus:ring-2 focus:ring-green-100 transition placeholder-gray-400";
 
 export default function EditJob() {
   const { id } = useParams();
@@ -117,7 +117,7 @@ export default function EditJob() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-4 border-[#FF9933] border-t-transparent rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-[#78e728] border-t-transparent rounded-full animate-spin" />
           <p className="text-gray-500 font-medium">Loading job details...</p>
         </div>
       </div>
@@ -140,8 +140,8 @@ export default function EditJob() {
             <ArrowLeft size={20} />
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center">
-              <Briefcase size={16} className="text-[#FF9933]" />
+            <div className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center">
+              <Briefcase size={16} className="text-[#7cdb16]" />
             </div>
             <h1 className="text-xl md:text-2xl font-bold text-gray-900">Edit Job</h1>
           </div>
@@ -154,8 +154,8 @@ export default function EditJob() {
 
           {/* ── Section: Basic Info ── */}
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-            <div className="flex items-center gap-2 px-5 md:px-6 py-4 border-b border-gray-100 bg-orange-50">
-              <span className="w-1 h-5 rounded-full bg-[#FF9933]" />
+            <div className="flex items-center gap-2 px-5 md:px-6 py-4 border-b border-gray-100 bg-green-50">
+              <span className="w-1 h-5 rounded-full bg-[#498a04]" />
               <h2 className="text-sm font-bold text-gray-800 uppercase tracking-wider">Basic Information</h2>
             </div>
             <div className="px-5 md:px-6 py-5 grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -220,8 +220,8 @@ export default function EditJob() {
 
           {/* ── Section: Experience & Salary ── */}
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-            <div className="flex items-center gap-2 px-5 md:px-6 py-4 border-b border-gray-100 bg-orange-50">
-              <span className="w-1 h-5 rounded-full bg-[#FF9933]" />
+            <div className="flex items-center gap-2 px-5 md:px-6 py-4 border-b border-gray-100 bg-green-50">
+              <span className="w-1 h-5 rounded-full bg-[#498a04]" />
               <h2 className="text-sm font-bold text-gray-800 uppercase tracking-wider">Experience & Salary</h2>
             </div>
             <div className="px-5 md:px-6 py-5 grid grid-cols-2 gap-5">
@@ -276,8 +276,8 @@ export default function EditJob() {
 
           {/* ── Section: Skills ── */}
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-            <div className="flex items-center gap-2 px-5 md:px-6 py-4 border-b border-gray-100 bg-orange-50">
-              <span className="w-1 h-5 rounded-full bg-[#FF9933]" />
+            <div className="flex items-center gap-2 px-5 md:px-6 py-4 border-b border-gray-100 bg-green-50">
+              <span className="w-1 h-5 rounded-full bg-[#498a04]" />
               <h2 className="text-sm font-bold text-gray-800 uppercase tracking-wider">Required Skills</h2>
             </div>
             <div className="px-5 md:px-6 py-5 flex flex-col gap-3">
@@ -287,20 +287,20 @@ export default function EditJob() {
                 {skills.map((s, i) => (
                   <span
                     key={i}
-                    className="inline-flex items-center gap-1.5 bg-orange-50 text-[#FF9933] border border-orange-200 text-xs font-semibold px-3 py-1.5 rounded-full"
+                    className="inline-flex items-center gap-1.5 bg-green-50 text-[#498a04] border border-green-200 text-xs font-semibold px-3 py-1.5 rounded-full"
                   >
                     {s}
                     <button
                       type="button"
                       onClick={() => removeSkill(s)}
-                      className="text-orange-300 hover:text-[#FF9933] transition leading-none text-base"
+                      className="text-green-800 hover:text-[#498a04] transition leading-none text-base"
                     >
                       ×
                     </button>
                   </span>
                 ))}
                 {skills.length === 0 && (
-                  <p className="text-gray-400 text-sm">No skills added yet</p>
+                  <p className="text-gray-700 text-sm">No skills added yet</p>
                 )}
               </div>
 
@@ -324,20 +324,20 @@ export default function EditJob() {
                 <button
                   type="button"
                   onClick={() => addSkill(skillInput)}
-                  className="bg-[#FF9933] hover:bg-[#e8871f] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors whitespace-nowrap"
+                  className="bg-[#1e9d02] hover:bg-[#1b7d05] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors whitespace-nowrap"
                 >
                   Add
                 </button>
               </div>
-              <p className="text-xs text-gray-400">Press Enter, comma, or Tab to add each skill</p>
+              <p className="text-xs text-gray-600">Press Enter, comma, or Tab to add each skill</p>
 
             </div>
           </div>
 
           {/* ── Section: Description ── */}
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-            <div className="flex items-center gap-2 px-5 md:px-6 py-4 border-b border-gray-100 bg-orange-50">
-              <span className="w-1 h-5 rounded-full bg-[#FF9933]" />
+            <div className="flex items-center gap-2 px-5 md:px-6 py-4 border-b border-gray-100 bg-green-50">
+              <span className="w-1 h-5 rounded-full bg-[#498a04]" />
               <h2 className="text-sm font-bold text-gray-800 uppercase tracking-wider">Job Description</h2>
             </div>
             <div className="px-5 md:px-6 py-5">

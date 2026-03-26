@@ -20,7 +20,7 @@ export default function StudentNavbar({ onMenuClick }) {
   }, []);
 
   return (
-    <div className="w-full h-16 bg-white border-b flex items-center justify-between px-4 md:px-6 gap-4">
+   <div className="sticky top-0 z-50 w-full h-16 bg-white border-b flex items-center justify-between px-4 md:px-6 gap-4">
 
       {/* Hamburger — mobile only */}
       <button

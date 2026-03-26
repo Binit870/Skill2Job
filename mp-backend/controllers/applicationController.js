@@ -24,7 +24,7 @@ export const applyForJob = async (req, res) => {
       User.findById(req.user._id),
     ]);
 
-    if (!job)     return res.status(404).json({ success: false, message: "Job not found" });
+    if (!job) return res.status(404).json({ success: false, message: "Job not found" });
     if (!student) return res.status(404).json({ success: false, message: "Student not found" });
     if (job.status !== "Active") {
       return res.status(400).json({ success: false, message: "This job is no longer accepting applications" });
@@ -42,42 +42,42 @@ export const applyForJob = async (req, res) => {
     if (req.file) {
       // Fresh file uploaded — store relative server path
       resumeData = {
-        url:          `/uploads/resumes/${req.file.filename}`,
+        url: `/uploads/resumes/${req.file.filename}`,
         originalName: req.file.originalname,
-        source:       "uploaded",
+        source: "uploaded",
       };
     } else if (useProfileResume === "true" && student.resume) {
       // Use whatever URL is already on the profile
       resumeData = {
-        url:          student.resume,
+        url: student.resume,
         originalName: "Profile Resume",
-        source:       "profile",
+        source: "profile",
       };
     }
 
     const application = await Application.create({
-      job:       jobId,
+      job: jobId,
       applicant: req.user._id,
       recruiter: job.recruiter,
 
       // Snapshot of profile at submission time
       applicantSnapshot: {
-        name:           student.name,
-        email:          student.email,
-        phone:          student.phone,
-        college:        student.college,
-        branch:         student.branch,
+        name: student.name,
+        email: student.email,
+        phone: student.phone,
+        college: student.college,
+        branch: student.branch,
         graduationYear: student.graduationYear,
-        cgpa:           student.cgpa,
-        skills:         student.skills,
-        profileImage:   student.profileImage,
+        cgpa: student.cgpa,
+        skills: student.skills,
+        profileImage: student.profileImage,
       },
 
       // Editable fields from the apply modal
-      phone:        phone        || student.phone || "",
+      phone: phone || student.phone || "",
       portfolioUrl: portfolioUrl || "",
-      coverLetter:  coverLetter  || "",
-      resume:       resumeData,
+      coverLetter: coverLetter || "",
+      resume: resumeData,
     });
 
     // Increment applications counter on the job
@@ -146,7 +146,7 @@ export const withdrawApplication = async (req, res) => {
 export const checkApplied = async (req, res) => {
   try {
     const application = await Application.findOne({
-      job:       req.params.jobId,
+      job: req.params.jobId,
       applicant: req.user._id,
     });
     res.status(200).json({ success: true, applied: !!application, data: application || null });
@@ -273,7 +273,7 @@ export const getApplicationById = async (req, res) => {
     if (!application) return res.status(404).json({ success: false, message: "Application not found" });
 
     const isApplicant = application.applicant._id.toString() === req.user._id.toString();
-    const isRecruiter = application.recruiter.toString()     === req.user._id.toString();
+    const isRecruiter = application.recruiter.toString() === req.user._id.toString();
     if (!isApplicant && !isRecruiter) {
       return res.status(403).json({ success: false, message: "Not authorized" });
     }
