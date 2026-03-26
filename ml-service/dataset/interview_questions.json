@@ -1,0 +1,74 @@
+[
+  {
+    "role": "Frontend Developer",
+    "difficulty": "easy",
+    "question": "What is the difference between inline, internal, and external CSS?",
+    "ideal_answer": "Inline CSS applies styles directly to elements, internal CSS is defined within a <style> tag in the HTML file, and external CSS is linked via a separate stylesheet."
+  },
+  {
+    "role": "Frontend Developer",
+    "difficulty": "medium",
+    "question": "Explain Virtual DOM.",
+    "ideal_answer": "Virtual DOM is a lightweight copy of the real DOM. React uses it to efficiently update only the parts of the UI that change, improving performance."
+  },
+  {
+    "role": "Frontend Developer",
+    "difficulty": "hard",
+    "question": "How does React’s reconciliation algorithm work?",
+    "ideal_answer": "React’s reconciliation algorithm compares the Virtual DOM with the previous snapshot using a diffing algorithm, then updates only the changed nodes in the real DOM."
+  },
+  {
+    "role": "Backend Developer",
+    "difficulty": "easy",
+    "question": "What is REST API?",
+    "ideal_answer": "REST is an architectural style that uses HTTP methods (GET, POST, PUT, DELETE) to perform CRUD operations on resources, typically represented in JSON."
+  },
+  {
+    "role": "Backend Developer",
+    "difficulty": "medium",
+    "question": "Explain the difference between SQL and NoSQL databases.",
+    "ideal_answer": "SQL databases are relational, structured, and use schemas, while NoSQL databases are non-relational, flexible, and handle unstructured or semi-structured data."
+  },
+  {
+    "role": "Backend Developer",
+    "difficulty": "hard",
+    "question": "How does JWT authentication work?",
+    "ideal_answer": "JWT authentication issues a signed token after login. The client stores it and sends it with each request. The server verifies the signature to authenticate without storing session state."
+  },
+  {
+    "role": "Data Scientist",
+    "difficulty": "easy",
+    "question": "What is supervised learning?",
+    "ideal_answer": "Supervised learning is a type of machine learning where models are trained on labeled data to predict outcomes for new, unseen inputs."
+  },
+  {
+    "role": "Data Scientist",
+    "difficulty": "medium",
+    "question": "Explain the bias-variance tradeoff.",
+    "ideal_answer": "Bias-variance tradeoff balances underfitting and overfitting. High bias means the model is too simple, while high variance means it’s too complex and sensitive to noise."
+  },
+  {
+    "role": "Data Scientist",
+    "difficulty": "hard",
+    "question": "How does gradient boosting work?",
+    "ideal_answer": "Gradient boosting builds models sequentially, where each new model corrects the errors of the previous one by minimizing a loss function using gradient descent."
+  },
+  {
+    "role": "DevOps Engineer",
+    "difficulty": "easy",
+    "question": "What is CI/CD?",
+    "ideal_answer": "CI/CD stands for Continuous Integration and Continuous Deployment. It automates building, testing, and deploying applications to ensure faster and reliable releases."
+  },
+  {
+    "role": "DevOps Engineer",
+    "difficulty": "medium",
+    "question": "Explain containerization.",
+    "ideal_answer": "Containerization packages applications and dependencies into isolated units called containers, ensuring consistency across environments. Docker is a popular tool for this."
+  },
+  {
+    "role": "DevOps Engineer",
+    "difficulty": "hard",
+    "question": "How does Kubernetes handle scaling?",
+    "ideal_answer": "Kubernetes uses Horizontal Pod Autoscaling to adjust the number of pods based on CPU/memory usage or custom metrics, ensuring efficient resource utilization."
+  }
+]
