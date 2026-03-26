@@ -30,7 +30,6 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const res = await signup(
         form.name,
