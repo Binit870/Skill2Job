@@ -1,28 +1,42 @@
 import { useEffect, useState } from "react";
 import API from "../../utils/api";
+import {
+  FiClock, FiEye, FiStar, FiX, FiGift,
+  FiMapPin, FiBriefcase, FiDollarSign, FiPaperclip,
+  FiTrash2, FiLoader, FiClipboard, FiChevronRight
+} from "react-icons/fi";
 
 const STATUS_CFG = {
-  Pending:     { icon: "🕐", color: "text-slate-600",  bg: "bg-slate-100",   border: "border-slate-200",  left: "border-l-slate-400"  },
-  Reviewed:    { icon: "👁️",  color: "text-blue-700",   bg: "bg-blue-50",     border: "border-blue-200",   left: "border-l-blue-500"   },
-  Shortlisted: { icon: "⭐", color: "text-amber-700",  bg: "bg-amber-50",    border: "border-amber-200",  left: "border-l-amber-500"  },
-  Rejected:    { icon: "✕",  color: "text-red-600",    bg: "bg-red-50",      border: "border-red-200",    left: "border-l-red-400"    },
-  Hired:       { icon: "🎉", color: "text-green-700",  bg: "bg-green-50",    border: "border-green-200",  left: "border-l-green-500"  },
+  Pending:     { icon: FiClock,     color: "text-slate-500",  bg: "bg-slate-50",    border: "border-slate-200",  left: "border-l-slate-300",  badge: "bg-slate-100 text-slate-600 border-slate-200"   },
+  Reviewed:    { icon: FiEye,       color: "text-blue-600",   bg: "bg-blue-50",     border: "border-blue-200",   left: "border-l-blue-400",   badge: "bg-blue-50 text-blue-700 border-blue-200"       },
+  Shortlisted: { icon: FiStar,      color: "text-amber-600",  bg: "bg-amber-50",    border: "border-amber-200",  left: "border-l-amber-400",  badge: "bg-amber-50 text-amber-700 border-amber-200"    },
+  Rejected:    { icon: FiX,         color: "text-red-500",    bg: "bg-red-50",      border: "border-red-200",    left: "border-l-red-400",    badge: "bg-red-50 text-red-600 border-red-200"          },
+  Hired:       { icon: FiGift,      color: "text-green-600",  bg: "bg-green-50",    border: "border-green-200",  left: "border-l-green-500",  badge: "bg-green-50 text-green-700 border-green-200"    },
 };
 
 const TABS = ["All", "Pending", "Reviewed", "Shortlisted", "Rejected", "Hired"];
 
+const TAB_COLORS = {
+  All:         { active: "bg-green-600 text-white border-green-600 shadow-green-200 shadow-md" },
+  Pending:     { active: "bg-slate-100 text-slate-700 border-slate-300" },
+  Reviewed:    { active: "bg-blue-50 text-blue-700 border-blue-300" },
+  Shortlisted: { active: "bg-amber-50 text-amber-700 border-amber-300" },
+  Rejected:    { active: "bg-red-50 text-red-600 border-red-300" },
+  Hired:       { active: "bg-green-50 text-green-700 border-green-300" },
+};
+
 // ── Skeleton ──────────────────────────────────────────────────────────────
 function SkeletonCard() {
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl p-5 animate-pulse">
+    <div className="bg-white border border-slate-100 rounded-2xl p-5 animate-pulse shadow-sm">
       <div className="flex gap-4">
-        <div className="w-12 h-12 rounded-xl bg-slate-200 shrink-0" />
+        <div className="w-12 h-12 rounded-xl bg-slate-100 shrink-0" />
         <div className="flex-1 flex flex-col gap-2.5">
-          <div className="h-4 w-2/5 rounded-lg bg-slate-200" />
-          <div className="h-3 w-1/4 rounded-lg bg-slate-200" />
+          <div className="h-4 w-2/5 rounded-lg bg-slate-100" />
+          <div className="h-3 w-1/4 rounded-lg bg-slate-100" />
           <div className="flex gap-2 mt-1">
-            <div className="h-6 w-20 rounded-full bg-slate-200" />
-            <div className="h-6 w-24 rounded-full bg-slate-200" />
+            <div className="h-6 w-20 rounded-full bg-slate-100" />
+            <div className="h-6 w-24 rounded-full bg-slate-100" />
           </div>
         </div>
       </div>
@@ -33,14 +47,10 @@ function SkeletonCard() {
 // ── Withdraw Confirm Modal ────────────────────────────────────────────────
 function WithdrawModal({ app, onConfirm, onClose, loading }) {
   return (
-    <div className="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full">
-        <div className="w-14 h-14 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-center mx-auto mb-5">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <polyline points="3 6 5 6 21 6" stroke="#ef4444" strokeWidth="2" strokeLinecap="round"/>
-            <path d="M19 6l-1 14H6L5 6" stroke="#ef4444" strokeWidth="2" strokeLinecap="round"/>
-            <path d="M10 11v6M14 11v6" stroke="#ef4444" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
+    <div className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full border border-slate-100">
+        <div className="w-14 h-14 rounded-2xl bg-red-50 border border-red-100 flex items-center justify-center mx-auto mb-5">
+          <FiTrash2 size={22} className="text-red-500" />
         </div>
         <h3 className="text-lg font-black text-slate-800 text-center mb-2">Withdraw Application?</h3>
         <p className="text-sm text-slate-500 text-center leading-relaxed mb-6">
@@ -49,16 +59,19 @@ function WithdrawModal({ app, onConfirm, onClose, loading }) {
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 py-3 rounded-2xl border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50 transition"
+            className="flex-1 py-3 rounded-2xl border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all duration-200"
           >
             Keep It
           </button>
           <button
             onClick={onConfirm}
             disabled={loading}
-            className="flex-1 py-3 rounded-2xl bg-red-500 hover:bg-red-600 disabled:opacity-60 text-white text-sm font-black transition flex items-center justify-center gap-2"
+            className="flex-1 py-3 rounded-2xl bg-red-500 hover:bg-red-600 disabled:opacity-60 text-white text-sm font-black transition-all duration-200 flex items-center justify-center gap-2"
           >
-            {loading && <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />}
+            {loading
+              ? <FiLoader size={15} className="animate-spin" />
+              : <FiTrash2 size={15} />
+            }
             {loading ? "Withdrawing…" : "Withdraw"}
           </button>
         </div>
@@ -107,47 +120,51 @@ export default function MyApplications() {
     }
   };
 
-  // Counts
   const counts = { All: applications.length };
   applications.forEach((a) => { counts[a.status] = (counts[a.status] || 0) + 1; });
 
   const filtered = tab === "All" ? applications : applications.filter((a) => a.status === tab);
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-white">
 
       {/* ── Topbar ── */}
-      <div className="sticky top-0 z-40 bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-black text-slate-800 tracking-tight">My Applications</h1>
-          <p className="text-xs text-slate-400 mt-0.5">Track all your job applications</p>
+      <div className="bg-white border-b border-slate-100 px-6 py-5 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-green-600 flex items-center justify-center shadow-md shadow-green-200">
+            <FiBriefcase size={17} className="text-white" />
+          </div>
+          <div>
+            <h1 className="text-lg font-black text-slate-800 tracking-tight leading-none">My Applications</h1>
+            <p className="text-[11px] text-slate-400 mt-0.5">Track all your job applications</p>
+          </div>
         </div>
-        <span className="text-xs font-semibold text-slate-500 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-full">
-          {loading ? "…" : `${applications.length} total`}
+        <span className="text-xs font-bold text-green-700 bg-green-50 border border-green-200 px-3.5 py-1.5 rounded-full">
+          {loading ? "—" : `${applications.length} total`}
         </span>
       </div>
 
       {/* ── Status tabs ── */}
-      <div className="bg-white border-b border-slate-100 px-6 py-3 flex gap-2 overflow-x-auto">
-        <style>{`.no-scrollbar::-webkit-scrollbar{display:none}`}</style>
+      <div className="bg-white border-b border-slate-100 px-6 py-3 flex gap-2 overflow-x-auto scrollbar-hide">
+        <style>{`.scrollbar-hide::-webkit-scrollbar{display:none}.scrollbar-hide{-ms-overflow-style:none;scrollbar-width:none;}`}</style>
         {TABS.map((t) => {
           const cfg    = STATUS_CFG[t];
           const active = tab === t;
+          const Icon   = cfg?.icon;
           return (
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black whitespace-nowrap border transition-all
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap border transition-all duration-200
                 ${active
-                  ? t === "All"
-                    ? "bg-slate-800 text-white border-slate-800 shadow-sm"
-                    : `${cfg.bg} ${cfg.color} ${cfg.border} shadow-sm`
-                  : "bg-white text-slate-500 border-slate-200 hover:border-slate-300"
+                  ? TAB_COLORS[t]?.active
+                  : "bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
                 }`}
             >
-              {cfg && <span className={`w-1.5 h-1.5 rounded-full ${active && t !== "All" ? "bg-current opacity-70" : "bg-slate-300"}`} />}
+              {Icon && <Icon size={11} />}
               {t}
-              <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${active ? "bg-black/10" : "bg-slate-100 text-slate-400"}`}>
+              <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ml-0.5
+                ${active ? "bg-black/10" : "bg-slate-100 text-slate-400"}`}>
                 {counts[t] || 0}
               </span>
             </button>
@@ -156,15 +173,17 @@ export default function MyApplications() {
       </div>
 
       {/* ── Cards ── */}
-      <div className="max-w-3xl mx-auto px-6 py-6 flex flex-col gap-4">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 flex flex-col gap-3">
 
         {loading ? (
           [0, 1, 2, 3].map((i) => <SkeletonCard key={i} />)
 
         ) : filtered.length === 0 ? (
-          <div className="text-center py-24">
-            <div className="text-5xl mb-4">📋</div>
-            <h3 className="text-base font-bold text-slate-500">
+          <div className="text-center py-28 flex flex-col items-center">
+            <div className="w-16 h-16 rounded-2xl bg-green-50 border border-green-100 flex items-center justify-center mb-4 shadow-sm">
+              <FiClipboard size={28} className="text-green-400" />
+            </div>
+            <h3 className="text-base font-bold text-slate-600">
               {tab === "All" ? "No applications yet" : `No ${tab} applications`}
             </h3>
             <p className="text-sm text-slate-400 mt-1">
@@ -174,50 +193,66 @@ export default function MyApplications() {
 
         ) : (
           filtered.map((app, idx) => {
-            const job        = app.job || {};
-            const cfg        = STATUS_CFG[app.status] || STATUS_CFG.Pending;
+            const job         = app.job || {};
+            const cfg         = STATUS_CFG[app.status] || STATUS_CFG.Pending;
             const canWithdraw = !["Shortlisted", "Hired"].includes(app.status);
+            const StatusIcon  = cfg.icon;
 
             return (
               <div
                 key={app._id}
                 style={{ animationDelay: `${idx * 40}ms` }}
-                className={`bg-white border border-slate-200 border-l-4 ${cfg.left} rounded-2xl p-5 hover:shadow-md hover:shadow-slate-200/60 hover:-translate-y-0.5 transition-all duration-200`}
+                className={`group bg-white border border-slate-100 border-l-4 ${cfg.left} rounded-2xl p-5 hover:shadow-lg hover:shadow-slate-100 hover:-translate-y-0.5 transition-all duration-250 shadow-sm`}
               >
                 <div className="flex gap-4 items-start">
-                  <img
-                    src={job.companyLogo || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}
-                    alt={job.company}
-                    className="w-12 h-12 rounded-xl border border-slate-200 object-cover bg-slate-50 shrink-0"
-                  />
+                  {/* Logo */}
+                  <div className="relative shrink-0">
+                    <img
+                      src={job.companyLogo || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}
+                      alt={job.company}
+                      className="w-12 h-12 rounded-xl border border-slate-100 object-cover bg-slate-50"
+                    />
+                  </div>
 
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="min-w-0">
-                        <h3 className="text-sm font-black text-slate-800 truncate">{job.title || "Untitled Job"}</h3>
-                        <p className="text-xs text-slate-500 font-medium mt-0.5">{job.company}</p>
+                    {/* Title row */}
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-sm font-black text-slate-800 truncate group-hover:text-green-700 transition-colors duration-200">
+                          {job.title || "Untitled Job"}
+                        </h3>
+                        <p className="text-xs text-slate-500 font-semibold mt-0.5">{job.company}</p>
                       </div>
+
                       {/* Status badge */}
-                      <span className={`shrink-0 flex items-center gap-1.5 text-[11px] font-black px-2.5 py-1.5 rounded-full border ${cfg.bg} ${cfg.color} ${cfg.border}`}>
-                        {cfg.icon} {app.status}
+                      <span className={`shrink-0 flex items-center gap-1.5 text-[11px] font-black px-2.5 py-1.5 rounded-full border ${cfg.badge}`}>
+                        <StatusIcon size={11} />
+                        {app.status}
                       </span>
                     </div>
 
                     {/* Meta chips */}
-                    <div className="flex flex-wrap gap-2 mt-3">
+                    <div className="flex flex-wrap gap-1.5 mt-3">
                       {job.location && (
-                        <span className="text-[11px] text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">📍 {job.location}</span>
+                        <span className="flex items-center gap-1 text-[11px] text-slate-500 bg-slate-50 border border-slate-100 px-2.5 py-1 rounded-full font-medium">
+                          <FiMapPin size={9} className="text-green-500" /> {job.location}
+                        </span>
                       )}
                       {job.jobType && (
-                        <span className="text-[11px] text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">{job.jobType}</span>
+                        <span className="flex items-center gap-1 text-[11px] text-slate-500 bg-slate-50 border border-slate-100 px-2.5 py-1 rounded-full font-medium">
+                          <FiBriefcase size={9} className="text-green-500" /> {job.jobType}
+                        </span>
                       )}
                       {(job.salaryMin || job.salaryMax) && (
-                        <span className="text-[11px] font-bold text-green-700 bg-green-50 border border-green-200 px-2.5 py-1 rounded-full">
+                        <span className="flex items-center gap-1 text-[11px] font-bold text-green-700 bg-green-50 border border-green-200 px-2.5 py-1 rounded-full">
+                          <FiDollarSign size={9} />
                           ₹{job.salaryMin ? `${(job.salaryMin/1000).toFixed(0)}k` : "?"}–₹{job.salaryMax ? `${(job.salaryMax/1000).toFixed(0)}k` : "?"}
                         </span>
                       )}
                       {app.resume?.url && (
-                        <span className="text-[11px] text-indigo-700 bg-indigo-50 border border-indigo-200 px-2.5 py-1 rounded-full">📎 Resume</span>
+                        <span className="flex items-center gap-1 text-[11px] text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full font-medium">
+                          <FiPaperclip size={9} /> Resume
+                        </span>
                       )}
                     </div>
 
@@ -231,14 +266,15 @@ export default function MyApplications() {
 
                     {/* Footer */}
                     <div className="flex items-center justify-between mt-4 pt-3 border-t border-slate-100">
-                      <span className="text-xs text-slate-400">
+                      <span className="text-[11px] text-slate-400 font-medium">
                         Applied {new Date(app.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
                       </span>
                       {canWithdraw && (
                         <button
                           onClick={() => setWithdrawTarget(app)}
-                          className="text-xs font-bold text-slate-400 hover:text-red-500 border border-slate-200 hover:border-red-200 hover:bg-red-50 px-3 py-1.5 rounded-lg transition"
+                          className="flex items-center gap-1.5 text-[11px] font-bold text-slate-400 hover:text-red-500 border border-slate-200 hover:border-red-200 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-all duration-200"
                         >
+                          <FiTrash2 size={11} />
                           Withdraw
                         </button>
                       )}

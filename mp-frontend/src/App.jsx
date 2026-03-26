@@ -13,7 +13,7 @@ import NotFound from "./pages/NotFound";
 import StudentDashboard from "./pages/StudentPages/StudentDashboard";
 import FindJobs from "./pages/StudentPages/FindJobs";
 import MyApplications from "./pages/StudentPages/MyApplications";
-import RecommendedJobs from "./pages/StudentPages/RecommendedJobs";
+
 import Analytics from "./pages/StudentPages/Analytics";
 import MyResume from "./components/StudentComponents/MyResume";
 import ResumeBuilder from "./components/StudentComponents/ResumeBuilder";
@@ -91,12 +91,12 @@ export default function App() {
           >
             <Route path="/student-dashboard" element={<StudentDashboard />} />
             <Route path="/student/jobs" element={<FindJobs />} />
+            <Route path="/student/edit-profile" element={<StudentEditProfile />} />
+          
             <Route path="/student/jobs/:id" element={<JobDetails />} />
-            <Route path="/student/jobs/recommend" element={<RecommendedJobs />} />
             <Route path="/student/resume" element={<MyResume />} />
             <Route path="/student/resume-builder" element={<ResumeBuilder />} />
             <Route path="/student/analyze" element={<Analytics />} />
-            <Route path="/student/edit-profile" element={<StudentEditProfile />} />
             <Route path="/student/mock-interview" element={<MockInterview />} />
             <Route path="/student/resume-view" element={<ResumeView />} />
             <Route path="/student/my-applications" element={<MyApplications />} />

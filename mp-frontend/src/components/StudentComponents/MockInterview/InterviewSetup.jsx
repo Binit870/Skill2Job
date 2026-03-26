@@ -1,158 +1,172 @@
-// import { useState } from "react";
-// import { generateQuestions } from "../../../services/mockInterviewService";
-
-// export default function InterviewSetup({ setRole, setQuestions, setStep }) {
-//   const [selectedRole, setSelectedRole] = useState("Frontend Developer");
-//   const [loading, setLoading] = useState(false);
-
-//   const startInterview = async () => {
-//     try {
-//       setLoading(true);
-//       const data = await generateQuestions({
-//         role: selectedRole,
-//         difficulty: "medium",
-//       });
-
-//       setRole(selectedRole);
-//       setQuestions(data.questions);
-//       setStep("interview");
-//     } catch (err) {
-//       alert("Failed to generate questions");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <div className="max-w-xl mx-auto bg-white shadow-xl rounded-2xl p-8">
-//       <h2 className="text-2xl font-bold mb-6 text-center">
-//         Start Mock Interview
-//       </h2>
-
-//       <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-//   <option value="">Select a role</option>
-
-//   <optgroup label="Development">
-//     <option>Frontend Developer</option>
-//     <option>Backend Developer</option>
-//     <option>Full Stack Developer</option>
-//   </optgroup>
-
-//   <optgroup label="Data & AI">
-//     <option>Data Scientist</option>
-//     <option>Machine Learning Engineer</option>
-//   </optgroup>
-
-//   <optgroup label="Infrastructure & Cloud">
-//     <option>DevOps Engineer</option>
-//     <option>Cloud Engineer</option>
-//   </optgroup>
-
-//   <optgroup label="Security & Database">
-//     <option>Cybersecurity Analyst</option>
-//     <option>Database Administrator</option>
-//   </optgroup>
-// </select>
-
-//       <button
-//         onClick={startInterview}
-//         className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
-//       >
-//         {loading ? "Generating..." : "Start Interview"}
-//       </button>
-//     </div>
-//   );
-// }
 import { useState } from "react";
 import { generateQuestions } from "../../../services/mockInterviewService";
+import { ChevronDown, AlertCircle, RefreshCw } from "lucide-react";
 
-export default function InterviewSetup({ setRole, setQuestions, setStep }) {
+export default function InterviewSetup({ setRole, setQuestions, setStep, setLoading }) {
   const [selectedRole, setSelectedRole] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLocalLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const startInterview = async () => {
     if (!selectedRole) {
-      alert("Please select a role");
+      setError("Please select a role to continue.");
       return;
     }
 
+    setError(null);
+
     try {
+      setLocalLoading(true);
       setLoading(true);
-      const data = await generateQuestions({
-        role: selectedRole,
-        difficulty: "medium",
-      });
+
+      const data = await generateQuestions({ role: selectedRole, difficulty: "medium" });
 
       setRole(selectedRole);
       setQuestions(data.questions);
       setStep("interview");
     } catch (err) {
-      alert("Failed to generate questions");
+      setError("Failed to generate questions. Please check your connection and try again.");
     } finally {
+      setLocalLoading(false);
       setLoading(false);
     }
   };
 
+  const roleGroups = [
+    {
+      label: "Development",
+      options: ["Frontend Developer", "Backend Developer", "Full Stack Developer"]
+    },
+    {
+      label: "Data & AI",
+      options: ["Data Scientist", "Machine Learning Engineer"]
+    },
+    {
+      label: "Infrastructure & Cloud",
+      options: ["DevOps Engineer", "Cloud Engineer"]
+    },
+    {
+      label: "Security & Database",
+      options: ["Cybersecurity Analyst", "Database Administrator"]
+    }
+  ];
+
   return (
-    <div className="max-w-xl mx-auto bg-white shadow-xl rounded-2xl p-8 border border-gray-200">
+    <div style={{
+      background: "#fff", borderRadius: 20, border: "1px solid #d1fae5",
+      boxShadow: "0 4px 24px rgba(16,185,129,0.08)", padding: "48px 40px",
+      maxWidth: 500, margin: "0 auto"
+    }}>
 
-      {/* TITLE */}
-      <h2 className="text-2xl font-bold text-center text-gray-800">
-        Start Mock Interview
-      </h2>
-
-      {/* FORM */}
-      <div className="mt-6 space-y-5">
-
-        {/* LABEL */}
-        <label className="block text-sm font-medium text-gray-600">
-          {/* Please Select Your Desired Role */}
-        </label>
-
-        {/* DROPDOWN */}
-        <select
-  value={selectedRole}
-  onChange={(e) => setSelectedRole(e.target.value)}
-  className="w-full p-3 rounded-lg border border-gray-300 bg-white text-gray-900 
-             focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
->
-  <option value="" disabled hidden className="text-gray-400">
-    Select a role
-  </option>
-
-  <optgroup label="Development" className="text-gray-900">
-    <option className="text-gray-900">Frontend Developer</option>
-    <option className="text-gray-900">Backend Developer</option>
-    <option className="text-gray-900">Full Stack Developer</option>
-  </optgroup>
-
-  <optgroup label="Data & AI" className="text-gray-900">
-    <option className="text-gray-900">Data Scientist</option>
-    <option className="text-gray-900">Machine Learning Engineer</option>
-  </optgroup>
-
-  <optgroup label="Infrastructure & Cloud" className="text-gray-900">
-    <option className="text-gray-900">DevOps Engineer</option>
-    <option className="text-gray-900">Cloud Engineer</option>
-  </optgroup>
-
-  <optgroup label="Security & Database" className="text-gray-900">
-    <option className="text-gray-900">Cybersecurity Analyst</option>
-    <option className="text-gray-900">Database Administrator</option>
-  </optgroup>
-</select>
-
-        {/* BUTTON */}
-        <button
-          onClick={startInterview}
-          disabled={loading}
-          className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium 
-                     hover:bg-blue-700 active:scale-[0.98] 
-                     transition-all duration-200 shadow-md"
-        >
-          {loading ? "Generating..." : "Start Interview"}
-        </button>
+      {/* Icon top */}
+      <div style={{ textAlign: "center", marginBottom: 28 }}>
+        <div style={{
+          width: 64, height: 64, borderRadius: "50%",
+          background: "linear-gradient(135deg, #d1fae5, #a7f3d0)",
+          display: "inline-flex", alignItems: "center", justifyContent: "center",
+          marginBottom: 16
+        }}>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+        <h2 style={{ fontSize: 24, fontWeight: 700, color: "#064e35", margin: 0, letterSpacing: "-0.4px" }}>
+          Start Mock Interview
+        </h2>
+        <p style={{ color: "#6b7280", fontSize: 14, marginTop: 8, marginBottom: 0 }}>
+          Select your target role and we'll generate tailored questions
+        </p>
       </div>
+
+      {/* Error Banner */}
+      {error && (
+        <div style={{
+          background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 12,
+          padding: "12px 16px", marginBottom: 20,
+          display: "flex", alignItems: "flex-start", gap: 10
+        }}>
+          <AlertCircle size={18} color="#ef4444" style={{ flexShrink: 0, marginTop: 1 }} />
+          <div style={{ flex: 1 }}>
+            <p style={{ fontSize: 13, color: "#b91c1c", margin: 0, fontWeight: 500 }}>
+              {error}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Select */}
+      <div style={{ marginBottom: 16, position: "relative" }}>
+        <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 8 }}>
+          Target Role
+        </label>
+        <div style={{ position: "relative" }}>
+          <select
+            value={selectedRole}
+            onChange={(e) => { setSelectedRole(e.target.value); setError(null); }}
+            style={{
+              width: "100%", padding: "13px 44px 13px 16px",
+              borderRadius: 12, border: "1.5px solid #d1fae5",
+              background: "#f0fdf4", color: selectedRole ? "#064e35" : "#9ca3af",
+              fontSize: 15, fontWeight: selectedRole ? 500 : 400,
+              appearance: "none", outline: "none", cursor: "pointer",
+              transition: "border-color 0.2s"
+            }}
+            onFocus={(e) => e.target.style.borderColor = "#10b981"}
+            onBlur={(e) => e.target.style.borderColor = "#d1fae5"}
+          >
+            <option value="" disabled hidden>Select a role...</option>
+            {roleGroups.map(group => (
+              <optgroup key={group.label} label={group.label}>
+                {group.options.map(opt => (
+                  <option key={opt} value={opt}>{opt}</option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+          <ChevronDown size={16} color="#6b7280" style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }} />
+        </div>
+      </div>
+
+      {/* Difficulty badge */}
+      <div style={{ display: "flex", gap: 8, marginBottom: 28 }}>
+        {["Easy", "Medium", "Hard"].map(d => (
+          <div key={d} style={{
+            padding: "6px 14px", borderRadius: 20, fontSize: 13, fontWeight: 500,
+            background: d === "Medium" ? "#d1fae5" : "#f9fafb",
+            color: d === "Medium" ? "#065f46" : "#9ca3af",
+            border: d === "Medium" ? "1px solid #6ee7b7" : "1px solid #e5e7eb",
+            cursor: "pointer"
+          }}>
+            {d}
+          </div>
+        ))}
+      </div>
+
+      {/* Button */}
+      <button
+        onClick={startInterview}
+        disabled={loading}
+        style={{
+          width: "100%", padding: "15px",
+          borderRadius: 12, border: "none",
+          background: loading ? "#a7f3d0" : "linear-gradient(135deg, #10b981, #059669)",
+          color: "#fff", fontSize: 16, fontWeight: 600,
+          cursor: loading ? "not-allowed" : "pointer",
+          display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+          boxShadow: loading ? "none" : "0 4px 14px rgba(16,185,129,0.4)",
+          transition: "all 0.2s", letterSpacing: "-0.2px"
+        }}
+        onMouseEnter={(e) => { if (!loading) e.target.style.transform = "translateY(-1px)"; }}
+        onMouseLeave={(e) => { e.target.style.transform = "translateY(0)"; }}
+      >
+        {loading ? (
+          <>
+            <RefreshCw size={16} style={{ animation: "spin 0.8s linear infinite" }} />
+            Generating Questions...
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+          </>
+        ) : "Start Interview →"}
+      </button>
     </div>
   );
 }

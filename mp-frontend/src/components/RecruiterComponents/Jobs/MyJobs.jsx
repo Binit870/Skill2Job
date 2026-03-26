@@ -89,7 +89,7 @@ export default function MyJobs() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-4 border-[#FF9933] border-t-transparent rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-[#60e618] border-t-transparent rounded-full animate-spin" />
           <p className="text-gray-500 font-medium">Loading your jobs...</p>
         </div>
       </div>
@@ -103,7 +103,7 @@ export default function MyJobs() {
     <div className="min-h-screen bg-gray-50">
 
       {/* ── Page Header ── */}
-      <div className="bg-white border-b border-gray-200 px-4 py-5 md:px-8">
+      <div className="bg-white border-b border-green-200 px-4 py-5 md:px-8">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900">My Posted Jobs</h1>
@@ -113,7 +113,7 @@ export default function MyJobs() {
           </div>
           <button
             onClick={() => navigate("/recruiter/post-job")}
-            className="flex items-center gap-2 bg-[#FF9933] hover:bg-[#e8871f] text-white font-semibold px-5 py-2.5 rounded-lg transition-colors shadow-sm text-sm"
+            className="flex items-center gap-2 bg-[#359b05] hover:bg-[#2e6502] text-white font-semibold px-5 py-2.5 rounded-lg transition-colors shadow-sm text-sm"
           >
             <PlusCircle size={18} />
             Post New Job
@@ -127,7 +127,7 @@ export default function MyJobs() {
         {jobs.length === 0 ? (
           <div className="bg-white rounded-2xl border border-dashed border-gray-300 py-20 flex flex-col items-center gap-4">
             <div className="w-16 h-16 rounded-full bg-orange-50 flex items-center justify-center">
-              <Briefcase size={28} className="text-[#FF9933]" />
+              <Briefcase size={28} className="text-[#69e720]" />
             </div>
             <div className="text-center">
               <p className="text-gray-800 font-semibold text-lg">No jobs posted yet</p>
@@ -135,7 +135,7 @@ export default function MyJobs() {
             </div>
             <button
               onClick={() => navigate("/post-job")}
-              className="mt-2 bg-[#FF9933] hover:bg-[#e8871f] text-white font-semibold px-6 py-2.5 rounded-lg transition-colors text-sm"
+              className="mt-2 bg-[#87ea2a] hover:bg-[#67db1f] text-white font-semibold px-6 py-2.5 rounded-lg transition-colors text-sm"
             >
               Post a Job
             </button>
@@ -148,7 +148,7 @@ export default function MyJobs() {
                 className="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow overflow-hidden"
               >
                 {/* Status bar on top */}
-                <div className={`h-1 w-full ${job.status === "Active" ? "bg-[#138808]" : "bg-gray-300"}`} />
+                <div className={`h-1 w-full ${job.status === "Active" ? "bg-[#138808]" : "bg-red-600"}`} />
 
                 <div className="p-5 md:p-6">
 
@@ -161,9 +161,9 @@ export default function MyJobs() {
                     <span className={`self-start inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap ${
                       job.status === "Active"
                         ? "bg-green-50 text-[#138808] ring-1 ring-green-200"
-                        : "bg-gray-100 text-gray-500 ring-1 ring-gray-200"
+                        : "bg-red-100 text-red-500 ring-1 ring-red-200"
                     }`}>
-                      <span className={`w-1.5 h-1.5 rounded-full ${job.status === "Active" ? "bg-[#138808]" : "bg-gray-400"}`} />
+                      <span className={`w-1.5 h-1.5 rounded-full ${job.status === "Active" ? "bg-[#138808]" : "bg-red-400"}`} />
                       {job.status}
                     </span>
                   </div>
@@ -171,24 +171,24 @@ export default function MyJobs() {
                   {/* Meta Info */}
                   <div className="flex flex-wrap gap-3 md:gap-5 mt-4 text-sm text-gray-500">
                     <span className="flex items-center gap-1.5">
-                      <MapPin size={15} className="text-[#FF9933]" /> {job.location}
+                      <MapPin size={15} className="text-[#1e4203]" /> {job.location}
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <Briefcase size={15} className="text-[#FF9933]" /> {job.jobType}
+                      <Briefcase size={15} className="text-[#1e4203]" /> {job.jobType}
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <IndianRupee size={15} className="text-[#FF9933]" />
+                      <IndianRupee size={15} className="text-[#1e4203]" />
                       {job.salaryMin && job.salaryMax
                         ? `${job.salaryMin.toLocaleString()} – ${job.salaryMax.toLocaleString()}`
                         : "Not specified"}
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <Users size={15} className="text-[#FF9933]" />
+                      <Users size={15} className="text-[#1e4203]" />
                       {job.vacancies} {job.vacancies === 1 ? "vacancy" : "vacancies"}
                     </span>
                     {job.deadline && (
                       <span className="flex items-center gap-1.5">
-                        <Calendar size={15} className="text-[#FF9933]" />
+                        <Calendar size={15} className="text-[#1e4203]" />
                         {new Date(job.deadline).toLocaleDateString("en-IN", {
                           day: "numeric", month: "short", year: "numeric"
                         })}
@@ -202,7 +202,7 @@ export default function MyJobs() {
                       {job.skills.map((skill, i) => (
                         <span
                           key={i}
-                          className="bg-orange-50 text-[#FF9933] border border-orange-200 text-xs font-medium px-2.5 py-1 rounded-full"
+                          className="bg-green-50 text-[#2a4302] border border-green-200 text-xs font-medium px-2.5 py-1 rounded-full"
                         >
                           {skill}
                         </span>
@@ -217,7 +217,7 @@ export default function MyJobs() {
                       {/* Edit */}
                       <button
                         onClick={() => navigate(`/recruiter/edit-job/${job._id}`)}
-                        className="flex items-center gap-1.5 bg-[#FF9933] hover:bg-[#e8871f] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+                        className="flex items-center gap-1.5 bg-[#078607] hover:bg-[#105503] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
                       >
                         Edit
                       </button>
@@ -226,14 +226,14 @@ export default function MyJobs() {
                       {job.status === "Active" ? (
                         <button
                           onClick={() => handleClose(job._id)}
-                          className="flex items-center gap-1.5 bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+                          className="flex items-center gap-1.5 bg-gray-200 hover:bg-gray-300 text-gray-700 border border-gray-200 text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
                         >
                           Close
                         </button>
                       ) : (
                         <button
                           onClick={() => handleReopen(job._id)}
-                          className="flex items-center gap-1.5 bg-white hover:bg-green-50 text-[#138808] border border-green-200 text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+                          className="flex items-center gap-1.5 bg-gray-200 hover:bg-gray-300 text-gray-700 border border-green-200 text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
                         >
                           Reopen
                         </button>

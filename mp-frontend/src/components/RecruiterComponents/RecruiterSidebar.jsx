@@ -23,10 +23,10 @@ const NAV_ITEMS = [
 ];
 
 const linkClass =
-  "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 text-gray-700 hover:bg-teal-50 hover:text-teal-700";
+  "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 text-gray-700 hover:bg-green-50 hover:text-gray-600";
 
 const activeClass =
-  "bg-teal-600 text-white font-semibold shadow-sm hover:!bg-teal-600 hover:!text-white";
+  "bg-green-800 text-white font-semibold shadow-sm hover:!bg-green-900 hover:!text-white";
 
 function SidebarContent({
   collapsed,
@@ -36,25 +36,29 @@ function SidebarContent({
 }) {
   return (
     <div
-      className={`${!isMobile && collapsed ? "w-20" : "w-64"
-        } h-full bg-white border-r border-gray-200 flex flex-col`}
+      className={`${
+        !isMobile && collapsed ? "w-20" : "w-64"
+      } h-full bg-white border-r border-gray-200 flex flex-col`}
     >
       {/* Header */}
-      {/* Header */}
       <div className="h-16 flex items-center justify-between border-b px-4">
-        <div className="flex items-center gap-2">
-          {/* Logo Icon */}
-          <div className="bg-orange-100 text-orange-500 p-2 rounded-lg">
+        <NavLink
+          to="/recruiter-dashboard"
+          onClick={isMobile ? onMobileClose : undefined}
+          className="flex items-center gap-2"
+        >
+          {/* Logo */}
+          <div className="bg-green-100 text-green-900 p-2 rounded-lg">
             <GraduationCap className="w-5 h-5" />
           </div>
 
-          {/* Text (hidden when collapsed) */}
+          {/* Heading */}
           {(!collapsed || isMobile) && (
-            <h2 className="text-xl font-bold text-orange-500 tracking-tight">
-              Skill2Job
+            <h2 className="text-xl font-bold text-green-900 tracking-tight">
+              Skill<span className="text-green-500">2</span>Job
             </h2>
           )}
-        </div>
+        </NavLink>
 
         {isMobile && (
           <button
@@ -87,7 +91,7 @@ function SidebarContent({
       <div className="p-3 border-t">
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-red-50 text-red-500 transition group"
+          className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-red-50 text-red-600 transition group"
         >
           <LogOut className="w-5 h-5 group-hover:scale-110 transition-transform flex-shrink-0" />
           {(!collapsed || isMobile) && <span>Logout</span>}
@@ -124,13 +128,14 @@ export default function RecruiterSidebar({ mobileOpen, onMobileClose }) {
     <>
       {/* Desktop & Tablet */}
       <div
-        className={`hidden md:flex h-full relative transition-all duration-300 ${collapsed ? "w-20" : "w-64"
-          }`}
+        className={`hidden md:flex h-full relative transition-all duration-300 ${
+          collapsed ? "w-20" : "w-64"
+        }`}
       >
         {/* Toggle Button */}
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="absolute -right-3 top-6 bg-white border border-gray-200 rounded-full p-1 shadow-md z-10 hover:bg-teal-50 hover:text-teal-700 transition"
+          className="absolute -right-3 top-6 bg-white border border-gray-200 rounded-full p-1 shadow-md z-10 hover:bg-green-50 hover:text-green-900 transition"
         >
           {collapsed ? (
             <ChevronRight className="w-4 h-4" />
