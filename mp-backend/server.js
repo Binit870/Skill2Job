@@ -19,7 +19,7 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: ["http://localhost:5173", "https://skill2job-frontend.vercel.app"],
+  origin: ["http://localhost:5173", "https://skill2job-beta.vercel.app"],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
