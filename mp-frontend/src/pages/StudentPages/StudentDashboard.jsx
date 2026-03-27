@@ -46,7 +46,7 @@ export default function StudentDashboard() {
     const fetchData = async () => {
       try {
         const [profile, jobsRes, appRes, analysisRes] = await Promise.all([
-          API.get("/api/profile"),
+          API.get("/api/profile/student"),
           API.get("/api/jobs"),
           API.get("/api/applications/my"),
           API.get("/api/resume/latest").catch(() => null),
