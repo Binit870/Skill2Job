@@ -209,10 +209,10 @@ const StudentEditProfile = () => {
     if (!showPdf) return;
     const handler = (e) => {
       if (e.key === "ArrowRight" || e.key === "ArrowDown") setPageNumber(p => Math.min(numPages || 1, p + 1));
-      if (e.key === "ArrowLeft"  || e.key === "ArrowUp")   setPageNumber(p => Math.max(1, p - 1));
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") setPageNumber(p => Math.max(1, p - 1));
       if (e.key === "+" || e.key === "=") setPdfZoom(z => Math.min(3, +(z + 0.25).toFixed(2)));
-      if (e.key === "-")                  setPdfZoom(z => Math.max(0.5, +(z - 0.25).toFixed(2)));
-      if (e.key === "Escape")             closePdf();
+      if (e.key === "-") setPdfZoom(z => Math.max(0.5, +(z - 0.25).toFixed(2)));
+      if (e.key === "Escape") closePdf();
       if (e.key === "r" || e.key === "R") setRotation(r => (r + 90) % 360);
       if (e.key === "f" || e.key === "F") toggleFullscreen();
     };
@@ -278,10 +278,10 @@ const StudentEditProfile = () => {
     try {
       setLoading(true);
       const formData = new FormData();
-      ["name","email","phone","college","branch","graduationYear","cgpa"].forEach(k => formData.append(k, form[k]));
+      ["name", "email", "phone", "college", "branch", "graduationYear", "cgpa"].forEach(k => formData.append(k, form[k]));
       form.skills.split(",").map(s => s.trim()).filter(Boolean).forEach(s => formData.append("skills[]", s));
       if (croppedImage) formData.append("profileImage", croppedImage, "profile.jpg");
-      if (resumeFile)   formData.append("resume", resumeFile);
+      if (resumeFile) formData.append("resume", resumeFile);
       await axios.put("http://localhost:5000/api/profile/student", formData, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}`, "Content-Type": "multipart/form-data" },
       });
@@ -290,7 +290,7 @@ const StudentEditProfile = () => {
       toast.success("Profile updated successfully");
       navigate("/student-dashboard");
     } catch { toast.error("Update failed. Try again."); }
-    finally  { setLoading(false); }
+    finally { setLoading(false); }
   };
 
   // ── PDF controls ────────────────────────────────────────────────────────────
@@ -317,10 +317,10 @@ const StudentEditProfile = () => {
     }
   };
 
-  const zoomIn  = () => setPdfZoom(z => Math.min(3, +(z + 0.25).toFixed(2)));
+  const zoomIn = () => setPdfZoom(z => Math.min(3, +(z + 0.25).toFixed(2)));
   const zoomOut = () => setPdfZoom(z => Math.max(0.5, +(z - 0.25).toFixed(2)));
   const resetZoom = () => setPdfZoom(1.0);
-  const rotate  = () => setRotation(r => (r + 90) % 360);
+  const rotate = () => setRotation(r => (r + 90) % 360);
 
   const downloadPdf = () => {
     const a = document.createElement("a");
@@ -384,14 +384,14 @@ const StudentEditProfile = () => {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <InputField icon={User}         label="Full Name"            name="name"           placeholder="John Doe"          value={form.name}           onChange={handleChange} />
-              <InputField icon={Mail}         label="Email"                name="email"          placeholder="john@email.com"    value={form.email}          onChange={handleChange} type="email" />
-              <InputField icon={Phone}        label="Phone"                name="phone"          placeholder="+91 9876543210"    value={form.phone}          onChange={handleChange} />
-              <InputField icon={GraduationCap} label="College"             name="college"        placeholder="IIT Bombay"        value={form.college}        onChange={handleChange} />
-              <InputField icon={BookOpen}     label="Branch"               name="branch"         placeholder="Computer Science"  value={form.branch}         onChange={handleChange} />
-              <InputField icon={Calendar}     label="Graduation Year"      name="graduationYear" placeholder="2025"              value={form.graduationYear} onChange={handleChange} type="number" />
-              <InputField icon={Star}         label="CGPA"                 name="cgpa"           placeholder="8.5"               value={form.cgpa}           onChange={handleChange} />
-              <InputField icon={Code}         label="Skills (comma sep.)"  name="skills"         placeholder="React, Node.js"    value={form.skills}         onChange={handleChange} />
+              <InputField icon={User} label="Full Name" name="name" placeholder="John Doe" value={form.name} onChange={handleChange} />
+              <InputField icon={Mail} label="Email" name="email" placeholder="john@email.com" value={form.email} onChange={handleChange} type="email" />
+              <InputField icon={Phone} label="Phone" name="phone" placeholder="+91 9876543210" value={form.phone} onChange={handleChange} />
+              <InputField icon={GraduationCap} label="College" name="college" placeholder="IIT Bombay" value={form.college} onChange={handleChange} />
+              <InputField icon={BookOpen} label="Branch" name="branch" placeholder="Computer Science" value={form.branch} onChange={handleChange} />
+              <InputField icon={Calendar} label="Graduation Year" name="graduationYear" placeholder="2025" value={form.graduationYear} onChange={handleChange} type="number" />
+              <InputField icon={Star} label="CGPA" name="cgpa" placeholder="8.5" value={form.cgpa} onChange={handleChange} />
+              <InputField icon={Code} label="Skills (comma sep.)" name="skills" placeholder="React, Node.js" value={form.skills} onChange={handleChange} />
             </div>
 
             {/* Resume */}
