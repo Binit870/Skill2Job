@@ -1,0 +1,326 @@
+[
+  {
+    "role": "Frontend Developer",
+    "difficulty": "easy",
+    "question": "What is the difference between inline, internal, and external CSS?",
+    "ideal_answer": "Inline CSS applies styles directly to elements, internal CSS is defined within a <style> tag in the HTML file, and external CSS is linked via a separate stylesheet."
+  },
+  {
+    "role": "Frontend Developer",
+    "difficulty": "medium",
+    "question": "Explain Virtual DOM.",
+    "ideal_answer": "Virtual DOM is a lightweight copy of the real DOM. React uses it to efficiently update only the parts of the UI that change, improving performance."
+  },
+  {
+    "role": "Frontend Developer",
+    "difficulty": "hard",
+    "question": "How does React’s reconciliation algorithm work?",
+    "ideal_answer": "React’s reconciliation algorithm compares the Virtual DOM with the previous snapshot using a diffing algorithm, then updates only the changed nodes in the real DOM."
+  },
+  {
+    "role": "Backend Developer",
+    "difficulty": "easy",
+    "question": "What is REST API?",
+    "ideal_answer": "REST is an architectural style that uses HTTP methods (GET, POST, PUT, DELETE) to perform CRUD operations on resources, typically represented in JSON."
+  },
+  {
+    "role": "Backend Developer",
+    "difficulty": "medium",
+    "question": "Explain the difference between SQL and NoSQL databases.",
+    "ideal_answer": "SQL databases are relational, structured, and use schemas, while NoSQL databases are non-relational, flexible, and handle unstructured or semi-structured data."
+  },
+  {
+    "role": "Backend Developer",
+    "difficulty": "hard",
+    "question": "How does JWT authentication work?",
+    "ideal_answer": "JWT authentication issues a signed token after login. The client stores it and sends it with each request. The server verifies the signature to authenticate without storing session state."
+  },
+  {
+    "role": "Data Scientist",
+    "difficulty": "easy",
+    "question": "What is supervised learning?",
+    "ideal_answer": "Supervised learning is a type of machine learning where models are trained on labeled data to predict outcomes for new, unseen inputs."
+  },
+  {
+    "role": "Data Scientist",
+    "difficulty": "medium",
+    "question": "Explain the bias-variance tradeoff.",
+    "ideal_answer": "Bias-variance tradeoff balances underfitting and overfitting. High bias means the model is too simple, while high variance means it’s too complex and sensitive to noise."
+  },
+  {
+    "role": "Data Scientist",
+    "difficulty": "hard",
+    "question": "How does gradient boosting work?",
+    "ideal_answer": "Gradient boosting builds models sequentially, where each new model corrects the errors of the previous one by minimizing a loss function using gradient descent."
+  },
+  {
+    "role": "DevOps Engineer",
+    "difficulty": "easy",
+    "question": "What is CI/CD?",
+    "ideal_answer": "CI/CD stands for Continuous Integration and Continuous Deployment. It automates building, testing, and deploying applications to ensure faster and reliable releases."
+  },  
+  {
+    "role": "DevOps Engineer",
+    "difficulty": "medium",
+    "question": "Explain containerization.",
+    "ideal_answer": "Containerization packages applications and dependencies into isolated units called containers, ensuring consistency across environments. Docker is a popular tool for this."
+  },
+  {
+    "role": "DevOps Engineer",
+    "difficulty": "hard",
+    "question": "How does Kubernetes handle scaling?",
+    "ideal_answer": "Kubernetes uses Horizontal Pod Autoscaling to adjust the number of pods based on CPU/memory usage or custom metrics, ensuring efficient resource utilization."
+  },
+
+  
+
+
+  {
+    "role": "Frontend Developer",
+    "difficulty": "easy",
+    "question": "What is HTML semantic markup?",
+    "ideal_answer": "Semantic markup uses meaningful HTML tags like <header>, <article>, and <section> to improve accessibility and SEO."
+  },
+  {
+    "role": "Frontend Developer",
+    "difficulty": "easy",
+    "question": "What is Flexbox?",
+    "ideal_answer": "Flexbox is a CSS layout module that allows flexible alignment and distribution of elements within a container."
+  },
+  {
+    "role": "Frontend Developer",
+    "difficulty": "easy",
+    "question": "What is responsive design?",
+    "ideal_answer": "Responsive design ensures web pages adapt to different screen sizes using flexible layouts, images, and media queries."
+  },
+  {
+    "role": "Frontend Developer",
+    "difficulty": "medium",
+    "question": "What are React hooks?",
+    "ideal_answer": "React hooks are functions that allow developers to use state and lifecycle features inside functional components."
+  },
+  {
+    "role": "Frontend Developer",
+    "difficulty": "medium",
+    "question": "What is the difference between state and props in React?",
+    "ideal_answer": "Props are read-only data passed from parent to child components, while state is managed internally within a component."
+  },
+  {
+    "role": "Frontend Developer",
+    "difficulty": "medium",
+    "question": "What is lazy loading?",
+    "ideal_answer": "Lazy loading delays loading of resources until they are needed, improving performance and reducing initial load time."
+  },
+  {
+    "role": "Frontend Developer",
+    "difficulty": "hard",
+    "question": "What are higher-order components in React?",
+    "ideal_answer": "A higher-order component is a function that takes a component and returns a new component with additional functionality."
+  },
+  {
+    "role": "Frontend Developer",
+    "difficulty": "hard",
+    "question": "Explain code splitting in React.",
+    "ideal_answer": "Code splitting divides bundles into smaller chunks that can be loaded on demand, improving performance."
+  },
+
+  {
+    "role": "Backend Developer",
+    "difficulty": "easy",
+    "question": "What is Node.js?",
+    "ideal_answer": "Node.js is a JavaScript runtime built on Chrome's V8 engine that allows running JavaScript on the server side."
+  },
+  {
+    "role": "Backend Developer",
+    "difficulty": "easy",
+    "question": "What is Express.js?",
+    "ideal_answer": "Express.js is a minimal Node.js framework used to build web applications and APIs."
+  },
+  {
+    "role": "Backend Developer",
+    "difficulty": "easy",
+    "question": "What is middleware?",
+    "ideal_answer": "Middleware functions execute during the request-response cycle and can modify request or response objects."
+  },
+  {
+    "role": "Backend Developer",
+    "difficulty": "medium",
+    "question": "What is rate limiting?",
+    "ideal_answer": "Rate limiting restricts the number of requests a client can make within a time period to prevent abuse."
+  },
+  {
+    "role": "Backend Developer",
+    "difficulty": "medium",
+    "question": "What is database indexing?",
+    "ideal_answer": "Indexing improves database query performance by allowing faster data retrieval."
+  },
+  {
+    "role": "Backend Developer",
+    "difficulty": "medium",
+    "question": "Explain caching.",
+    "ideal_answer": "Caching stores frequently accessed data temporarily to improve performance and reduce database load."
+  },
+  {
+    "role": "Backend Developer",
+    "difficulty": "hard",
+    "question": "What is event-driven architecture?",
+    "ideal_answer": "Event-driven architecture uses events to trigger communication between services, improving scalability and decoupling."
+  },
+  {
+    "role": "Backend Developer",
+    "difficulty": "hard",
+    "question": "Explain microservices architecture.",
+    "ideal_answer": "Microservices architecture divides applications into small independent services that communicate through APIs."
+  },
+
+  {
+    "role": "Full Stack Developer",
+    "difficulty": "easy",
+    "question": "What does a full stack developer do?",
+    "ideal_answer": "A full stack developer works on both frontend and backend parts of a web application."
+  },
+  {
+    "role": "Full Stack Developer",
+    "difficulty": "medium",
+    "question": "Explain MVC architecture.",
+    "ideal_answer": "MVC separates applications into Model, View, and Controller layers to improve maintainability and organization."
+  },
+  {
+    "role": "Full Stack Developer",
+    "difficulty": "hard",
+    "question": "How do you optimize full stack applications?",
+    "ideal_answer": "Optimization involves caching, efficient queries, code splitting, load balancing, and CDN usage."
+  },
+
+  {
+    "role": "Data Scientist",
+    "difficulty": "easy",
+    "question": "What is data preprocessing?",
+    "ideal_answer": "Data preprocessing involves cleaning and transforming raw data before analysis."
+  },
+  {
+    "role": "Data Scientist",
+    "difficulty": "easy",
+    "question": "What is a dataset?",
+    "ideal_answer": "A dataset is a collection of related data used for analysis or training machine learning models."
+  },
+  {
+    "role": "Data Scientist",
+    "difficulty": "medium",
+    "question": "What is cross validation?",
+    "ideal_answer": "Cross validation evaluates models by splitting data into multiple training and validation sets."
+  },
+  {
+    "role": "Data Scientist",
+    "difficulty": "medium",
+    "question": "What is feature engineering?",
+    "ideal_answer": "Feature engineering involves selecting or transforming variables to improve model performance."
+  },
+  {
+    "role": "Data Scientist",
+    "difficulty": "hard",
+    "question": "What is PCA?",
+    "ideal_answer": "Principal Component Analysis reduces data dimensionality while preserving important variance."
+  },
+  {
+    "role": "Data Scientist",
+    "difficulty": "hard",
+    "question": "Explain ensemble learning.",
+    "ideal_answer": "Ensemble learning combines multiple models to improve predictive performance."
+  },
+
+  {
+    "role": "Machine Learning Engineer",
+    "difficulty": "easy",
+    "question": "What is overfitting?",
+    "ideal_answer": "Overfitting occurs when a model learns training data too well and performs poorly on new data."
+  },
+  {
+    "role": "Machine Learning Engineer",
+    "difficulty": "medium",
+    "question": "What is regularization?",
+    "ideal_answer": "Regularization prevents overfitting by adding a penalty to large model weights."
+  },
+  {
+    "role": "Machine Learning Engineer",
+    "difficulty": "hard",
+    "question": "What is gradient descent?",
+    "ideal_answer": "Gradient descent is an optimization algorithm used to minimize loss functions by updating parameters."
+  },
+
+  {
+    "role": "DevOps Engineer",
+    "difficulty": "easy",
+    "question": "What is Docker?",
+    "ideal_answer": "Docker is a containerization platform used to package applications and dependencies together."
+  },
+  {
+    "role": "DevOps Engineer",
+    "difficulty": "medium",
+    "question": "What is infrastructure as code?",
+    "ideal_answer": "Infrastructure as code manages infrastructure using configuration files instead of manual processes."
+  },
+  {
+    "role": "DevOps Engineer",
+    "difficulty": "hard",
+    "question": "What is blue-green deployment?",
+    "ideal_answer": "Blue-green deployment reduces downtime by switching traffic between two identical environments."
+  },
+
+  {
+    "role": "Cybersecurity Analyst",
+    "difficulty": "easy",
+    "question": "What is encryption?",
+    "ideal_answer": "Encryption converts readable data into encoded form to protect information."
+  },
+  {
+    "role": "Cybersecurity Analyst",
+    "difficulty": "medium",
+    "question": "What is SQL injection?",
+    "ideal_answer": "SQL injection is a cyber attack where malicious SQL queries manipulate databases."
+  },
+  {
+    "role": "Cybersecurity Analyst",
+    "difficulty": "hard",
+    "question": "Explain zero trust security.",
+    "ideal_answer": "Zero trust assumes no user or device is trusted by default and requires strict verification."
+  },
+
+  {
+    "role": "Cloud Engineer",
+    "difficulty": "easy",
+    "question": "What is cloud computing?",
+    "ideal_answer": "Cloud computing provides on-demand computing resources over the internet."
+  },
+  {
+    "role": "Cloud Engineer",
+    "difficulty": "medium",
+    "question": "What is serverless computing?",
+    "ideal_answer": "Serverless computing allows developers to run code without managing servers."
+  },
+  {
+    "role": "Cloud Engineer",
+    "difficulty": "hard",
+    "question": "What is auto scaling?",
+    "ideal_answer": "Auto scaling automatically adjusts resources based on workload demand."
+  },
+
+  {
+    "role": "Database Administrator",
+    "difficulty": "easy",
+    "question": "What is normalization?",
+    "ideal_answer": "Normalization organizes database tables to reduce redundancy."
+  },
+  {
+    "role": "Database Administrator",
+    "difficulty": "medium",
+    "question": "What is ACID property?",
+    "ideal_answer": "ACID ensures reliable transactions: Atomicity, Consistency, Isolation, and Durability."
+  },
+  {
+    "role": "Database Administrator",
+    "difficulty": "hard",
+    "question": "Explain database sharding.",
+    "ideal_answer": "Sharding splits databases into smaller parts to improve scalability and performance."
+  }
+]
