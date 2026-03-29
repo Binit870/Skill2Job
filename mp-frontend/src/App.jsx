@@ -3,25 +3,25 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { Toaster } from "react-hot-toast";
 
-import ProtectedRoute from "./pages/ProtectedRoute";
+import ProtectedRoute from "./pages/routes/ProtectedRoute";
 
-import LandingPage from "./pages/LandingPage";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import NotFound from "./pages/NotFound";
+import LandingPage from "./pages/PublicPages/LandingPage";
+import Login from "./pages/PublicPages/Login";
+import Signup from "./pages/PublicPages/Signup";
+import NotFound from "./pages/routes/NotFound";
 
 import StudentDashboard from "./pages/StudentPages/StudentDashboard";
 import FindJobs from "./pages/StudentPages/FindJobs";
 import MyApplications from "./pages/StudentPages/MyApplications";
 
 import Analytics from "./pages/StudentPages/Analytics";
-import MyResume from "./components/StudentComponents/MyResume";
-import ResumeBuilder from "./components/StudentComponents/ResumeBuilder";
+import MyResume from "./components/StudentComponents/Resume/MyResume";
+import ResumeBuilder from "./components/StudentComponents/Resume/ResumeBuilder";
 import StudentProfile from "./components/StudentComponents/Profiles/StudentProfile";
 import StudentEditProfile from "./components/StudentComponents/Profiles/StudentEditProfile";
 import MockInterview from "./components/StudentComponents/MockInterview/MockInterview";
 import JobDetails from "./components/StudentComponents/Jobs/JobDetails";
-import ResumeView from "./components/StudentComponents/ResumeView";
+import ResumeView from "./components/StudentComponents/Resume/ResumeView";
 
 import RecruiterDashboard from "./pages/RecruiterPages/RecruiterDashboard";
 import RecruiterEditProfile from "./components/RecruiterComponents/Profiles/RecruiterEditProfile";

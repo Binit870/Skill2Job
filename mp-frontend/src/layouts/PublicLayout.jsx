@@ -1,4 +1,4 @@
-import Navbar from "../pages/Navbar";
+import Navbar from "../pages/routes/Navbar";
 import { Outlet, useLocation } from "react-router-dom";
 
 export default function PublicLayout() {

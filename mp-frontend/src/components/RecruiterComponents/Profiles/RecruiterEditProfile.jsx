@@ -70,14 +70,14 @@ const InputField = ({ icon: Icon, label, name, placeholder, value, onChange }) =
         }}
         onFocus={(e) => {
           e.target.style.borderColor = "#059669";
-          e.target.style.boxShadow   = "0 0 0 3px rgba(5,150,105,0.09)";
-          e.target.style.background  = "#fff";
+          e.target.style.boxShadow = "0 0 0 3px rgba(5,150,105,0.09)";
+          e.target.style.background = "#fff";
           e.target.previousSibling.style.color = "#059669";
         }}
         onBlur={(e) => {
           e.target.style.borderColor = "#e5e7eb";
-          e.target.style.boxShadow   = "none";
-          e.target.style.background  = "#f9fafb";
+          e.target.style.boxShadow = "none";
+          e.target.style.background = "#f9fafb";
           e.target.previousSibling.style.color = "#9ca3af";
         }}
       />
@@ -106,19 +106,19 @@ const SectionLabel = ({ label }) => (
 ───────────────────────────────────────── */
 const RecruiterEditProfile = () => {
   const { refreshUser } = useContext(AuthContext);
-  const navigate        = useNavigate();
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     companyName: "", companyWebsite: "", companyDescription: "",
-    industry: "",    companyLocation: "",  companyLogo: "",
+    industry: "", companyLocation: "", companyLogo: "",
   });
 
-  const [loading, setLoading]                     = useState(false);
-  const [imageSrc, setImageSrc]                   = useState(null);
-  const [croppedImage, setCroppedImage]           = useState(null);
-  const [cropModalOpen, setCropModalOpen]         = useState(false);
-  const [crop, setCrop]                           = useState({ x: 0, y: 0 });
-  const [zoom, setZoom]                           = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [imageSrc, setImageSrc] = useState(null);
+  const [croppedImage, setCroppedImage] = useState(null);
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
   useEffect(() => { fetchProfile(); }, []);
@@ -130,12 +130,12 @@ const RecruiterEditProfile = () => {
       });
       const user = res.data;
       setForm({
-        companyName:        user.companyName        || "",
-        companyWebsite:     user.companyWebsite     || "",
+        companyName: user.companyName || "",
+        companyWebsite: user.companyWebsite || "",
         companyDescription: user.companyDescription || "",
-        industry:           user.industry           || "",
-        companyLocation:    user.companyLocation    || "",
-        companyLogo:        user.companyLogo        || "",
+        industry: user.industry || "",
+        companyLocation: user.companyLocation || "",
+        companyLogo: user.companyLogo || "",
       });
     } catch (error) { toast.error("Failed to load profile"); }
   };
@@ -159,9 +159,9 @@ const RecruiterEditProfile = () => {
     image.src = imageSrc;
     await new Promise((resolve) => (image.onload = resolve));
     const canvas = document.createElement("canvas");
-    const ctx    = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
     const { width, height, x, y } = croppedAreaPixels;
-    canvas.width  = width;
+    canvas.width = width;
     canvas.height = height;
     ctx.drawImage(image, x, y, width, height, 0, 0, width, height);
     return new Promise((resolve) => { canvas.toBlob((blob) => resolve(blob), "image/jpeg"); });
@@ -184,11 +184,11 @@ const RecruiterEditProfile = () => {
     try {
       setLoading(true);
       const formData = new FormData();
-      formData.append("companyName",        form.companyName);
-      formData.append("companyWebsite",     form.companyWebsite);
+      formData.append("companyName", form.companyName);
+      formData.append("companyWebsite", form.companyWebsite);
       formData.append("companyDescription", form.companyDescription);
-      formData.append("industry",           form.industry);
-      formData.append("companyLocation",    form.companyLocation);
+      formData.append("industry", form.industry);
+      formData.append("companyLocation", form.companyLocation);
       if (croppedImage) formData.append("companyLogo", croppedImage, "logo.jpg");
       await axios.put("http://localhost:5000/api/profile/recruiter", formData, {
         headers: {
@@ -373,10 +373,10 @@ const RecruiterEditProfile = () => {
 
           <form onSubmit={handleSubmit} style={{ marginTop: 20 }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
-              <InputField icon={RiBuildingLine}  label="Company Name" name="companyName"     placeholder="Acme Corp"            value={form.companyName}     onChange={handleChange} />
-              <InputField icon={RiGlobalLine}    label="Website"      name="companyWebsite"  placeholder="https://acme.com"     value={form.companyWebsite}  onChange={handleChange} />
-              <InputField icon={RiBriefcaseLine} label="Industry"     name="industry"        placeholder="Software / Finance"   value={form.industry}        onChange={handleChange} />
-              <InputField icon={RiMapPinLine}    label="Location"     name="companyLocation" placeholder="Bengaluru, India"     value={form.companyLocation} onChange={handleChange} />
+              <InputField icon={RiBuildingLine} label="Company Name" name="companyName" placeholder="Acme Corp" value={form.companyName} onChange={handleChange} />
+              <InputField icon={RiGlobalLine} label="Website" name="companyWebsite" placeholder="https://acme.com" value={form.companyWebsite} onChange={handleChange} />
+              <InputField icon={RiBriefcaseLine} label="Industry" name="industry" placeholder="Software / Finance" value={form.industry} onChange={handleChange} />
+              <InputField icon={RiMapPinLine} label="Location" name="companyLocation" placeholder="Bengaluru, India" value={form.companyLocation} onChange={handleChange} />
             </div>
 
             <SectionLabel label="About" />
@@ -415,13 +415,13 @@ const RecruiterEditProfile = () => {
                   }}
                   onFocus={(e) => {
                     e.target.style.borderColor = "#059669";
-                    e.target.style.boxShadow   = "0 0 0 3px rgba(5,150,105,0.09)";
-                    e.target.style.background  = "#fff";
+                    e.target.style.boxShadow = "0 0 0 3px rgba(5,150,105,0.09)";
+                    e.target.style.background = "#fff";
                   }}
                   onBlur={(e) => {
                     e.target.style.borderColor = "#e5e7eb";
-                    e.target.style.boxShadow   = "none";
-                    e.target.style.background  = "#f9fafb";
+                    e.target.style.boxShadow = "none";
+                    e.target.style.background = "#f9fafb";
                   }}
                 />
               </div>

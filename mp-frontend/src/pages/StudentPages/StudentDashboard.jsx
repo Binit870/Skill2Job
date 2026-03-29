@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import JobDetails from "../../components/StudentComponents/Jobs/JobDetails";
 import {
   TrendingUp,
   DollarSign,
@@ -35,7 +36,7 @@ function Button({ children, variant = "primary", className = "", ...props }) {
 /* MAIN */
 export default function StudentDashboard() {
   const navigate = useNavigate();
-
+  const [selectedJob, setSelectedJob] = useState(null);
   const [user, setUser] = useState(null);
   const [jobs, setJobs] = useState([]);
   const [applications, setApplications] = useState([]);
@@ -45,19 +46,18 @@ export default function StudentDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [profile, jobsRes, appRes, analysisRes] = await Promise.all([
-          API.get("/api/profile/student"),
-          API.get("/api/jobs"),
-          API.get("/api/applications/my"),
-          API.get("/api/resume/latest").catch(() => null),
+        const [profile, jobsRes, appRes] = await Promise.all([
+          API.get("/api/profile"),
+          API.get("/api/jobs").catch(() => ({ data: { data: [] } })),
+          API.get("/api/applications/my").catch(() => ({ data: { data: [] } })),
         ]);
 
         setUser(profile.data);
         setJobs(jobsRes.data.data || []);
         setApplications(appRes.data.data || []);
-        if (analysisRes?.data) setAnalysis(analysisRes.data.data);
+
       } catch (err) {
-        console.error(err);
+        console.error("Fetch error:", err.response?.data || err.message);
       } finally {
         setLoading(false);
       }
@@ -271,10 +271,14 @@ export default function StudentDashboard() {
                             </span>
                           </div>
                         </div>
-                        <Button className="shrink-0 flex items-center gap-1.5 group-hover:bg-[#0a3525]">
+                        <Button
+                          onClick={() => setSelectedJob(job)}
+                          className="shrink-0 flex items-center gap-1.5 group-hover:bg-[#0a3525]"
+                        >
                           Apply
                           <ArrowRight className="w-3.5 h-3.5" />
                         </Button>
+                        
                       </div>
                     </motion.div>
                   ))}
@@ -358,6 +362,9 @@ export default function StudentDashboard() {
 
         </div>
       </div>
+      {selectedJob && (
+        <JobDetails job={selectedJob} onClose={() => setSelectedJob(null)} />
+      )}
     </div>
   );
 }
@@ -394,6 +401,7 @@ function SubScore({ label, value }) {
           style={{ width: `${value}%` }}
         />
       </div>
+
     </div>
   );
 }
