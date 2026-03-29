@@ -4,102 +4,152 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Cropper from "react-easy-crop";
 import { AuthContext } from "../../../context/AuthContext";
+import {
+  RiUserLine,
+  RiMailLine,
+  RiPhoneLine,
+  RiBuildingLine,
+  RiBookOpenLine,
+  RiCalendarLine,
+  RiStarLine,
+  RiCodeLine,
+  RiFileTextLine,
+  RiImageAddLine,
+  RiCloseLine,
+  RiArrowRightLine,
+  RiArrowLeftLine,
+  RiCheckLine,
+} from "react-icons/ri";
 
+/* ── Google Font inject ── */
+const fontLink = document.createElement("link");
+fontLink.href =
+  "https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap";
+fontLink.rel = "stylesheet";
+if (!document.head.querySelector(`link[href="${fontLink.href}"]`)) {
+  document.head.appendChild(fontLink);
+}
+
+/* ─────────────────────────────────────────
+   STEP META
+───────────────────────────────────────── */
+const STEPS = [
+  { label: "Photo",           icon: RiImageAddLine,  field: null },
+  { label: "Full Name",       icon: RiUserLine,      field: "name" },
+  { label: "Email",           icon: RiMailLine,      field: "email" },
+  { label: "Phone",           icon: RiPhoneLine,     field: "phone" },
+  { label: "College",         icon: RiBuildingLine,  field: "college" },
+  { label: "Branch",          icon: RiBookOpenLine,  field: "branch" },
+  { label: "Grad. Year",      icon: RiCalendarLine,  field: "graduationYear" },
+  { label: "CGPA",            icon: RiStarLine,      field: "cgpa" },
+  { label: "Skills",          icon: RiCodeLine,      field: "skills" },
+  { label: "Resume",          icon: RiFileTextLine,  field: null },
+];
+
+const PLACEHOLDERS = {
+  name: "e.g. Arjun Sharma",
+  email: "arjun@email.com",
+  phone: "+91 9876543210",
+  college: "e.g. IIT Bombay",
+  branch: "e.g. Computer Science",
+  graduationYear: "e.g. 2026",
+  cgpa: "e.g. 8.5",
+  skills: "React, Node.js, Python…",
+};
+
+/* ── Reusable step input ── */
+const StepInput = ({ name, value, onChange, placeholder, icon: Icon, type = "text" }) => (
+  <div style={{ position: "relative" }}>
+    <div style={{
+      position: "absolute", left: 14, top: "50%",
+      transform: "translateY(-50%)",
+      color: "#9ca3af", pointerEvents: "none",
+    }}>
+      <Icon size={16} />
+    </div>
+    <input
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      style={{
+        width: "100%", paddingLeft: 40, paddingRight: 16,
+        paddingTop: 14, paddingBottom: 14,
+        background: "#f9fafb",
+        border: "1.5px solid #e5e7eb",
+        borderRadius: 12,
+        fontSize: 15, color: "#111827",
+        outline: "none",
+        fontFamily: "'Sora', sans-serif",
+        transition: "border-color 0.2s, box-shadow 0.2s, background 0.2s",
+        boxSizing: "border-box",
+      }}
+      onFocus={(e) => {
+        e.target.style.borderColor = "#059669";
+        e.target.style.boxShadow   = "0 0 0 3px rgba(5,150,105,0.08)";
+        e.target.style.background  = "#fff";
+        e.target.previousSibling.style.color = "#059669";
+      }}
+      onBlur={(e) => {
+        e.target.style.borderColor = "#e5e7eb";
+        e.target.style.boxShadow   = "none";
+        e.target.style.background  = "#f9fafb";
+        e.target.previousSibling.style.color = "#9ca3af";
+      }}
+    />
+  </div>
+);
+
+/* ─────────────────────────────────────────
+   MAIN COMPONENT
+───────────────────────────────────────── */
 const StudentProfile = () => {
-
   const navigate = useNavigate();
   const { refreshUser } = useContext(AuthContext);
 
-  const [step, setStep] = useState(0);
-
-  const steps = [
-    "Profile Image",
-    "Name",
-    "Email",
-    "Phone",
-    "College",
-    "Branch",
-    "Graduation Year",
-    "CGPA",
-    "Skills",
-    "Resume"
-  ];
-
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    college: "",
-    branch: "",
-    graduationYear: "",
-    cgpa: "",
-    skills: "",
-    profileImage: "",
-    resume: ""
+  const [step, setStep]   = useState(0);
+  const [form, setForm]   = useState({
+    name: "", email: "", phone: "", college: "", branch: "",
+    graduationYear: "", cgpa: "", skills: "", profileImage: "", resume: "",
   });
-
-  const [resumeFile, setResumeFile] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const [imageSrc, setImageSrc] = useState(null);
-  const [croppedImage, setCroppedImage] = useState(null);
-  const [cropModalOpen, setCropModalOpen] = useState(false);
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
+  const [resumeFile, setResumeFile]               = useState(null);
+  const [loading, setLoading]                     = useState(false);
+  const [imageSrc, setImageSrc]                   = useState(null);
+  const [croppedImage, setCroppedImage]           = useState(null);
+  const [cropModalOpen, setCropModalOpen]         = useState(false);
+  const [crop, setCrop]                           = useState({ x: 0, y: 0 });
+  const [zoom, setZoom]                           = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
-  useEffect(() => {
-    fetchProfile();
-  }, []);
+  useEffect(() => { fetchProfile(); }, []);
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5000/api/profile",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        }
-      );
-
-      const user = res.data;
-
-      setForm({
-        name: user.name || "",
-        email: user.email || "",
-        phone: user.phone || "",
-        college: user.college || "",
-        branch: user.branch || "",
-        graduationYear: user.graduationYear || "",
-        cgpa: user.cgpa || "",
-        skills: user.skills?.join(", ") || "",
-        profileImage: user.profileImage || "",
-        resume: user.resume || ""
+      const res = await axios.get("http://localhost:5000/api/profile", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-
-    } catch (error) {
-      console.error(error);
-    }
+      const user = res.data;
+      setForm({
+        name: user.name || "", email: user.email || "", phone: user.phone || "",
+        college: user.college || "", branch: user.branch || "",
+        graduationYear: user.graduationYear || "", cgpa: user.cgpa || "",
+        skills: user.skills?.join(", ") || "",
+        profileImage: user.profileImage || "", resume: user.resume || "",
+      });
+    } catch (error) { console.error(error); }
   };
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
-
-  const next = () => step < steps.length - 1 && setStep(step + 1);
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const next = () => step < STEPS.length - 1 && setStep(step + 1);
   const prev = () => step > 0 && setStep(step - 1);
 
   const onFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.readAsDataURL(file);
-
-    reader.onload = () => {
-      setImageSrc(reader.result);
-      setCropModalOpen(true);
-    };
+    reader.onload = () => { setImageSrc(reader.result); setCropModalOpen(true); };
   };
 
   const onCropComplete = useCallback((_, croppedPixels) => {
@@ -109,22 +159,13 @@ const StudentProfile = () => {
   const createCroppedImage = async () => {
     const image = new Image();
     image.src = imageSrc;
-
-    await new Promise(resolve => image.onload = resolve);
-
+    await new Promise((resolve) => (image.onload = resolve));
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-
     const { width, height, x, y } = croppedAreaPixels;
-
-    canvas.width = width;
-    canvas.height = height;
-
+    canvas.width = width; canvas.height = height;
     ctx.drawImage(image, x, y, width, height, 0, 0, width, height);
-
-    return new Promise((resolve) => {
-      canvas.toBlob((blob) => resolve(blob), "image/jpeg");
-    });
+    return new Promise((resolve) => { canvas.toBlob((blob) => resolve(blob), "image/jpeg"); });
   };
 
   const handleSaveCrop = async () => {
@@ -136,66 +177,30 @@ const StudentProfile = () => {
   const handleRemoveImage = () => {
     setCroppedImage(null);
     setImageSrc(null);
+    setForm({ ...form, profileImage: "" });
   };
 
-  // ✅ FIX: handleSubmit is now called explicitly from the Finish button only
   const handleSubmit = async () => {
-    if (
-      !form.name ||
-      !form.email ||
-      !form.phone ||
-      !form.college ||
-      !form.branch ||
-      !form.graduationYear ||
-      !form.cgpa ||
-      !form.skills ||
-      !resumeFile
-    ) {
-      return;
-    }
-
     try {
       setLoading(true);
-
       const formData = new FormData();
-
-      formData.append("name", form.name);
-      formData.append("email", form.email);
-      formData.append("phone", form.phone);
-      formData.append("college", form.college);
-      formData.append("branch", form.branch);
-      formData.append("graduationYear", form.graduationYear);
-      formData.append("cgpa", form.cgpa);
-
-      form.skills
-        .split(",")
-        .map((s) => s.trim())
-        .filter((s) => s !== "")
-        .forEach((skill) => formData.append("skills[]", skill));
-
-      if (croppedImage) {
-        formData.append("profileImage", croppedImage, "profile.jpg");
-      }
-
-      if (resumeFile) {
-        formData.append("resume", resumeFile);
-      }
-
-      await axios.put(
-        "http://localhost:5000/api/profile/student",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "multipart/form-data"
-          }
-        }
+      ["name", "email", "phone", "college", "branch", "graduationYear", "cgpa"].forEach(k =>
+        formData.append(k, form[k])
       );
-
+      form.skills.split(",").map(s => s.trim()).filter(Boolean).forEach(s =>
+        formData.append("skills[]", s)
+      );
+      if (croppedImage) formData.append("profileImage", croppedImage, "profile.jpg");
+      if (resumeFile)   formData.append("resume", resumeFile);
+      await axios.put("http://localhost:5000/api/profile/student", formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       await refreshUser();
       toast.success("Profile created!");
       navigate("/student-dashboard");
-
     } catch (error) {
       toast.error("Update failed");
     } finally {
@@ -203,184 +208,349 @@ const StudentProfile = () => {
     }
   };
 
+  const profileSrc = croppedImage
+    ? URL.createObjectURL(croppedImage)
+    : form.profileImage || null;
+
+  const isLastStep  = step === STEPS.length - 1;
+  const currentStep = STEPS[step];
+  const StepIcon    = currentStep.icon;
+
   return (
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex", justifyContent: "center", alignItems: "center",
+        padding: "40px 16px",
+        fontFamily: "'Sora', sans-serif",
+        background: "linear-gradient(135deg, #f0faf5 0%, #ffffff 50%, #e8f5ee 100%)",
+      }}
+    >
+      {/* Decorative blobs */}
+      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
+        <div style={{
+          position: "absolute", top: "-10%", right: "-5%",
+          width: 400, height: 400, borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)",
+        }} />
+        <div style={{
+          position: "absolute", bottom: "-5%", left: "-8%",
+          width: 350, height: 350, borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(5,150,105,0.06) 0%, transparent 70%)",
+        }} />
+      </div>
 
-    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 p-6">
+      <div
+        style={{
+          position: "relative", width: "100%", maxWidth: 520,
+          background: "#fff",
+          borderRadius: 24,
+          boxShadow: "0 24px 64px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04)",
+          border: "1px solid rgba(16,185,129,0.12)",
+          overflow: "hidden",
+        }}
+      >
+        {/* Top accent bar */}
+        <div style={{ height: 4, background: "linear-gradient(90deg, #059669, #34d399, #6ee7b7)" }} />
 
-      <div className="bg-white/90 backdrop-blur-lg shadow-2xl rounded-3xl w-full max-w-xl p-10 border border-gray-100">
+        <div style={{ padding: "32px 32px 32px" }}>
 
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">
-            Complete Your Profile
-          </h1>
-          <p className="text-gray-500 text-sm">
-            Help recruiters know more about you
-          </p>
-        </div>
+          {/* Header */}
+          <div style={{ textAlign: "center", marginBottom: 32 }}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", justifyContent: "center",
+              width: 52, height: 52, borderRadius: 16, marginBottom: 16,
+              background: "linear-gradient(135deg, #059669, #10b981)",
+              boxShadow: "0 8px 20px rgba(5,150,105,0.25)",
+            }}>
+              <RiUserLine size={24} color="#fff" />
+            </div>
+            <h1 style={{
+              fontFamily: "'Lora', serif",
+              fontSize: 24, fontWeight: 600, color: "#111827",
+              letterSpacing: "-0.02em", margin: "0 0 4px",
+            }}>
+              Build Your Profile
+            </h1>
+            <p style={{ fontSize: 13, color: "#9ca3af", margin: 0 }}>
+              Step {step + 1} of {STEPS.length} — {currentStep.label}
+            </p>
+          </div>
 
-        <div className="flex items-center gap-2 mb-8">
-          {steps.map((_, i) => (
-            <div
-              key={i}
-              className={`flex-1 h-2 rounded-full transition ${i <= step ? "bg-purple-600" : "bg-gray-200"}`}
-            />
-          ))}
-        </div>
+          {/* Progress bar */}
+          <div style={{ display: "flex", gap: 6, marginBottom: 32 }}>
+            {STEPS.map((_, i) => (
+              <div key={i} style={{ flex: 1 }}>
+                <div style={{
+                  width: "100%", height: 3, borderRadius: 4,
+                  background: i <= step
+                    ? "linear-gradient(90deg, #059669, #10b981)"
+                    : "#e5e7eb",
+                  transition: "background 0.3s ease",
+                }} />
+              </div>
+            ))}
+          </div>
 
-        <h2 className="text-xl font-semibold text-center mb-6">
-          {steps[step]}
-        </h2>
+          {/* Step label pill */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 24 }}>
+            <div style={{
+              width: 32, height: 32, borderRadius: 10,
+              background: "rgba(5,150,105,0.08)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              flexShrink: 0,
+            }}>
+              <StepIcon size={16} color="#059669" />
+            </div>
+            <span style={{ fontSize: 13.5, fontWeight: 600, color: "#374151", letterSpacing: "0.01em" }}>
+              {currentStep.label}
+            </span>
+          </div>
 
-        {/* ✅ FIX: form has no onSubmit — prevents any accidental submission.
-            All buttons are type="button" so pressing Enter won't trigger submit. */}
-        <form
-          noValidate
-          onSubmit={(e) => e.preventDefault()}
-          className="space-y-6"
-        >
+          {/* Step Content */}
+          <div style={{ minHeight: 160 }}>
 
-          {step === 0 && (
-            <div className="text-center space-y-5">
-
-              <label className="block border-2 border-dashed border-gray-300 rounded-xl p-6 cursor-pointer hover:border-purple-500 transition">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={onFileChange}
-                  className="hidden"
-                />
-                <p className="text-gray-500 text-sm">
-                  Click to upload profile picture
-                </p>
-              </label>
-
-              {!croppedImage && form.profileImage && (
-                <img
-                  src={form.profileImage}
-                  alt="Profile"
-                  className="w-32 h-32 rounded-full object-cover mx-auto border-4 border-purple-500 shadow"
-                />
-              )}
-
-              {croppedImage && (
-                <div className="space-y-3">
-                  <img
-                    src={URL.createObjectURL(croppedImage)}
-                    alt="Preview"
-                    className="w-32 h-32 rounded-full object-cover mx-auto border-4 border-purple-500 shadow"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleRemoveImage}
-                    className="text-red-500 text-sm"
+            {/* STEP 0 — Photo */}
+            {step === 0 && (
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
+                {profileSrc ? (
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+                    <div style={{
+                      width: 112, height: 112, borderRadius: "50%",
+                      border: "3px solid #10b981",
+                      boxShadow: "0 8px 24px rgba(16,185,129,0.2)",
+                      overflow: "hidden",
+                    }}>
+                      <img src={profileSrc} alt="Profile" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleRemoveImage}
+                      style={{
+                        display: "flex", alignItems: "center", gap: 6,
+                        fontSize: 12, fontWeight: 500, color: "#ef4444",
+                        background: "none", border: "none", cursor: "pointer",
+                        fontFamily: "'Sora', sans-serif",
+                      }}
+                    >
+                      <RiCloseLine size={14} />
+                      Remove photo
+                    </button>
+                  </div>
+                ) : (
+                  <label
+                    style={{
+                      width: "100%", padding: "36px 24px",
+                      border: "2px dashed #d1fae5",
+                      borderRadius: 16,
+                      background: "rgba(5,150,105,0.02)",
+                      cursor: "pointer",
+                      display: "flex", flexDirection: "column",
+                      alignItems: "center", gap: 10,
+                      transition: "border-color 0.2s",
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.borderColor = "#10b981"}
+                    onMouseLeave={(e) => e.currentTarget.style.borderColor = "#d1fae5"}
                   >
-                    Remove
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
+                    <input type="file" accept="image/*" onChange={onFileChange} style={{ display: "none" }} />
+                    <div style={{
+                      width: 48, height: 48, borderRadius: 14,
+                      background: "rgba(5,150,105,0.08)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                    }}>
+                      <RiImageAddLine size={22} color="#059669" />
+                    </div>
+                    <div style={{ textAlign: "center" }}>
+                      <p style={{ fontSize: 13.5, fontWeight: 600, color: "#374151", margin: 0 }}>
+                        Upload Profile Photo
+                      </p>
+                      <p style={{ fontSize: 12, color: "#9ca3af", marginTop: 4 }}>
+                        PNG, JPG up to 5MB
+                      </p>
+                    </div>
+                  </label>
+                )}
+              </div>
+            )}
 
-          {step === 1 && (
-            <Input label="Full Name" name="name" value={form.name} onChange={handleChange} />
-          )}
-
-          {step === 2 && (
-            <Input label="Email" name="email" value={form.email} onChange={handleChange} />
-          )}
-
-          {step === 3 && (
-            <Input label="Phone Number" name="phone" value={form.phone} onChange={handleChange} />
-          )}
-
-          {step === 4 && (
-            <Input label="College Name" name="college" value={form.college} onChange={handleChange} />
-          )}
-
-          {step === 5 && (
-            <Input label="Branch" name="branch" value={form.branch} onChange={handleChange} />
-          )}
-
-          {step === 6 && (
-            <Input label="Graduation Year" name="graduationYear" value={form.graduationYear} onChange={handleChange} />
-          )}
-
-          {step === 7 && (
-            <Input label="CGPA" name="cgpa" value={form.cgpa} onChange={handleChange} />
-          )}
-
-          {step === 8 && (
-            <Input label="Skills (comma separated)" name="skills" value={form.skills} onChange={handleChange} />
-          )}
-
-          {step === 9 && (
-            <div className="space-y-3">
-              <label className="block text-sm font-medium text-gray-700">
-                Upload Resume
-              </label>
-              <input
-                type="file"
-                accept=".pdf,.doc,.docx"
-                onChange={(e) => setResumeFile(e.target.files[0])}
-                className="w-full border border-gray-300 rounded-lg px-4 py-3"
+            {/* STEPS 1–8 — Text inputs */}
+            {step >= 1 && step <= 8 && currentStep.field && (
+              <StepInput
+                name={currentStep.field}
+                value={form[currentStep.field]}
+                onChange={handleChange}
+                placeholder={PLACEHOLDERS[currentStep.field]}
+                icon={StepIcon}
+                type={["graduationYear", "cgpa"].includes(currentStep.field) ? "number" : "text"}
               />
-            </div>
-          )}
+            )}
 
-          <div className="flex items-center justify-between pt-6">
+            {/* STEP 9 — Resume */}
+            {step === 9 && (
+              <div>
+                <label
+                  style={{
+                    width: "100%", padding: "28px 24px",
+                    border: "2px dashed #d1fae5",
+                    borderRadius: 16,
+                    background: "rgba(5,150,105,0.02)",
+                    cursor: "pointer",
+                    display: "flex", flexDirection: "column",
+                    alignItems: "center", gap: 10,
+                    transition: "border-color 0.2s",
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.borderColor = "#10b981"}
+                  onMouseLeave={(e) => e.currentTarget.style.borderColor = "#d1fae5"}
+                >
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    onChange={(e) => { const f = e.target.files[0]; if (f) setResumeFile(f); }}
+                    style={{ display: "none" }}
+                  />
+                  <div style={{
+                    width: 48, height: 48, borderRadius: 14,
+                    background: "rgba(239,68,68,0.08)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <RiFileTextLine size={22} color="#ef4444" />
+                  </div>
+                  <div style={{ textAlign: "center" }}>
+                    <p style={{ fontSize: 13.5, fontWeight: 600, color: "#374151", margin: 0 }}>
+                      {resumeFile ? resumeFile.name : "Upload Resume (PDF)"}
+                    </p>
+                    <p style={{ fontSize: 12, color: "#9ca3af", marginTop: 4 }}>
+                      {resumeFile ? "✓ File selected" : "PDF files only, up to 10MB"}
+                    </p>
+                  </div>
+                </label>
+              </div>
+            )}
+          </div>
 
+          {/* Navigation */}
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            marginTop: 32, paddingTop: 24,
+            borderTop: "1px solid #f3f4f6",
+          }}>
+
+            {/* Back */}
             {step > 0 ? (
               <button
                 type="button"
                 onClick={prev}
-                className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition"
+                style={{
+                  width: 40, height: 40, borderRadius: 12,
+                  background: "#f3f4f6", border: "none",
+                  cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  transition: "background 0.2s",
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = "#e5e7eb"}
+                onMouseLeave={(e) => e.currentTarget.style.background = "#f3f4f6"}
               >
-                ←
+                <RiArrowLeftLine size={18} color="#374151" />
               </button>
             ) : <div />}
 
+            {/* Skip */}
             <button
               type="button"
               onClick={() => navigate("/student-dashboard")}
-              className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100 transition"
+              style={{
+                padding: "8px 18px", borderRadius: 10,
+                border: "1.5px solid #e5e7eb",
+                background: "transparent",
+                fontSize: 13, fontWeight: 500,
+                color: "#6b7280", cursor: "pointer",
+                fontFamily: "'Sora', sans-serif",
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#9ca3af";
+                e.currentTarget.style.color = "#374151";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#e5e7eb";
+                e.currentTarget.style.color = "#6b7280";
+              }}
             >
-              Skip
+              Skip for now
             </button>
 
-            {step < steps.length - 1 ? (
+            {/* Next / Finish */}
+            {!isLastStep ? (
               <button
                 type="button"
                 onClick={next}
-                className="p-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 transition"
+                style={{
+                  width: 40, height: 40, borderRadius: 12,
+                  background: "linear-gradient(135deg, #059669, #10b981)",
+                  border: "none", cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  boxShadow: "0 4px 12px rgba(5,150,105,0.3)",
+                  transition: "box-shadow 0.2s, transform 0.1s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = "0 6px 18px rgba(5,150,105,0.4)";
+                  e.currentTarget.style.transform = "translateY(-1px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = "0 4px 12px rgba(5,150,105,0.3)";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
               >
-                →
+                <RiArrowRightLine size={18} color="#fff" />
               </button>
             ) : (
-              // ✅ FIX: type="button" + onClick instead of type="submit"
               <button
                 type="button"
                 onClick={handleSubmit}
                 disabled={loading}
-                className="px-5 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition"
+                style={{
+                  padding: "10px 24px", borderRadius: 12,
+                  background: loading ? "#9ca3af" : "linear-gradient(135deg, #059669, #10b981)",
+                  border: "none", cursor: loading ? "not-allowed" : "pointer",
+                  color: "#fff", fontWeight: 600, fontSize: 14,
+                  display: "flex", alignItems: "center", gap: 8,
+                  fontFamily: "'Sora', sans-serif",
+                  boxShadow: loading ? "none" : "0 4px 14px rgba(5,150,105,0.35)",
+                  transition: "all 0.2s",
+                }}
               >
-                {loading ? "Saving..." : "Finish"}
+                <RiCheckLine size={16} />
+                {loading ? "Saving…" : "Finish Setup"}
               </button>
             )}
-
           </div>
-
-        </form>
+        </div>
       </div>
 
+      {/* ── Crop Modal ── */}
       {cropModalOpen && (
-        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
-          <div className="bg-white rounded-2xl p-6 w-[420px] shadow-xl space-y-4">
-
-            <h3 className="text-lg font-semibold text-center">
-              Crop your image
+        <div style={{
+          position: "fixed", inset: 0,
+          background: "rgba(0,0,0,0.75)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          zIndex: 50,
+        }}>
+          <div style={{
+            background: "#fff", borderRadius: 20, padding: 24,
+            width: 420, maxWidth: "90vw",
+            boxShadow: "0 32px 80px rgba(0,0,0,0.2)",
+          }}>
+            <h3 style={{
+              fontFamily: "'Lora', serif",
+              fontSize: 18, fontWeight: 600,
+              textAlign: "center", marginBottom: 16, color: "#111827",
+            }}>
+              Crop your photo
             </h3>
-
-            <div className="relative w-full h-64 bg-black rounded-lg overflow-hidden">
+            <div style={{
+              position: "relative", width: "100%", height: 256,
+              background: "#111827", borderRadius: 14, overflow: "hidden",
+            }}>
               <Cropper
                 image={imageSrc}
                 crop={crop}
@@ -392,42 +562,39 @@ const StudentProfile = () => {
                 onCropComplete={onCropComplete}
               />
             </div>
-
-            <div className="flex justify-between pt-3">
+            <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
               <button
                 type="button"
                 onClick={() => setCropModalOpen(false)}
-                className="px-4 py-2 bg-gray-300 rounded-lg"
+                style={{
+                  flex: 1, padding: "10px 0", borderRadius: 10,
+                  background: "#f3f4f6", border: "none",
+                  fontSize: 14, fontWeight: 500, color: "#374151",
+                  cursor: "pointer", fontFamily: "'Sora', sans-serif",
+                }}
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={handleSaveCrop}
-                className="px-4 py-2 bg-purple-600 text-white rounded-lg"
+                style={{
+                  flex: 1, padding: "10px 0", borderRadius: 10,
+                  background: "linear-gradient(135deg, #059669, #10b981)",
+                  border: "none", fontSize: 14, fontWeight: 600,
+                  color: "#fff", cursor: "pointer",
+                  fontFamily: "'Sora', sans-serif",
+                  boxShadow: "0 4px 12px rgba(5,150,105,0.3)",
+                }}
               >
-                Save
+                Save Photo
               </button>
             </div>
-
           </div>
         </div>
       )}
-
     </div>
   );
 };
-
-const Input = ({ label, ...props }) => (
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-2">
-      {label}
-    </label>
-    <input
-      className="w-full border border-gray-300 focus:border-purple-500 rounded-lg px-4 py-3 outline-none transition"
-      {...props}
-    />
-  </div>
-);
 
 export default StudentProfile;

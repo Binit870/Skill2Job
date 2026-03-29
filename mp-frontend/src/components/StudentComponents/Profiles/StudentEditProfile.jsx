@@ -5,26 +5,71 @@ import Cropper from "react-easy-crop";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import {
-  Phone, GraduationCap, BookOpen, Calendar, Star, Code,
-  Save, User, Mail, FileText, Upload, Eye, X, Camera,
-  ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCw,
-  Download, Share2, Maximize2, Minimize2, Printer,
-  Search, BookmarkPlus, ExternalLink, Copy, Check
-} from "lucide-react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import {
+  RiUserLine,
+  RiMailLine,
+  RiPhoneLine,
+  RiBuildingLine,
+  RiBookOpenLine,
+  RiCalendarLine,
+  RiStarLine,
+  RiCodeLine,
+  RiFileTextLine,
+  RiSaveLine,
+  RiCameraLine,
+  RiCloseLine,
+  RiArrowLeftLine,
+  RiEyeLine,
+  RiUploadLine,
+  RiDownloadLine,
+  RiExternalLinkLine,
+  RiPrinterLine,
+  RiShareLine,
+  RiFullscreenLine,
+  RiFullscreenExitLine,
+  RiArrowLeftSLine,
+  RiArrowRightSLine,
+  RiZoomInLine,
+  RiZoomOutLine,
+  RiRefreshLine,
+  RiBookmarkLine,
+  RiSearchLine,
+  RiCheckLine,
+  RiFileCopyLine,
+} from "react-icons/ri";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-const InputField = ({ icon: Icon, label, name, placeholder, type = "text", value, onChange }) => (
-  <div className="group">
-    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+/* ── Font injection ── */
+const fontLink = document.createElement("link");
+fontLink.href =
+  "https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap";
+fontLink.rel = "stylesheet";
+if (!document.head.querySelector(`link[href="${fontLink.href}"]`)) {
+  document.head.appendChild(fontLink);
+}
+
+/* ─────────────────────────────────────────
+   INPUTFIELD
+───────────────────────────────────────── */
+const InputField = ({ icon: Icon, label, name, placeholder, value, onChange, type = "text" }) => (
+  <div>
+    <label style={{
+      display: "block", fontSize: 11, fontWeight: 600,
+      color: "#6b7280", textTransform: "uppercase",
+      letterSpacing: "0.08em", marginBottom: 6,
+    }}>
       {label}
     </label>
-    <div className="relative">
-      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors">
-        <Icon size={16} />
+    <div style={{ position: "relative" }}>
+      <div style={{
+        position: "absolute", left: 13, top: "50%",
+        transform: "translateY(-50%)",
+        color: "#9ca3af", pointerEvents: "none",
+      }}>
+        <Icon size={15} />
       </div>
       <input
         type={type}
@@ -32,144 +77,163 @@ const InputField = ({ icon: Icon, label, name, placeholder, type = "text", value
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400
-          focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent focus:bg-white
-          transition-all duration-200"
+        style={{
+          width: "100%", paddingLeft: 38, paddingRight: 14,
+          paddingTop: 11, paddingBottom: 11,
+          background: "#f9fafb",
+          border: "1.5px solid #e5e7eb",
+          borderRadius: 10, fontSize: 13.5,
+          color: "#111827", outline: "none",
+          fontFamily: "'Sora', sans-serif",
+          transition: "border-color 0.2s, box-shadow 0.2s, background 0.2s",
+          boxSizing: "border-box",
+        }}
+        onFocus={(e) => {
+          e.target.style.borderColor = "#059669";
+          e.target.style.boxShadow = "0 0 0 3px rgba(5,150,105,0.09)";
+          e.target.style.background = "#fff";
+          e.target.previousSibling.style.color = "#059669";
+        }}
+        onBlur={(e) => {
+          e.target.style.borderColor = "#e5e7eb";
+          e.target.style.boxShadow = "none";
+          e.target.style.background = "#f9fafb";
+          e.target.previousSibling.style.color = "#9ca3af";
+        }}
       />
     </div>
   </div>
 );
 
-// ── Tooltip wrapper ──────────────────────────────────────────────────────────
-const Tip = ({ label, children }) => (
-  <div className="relative group/tip">
-    {children}
-    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-slate-900 text-white text-[11px] rounded-md
-      opacity-0 group-hover/tip:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 border border-white/10">
+/* ── Section Divider ── */
+const SectionLabel = ({ label }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "4px 0" }}>
+    <div style={{ flex: 1, height: 1, background: "#f0fdf4", borderTop: "1px solid #d1fae5" }} />
+    <span style={{
+      fontSize: 10.5, fontWeight: 700, color: "#6b7280",
+      textTransform: "uppercase", letterSpacing: "0.1em",
+    }}>
       {label}
-    </div>
+    </span>
+    <div style={{ flex: 1, height: 1, background: "#f0fdf4", borderTop: "1px solid #d1fae5" }} />
   </div>
 );
 
-// ── Icon button ──────────────────────────────────────────────────────────────
-const IconBtn = ({ onClick, disabled, children, className = "", variant = "ghost" }) => {
-  const base = "flex items-center justify-center rounded-lg transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed";
-  const variants = {
-    ghost: "w-8 h-8 text-white/70 hover:text-white hover:bg-white/10 active:bg-white/20",
-    accent: "w-8 h-8 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-400/10 active:bg-emerald-400/20",
-    danger: "w-8 h-8 text-red-400 hover:text-red-300 hover:bg-red-400/10",
-  };
-  return (
-    <button onClick={onClick} disabled={disabled} className={`${base} ${variants[variant]} ${className}`}>
-      {children}
-    </button>
-  );
-};
+/* ── PDF Icon Button ── */
+const IconBtn = ({ onClick, disabled, children, accent = false }) => (
+  <button
+    onClick={onClick}
+    disabled={disabled}
+    style={{
+      width: 32, height: 32,
+      display: "flex", alignItems: "center", justifyContent: "center",
+      borderRadius: 8, border: "none",
+      background: "transparent",
+      color: accent ? "#34d399" : "rgba(255,255,255,0.6)",
+      cursor: disabled ? "not-allowed" : "pointer",
+      opacity: disabled ? 0.3 : 1,
+      transition: "all 0.15s",
+      fontFamily: "'Sora', sans-serif",
+    }}
+    onMouseEnter={(e) => {
+      if (!disabled) {
+        e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+        e.currentTarget.style.color = accent ? "#6ee7b7" : "#fff";
+      }
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.background = "transparent";
+      e.currentTarget.style.color = accent ? "#34d399" : "rgba(255,255,255,0.6)";
+    }}
+  >
+    {children}
+  </button>
+);
 
-// ── Share modal ──────────────────────────────────────────────────────────────
+/* ── Share Modal ── */
 const ShareModal = ({ url, onClose }) => {
   const [copied, setCopied] = useState(false);
-
   const copyLink = async () => {
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch {
-      toast.error("Could not copy");
-    }
+    } catch { toast.error("Could not copy"); }
   };
-
-  const shareOptions = [
-    { label: "Copy link", icon: copied ? Check : Copy, action: copyLink, color: "emerald" },
-    { label: "Open in tab", icon: ExternalLink, action: () => window.open(url, "_blank"), color: "blue" },
-    { label: "Print", icon: Printer, action: () => window.open(url, "_blank")?.print(), color: "amber" },
-  ];
-
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm"
-      onClick={onClose}>
-      <div className="bg-slate-800 border border-white/10 rounded-2xl p-6 w-80 shadow-2xl"
-        onClick={e => e.stopPropagation()}>
-        <div className="flex items-center justify-between mb-5">
-          <h3 className="text-white font-semibold text-sm">Share Resume</h3>
-          <button onClick={onClose} className="text-white/40 hover:text-white transition-colors">
-            <X size={16} />
+    <div
+      style={{
+        position: "fixed", inset: 0, zIndex: 60,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)",
+      }}
+      onClick={onClose}
+    >
+      <div
+        style={{
+          background: "#1e293b", border: "1px solid rgba(255,255,255,0.1)",
+          borderRadius: 20, padding: 24, width: 320,
+          boxShadow: "0 32px 80px rgba(0,0,0,0.4)",
+        }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+          <h3 style={{ color: "#fff", fontSize: 14, fontWeight: 600, margin: 0, fontFamily: "'Sora', sans-serif" }}>
+            Share Resume
+          </h3>
+          <button onClick={onClose} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.4)", cursor: "pointer" }}>
+            <RiCloseLine size={16} />
           </button>
         </div>
-
-        {/* URL bar */}
-        <div className="flex items-center gap-2 bg-slate-900/60 border border-white/10 rounded-xl px-3 py-2.5 mb-4">
-          <span className="text-white/40 text-xs truncate flex-1 font-mono">{url?.slice(0, 45)}...</span>
-          <button onClick={copyLink}
-            className="text-xs text-emerald-400 hover:text-emerald-300 font-semibold shrink-0 transition-colors">
+        <div style={{
+          display: "flex", alignItems: "center", gap: 8,
+          background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.1)",
+          borderRadius: 12, padding: "10px 14px", marginBottom: 16,
+        }}>
+          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 11, flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "monospace" }}>
+            {url?.slice(0, 40)}...
+          </span>
+          <button onClick={copyLink} style={{
+            fontSize: 11, fontWeight: 600, color: "#34d399",
+            background: "none", border: "none", cursor: "pointer", flexShrink: 0,
+            fontFamily: "'Sora', sans-serif",
+          }}>
             {copied ? "Copied!" : "Copy"}
           </button>
         </div>
-
-        <div className="grid grid-cols-3 gap-3">
-          {shareOptions.map(({ label, icon: Icon, action, color }) => (
-            <button key={label} onClick={action}
-              className={`flex flex-col items-center gap-2 p-3 rounded-xl border border-white/10
-                hover:border-${color}-400/40 hover:bg-${color}-400/10 transition-all group`}>
-              <Icon size={18} className={`text-${color}-400 group-hover:scale-110 transition-transform`} />
-              <span className="text-white/60 text-[11px] font-medium">{label}</span>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+          {[
+            { label: "Copy link", icon: copied ? RiCheckLine : RiFileCopyLine, action: copyLink },
+            { label: "Open tab", icon: RiExternalLinkLine, action: () => window.open(url, "_blank") },
+            { label: "Print", icon: RiPrinterLine, action: () => window.open(url, "_blank")?.print() },
+          ].map(({ label, icon: Icon, action }) => (
+            <button
+              key={label}
+              onClick={action}
+              style={{
+                display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
+                padding: 12, borderRadius: 12,
+                border: "1px solid rgba(255,255,255,0.1)",
+                background: "transparent", cursor: "pointer",
+                color: "#34d399", transition: "all 0.15s",
+                fontFamily: "'Sora', sans-serif",
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = "rgba(52,211,153,0.1)"}
+              onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
+            >
+              <Icon size={18} />
+              <span style={{ color: "rgba(255,255,255,0.6)", fontSize: 10.5, fontWeight: 500 }}>{label}</span>
             </button>
           ))}
         </div>
-
-        {/* Native share if available */}
-        {typeof navigator.share === "function" && (
-          <button onClick={() => navigator.share({ title: "My Resume", url })}
-            className="w-full mt-3 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-colors">
-            Share via device
-          </button>
-        )}
       </div>
     </div>
   );
 };
 
-// ── Go-to-page input ─────────────────────────────────────────────────────────
-const PageJumper = ({ current, total, onJump }) => {
-  const [val, setVal] = useState("");
-  const [open, setOpen] = useState(false);
-
-  const submit = () => {
-    const n = parseInt(val);
-    if (n >= 1 && n <= total) { onJump(n); setOpen(false); setVal(""); }
-  };
-
-  if (!open) return (
-    <button onClick={() => setOpen(true)}
-      className="text-xs text-white/50 hover:text-white/80 transition-colors px-2 py-1 rounded-lg hover:bg-white/10">
-      {current} / {total}
-    </button>
-  );
-
-  return (
-    <div className="flex items-center gap-1">
-      <input
-        autoFocus
-        type="number"
-        value={val}
-        min={1}
-        max={total}
-        onChange={e => setVal(e.target.value)}
-        onKeyDown={e => { if (e.key === "Enter") submit(); if (e.key === "Escape") setOpen(false); }}
-        onBlur={() => { if (!val) setOpen(false); }}
-        className="w-14 text-center bg-white/10 border border-white/20 rounded-lg text-white text-xs py-1 outline-none focus:border-emerald-400"
-        placeholder={String(current)}
-      />
-      <span className="text-white/30 text-xs">/ {total}</span>
-      <button onClick={() => setOpen(false)} className="text-white/30 hover:text-white/60 ml-1">
-        <X size={12} />
-      </button>
-    </div>
-  );
-};
-
-// ── Main component ───────────────────────────────────────────────────────────
+/* ─────────────────────────────────────────
+   MAIN COMPONENT
+───────────────────────────────────────── */
 const StudentEditProfile = () => {
   const { refreshUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -179,37 +243,36 @@ const StudentEditProfile = () => {
     graduationYear: "", cgpa: "", skills: "", profileImage: "", resume: "",
   });
 
-  const [loading, setLoading] = useState(false);
-  const [imageSrc, setImageSrc] = useState(null);
-  const [croppedImage, setCroppedImage] = useState(null);
-  const [cropModalOpen, setCropModalOpen] = useState(false);
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
+  const [loading, setLoading]                     = useState(false);
+  const [imageSrc, setImageSrc]                   = useState(null);
+  const [croppedImage, setCroppedImage]           = useState(null);
+  const [cropModalOpen, setCropModalOpen]         = useState(false);
+  const [crop, setCrop]                           = useState({ x: 0, y: 0 });
+  const [zoom, setZoom]                           = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-  const [resumeFile, setResumeFile] = useState(null);
+  const [resumeFile, setResumeFile]               = useState(null);
 
-  // ── PDF viewer state ────────────────────────────────────────────────────────
-  const [showPdf, setShowPdf] = useState(false);
-  const [pdfSource, setPdfSource] = useState(null);
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [pdfError, setPdfError] = useState(false);
-  const [pdfZoom, setPdfZoom] = useState(1.0);
-  const [rotation, setRotation] = useState(0);
-  const [fullscreen, setFullscreen] = useState(false);
-  const [showShare, setShowShare] = useState(false);
-  const [bookmarked, setBookmarked] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
+  /* PDF viewer state */
+  const [showPdf, setShowPdf]         = useState(false);
+  const [pdfSource, setPdfSource]     = useState(null);
+  const [numPages, setNumPages]       = useState(null);
+  const [pageNumber, setPageNumber]   = useState(1);
+  const [pdfError, setPdfError]       = useState(false);
+  const [pdfZoom, setPdfZoom]         = useState(1.0);
+  const [rotation, setRotation]       = useState(0);
+  const [fullscreen, setFullscreen]   = useState(false);
+  const [showShare, setShowShare]     = useState(false);
+  const [bookmarked, setBookmarked]   = useState(false);
+  const [showSearch, setShowSearch]   = useState(false);
   const viewerRef = useRef(null);
 
   useEffect(() => { fetchProfile(); }, []);
 
-  // Keyboard shortcuts inside PDF viewer
   useEffect(() => {
     if (!showPdf) return;
     const handler = (e) => {
       if (e.key === "ArrowRight" || e.key === "ArrowDown") setPageNumber(p => Math.min(numPages || 1, p + 1));
-      if (e.key === "ArrowLeft" || e.key === "ArrowUp") setPageNumber(p => Math.max(1, p - 1));
+      if (e.key === "ArrowLeft"  || e.key === "ArrowUp")   setPageNumber(p => Math.max(1, p - 1));
       if (e.key === "+" || e.key === "=") setPdfZoom(z => Math.min(3, +(z + 0.25).toFixed(2)));
       if (e.key === "-") setPdfZoom(z => Math.max(0.5, +(z - 0.25).toFixed(2)));
       if (e.key === "Escape") closePdf();
@@ -278,35 +341,39 @@ const StudentEditProfile = () => {
     try {
       setLoading(true);
       const formData = new FormData();
-      ["name", "email", "phone", "college", "branch", "graduationYear", "cgpa"].forEach(k => formData.append(k, form[k]));
-      form.skills.split(",").map(s => s.trim()).filter(Boolean).forEach(s => formData.append("skills[]", s));
+      ["name", "email", "phone", "college", "branch", "graduationYear", "cgpa"].forEach(k =>
+        formData.append(k, form[k])
+      );
+      form.skills.split(",").map(s => s.trim()).filter(Boolean).forEach(s =>
+        formData.append("skills[]", s)
+      );
       if (croppedImage) formData.append("profileImage", croppedImage, "profile.jpg");
-      if (resumeFile) formData.append("resume", resumeFile);
+      if (resumeFile)   formData.append("resume", resumeFile);
       await axios.put("http://localhost:5000/api/profile/student", formData, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}`, "Content-Type": "multipart/form-data" },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
+        },
       });
       await refreshUser();
-      console.log("User after refresh:", JSON.parse(localStorage.getItem("user")));
       toast.success("Profile updated successfully");
       navigate("/student-dashboard");
     } catch { toast.error("Update failed. Try again."); }
     finally { setLoading(false); }
   };
 
-  // ── PDF controls ────────────────────────────────────────────────────────────
+  /* PDF controls */
   const openPdf = () => {
     setPageNumber(1); setNumPages(null);
     setPdfError(false); setPdfZoom(1.0);
     setRotation(0); setPdfSource(form.resume);
     setShowPdf(true);
   };
-
   const closePdf = () => {
     setShowPdf(false); setPdfSource(null);
     if (document.fullscreenElement) document.exitFullscreen();
     setFullscreen(false);
   };
-
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
       viewerRef.current?.requestFullscreen();
@@ -316,145 +383,344 @@ const StudentEditProfile = () => {
       setFullscreen(false);
     }
   };
-
-  const zoomIn = () => setPdfZoom(z => Math.min(3, +(z + 0.25).toFixed(2)));
+  const zoomIn  = () => setPdfZoom(z => Math.min(3, +(z + 0.25).toFixed(2)));
   const zoomOut = () => setPdfZoom(z => Math.max(0.5, +(z - 0.25).toFixed(2)));
   const resetZoom = () => setPdfZoom(1.0);
   const rotate = () => setRotation(r => (r + 90) % 360);
-
   const downloadPdf = () => {
     const a = document.createElement("a");
-    a.href = form.resume;
-    a.download = "resume.pdf";
-    a.target = "_blank";
-    a.click();
+    a.href = form.resume; a.download = "resume.pdf"; a.target = "_blank"; a.click();
   };
-
   const printPdf = () => {
     const w = window.open(form.resume, "_blank");
     w?.addEventListener("load", () => w.print());
   };
 
   const profileImageSrc = croppedImage ? URL.createObjectURL(croppedImage) : form.profileImage || null;
-
-  // ── Zoom label ──────────────────────────────────────────────────────────────
   const zoomLabel = Math.round(pdfZoom * 100) + "%";
 
   return (
-    <div className="min-h-screen bg-slate-100 flex justify-center items-start py-12 px-4">
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(150deg, #f0fdf9 0%, #ffffff 45%, #ecfdf5 100%)",
+        display: "flex", justifyContent: "center", alignItems: "flex-start",
+        padding: "40px 16px",
+        fontFamily: "'Sora', sans-serif",
+      }}
+    >
+      {/* Background blobs */}
+      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
+        <div style={{
+          position: "absolute", top: "-8%", right: "-4%",
+          width: 480, height: 480, borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(16,185,129,0.07) 0%, transparent 65%)",
+        }} />
+        <div style={{
+          position: "absolute", bottom: "-6%", left: "-6%",
+          width: 380, height: 380, borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(5,150,105,0.05) 0%, transparent 65%)",
+        }} />
+      </div>
 
-      <div className="fixed inset-0 opacity-10 pointer-events-none"
-        style={{ backgroundImage: "radial-gradient(circle at 20% 50%, #d1fae5 0%, transparent 50%), radial-gradient(circle at 80% 20%, #e0e7ff 0%, transparent 40%)" }}
-      />
+      <div
+        style={{
+          position: "relative", width: "100%", maxWidth: 640,
+          background: "#fff",
+          borderRadius: 24,
+          boxShadow: "0 20px 60px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04)",
+          border: "1px solid rgba(16,185,129,0.1)",
+          overflow: "hidden",
+        }}
+      >
+        {/* Top accent stripe */}
+        <div style={{ height: 4, background: "linear-gradient(90deg, #059669, #34d399, #a7f3d0)" }} />
 
-      <div className="relative bg-white shadow-xl rounded-3xl w-full max-w-2xl overflow-hidden border border-slate-100">
+        {/* Hero Banner */}
+        <div
+          style={{
+            height: 148,
+            background: "linear-gradient(135deg, #064e3b 0%, #065f46 55%, #047857 100%)",
+            position: "relative", overflow: "hidden",
+            display: "flex", alignItems: "center", padding: "0 32px", gap: 20,
+          }}
+        >
+          {/* Dot grid overlay */}
+          <div style={{
+            position: "absolute", inset: 0, opacity: 0.07,
+            backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+          }} />
+          {/* Glow orbs */}
+          <div style={{
+            position: "absolute", right: 40, top: -30,
+            width: 160, height: 160, borderRadius: "50%", opacity: 0.15,
+            background: "radial-gradient(circle, #6ee7b7, transparent 70%)",
+          }} />
+          <div style={{
+            position: "absolute", left: -20, bottom: -20,
+            width: 120, height: 120, borderRadius: "50%", opacity: 0.1,
+            background: "radial-gradient(circle, #34d399, transparent 70%)",
+          }} />
 
-        {/* Banner */}
-        <div className="h-36 relative flex items-center px-8 gap-5"
-          style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #134e4a 100%)" }}>
-          <div className="absolute inset-0 opacity-10 pointer-events-none"
-            style={{ backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
-          <div className="absolute right-8 top-0 w-40 h-40 rounded-full opacity-20 pointer-events-none"
-            style={{ background: "radial-gradient(circle, #34d399, transparent 70%)" }} />
-
-          <div className="relative z-10 flex-shrink-0">
-            <div className="w-20 h-20 rounded-2xl border-2 border-emerald-400/40 shadow-xl overflow-hidden bg-white/10">
-              {profileImageSrc
-                ? <img src={profileImageSrc} alt="Profile" className="w-full h-full object-cover" />
-                : <div className="w-full h-full flex items-center justify-center"><User size={28} className="text-white/50" /></div>}
+          {/* Avatar area */}
+          <div style={{ position: "relative", zIndex: 2, flexShrink: 0 }}>
+            <div style={{
+              width: 80, height: 80, borderRadius: 18,
+              border: "2px solid rgba(110,231,183,0.35)",
+              background: "rgba(255,255,255,0.1)",
+              backdropFilter: "blur(8px)",
+              overflow: "hidden",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
+            }}>
+              {profileImageSrc ? (
+                <img src={profileImageSrc} alt="Profile" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              ) : (
+                <RiUserLine size={30} color="rgba(255,255,255,0.4)" />
+              )}
             </div>
-            <label className="absolute -bottom-1 -right-1 w-6 h-6 bg-emerald-400 hover:bg-emerald-300 rounded-lg flex items-center justify-center cursor-pointer shadow-md transition-colors z-20">
-              <Camera size={12} className="text-slate-900" />
-              <input type="file" accept="image/*" onChange={onFileChange} className="hidden" />
+            {/* Camera badge */}
+            <label
+              title="Change photo"
+              style={{
+                position: "absolute", bottom: -4, right: -4,
+                width: 26, height: 26, borderRadius: 8,
+                background: "#10b981",
+                border: "2px solid #fff",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                cursor: "pointer",
+                boxShadow: "0 2px 8px rgba(5,150,105,0.4)",
+                transition: "background 0.2s", zIndex: 3,
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = "#059669"}
+              onMouseLeave={(e) => e.currentTarget.style.background = "#10b981"}
+            >
+              <RiCameraLine size={13} color="#fff" />
+              <input type="file" accept="image/*" onChange={onFileChange} style={{ display: "none" }} />
             </label>
           </div>
 
-          <div className="relative z-10 min-w-0">
-            <h2 className="text-xl font-bold text-white leading-tight truncate">{form.name || "Your Name"}</h2>
-            <p className="text-sm text-emerald-300/80 mt-0.5 truncate">{form.college || "College Name"}</p>
+          {/* Student identity */}
+          <div style={{ position: "relative", zIndex: 2, minWidth: 0, flex: 1 }}>
+            <h2 style={{
+              fontFamily: "'Lora', serif",
+              fontSize: 20, fontWeight: 600,
+              color: "#fff", margin: 0,
+              whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+            }}>
+              {form.name || "Your Name"}
+            </h2>
+            <p style={{ color: "#6ee7b7", fontSize: 13, margin: "4px 0 0", opacity: 0.85 }}>
+              {form.college || "College"}
+              {form.branch && ` · ${form.branch}`}
+            </p>
+            {profileImageSrc && (
+              <button
+                type="button"
+                onClick={handleRemoveImage}
+                style={{
+                  marginTop: 8,
+                  display: "inline-flex", alignItems: "center", gap: 4,
+                  fontSize: 11.5, color: "rgba(252,165,165,0.9)",
+                  background: "none", border: "none", cursor: "pointer",
+                  fontFamily: "'Sora', sans-serif", padding: 0,
+                }}
+              >
+                <RiCloseLine size={13} />
+                Remove photo
+              </button>
+            )}
           </div>
+
+          {/* Back button */}
+          <button
+            type="button"
+            onClick={() => navigate("/student-dashboard")}
+            style={{
+              position: "absolute", top: 14, right: 14, zIndex: 2,
+              width: 32, height: 32, borderRadius: 9,
+              background: "rgba(255,255,255,0.12)",
+              border: "1px solid rgba(255,255,255,0.2)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              cursor: "pointer", backdropFilter: "blur(4px)",
+            }}
+            title="Back to dashboard"
+          >
+            <RiArrowLeftLine size={16} color="#fff" />
+          </button>
         </div>
 
-        <div className="px-8 pb-8 pt-6">
-          <div className="flex items-center gap-2 mb-5">
-            <div className="h-px flex-1 bg-slate-100" />
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Personal Info</span>
-            <div className="h-px flex-1 bg-slate-100" />
-          </div>
+        {/* Form body */}
+        <div style={{ padding: "28px 32px 32px" }}>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <InputField icon={User} label="Full Name" name="name" placeholder="John Doe" value={form.name} onChange={handleChange} />
-              <InputField icon={Mail} label="Email" name="email" placeholder="john@email.com" value={form.email} onChange={handleChange} type="email" />
-              <InputField icon={Phone} label="Phone" name="phone" placeholder="+91 9876543210" value={form.phone} onChange={handleChange} />
-              <InputField icon={GraduationCap} label="College" name="college" placeholder="IIT Bombay" value={form.college} onChange={handleChange} />
-              <InputField icon={BookOpen} label="Branch" name="branch" placeholder="Computer Science" value={form.branch} onChange={handleChange} />
-              <InputField icon={Calendar} label="Graduation Year" name="graduationYear" placeholder="2025" value={form.graduationYear} onChange={handleChange} type="number" />
-              <InputField icon={Star} label="CGPA" name="cgpa" placeholder="8.5" value={form.cgpa} onChange={handleChange} />
-              <InputField icon={Code} label="Skills (comma sep.)" name="skills" placeholder="React, Node.js" value={form.skills} onChange={handleChange} />
+          <SectionLabel label="Personal Info" />
+
+          <form onSubmit={handleSubmit} style={{ marginTop: 20 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
+              <InputField icon={RiUserLine}     label="Full Name"        name="name"           placeholder="Arjun Sharma"       value={form.name}           onChange={handleChange} />
+              <InputField icon={RiMailLine}     label="Email"            name="email"          placeholder="arjun@email.com"    value={form.email}          onChange={handleChange} type="email" />
+              <InputField icon={RiPhoneLine}    label="Phone"            name="phone"          placeholder="+91 9876543210"     value={form.phone}          onChange={handleChange} />
+              <InputField icon={RiBuildingLine} label="College"          name="college"        placeholder="IIT Bombay"         value={form.college}        onChange={handleChange} />
+              <InputField icon={RiBookOpenLine} label="Branch"           name="branch"         placeholder="Computer Science"   value={form.branch}         onChange={handleChange} />
+              <InputField icon={RiCalendarLine} label="Graduation Year"  name="graduationYear" placeholder="2026"               value={form.graduationYear} onChange={handleChange} type="number" />
+              <InputField icon={RiStarLine}     label="CGPA"             name="cgpa"           placeholder="8.5"                value={form.cgpa}           onChange={handleChange} />
+              <InputField icon={RiCodeLine}     label="Skills (comma)"   name="skills"         placeholder="React, Node.js…"   value={form.skills}         onChange={handleChange} />
             </div>
 
-            {/* Resume */}
-            <div className="flex items-center gap-2 pt-1">
-              <div className="h-px flex-1 bg-slate-100" />
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Resume</span>
-              <div className="h-px flex-1 bg-slate-100" />
-            </div>
+            <SectionLabel label="Resume" />
 
-            <div className="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <FileText size={18} className="text-red-400" />
+            {/* Resume section */}
+            <div style={{
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              background: "#f9fafb", border: "1.5px solid #e5e7eb",
+              borderRadius: 12, padding: "14px 16px", marginTop: 14,
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{
+                  width: 40, height: 40, background: "#fef2f2",
+                  borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center",
+                  flexShrink: 0,
+                }}>
+                  <RiFileTextLine size={18} color="#f87171" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-slate-700">
+                  <p style={{ fontSize: 13, fontWeight: 600, color: "#374151", margin: 0 }}>
                     {resumeFile ? resumeFile.name : form.resume ? "Resume uploaded" : "No resume yet"}
                   </p>
                   {form.resume && !resumeFile && (
-                    <button type="button" onClick={openPdf}
-                      className="text-xs text-emerald-600 hover:text-emerald-800 font-medium flex items-center gap-1 mt-0.5 transition-colors">
-                      <Eye size={11} /> View Resume
+                    <button
+                      type="button"
+                      onClick={openPdf}
+                      style={{
+                        display: "flex", alignItems: "center", gap: 4,
+                        fontSize: 11.5, color: "#059669", fontWeight: 500,
+                        background: "none", border: "none", cursor: "pointer",
+                        marginTop: 2, padding: 0,
+                        fontFamily: "'Sora', sans-serif",
+                      }}
+                    >
+                      <RiEyeLine size={11} />
+                      View Resume
                     </button>
                   )}
-                  {resumeFile && <p className="text-xs text-emerald-600 font-medium mt-0.5">✓ Ready to upload</p>}
+                  {resumeFile && (
+                    <p style={{ fontSize: 11.5, color: "#059669", fontWeight: 500, margin: "2px 0 0" }}>
+                      ✓ Ready to upload
+                    </p>
+                  )}
                 </div>
               </div>
 
-              <label className="cursor-pointer flex items-center gap-1.5 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-semibold transition-all shadow-sm hover:shadow">
-                <Upload size={13} />
+              <label style={{
+                display: "flex", alignItems: "center", gap: 6,
+                padding: "8px 16px", borderRadius: 10,
+                background: "#fff", border: "1.5px solid #e5e7eb",
+                fontSize: 12, fontWeight: 600, color: "#374151",
+                cursor: "pointer",
+                fontFamily: "'Sora', sans-serif",
+                transition: "all 0.2s",
+                boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.borderColor = "#9ca3af"}
+              onMouseLeave={(e) => e.currentTarget.style.borderColor = "#e5e7eb"}
+              >
+                <RiUploadLine size={13} />
                 {form.resume ? "Replace" : "Upload PDF"}
-                <input type="file" accept=".pdf" onChange={e => { const f = e.target.files[0]; if (f) setResumeFile(f); }} className="hidden" />
+                <input
+                  type="file"
+                  accept=".pdf"
+                  onChange={e => { const f = e.target.files[0]; if (f) setResumeFile(f); }}
+                  style={{ display: "none" }}
+                />
               </label>
             </div>
 
-            <button type="submit" disabled={loading}
-              className="w-full flex items-center justify-center gap-2 text-white py-3 rounded-2xl font-semibold text-sm shadow-lg transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed mt-2"
-              style={{ background: "linear-gradient(135deg, #0f172a, #134e4a)" }}>
-              <Save size={16} />
-              {loading ? "Saving changes..." : "Save Profile"}
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={loading}
+              style={{
+                width: "100%", marginTop: 24,
+                padding: "13px 0",
+                borderRadius: 12,
+                background: loading
+                  ? "#d1d5db"
+                  : "linear-gradient(135deg, #064e3b, #059669)",
+                border: "none",
+                color: "#fff", fontSize: 14, fontWeight: 600,
+                cursor: loading ? "not-allowed" : "pointer",
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                fontFamily: "'Sora', sans-serif",
+                boxShadow: loading ? "none" : "0 6px 18px rgba(5,150,105,0.3)",
+                transition: "all 0.2s",
+                letterSpacing: "0.01em",
+              }}
+              onMouseEnter={(e) => {
+                if (!loading) {
+                  e.currentTarget.style.boxShadow = "0 8px 24px rgba(5,150,105,0.4)";
+                  e.currentTarget.style.transform = "translateY(-1px)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = "0 6px 18px rgba(5,150,105,0.3)";
+                e.currentTarget.style.transform = "translateY(0)";
+              }}
+            >
+              {loading ? (
+                <>
+                  <div style={{
+                    width: 14, height: 14, borderRadius: "50%",
+                    border: "2px solid rgba(255,255,255,0.4)",
+                    borderTopColor: "#fff",
+                    animation: "spin 0.7s linear infinite",
+                  }} />
+                  Saving changes…
+                </>
+              ) : (
+                <>
+                  <RiSaveLine size={16} />
+                  Save Profile
+                </>
+              )}
             </button>
           </form>
         </div>
       </div>
 
-      {/* ════════════════════════════════════════════════════════════════════════
+      {/* ════════════════════════════════════════
           PDF VIEWER MODAL
-      ════════════════════════════════════════════════════════════════════════ */}
+      ════════════════════════════════════════ */}
       {showPdf && (
-        <div ref={viewerRef} className="fixed inset-0 z-50 flex flex-col" style={{ background: "#0c111d" }}>
-
-          {/* ── Top toolbar ── */}
-          <div className="flex items-center justify-between px-4 py-2.5 flex-shrink-0 border-b border-white/8"
-            style={{ background: "rgba(15,23,42,0.95)", backdropFilter: "blur(12px)" }}>
-
+        <div
+          ref={viewerRef}
+          style={{
+            position: "fixed", inset: 0, zIndex: 50,
+            display: "flex", flexDirection: "column",
+            background: "#0c111d",
+          }}
+        >
+          {/* Top toolbar */}
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            padding: "10px 16px", flexShrink: 0,
+            borderBottom: "1px solid rgba(255,255,255,0.08)",
+            background: "rgba(15,23,42,0.95)", backdropFilter: "blur(12px)",
+          }}>
             {/* Left — file info */}
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-8 h-8 bg-red-500/15 rounded-lg flex items-center justify-center flex-shrink-0 border border-red-400/20">
-                <FileText size={14} className="text-red-400" />
+            <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+              <div style={{
+                width: 32, height: 32, background: "rgba(239,68,68,0.15)",
+                border: "1px solid rgba(239,68,68,0.2)",
+                borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+              }}>
+                <RiFileTextLine size={14} color="#f87171" />
               </div>
-              <div className="min-w-0">
-                <p className="text-white text-xs font-semibold truncate leading-tight">Resume.pdf</p>
-                <p className="text-white/30 text-[10px] leading-tight">
+              <div>
+                <p style={{ color: "#fff", fontSize: 12, fontWeight: 600, margin: 0, lineHeight: 1.3 }}>
+                  Resume.pdf
+                </p>
+                <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 10, margin: 0, lineHeight: 1.3 }}>
                   {numPages ? `${numPages} page${numPages > 1 ? "s" : ""}` : "Loading…"}
                 </p>
               </div>
@@ -462,132 +728,182 @@ const StudentEditProfile = () => {
 
             {/* Center — page nav */}
             {numPages && (
-              <div className="flex items-center gap-1">
-                <Tip label="Previous (←)">
-                  <IconBtn onClick={() => setPageNumber(p => Math.max(1, p - 1))} disabled={pageNumber <= 1}>
-                    <ChevronLeft size={15} />
-                  </IconBtn>
-                </Tip>
-                <PageJumper current={pageNumber} total={numPages} onJump={setPageNumber} />
-                <Tip label="Next (→)">
-                  <IconBtn onClick={() => setPageNumber(p => Math.min(numPages, p + 1))} disabled={pageNumber >= numPages}>
-                    <ChevronRight size={15} />
-                  </IconBtn>
-                </Tip>
+              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                <IconBtn onClick={() => setPageNumber(p => Math.max(1, p - 1))} disabled={pageNumber <= 1}>
+                  <RiArrowLeftSLine size={15} />
+                </IconBtn>
+                <span style={{
+                  fontSize: 11, color: "rgba(255,255,255,0.5)",
+                  padding: "4px 10px", cursor: "default",
+                  fontFamily: "'Sora', sans-serif",
+                }}>
+                  {pageNumber} / {numPages}
+                </span>
+                <IconBtn onClick={() => setPageNumber(p => Math.min(numPages, p + 1))} disabled={pageNumber >= numPages}>
+                  <RiArrowRightSLine size={15} />
+                </IconBtn>
               </div>
             )}
 
             {/* Right — actions */}
-            <div className="flex items-center gap-0.5">
-              <Tip label="Zoom out (-)">
-                <IconBtn onClick={zoomOut} disabled={pdfZoom <= 0.5}><ZoomOut size={14} /></IconBtn>
-              </Tip>
-              <button onClick={resetZoom}
-                className="text-[11px] text-white/50 hover:text-white/90 w-12 text-center py-1 rounded-md hover:bg-white/10 transition-colors font-mono">
+            <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <IconBtn onClick={zoomOut} disabled={pdfZoom <= 0.5}><RiZoomOutLine size={14} /></IconBtn>
+              <button
+                onClick={resetZoom}
+                style={{
+                  fontSize: 11, color: "rgba(255,255,255,0.5)",
+                  background: "none", border: "none", cursor: "pointer",
+                  width: 48, textAlign: "center", padding: "4px 0", borderRadius: 6,
+                  fontFamily: "monospace", transition: "color 0.15s",
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = "rgba(255,255,255,0.9)"}
+                onMouseLeave={(e) => e.currentTarget.style.color = "rgba(255,255,255,0.5)"}
+              >
                 {zoomLabel}
               </button>
-              <Tip label="Zoom in (+)">
-                <IconBtn onClick={zoomIn} disabled={pdfZoom >= 3}><ZoomIn size={14} /></IconBtn>
-              </Tip>
+              <IconBtn onClick={zoomIn} disabled={pdfZoom >= 3}><RiZoomInLine size={14} /></IconBtn>
 
-              <div className="w-px h-5 bg-white/10 mx-1.5" />
+              <div style={{ width: 1, height: 20, background: "rgba(255,255,255,0.1)", margin: "0 6px" }} />
 
-              <Tip label="Rotate (R)">
-                <IconBtn onClick={rotate}><RotateCw size={14} /></IconBtn>
-              </Tip>
+              <IconBtn onClick={rotate}><RiRefreshLine size={14} /></IconBtn>
+              <IconBtn
+                onClick={() => { setBookmarked(b => !b); toast.success(bookmarked ? "Bookmark removed" : "Page bookmarked!"); }}
+                accent={bookmarked}
+              >
+                <RiBookmarkLine size={14} />
+              </IconBtn>
+              <IconBtn onClick={() => setShowSearch(s => !s)} accent={showSearch}>
+                <RiSearchLine size={14} />
+              </IconBtn>
 
-              <Tip label={bookmarked ? "Bookmarked" : "Bookmark"}>
-                <IconBtn onClick={() => { setBookmarked(b => !b); toast.success(bookmarked ? "Bookmark removed" : "Page bookmarked!"); }}
-                  variant={bookmarked ? "accent" : "ghost"}>
-                  <BookmarkPlus size={14} />
-                </IconBtn>
-              </Tip>
+              <div style={{ width: 1, height: 20, background: "rgba(255,255,255,0.1)", margin: "0 6px" }} />
 
-              <Tip label="Search text (Ctrl+F)">
-                <IconBtn onClick={() => setShowSearch(s => !s)} variant={showSearch ? "accent" : "ghost"}>
-                  <Search size={14} />
-                </IconBtn>
-              </Tip>
+              <IconBtn onClick={printPdf}><RiPrinterLine size={14} /></IconBtn>
+              <IconBtn onClick={downloadPdf} accent><RiDownloadLine size={14} /></IconBtn>
+              <IconBtn onClick={() => setShowShare(true)}><RiShareLine size={14} /></IconBtn>
+              <IconBtn onClick={() => window.open(form.resume, "_blank")}><RiExternalLinkLine size={14} /></IconBtn>
 
-              <div className="w-px h-5 bg-white/10 mx-1.5" />
+              <div style={{ width: 1, height: 20, background: "rgba(255,255,255,0.1)", margin: "0 6px" }} />
 
-              <Tip label="Print">
-                <IconBtn onClick={printPdf}><Printer size={14} /></IconBtn>
-              </Tip>
-
-              <Tip label="Download">
-                <IconBtn onClick={downloadPdf} variant="accent"><Download size={14} /></IconBtn>
-              </Tip>
-
-              <Tip label="Share">
-                <IconBtn onClick={() => setShowShare(true)}><Share2 size={14} /></IconBtn>
-              </Tip>
-
-              <Tip label="Open in new tab">
-                <IconBtn onClick={() => window.open(form.resume, "_blank")}><ExternalLink size={14} /></IconBtn>
-              </Tip>
-
-              <div className="w-px h-5 bg-white/10 mx-1.5" />
-
-              <Tip label={fullscreen ? "Exit fullscreen (F)" : "Fullscreen (F)"}>
-                <IconBtn onClick={toggleFullscreen}>
-                  {fullscreen ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
-                </IconBtn>
-              </Tip>
-
-              <Tip label="Close (Esc)">
-                <IconBtn onClick={closePdf} variant="danger" className="ml-1"><X size={14} /></IconBtn>
-              </Tip>
+              <IconBtn onClick={toggleFullscreen}>
+                {fullscreen ? <RiFullscreenExitLine size={14} /> : <RiFullscreenLine size={14} />}
+              </IconBtn>
+              <button
+                onClick={closePdf}
+                style={{
+                  width: 32, height: 32, borderRadius: 8, border: "none",
+                  background: "transparent", color: "#f87171", cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  transition: "all 0.15s",
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = "rgba(239,68,68,0.1)"}
+                onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
+              >
+                <RiCloseLine size={14} />
+              </button>
             </div>
           </div>
 
-          {/* ── Search bar (slides in) ── */}
+          {/* Search bar */}
           {showSearch && (
-            <div className="flex items-center gap-3 px-4 py-2 border-b border-white/8 flex-shrink-0"
-              style={{ background: "rgba(15,23,42,0.9)" }}>
-              <Search size={13} className="text-white/30 flex-shrink-0" />
-              <input autoFocus type="text" placeholder="Search in document… (text layer must be enabled)"
-                className="flex-1 bg-transparent text-white/80 text-xs outline-none placeholder-white/20" />
-              <span className="text-white/20 text-[10px]">Use browser Ctrl+F for full search</span>
-              <button onClick={() => setShowSearch(false)} className="text-white/30 hover:text-white/60 transition-colors">
-                <X size={13} />
+            <div style={{
+              display: "flex", alignItems: "center", gap: 12,
+              padding: "8px 16px",
+              borderBottom: "1px solid rgba(255,255,255,0.08)",
+              background: "rgba(15,23,42,0.9)",
+            }}>
+              <RiSearchLine size={13} color="rgba(255,255,255,0.3)" />
+              <input
+                autoFocus
+                type="text"
+                placeholder="Search in document…"
+                style={{
+                  flex: 1, background: "transparent", border: "none", outline: "none",
+                  color: "rgba(255,255,255,0.8)", fontSize: 12,
+                  fontFamily: "'Sora', sans-serif",
+                }}
+              />
+              <span style={{ fontSize: 10, color: "rgba(255,255,255,0.2)" }}>
+                Use browser Ctrl+F for full search
+              </span>
+              <button
+                onClick={() => setShowSearch(false)}
+                style={{ background: "none", border: "none", color: "rgba(255,255,255,0.3)", cursor: "pointer" }}
+              >
+                <RiCloseLine size={13} />
               </button>
             </div>
           )}
 
-          {/* ── PDF canvas area ── */}
-          <div className="flex-1 overflow-auto flex flex-col items-center justify-start py-6 px-4"
-            style={{ background: "#161b2e" }}>
+          {/* PDF canvas */}
+          <div style={{
+            flex: 1, overflowY: "auto",
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "flex-start",
+            padding: "24px 16px",
+            background: "#161b2e",
+          }}>
             {pdfError ? (
-              <div className="flex flex-col items-center justify-center h-full gap-5">
-                <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-400/20 flex items-center justify-center">
-                  <FileText size={28} className="text-red-400/60" />
+              <div style={{
+                display: "flex", flexDirection: "column", alignItems: "center",
+                justifyContent: "center", height: "100%", gap: 20,
+              }}>
+                <div style={{
+                  width: 64, height: 64, borderRadius: 16,
+                  background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  <RiFileTextLine size={28} color="rgba(248,113,113,0.6)" />
                 </div>
-                <div className="text-center">
-                  <p className="text-white/60 text-sm font-medium mb-1">Could not render PDF</p>
-                  <p className="text-white/25 text-xs">The file may be inaccessible or corrupted</p>
+                <div style={{ textAlign: "center" }}>
+                  <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 14, fontWeight: 500, margin: "0 0 4px" }}>
+                    Could not render PDF
+                  </p>
+                  <p style={{ color: "rgba(255,255,255,0.25)", fontSize: 12, margin: 0 }}>
+                    The file may be inaccessible or corrupted
+                  </p>
                 </div>
-                <div className="flex gap-3">
-                  <button onClick={downloadPdf}
-                    className="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-colors">
-                    <Download size={13} /> Download
+                <div style={{ display: "flex", gap: 12 }}>
+                  <button onClick={downloadPdf} style={{
+                    display: "flex", alignItems: "center", gap: 8,
+                    padding: "10px 16px", borderRadius: 12,
+                    background: "#059669", border: "none",
+                    color: "#fff", fontSize: 12, fontWeight: 700,
+                    cursor: "pointer", fontFamily: "'Sora', sans-serif",
+                  }}>
+                    <RiDownloadLine size={13} /> Download
                   </button>
-                  <button onClick={() => window.open(form.resume, "_blank")}
-                    className="flex items-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/15 text-white text-xs font-semibold rounded-xl transition-colors">
-                    <ExternalLink size={13} /> Open in Tab
+                  <button onClick={() => window.open(form.resume, "_blank")} style={{
+                    display: "flex", alignItems: "center", gap: 8,
+                    padding: "10px 16px", borderRadius: 12,
+                    background: "rgba(255,255,255,0.1)", border: "none",
+                    color: "#fff", fontSize: 12, fontWeight: 600,
+                    cursor: "pointer", fontFamily: "'Sora', sans-serif",
+                  }}>
+                    <RiExternalLinkLine size={13} /> Open in Tab
                   </button>
                 </div>
               </div>
             ) : (
-              <div style={{ transform: `scale(${pdfZoom}) rotate(${rotation}deg)`, transformOrigin: "top center", transition: "transform 0.2s ease" }}>
+              <div style={{
+                transform: `scale(${pdfZoom}) rotate(${rotation}deg)`,
+                transformOrigin: "top center",
+                transition: "transform 0.2s ease",
+              }}>
                 <Document
                   file={pdfSource}
                   onLoadSuccess={({ numPages }) => setNumPages(numPages)}
                   onLoadError={err => { console.error(err); setPdfError(true); }}
                   loading={
-                    <div className="flex flex-col items-center gap-3 mt-24">
-                      <div className="w-10 h-10 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-                      <p className="text-white/30 text-xs">Loading PDF…</p>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, marginTop: 96 }}>
+                      <div style={{
+                        width: 40, height: 40,
+                        border: "2px solid #059669", borderTopColor: "transparent",
+                        borderRadius: "50%", animation: "spin 0.7s linear infinite",
+                      }} />
+                      <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 12, fontFamily: "'Sora', sans-serif" }}>
+                        Loading PDF…
+                      </p>
                     </div>
                   }
                 >
@@ -596,45 +912,67 @@ const StudentEditProfile = () => {
                     width={Math.min(window.innerWidth - 48, 860)}
                     renderTextLayer={true}
                     renderAnnotationLayer={true}
-                    className="shadow-2xl rounded-xl overflow-hidden"
+                    style={{ borderRadius: 12, overflow: "hidden", boxShadow: "0 24px 80px rgba(0,0,0,0.4)" }}
                   />
                 </Document>
               </div>
             )}
           </div>
 
-          {/* ── Bottom bar ── */}
+          {/* Bottom bar */}
           {numPages && (
-            <div className="flex items-center justify-between px-6 py-2.5 flex-shrink-0 border-t border-white/8"
-              style={{ background: "rgba(15,23,42,0.95)" }}>
-
+            <div style={{
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              padding: "10px 24px", flexShrink: 0,
+              borderTop: "1px solid rgba(255,255,255,0.08)",
+              background: "rgba(15,23,42,0.95)",
+            }}>
               {/* Page strip */}
-              <div className="flex items-center gap-1 overflow-x-auto max-w-xs">
+              <div style={{ display: "flex", alignItems: "center", gap: 4, overflowX: "auto", maxWidth: 240 }}>
                 {Array.from({ length: Math.min(numPages, 8) }, (_, i) => i + 1).map(n => (
-                  <button key={n} onClick={() => setPageNumber(n)}
-                    className={`w-7 h-7 rounded-md text-[11px] font-semibold transition-all flex-shrink-0
-                      ${n === pageNumber
-                        ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/30"
-                        : "text-white/30 hover:text-white/70 hover:bg-white/10"}`}>
+                  <button
+                    key={n}
+                    onClick={() => setPageNumber(n)}
+                    style={{
+                      width: 28, height: 28, borderRadius: 6,
+                      border: "none", cursor: "pointer",
+                      fontSize: 11, fontWeight: 600,
+                      background: n === pageNumber ? "#059669" : "transparent",
+                      color: n === pageNumber ? "#fff" : "rgba(255,255,255,0.3)",
+                      boxShadow: n === pageNumber ? "0 4px 12px rgba(5,150,105,0.3)" : "none",
+                      transition: "all 0.15s", flexShrink: 0,
+                      fontFamily: "'Sora', sans-serif",
+                    }}
+                    onMouseEnter={(e) => { if (n !== pageNumber) e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }}
+                    onMouseLeave={(e) => { if (n !== pageNumber) e.currentTarget.style.color = "rgba(255,255,255,0.3)"; }}
+                  >
                     {n}
                   </button>
                 ))}
-                {numPages > 8 && <span className="text-white/20 text-xs px-1">+{numPages - 8} more</span>}
+                {numPages > 8 && (
+                  <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", padding: "0 4px" }}>
+                    +{numPages - 8} more
+                  </span>
+                )}
               </div>
 
               {/* Zoom slider */}
-              <div className="flex items-center gap-2">
-                <ZoomOut size={12} className="text-white/30" />
-                <input type="range" min={50} max={300} step={25}
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <RiZoomOutLine size={12} color="rgba(255,255,255,0.3)" />
+                <input
+                  type="range" min={50} max={300} step={25}
                   value={Math.round(pdfZoom * 100)}
                   onChange={e => setPdfZoom(+(e.target.value / 100).toFixed(2))}
-                  className="w-24 accent-emerald-500 cursor-pointer" />
-                <ZoomIn size={12} className="text-white/30" />
-                <span className="text-white/30 text-[11px] font-mono w-9">{zoomLabel}</span>
+                  style={{ width: 96, accentColor: "#059669", cursor: "pointer" }}
+                />
+                <RiZoomInLine size={12} color="rgba(255,255,255,0.3)" />
+                <span style={{ color: "rgba(255,255,255,0.3)", fontSize: 11, fontFamily: "monospace", width: 36 }}>
+                  {zoomLabel}
+                </span>
               </div>
 
               {/* Shortcuts hint */}
-              <p className="text-white/15 text-[10px] hidden md:block">
+              <p style={{ color: "rgba(255,255,255,0.15)", fontSize: 10, display: "none" }}>
                 ← → navigate · +/- zoom · R rotate · F fullscreen · Esc close
               </p>
             </div>
@@ -647,26 +985,73 @@ const StudentEditProfile = () => {
 
       {/* Crop Modal */}
       {cropModalOpen && (
-        <div className="fixed inset-0 bg-black/80 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-3xl w-[420px] shadow-2xl space-y-4">
-            <h3 className="text-lg font-bold text-center text-slate-800">Crop Profile Photo</h3>
-            <div className="relative w-full h-64 bg-slate-900 rounded-2xl overflow-hidden">
-              <Cropper image={imageSrc} crop={crop} zoom={zoom} aspect={1} cropShape="round"
-                onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={onCropComplete} />
+        <div style={{
+          position: "fixed", inset: 0,
+          background: "rgba(0,0,0,0.78)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          zIndex: 50,
+        }}>
+          <div style={{
+            background: "#fff", borderRadius: 20, padding: 24,
+            width: 420, maxWidth: "90vw",
+            boxShadow: "0 32px 80px rgba(0,0,0,0.25)",
+          }}>
+            <h3 style={{
+              fontFamily: "'Lora', serif",
+              fontSize: 18, fontWeight: 600,
+              textAlign: "center", marginBottom: 16, color: "#111827",
+            }}>
+              Crop Profile Photo
+            </h3>
+            <div style={{
+              position: "relative", width: "100%", height: 256,
+              background: "#0f172a", borderRadius: 14, overflow: "hidden",
+            }}>
+              <Cropper
+                image={imageSrc}
+                crop={crop}
+                zoom={zoom}
+                aspect={1}
+                cropShape="round"
+                onCropChange={setCrop}
+                onZoomChange={setZoom}
+                onCropComplete={onCropComplete}
+              />
             </div>
-            <div className="flex gap-3 pt-2">
-              <button type="button" onClick={() => setCropModalOpen(false)}
-                className="flex-1 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-medium transition-colors">
+            <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
+              <button
+                type="button"
+                onClick={() => setCropModalOpen(false)}
+                style={{
+                  flex: 1, padding: "11px 0", borderRadius: 10,
+                  background: "#f3f4f6", border: "none",
+                  fontSize: 13.5, fontWeight: 500, color: "#374151",
+                  cursor: "pointer", fontFamily: "'Sora', sans-serif",
+                }}
+              >
                 Cancel
               </button>
-              <button type="button" onClick={handleSaveCrop}
-                className="flex-1 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-medium transition-colors">
+              <button
+                type="button"
+                onClick={handleSaveCrop}
+                style={{
+                  flex: 1, padding: "11px 0", borderRadius: 10,
+                  background: "linear-gradient(135deg, #059669, #10b981)",
+                  border: "none", fontSize: 13.5, fontWeight: 600,
+                  color: "#fff", cursor: "pointer",
+                  fontFamily: "'Sora', sans-serif",
+                  boxShadow: "0 4px 14px rgba(5,150,105,0.3)",
+                }}
+              >
                 Save Photo
               </button>
             </div>
           </div>
         </div>
       )}
+
+      {/* Spinner keyframes */}
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 };

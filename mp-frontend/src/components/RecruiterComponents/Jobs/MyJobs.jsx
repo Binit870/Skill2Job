@@ -134,7 +134,7 @@ export default function MyJobs() {
               <p className="text-gray-400 text-sm mt-1">Start by posting your first job listing</p>
             </div>
             <button
-              onClick={() => navigate("/post-job")}
+              onClick={() => navigate("/recruiter/post-job")}
               className="mt-2 bg-[#87ea2a] hover:bg-[#67db1f] text-white font-semibold px-6 py-2.5 rounded-lg transition-colors text-sm"
             >
               Post a Job
@@ -158,11 +158,10 @@ export default function MyJobs() {
                       <h2 className="text-lg md:text-xl font-bold text-gray-900 truncate">{job.title}</h2>
                       <p className="text-gray-500 text-sm mt-0.5">{job.company}</p>
                     </div>
-                    <span className={`self-start inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap ${
-                      job.status === "Active"
+                    <span className={`self-start inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap ${job.status === "Active"
                         ? "bg-green-50 text-[#138808] ring-1 ring-green-200"
                         : "bg-red-100 text-red-500 ring-1 ring-red-200"
-                    }`}>
+                      }`}>
                       <span className={`w-1.5 h-1.5 rounded-full ${job.status === "Active" ? "bg-[#138808]" : "bg-red-400"}`} />
                       {job.status}
                     </span>
