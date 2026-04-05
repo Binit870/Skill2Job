@@ -7,8 +7,8 @@ const Navbar = () => {
       
       {/* Left - Logo + Name */}
       <div className="flex items-center gap-2">
-        <Briefcase className="text-blue-600 w-8 h-8" />
-        <h1 className="text-2xl font-bold text-blue-600">
+        <Briefcase className="text-green-600 w-8 h-8" />
+        <h1 className="text-2xl font-bold text-green-600">
           Skill2Job
         </h1>
       </div>
@@ -16,17 +16,17 @@ const Navbar = () => {
       {/* Middle - Navigation Links */}
       <div className="flex items-center gap-8 text-gray-700 font-medium">
 
-        <Link to="/" className="flex items-center gap-1 hover:text-blue-600 transition">
+        <Link to="/" className="flex items-center gap-1 hover:text-green-600 transition">
           <Home size={18} />
           Home
         </Link>
 
-        <Link to="/student-dashboard" className="flex items-center gap-1 hover:text-blue-600 transition">
+        <Link to="/student-dashboard" className="flex items-center gap-1 hover:text-green-600 transition">
           <User size={18} />
           Student
         </Link>
 
-        <Link to="/recruiter-dashboard" className="flex items-center gap-1 hover:text-blue-600 transition">
+        <Link to="/recruiter-dashboard" className="flex items-center gap-1 hover:text-green-600 transition">
           <Building size={18} />
           Recruiter
         </Link>
@@ -37,14 +37,14 @@ const Navbar = () => {
       <div className="flex items-center gap-4">
         <Link
           to="/login"
-          className="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition"
+          className="px-4 py-2 border border-green-600 text-green-600 rounded-lg hover:bg-green-50 transition"
         >
           Sign In
         </Link>
 
         <Link
           to="/signup"
-          className="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          className="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
         >
           Get Started
         </Link>

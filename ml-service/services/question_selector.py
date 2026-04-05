@@ -52,7 +52,7 @@ def generate_questions(role, difficulty):
     # Instead of taking top 5 → randomly pick from scored list
     random.shuffle(scored)
 
-    selected = scored[:5]
+    selected = scored[:10]
 
     return {
         "questions": [q[1]["question"] for q in selected],

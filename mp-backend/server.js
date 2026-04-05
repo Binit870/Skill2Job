@@ -11,6 +11,7 @@ import mockInterviewRoutes from "./routes/mockInterviewRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import applicationRoutes from "./routes/applicationRoutes.js";
+import asessmentRoutes from "./routes/mockAssessmentRoutes.js";
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use("/api/jobs", jobRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/mock", mockInterviewRoutes);
+app.use("/api/assessment", asessmentRoutes);
 // Register application routes
 app.use("/api/applications", applicationRoutes);
  

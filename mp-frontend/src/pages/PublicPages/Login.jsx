@@ -3,202 +3,197 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import {
-  FaEye,
-  FaEyeSlash,
-  FaBriefcase,
-  FaEnvelope,
-  FaLock,
-  FaArrowRight,
+  FaEye, FaEyeSlash, FaBriefcase, FaEnvelope,
+  FaLock, FaArrowRight, FaUserTie, FaSearch,
+  FaFileAlt, FaStar, FaHandshake, FaChartLine,
+  FaLaptopCode, FaMedal, FaBuilding, FaGraduationCap,
+  FaRocket, FaClipboardList,
 } from "react-icons/fa";
+
+/* Orbiting bubbles — Skill2Job relevant icons */
+const BUBBLES = [
+  { Icon: FaRocket, top: "10%", left: "58%", size: 44, delay: "0s" },
+  { Icon: FaChartLine, top: "27%", right: "5%", size: 40, delay: "0.5s" },
+  { Icon: FaHandshake, top: "55%", right: "4%", size: 46, delay: "1.0s" },
+  { Icon: FaFileAlt, bottom: "15%", left: "52%", size: 40, delay: "1.5s" },
+  { Icon: FaGraduationCap, bottom: "25%", left: "7%", size: 48, delay: "2.0s" },
+  { Icon: FaStar, top: "38%", left: "5%", size: 38, delay: "2.5s" },
+];
+
+/* Background scattered icons — large & faint */
+const BG_ICONS = [
+  { Icon: FaBuilding, size: 80, style: { top: "5%", left: "5%", transform: "rotate(-15deg)" } },
+  { Icon: FaLaptopCode, size: 90, style: { top: "6%", right: "6%", transform: "rotate(10deg)" } },
+  { Icon: FaMedal, size: 70, style: { bottom: "8%", left: "6%", transform: "rotate(20deg)" } },
+  { Icon: FaClipboardList, size: 75, style: { bottom: "6%", right: "5%", transform: "rotate(-10deg)" } },
+  { Icon: FaSearch, size: 60, style: { top: "45%", left: "3%", transform: "rotate(-5deg)" } },
+  { Icon: FaUserTie, size: 65, style: { top: "44%", right: "3%", transform: "rotate(8deg)" } },
+];
 
 const Login = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
-
+  const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       setLoading(true);
-      const loggedInUser = await login(form.email, form.password);
-
+      const user = await login(form.email, form.password);
       toast.success("Login successful!");
-
-      if (loggedInUser.role === "recruiter") {
-        navigate("/recruiter-dashboard");
-      } else {
-        navigate("/student-dashboard");
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Invalid credentials");
+      navigate(user.role === "recruiter" ? "/recruiter-dashboard" : "/student-dashboard");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Invalid credentials");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen relative bg-[#eef2f1] flex items-center justify-center px-4 py-10 overflow-hidden">
+    <div className="auth-root">
+      <div className="auth-card">
 
-      {/* TOP RIGHT SHAPE */}
-      <div className="absolute top-0 right-0 w-[240px] h-[180px] bg-[#f46b7b] rounded-bl-[80px] z-0"></div>
+        {/* ══════════════ LEFT: Form ══════════════ */}
+        <div className="auth-form-side">
 
-      {/* BOTTOM LEFT SHAPE */}
-      <div className="absolute bottom-0 left-0 w-[260px] h-[170px] bg-[#f4c542] rounded-tr-[90px] z-0"></div>
-
-      {/* SMALL GREEN ACCENT */}
-      <div className="absolute top-[120px] left-[80px] w-10 h-10 bg-green-300 rounded-full opacity-80 z-0"></div>
-
-      {/* SMALL RED ACCENT */}
-      <div className="absolute bottom-[120px] right-[120px] w-8 h-8 bg-rose-300 rounded-full opacity-80 z-0"></div>
-
-      {/* MAIN CARD */}
-      <div className="relative z-10 w-full max-w-6xl bg-white rounded-[32px] shadow-[0_20px_80px_rgba(15,23,42,0.12)] overflow-hidden grid lg:grid-cols-2 min-h-[650px]">
-
-        {/* LEFT SIDE - LOGIN */}
-        <div className="flex items-center justify-center px-6 sm:px-10 lg:px-14 py-12 bg-white">
-          <div className="w-full max-w-md text-center">
-
-            {/* LOGO */}
-            {/* <div className="flex justify-center mb-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 text-green-700">
-                <FaBriefcase />
-                <span className="text-sm font-semibold">Skill2Job</span>
-              </div>
-            </div> */}
-
-            {/* HEADING */}
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
-              Sign In
-            </h2>
-
-            <p className="mt-3 text-slate-600 text-sm">
-              Enter your details to continue
-            </p>
-
-            {/* FORM */}
-            <form onSubmit={handleSubmit} className="space-y-5 mt-8 text-left">
-
-              {/* EMAIL */}
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">
-                  Email Address
-                </label>
-
-                <div className="relative">
-                  <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type="email"
-                    required
-                    placeholder="Enter your email"
-                    value={form.email}
-                    className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:ring-4 focus:ring-green-100 focus:border-green-500 outline-none transition"
-                    onChange={(e) =>
-                      setForm({ ...form, email: e.target.value })
-                    }
-                  />
-                </div>
-              </div>
-
-              {/* PASSWORD */}
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">
-                  Password
-                </label>
-
-                <div className="relative">
-                  <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    required
-                    placeholder="Enter your password"
-                    value={form.password}
-                    className="w-full pl-12 pr-12 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:ring-4 focus:ring-green-100 focus:border-green-500 outline-none transition"
-                    onChange={(e) =>
-                      setForm({ ...form, password: e.target.value })
-                    }
-                  />
-
-                  <button
-                    type="button"
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 transition"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? <FaEyeSlash /> : <FaEye />}
-                  </button>
-                </div>
-
-                <div className="flex justify-end mt-2">
-                  <button
-                    type="button"
-                    onClick={() => navigate("/forgot-password")}
-                    className="text-sm text-green-600 hover:underline"
-                  >
-                    Forgot password?
-                  </button>
-                </div>
-              </div>
-
-              {/* BUTTON */}
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition shadow-sm hover:shadow-md"
-              >
-                {loading ? "Signing in..." : "Sign In"}
-                {!loading && <FaArrowRight />}
-              </button>
-            </form>
-
-            {/* SIGNUP */}
-            <p className="text-sm text-slate-600 mt-6">
-              Don’t have an account?{" "}
-              <span
-                onClick={() => navigate("/signup")}
-                className="text-green-600 font-semibold cursor-pointer hover:underline"
-              >
-                Create account
-              </span>
-            </p>
+          {/* Logo */}
+          <div className="flex items-center gap-2 mb-8">
+            <div className="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-200">
+              <FaBriefcase className="text-white text-sm" />
+            </div>
+            <span className="font-extrabold text-gray-800 text-lg tracking-tight">Skill2Job</span>
           </div>
-        </div>
 
-        {/* RIGHT SIDE - WELCOME */}
-        <div className="relative flex items-center justify-center bg-gradient-to-br from-emerald-500 via-green-500 to-lime-400 text-white px-10 py-12 text-center overflow-hidden">
-          
-          {/* INTERNAL SHAPES */}
-          <div className="absolute top-0 left-0 w-32 h-32 bg-white/10 rounded-br-[60px]"></div>
-          <div className="absolute bottom-0 right-0 w-40 h-40 bg-lime-300/20 rounded-tl-[70px]"></div>
+          {/* Heading */}
+          <h2 className="text-[22px] font-bold text-gray-800 leading-snug">
+            Sign In to your Account
+          </h2>
+          <p className="text-xs text-gray-400 mt-1 mb-7">
+            Welcome back! Please enter your details.
+          </p>
 
-          <div className="relative z-10 max-w-sm">
+          <form onSubmit={handleSubmit} className="space-y-4">
 
-            {/* LOGO */}
-            <div className="flex justify-center mb-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur">
-                <FaBriefcase />
-                <span className="font-semibold">Skill2Job</span>
+            {/* Email */}
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 mb-1.5">Email</label>
+              <div className="auth-input-wrap">
+                <FaEnvelope className="auth-input-icon" />
+                <input
+                  type="email"
+                  required
+                  placeholder="Enter Email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  className="auth-input-base"
+                />
               </div>
             </div>
 
-            {/* HEADING */}
-            <h1 className="text-4xl font-bold">
-              Welcome Back!
-            </h1>
+            {/* Password */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-xs font-semibold text-gray-500">Password</label>
+                <button
+                  type="button"
+                  onClick={() => navigate("/forgot-password")}
+                  className="text-xs text-emerald-600 hover:underline font-medium"
+                >
+                  Forgot password?
+                </button>
+              </div>
+              <div className="auth-input-wrap">
+                <FaLock className="auth-input-icon" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  placeholder="Enter Password"
+                  value={form.password}
+                  onChange={(e) => setForm({ ...form, password: e.target.value })}
+                  className="auth-input-base"
+                  style={{ paddingRight: 38 }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500 transition text-xs"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+            </div>
 
-            <p className="mt-4 text-white/90 text-sm leading-6">
-              Login to continue your journey and explore opportunities
-              tailored to your skills.
-            </p>
+            {/* Submit */}
+            <div className="pt-2">
+              <button type="submit" disabled={loading} className="auth-btn-primary">
+                {loading ? "Signing in…" : "Sign In"}
+                {!loading && <FaArrowRight className="text-xs" />}
+              </button>
+            </div>
+          </form>
+
+          <p className="text-xs text-gray-400 mt-6 text-center">
+            Not registered yet?{" "}
+            <span
+              onClick={() => navigate("/signup")}
+              className="text-emerald-600 font-semibold cursor-pointer hover:underline"
+            >
+              Create an account
+            </span>
+          </p>
+        </div>
+
+        {/* ══════════════ RIGHT: Illustration ══════════════ */}
+        <div className="auth-illus-side">
+
+          {/* Large faint background icons */}
+          {BG_ICONS.map(({ Icon, size, style }, i) => (
+            <div key={i} className="auth-bg-icon" style={{ fontSize: size, ...style }}>
+              <Icon />
+            </div>
+          ))}
+
+          {/* Big glow circle */}
+          <div className="auth-circle">
+            <div className="auth-center-icon">
+              <FaBriefcase />
+            </div>
+          </div>
+
+          {/* Orbiting bubbles */}
+          {BUBBLES.map(({ Icon, top, left, right, bottom, size, delay }, i) => (
+            <div
+              key={i}
+              className="auth-bubble"
+              style={{
+                top, left, right, bottom,
+                width: size, height: size,
+                animationDelay: delay,
+              }}
+            >
+              <Icon style={{ fontSize: size * 0.42 }} />
+            </div>
+          ))}
+
+          {/* Bottom tagline */}
+          <div className="absolute bottom-5 left-0 right-0 flex flex-col items-center gap-1.5">
+            <span className="text-white/60 text-[11px] font-medium tracking-widest uppercase">
+              Your skills. Your future.
+            </span>
+            <div className="flex gap-1.5">
+              {[0, 1, 2].map((i) => (
+                <div
+                  key={i}
+                  className={`rounded-full bg-white transition-all ${i === 0 ? "w-5 h-1.5" : "w-1.5 h-1.5 opacity-30"
+                    }`}
+                />
+              ))}
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   );

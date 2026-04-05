@@ -202,7 +202,7 @@ const MyResume = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(API, { headers: auth() }).then(r => setResume(r.data)).catch(() => {});
+    axios.get(API, { headers: auth() }).then(r => setResume(r.data.data)).catch(() => {});
   }, []);
 
   const handleUpload = async () => {
