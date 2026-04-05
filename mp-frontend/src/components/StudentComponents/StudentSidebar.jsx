@@ -56,6 +56,7 @@ export default function StudentSidebar({ mobileOpen, onMobileClose }) {
     { to: "/student/my-applications", icon: ClipboardList, label: "My Applications" },
     
     { to: "/student/mock-interview", icon: MessageSquare, label: "Mock Interview" },
+    {to: "/student/mock-assesment", icon: Sparkles, label: "Mock Assessment" },
     { to: "/student/analyze", icon: TrendingUp, label: "Analytics" },
   ];
 

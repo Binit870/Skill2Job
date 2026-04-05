@@ -1,5 +1,4 @@
 import axios from "axios";
-import fs from "fs";
 import FormData from "form-data";
 import ResumeAnalysis from "../models/ResumeAnalysis.js";
 import Resume from "../models/Resume.js";
@@ -15,7 +14,10 @@ export const analyzeResume = async (req, res) => {
     }
 
     const formData = new FormData();
-    formData.append("file", fs.createReadStream(req.file.path));
+    formData.append("file", req.file.buffer, {
+      filename: req.file.originalname,
+      contentType: req.file.mimetype,
+    });
 
     const response = await axios.post(
       "http://localhost:8000/analyze",
@@ -24,7 +26,6 @@ export const analyzeResume = async (req, res) => {
     );
 
     const result = response.data;
-    if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
 
     const saved = await ResumeAnalysis.create({
       userId: req.user.id,
@@ -35,7 +36,6 @@ export const analyzeResume = async (req, res) => {
 
     res.json({ success: true, data: saved, analysis: result });
   } catch (error) {
-    if (req.file && fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
     console.error("❌ Analysis Error:", error.message);
     res.status(500).json({ success: false, error: "ML service failed" });
   }
@@ -151,5 +151,14 @@ export const deleteResume = async (req, res) => {
     res.status(200).json({ success: true, message: 'Resume deleted successfully' });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+export const getHistory = async (req, res) => {
+  try {
+    const history = await ResumeAnalysis.find({ userId: req.user.id })
+      .sort({ createdAt: -1 }).limit(10);
+    res.json({ success: true, data: history });
+  } catch (error) {
+    res.status(500).json({ success: false, error: "Failed to fetch history" });
   }
 };

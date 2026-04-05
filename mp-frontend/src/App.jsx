@@ -20,6 +20,7 @@ import ResumeBuilder from "./components/StudentComponents/Resume/ResumeBuilder";
 import StudentProfile from "./components/StudentComponents/Profiles/StudentProfile";
 import StudentEditProfile from "./components/StudentComponents/Profiles/StudentEditProfile";
 import MockInterview from "./components/StudentComponents/MockInterview/MockInterview";
+import MockAssessment from "./components/StudentComponents/MockAssessment/MockAssessment";
 import JobDetails from "./components/StudentComponents/Jobs/JobDetails";
 import ResumeView from "./components/StudentComponents/Resume/ResumeView";
 
@@ -98,6 +99,7 @@ export default function App() {
             <Route path="/student/resume-builder" element={<ResumeBuilder />} />
             <Route path="/student/analyze" element={<Analytics />} />
             <Route path="/student/mock-interview" element={<MockInterview />} />
+            <Route path="/student/mock-assesment" element={<MockAssessment />} />
             <Route path="/student/resume-view" element={<ResumeView />} />
             <Route path="/student/my-applications" element={<MyApplications />} />
           </Route>

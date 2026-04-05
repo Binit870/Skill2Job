@@ -14,73 +14,6 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-/* -------------------- NAVBAR -------------------- */
-function Navbar() {
-  const location = useLocation();
-
-  const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Student", path: "/student-dashboard" },
-    { name: "Recruiter", path: "/recruiter-dashboard" },
-  ];
-
-  return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-green-600 text-white flex items-center justify-center shadow-sm">
-            <Briefcase className="w-5 h-5" />
-          </div>
-          <span className="text-2xl font-bold tracking-tight text-black">
-            Skill2Job
-          </span>
-        </Link>
-
-        {/* Nav Links */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((item) => {
-            const active = location.pathname === item.path;
-            return (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={`relative group text-sm font-medium transition duration-200 ${
-                  active ? "text-green-600" : "text-gray-700 hover:text-green-600"
-                }`}
-              >
-                {item.name}
-                <span
-                  className={`absolute left-0 -bottom-1 h-[2px] bg-green-600 transition-all duration-300 ${
-                    active ? "w-full" : "w-0 group-hover:w-full"
-                  }`}
-                ></span>
-              </Link>
-            );
-          })}
-        </nav>
-
-        {/* Buttons */}
-        <div className="flex items-center gap-3">
-          <Link
-            to="/login"
-            className="px-5 py-2.5 rounded-xl border border-green-600 text-green-700 font-medium hover:bg-green-50 transition"
-          >
-            Login
-          </Link>
-
-          <Link
-            to="/signup"
-            className="px-5 py-2.5 rounded-xl bg-green-600 text-white font-medium hover:bg-green-700 transition shadow-sm"
-          >
-            Signup
-          </Link>
-        </div>
-      </div>
-    </header>
-  );
-}
-
 /* -------------------- BUTTON -------------------- */
 function Button({ children, className = "", variant = "primary", ...props }) {
   const base =
@@ -184,7 +117,6 @@ function AnimatedCounter({ target, suffix = "" }) {
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white text-black overflow-hidden">
-      <Navbar />
 
       {/* HERO */}
       <section className="pt-36 pb-24 relative border-b border-gray-100">

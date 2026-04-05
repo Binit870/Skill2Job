@@ -5,7 +5,8 @@ import {
   getLatest,
   getResume,
   createOrUpdateResume,
-  deleteResume
+  deleteResume,
+  getHistory
 } from "../controllers/resumeController.js";
 
 import { protect } from "../middlewares/authMiddleware.js";
@@ -35,5 +36,6 @@ router.post("/create", protect, createOrUpdateResume);
 
 
 router.delete("/", protect, deleteResume);
+router.get("/history", protect, getHistory);
 
 export default router;
