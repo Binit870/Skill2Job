@@ -1,41 +1,43 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import { AuthProvider } from "./context/AuthContext";
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./context/AuthContext";
 
-import ProtectedRoute from "./pages/routes/ProtectedRoute";
-
-import LandingPage from "./pages/PublicPages/LandingPage";
-import Login from "./pages/PublicPages/Login";
-import Signup from "./pages/PublicPages/Signup";
-import NotFound from "./pages/routes/NotFound";
-
-import StudentDashboard from "./pages/StudentPages/StudentDashboard";
-import FindJobs from "./pages/StudentPages/FindJobs";
-import MyApplications from "./pages/StudentPages/MyApplications";
-
-import Analytics from "./pages/StudentPages/Analytics";
-import MyResume from "./components/StudentComponents/Resume/MyResume";
-import ResumeBuilder from "./components/StudentComponents/Resume/ResumeBuilder";
-import StudentProfile from "./components/StudentComponents/Profiles/StudentProfile";
-import StudentEditProfile from "./components/StudentComponents/Profiles/StudentEditProfile";
-import MockInterview from "./components/StudentComponents/MockInterview/MockInterview";
-import MockAssessment from "./components/StudentComponents/MockAssessment/MockAssessment";
-import JobDetails from "./components/StudentComponents/Jobs/JobDetails";
-import ResumeView from "./components/StudentComponents/Resume/ResumeView";
-
-import RecruiterDashboard from "./pages/RecruiterPages/RecruiterDashboard";
-import RecruiterEditProfile from "./components/RecruiterComponents/Profiles/RecruiterEditProfile";
-import RecruiterProfile from "./components/RecruiterComponents/Profiles/RecruiterProfile";
-import MyJobs from "./components/RecruiterComponents/Jobs/MyJobs";
-import PostJob from "./pages/RecruiterPages/PostJob";
-import RecruiterApplications from "./pages/RecruiterPages/RecruiterApplications";
-import EditJob from "./components/RecruiterComponents/Jobs/EditJob";
-
+// Layouts
+import LandingPage from "./layouts/LandingPage";
 import PublicLayout from "./layouts/PublicLayout";
 import StudentLayout from "./layouts/StudentLayout";
 import RecruiterLayout from "./layouts/RecruiterLayout";
 
+//Routes
+import ProtectedRoute from "./routes/ProtectedRoute";
+import NotFound from "./routes/NotFound";
+
+// Public pages
+import Login from "./auth/Login";
+import Signup from "./auth/Signup";
+
+// Student pages
+import Analytics from "./student/analytics/Analytics";
+import MyApplications from "./student/applications/MyApplications";
+import StudentDashboard from "./student/components/StudentDashboard";
+import FindJobs from "./student/jobs/FindJobs";
+import JobDetails from "./student/jobs/JobDetails";
+import MockAssessment from "./student/mock-assessment/MockAssessment";
+import MockInterview from "./student/mock-interview/MockInterview";
+import StudentProfile from "./student/profiles/StudentProfile";
+import StudentEditProfile from "./student/profiles/StudentEditProfile";
+import MyResume from "./student/resume/MyResume";
+import ResumeBuilder from "./student/resume/ResumeBuilder";
+import ResumeView from "./student/resume/ResumeView";
+
+// Recruiter pages
+import RecruiterApplications from "./recruiter/applications/RecruiterApplications";
+import RecruiterDashboard from "./recruiter/components/RecruiterDashboard";
+import MyJobs from "./recruiter/jobs/MyJobs";
+import PostJob from "./recruiter/jobs/post-job/PostJob";
+import EditJob from "./recruiter/jobs/edit-job/EditJob";
+import RecruiterProfile from "./recruiter/profiles/RecruiterProfile";
+import RecruiterEditProfile from "./recruiter/profiles/RecruiterEditProfile";
 
 // 👇 GLOBAL ERROR HANDLER - Chrome extension errors ke liye
 // Yeh error sirf console me dikhta hai, app functionality par koi asar nahi
@@ -93,7 +95,7 @@ export default function App() {
             <Route path="/student-dashboard" element={<StudentDashboard />} />
             <Route path="/student/jobs" element={<FindJobs />} />
             <Route path="/student/edit-profile" element={<StudentEditProfile />} />
-          
+
             <Route path="/student/jobs/:id" element={<JobDetails />} />
             <Route path="/student/resume" element={<MyResume />} />
             <Route path="/student/resume-builder" element={<ResumeBuilder />} />

@@ -1,5 +1,5 @@
-import StudentNavbar from "../components/StudentComponents/StudentNavbar";
-import StudentSidebar from "../components/StudentComponents/StudentSidebar";
+import StudentNavbar from "../student/components/StudentNavbar";
+import StudentSidebar from "../student/components/StudentSidebar";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 

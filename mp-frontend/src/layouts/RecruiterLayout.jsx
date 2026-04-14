@@ -1,5 +1,5 @@
-import RecruiterSidebar from "../components/RecruiterComponents/RecruiterSidebar";
-import RecruiterNavbar from "../components/RecruiterComponents/RecruiterNavbar";
+import RecruiterSidebar from "../recruiter/components/RecruiterSidebar";
+import RecruiterNavbar from "../recruiter/components/RecruiterNavbar";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 
