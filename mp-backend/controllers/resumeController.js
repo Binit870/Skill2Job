@@ -19,11 +19,14 @@ export const analyzeResume = async (req, res) => {
       contentType: req.file.mimetype,
     });
 
-    const response = await axios.post(
-      "http://localhost:8000/analyze",
-      formData,
-      { headers: formData.getHeaders(), timeout: 30000 }
-    );
+   const response = await axios.post(
+  `${process.env.ML_SERVICE_URL}/analyze`,
+  formData,
+  {
+    headers: formData.getHeaders(),
+    timeout: 30000,
+  }
+);
 
     const result = response.data;
 
