@@ -23,6 +23,7 @@ const Analytics = () => {
         atsScore: s.data?.atsScore ?? s.analysis?.ats_score ?? 0,
         placementProbability: s.data?.placementProbability ?? s.analysis?.placement_probability ?? 0,
         missingSkills: s.data?.missingSkills ?? s.analysis?.missing_skills ?? [],
+        missingSkillsDetail: s.analysis?.missing_skills_detail ?? [],
         createdAt: s.data?.createdAt ?? new Date().toISOString(),
       });
     } else {
@@ -53,7 +54,11 @@ const Analytics = () => {
 
   const ats = Math.round(data.atsScore || 0);
   const prob = Math.round(data.placementProbability || 0);
-  const missingSkillsData = (data.missingSkills || []).map(skill => ({ skill, value: 1 }));
+  const missingSkillsDetail = data.missingSkillsDetail || [];
+  const missingSkillsData = (data.missingSkills || []).map(skill => {
+    const detail = missingSkillsDetail.find(d => d.skill === skill);
+    return { skill, value: detail?.importance || 60 };
+  });
 
   const atsColor = ats >= 70 ? "#22c55e" : ats >= 40 ? "#f59e0b" : "#ef4444";
   const probColor = prob >= 70 ? "#22c55e" : prob >= 40 ? "#f59e0b" : "#ef4444";
@@ -152,9 +157,9 @@ const label = {
 };
 const hint = { fontSize: ".78rem", color: "#34523e", marginTop: ".6rem" };
 const histRow = {
+
   display: "flex", justifyContent: "space-between", alignItems: "center",
   padding: ".85rem 1rem", background: "#f4f8f5", borderRadius: 10, flexWrap: "wrap", gap: ".5rem",
 };
 const badge = { fontSize: ".75rem", fontWeight: 700, padding: "4px 10px", borderRadius: 20 };
-
 export default Analytics;
