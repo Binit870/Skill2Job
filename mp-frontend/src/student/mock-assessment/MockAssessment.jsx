@@ -38,7 +38,7 @@ export default function MockAssessment() {
     setLoading(true);
     setError(null);
     try {
-      const { data } = await axios.post(`${API}/api/assessment/submit`, {
+      const { data } = await API.post(`/api/assessment/submit`, {
         topic,
         responses,
         total_time_taken: totalTimeTaken,
