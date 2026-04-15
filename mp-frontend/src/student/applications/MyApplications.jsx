@@ -126,7 +126,7 @@ export default function MyApplications() {
   const filtered = tab === "All" ? applications : applications.filter((a) => a.status === tab);
 
   return (
-    <div className="min-h-screen bg-white">
+   <div className="min-h-screen overflow-y-auto bg-white [&::-webkit-scrollbar]:hidden">
 
       {/* ── Topbar ── */}
       <div className="bg-white border-b border-slate-100 px-6 py-5 flex items-center justify-between sticky top-0 z-10 shadow-sm">
@@ -145,7 +145,7 @@ export default function MyApplications() {
       </div>
 
       {/* ── Status tabs ── */}
-      <div className="bg-white border-b border-slate-100 px-6 py-3 flex gap-2 overflow-x-auto scrollbar-hide">
+      <div className="sticky top-[73px] z-10 bg-white border-b border-slate-100 px-6 py-3 flex gap-2 overflow-x-auto scrollbar-hide">
         <style>{`.scrollbar-hide::-webkit-scrollbar{display:none}.scrollbar-hide{-ms-overflow-style:none;scrollbar-width:none;}`}</style>
         {TABS.map((t) => {
           const cfg    = STATUS_CFG[t];

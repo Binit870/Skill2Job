@@ -55,7 +55,7 @@ export default function MockInterview() {
             <Sparkles size={18} color="#fff" />
           </div>
           <span style={{ fontSize: 18, fontWeight: 700, color: "#064e35", letterSpacing: "-0.3px" }}>
-            AI Interview Pro
+            Mock Interview 
           </span>
         </div>
         <span style={{
@@ -180,7 +180,7 @@ export default function MockInterview() {
         textAlign: "center", fontSize: 13, color: "#9ca3af",
         padding: "16px", borderTop: "1px solid #d1ead9", background: "#fff",
       }}>
-        © {new Date().getFullYear()} AI Interview Pro • Built for global talent
+        © {new Date().getFullYear()} Mock Interview  • Built with ❤️ by Skill2Job
       </footer>
     </div>
   );

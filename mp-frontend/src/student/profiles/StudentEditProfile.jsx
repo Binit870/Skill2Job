@@ -39,7 +39,7 @@ import {
   RiCheckLine,
   RiFileCopyLine,
 } from "react-icons/ri";
-
+import API from "../../utils/api";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 /* ── Font injection ── */
@@ -285,7 +285,7 @@ const StudentEditProfile = () => {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/profile", {
+      const res = await API.get("/api/profile", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       const user = res.data;
@@ -349,7 +349,7 @@ const StudentEditProfile = () => {
       );
       if (croppedImage) formData.append("profileImage", croppedImage, "profile.jpg");
       if (resumeFile)   formData.append("resume", resumeFile);
-      await axios.put("http://localhost:5000/api/profile/student", formData, {
+      await API.put("/api/profile/student", formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",

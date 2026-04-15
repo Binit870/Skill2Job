@@ -7,6 +7,7 @@ import LandingPage from "./layouts/LandingPage";
 import PublicLayout from "./layouts/PublicLayout";
 import StudentLayout from "./layouts/StudentLayout";
 import RecruiterLayout from "./layouts/RecruiterLayout";
+import ScrollToTop from "./layouts/ScrollToTop";
 
 //Routes
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -64,6 +65,7 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+      <ScrollToTop/>
         {/* Toast notifications */}
         <Toaster position="top-right" reverseOrder={false} />
 

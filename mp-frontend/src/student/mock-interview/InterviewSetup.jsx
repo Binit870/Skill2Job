@@ -71,6 +71,7 @@ export default function InterviewSetup({ onReady, setLoading }) {
     { label: "Data & AI",              options: ["Data Scientist", "Machine Learning Engineer"] },
     { label: "Infrastructure & Cloud", options: ["DevOps Engineer", "Cloud Engineer"] },
     { label: "Security & Database",    options: ["Cybersecurity Analyst", "Database Administrator"] },
+    { label: "HR & Management",    options: ["HR Manager"] },
   ];
 
   return (
@@ -124,8 +125,8 @@ export default function InterviewSetup({ onReady, setLoading }) {
             onChange={(e) => { setSelectedRole(e.target.value); setError(null); }}
             style={{
               width: "100%", padding: "13px 44px 13px 16px",
-              borderRadius: 12, border: "1.5px solid #d1fae5",
-              background: "#f0fdf4", color: selectedRole ? "#064e35" : "#9ca3af",
+              borderRadius: 12, border: "1.5px solid #10b981",
+              background: "white", color: selectedRole ? "#000" : "#9ca3af",
               fontSize: 15, fontWeight: selectedRole ? 500 : 400,
               appearance: "none", outline: "none", cursor: "pointer",
             }}

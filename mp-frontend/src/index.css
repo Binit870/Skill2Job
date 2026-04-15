@@ -229,3 +229,7 @@ input::-webkit-contacts-auto-fill-button {
   visibility: hidden;
   pointer-events: none;
 }
+
+/* ── Hide scrollbar globally ── */
+* { scrollbar-width: none; -ms-overflow-style: none; }
+*::-webkit-scrollbar { display: none; }

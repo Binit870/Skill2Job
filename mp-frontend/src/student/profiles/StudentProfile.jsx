@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback, useContext } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Cropper from "react-easy-crop";
@@ -20,6 +19,7 @@ import {
   RiArrowLeftLine,
   RiCheckLine,
 } from "react-icons/ri";
+import API from "../../utils/api";
 
 /* ── Google Font inject ── */
 const fontLink = document.createElement("link");
@@ -126,7 +126,7 @@ const StudentProfile = () => {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/profile", {
+      const res = await API.get("/api/profile", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       const user = res.data;
@@ -192,7 +192,7 @@ const StudentProfile = () => {
       );
       if (croppedImage) formData.append("profileImage", croppedImage, "profile.jpg");
       if (resumeFile)   formData.append("resume", resumeFile);
-      await axios.put("http://localhost:5000/api/profile/student", formData, {
+      await API.put("/api/profile/student", formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",

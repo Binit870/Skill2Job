@@ -7,8 +7,7 @@ import AssessmentSetup   from "./AssessmentSetup";
 import AssessmentSession from "./AssessmentSession";
 import AssessmentResult  from "./AssessmentResult";
 import AssessmentHistory from "./AssessmentHistory";
-
-const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
+import API from "../../utils/api";  
 
 const STEPS = [
   { id: "setup",   label: "Setup",   Icon: FaBullseye },
@@ -58,7 +57,7 @@ export default function MockAssessment() {
   const showStepper  = step !== "history";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 flex flex-col overflow-y-auto">
 
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <header className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-green-100 shadow-sm">
@@ -68,7 +67,7 @@ export default function MockAssessment() {
               <MdOutlineQuiz color="white" size={18} />
             </div>
             <span className="text-base sm:text-lg font-extrabold text-green-900 tracking-tight">
-              AI Assessment Pro
+              Mock Assessment 
             </span>
           </div>
 
@@ -167,7 +166,7 @@ export default function MockAssessment() {
 
       {/* ── Footer ──────────────────────────────────────────────────────── */}
       <footer className="text-center text-xs text-gray-400 py-4 border-t border-green-50 bg-white">
-        © {new Date().getFullYear()} AI Assessment Pro · Built for global talent
+        © {new Date().getFullYear()} Mock Assessment | Built with ❤️ by Skill2Job
       </footer>
     </div>
   );
