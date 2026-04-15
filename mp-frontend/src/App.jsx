@@ -22,7 +22,7 @@ import ResetPassword from "./auth/ResetPassword";
 // Student pages
 import Analytics from "./student/analytics/Analytics";
 import MyApplications from "./student/applications/MyApplications";
-import StudentDashboard from "./student/components/StudentDashboard";
+import StudentDashboard from "./student/dashboard/StudentDashboard";
 import FindJobs from "./student/jobs/FindJobs";
 import JobDetails from "./student/jobs/JobDetails";
 import MockAssessment from "./student/mock-assessment/MockAssessment";
@@ -65,7 +65,7 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-      <ScrollToTop/>
+        <ScrollToTop />
         {/* Toast notifications */}
         <Toaster position="top-right" reverseOrder={false} />
 

@@ -19,7 +19,7 @@ const NAV_ITEMS = [
   { to: "/recruiter/my-jobs", icon: Briefcase, label: "My Jobs" },
   { to: "/recruiter/post-job", icon: PlusCircle, label: "Post Job" },
   { to: "/recruiter/candidates-applications", icon: Users, label: "Candidates" },
-  { to: "/recruiter-dashboard/analytics", icon: BarChart3, label: "Analytics" },
+ 
 ];
 
 const linkClass =
