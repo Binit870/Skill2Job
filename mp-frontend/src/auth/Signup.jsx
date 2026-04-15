@@ -12,22 +12,22 @@ import {
 
 /* Orbiting bubbles */
 const BUBBLES = [
-  { Icon: FaGraduationCap, top: "10%",    left: "55%",  size: 46, delay: "0s"   },
-  { Icon: FaFileAlt,       top: "25%",    right: "5%",  size: 40, delay: "0.4s" },
-  { Icon: FaChartLine,     top: "53%",    right: "4%",  size: 46, delay: "0.8s" },
-  { Icon: FaHandshake,     bottom: "16%", left: "50%",  size: 42, delay: "1.2s" },
-  { Icon: FaStar,          bottom: "25%", left: "7%",   size: 48, delay: "1.6s" },
-  { Icon: FaSearch,        top: "37%",    left: "5%",   size: 38, delay: "2.0s" },
+  { Icon: FaGraduationCap, top: "10%", left: "55%", size: 46, delay: "0s" },
+  { Icon: FaFileAlt, top: "25%", right: "5%", size: 40, delay: "0.4s" },
+  { Icon: FaChartLine, top: "53%", right: "4%", size: 46, delay: "0.8s" },
+  { Icon: FaHandshake, bottom: "16%", left: "50%", size: 42, delay: "1.2s" },
+  { Icon: FaStar, bottom: "25%", left: "7%", size: 48, delay: "1.6s" },
+  { Icon: FaSearch, top: "37%", left: "5%", size: 38, delay: "2.0s" },
 ];
 
 /* Background scattered icons */
 const BG_ICONS = [
-  { Icon: FaRocket,        size: 80, style: { top: "5%",    left: "5%",  transform: "rotate(-15deg)" } },
-  { Icon: FaLaptopCode,    size: 88, style: { top: "5%",    right: "6%", transform: "rotate(10deg)"  } },
-  { Icon: FaMedal,         size: 68, style: { bottom: "8%", left: "6%",  transform: "rotate(20deg)"  } },
+  { Icon: FaRocket, size: 80, style: { top: "5%", left: "5%", transform: "rotate(-15deg)" } },
+  { Icon: FaLaptopCode, size: 88, style: { top: "5%", right: "6%", transform: "rotate(10deg)" } },
+  { Icon: FaMedal, size: 68, style: { bottom: "8%", left: "6%", transform: "rotate(20deg)" } },
   { Icon: FaClipboardList, size: 72, style: { bottom: "6%", right: "5%", transform: "rotate(-10deg)" } },
-  { Icon: FaBuilding,      size: 60, style: { top: "44%",   left: "3%",  transform: "rotate(-5deg)"  } },
-  { Icon: FaUserTie,       size: 62, style: { top: "43%",   right: "3%", transform: "rotate(8deg)"   } },
+  { Icon: FaBuilding, size: 60, style: { top: "44%", left: "3%", transform: "rotate(-5deg)" } },
+  { Icon: FaUserTie, size: 62, style: { top: "43%", right: "3%", transform: "rotate(8deg)" } },
 ];
 
 const Signup = () => {
@@ -94,9 +94,8 @@ const Signup = () => {
               {[0, 1, 2].map((i) => (
                 <div
                   key={i}
-                  className={`rounded-full bg-white transition-all ${
-                    i === 1 ? "w-5 h-1.5" : "w-1.5 h-1.5 opacity-30"
-                  }`}
+                  className={`rounded-full bg-white transition-all ${i === 1 ? "w-5 h-1.5" : "w-1.5 h-1.5 opacity-30"
+                    }`}
                 />
               ))}
             </div>
@@ -163,11 +162,10 @@ const Signup = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   required
-                  placeholder="Create a password"
+                  placeholder="Enter Password"
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  className="auth-input-base"
-                  style={{ paddingRight: 38 }}
+                  className="auth-input-base pr-10"
                 />
                 <button
                   type="button"

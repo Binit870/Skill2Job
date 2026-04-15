@@ -106,19 +106,20 @@ const Login = () => {
               </div>
               <div className="auth-input-wrap">
                 <FaLock className="auth-input-icon" />
+
                 <input
                   type={showPassword ? "text" : "password"}
                   required
                   placeholder="Enter Password"
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  className="auth-input-base"
-                  style={{ paddingRight: 38 }}
+                  className="auth-input-base pr-10"
                 />
+
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500 transition text-xs"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300"
                 >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>

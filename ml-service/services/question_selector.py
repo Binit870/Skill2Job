@@ -1,60 +1,56 @@
+# services/question_selector.py
 import json
-from sentence_transformers import SentenceTransformer
+import os
+import functools
 import numpy as np
-import random  # ✅ NEW
+from ml_models import get_sentence_model
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATASET_PATH = os.path.join(BASE_DIR, "dataset", "interview_questions.json")
 
-
-def flatten_questions(raw):
+@functools.lru_cache(maxsize=1)
+def _load_questions() -> list:
+    with open(DATASET_PATH, encoding="utf-8") as f:
+        raw = json.load(f)
     flat = []
     for role_group in raw:
         for diff_group in role_group:
-            for question in diff_group:
-                if isinstance(question, dict):
-                    flat.append(question)
+            for q in diff_group:
+                if isinstance(q, dict):
+                    flat.append(q)
     return flat
 
+def generate_questions(role: str, difficulty: str) -> dict:
+    model = get_sentence_model()
+    questions = _load_questions()
 
-def generate_questions(role, difficulty):
-    with open("dataset/interview_questions.json") as f:
-        raw = json.load(f)
-
-    questions = flatten_questions(raw)
-
-    role_embedding = model.encode(role)
-
-    filtered = []
-
-    # ✅ Step 1: filter by difficulty
-    for q in questions:
-        if not all(k in q for k in ("difficulty", "role", "question", "ideal_answer")):
-            continue
-
-        if q["difficulty"].strip().lower() == difficulty.strip().lower():
-            filtered.append(q)
-
-    # ✅ Step 2: fallback if empty
+    # Filter by difficulty first
+    filtered = [
+        q for q in questions
+        if all(k in q for k in ("difficulty", "role", "question", "ideal_answer"))
+        and q["difficulty"].strip().lower() == difficulty.strip().lower()
+    ]
     if not filtered:
         filtered = [
             q for q in questions
             if all(k in q for k in ("role", "question", "ideal_answer"))
         ]
 
-    # ✅ Step 3: OPTIONAL — still bias toward role similarity
-    scored = []
-    for q in filtered:
-        q_embed = model.encode(q["role"])
-        similarity = float(np.dot(role_embedding, q_embed))
-        scored.append((similarity, q))
+    # Batch-encode all unique roles at once (9 encodes, not 282)
+    unique_roles = list({q["role"] for q in filtered})
+    role_emb     = model.encode(role)
+    role_embs    = model.encode(unique_roles)
+    role_sim_map = {r: float(np.dot(role_emb, e)) for r, e in zip(unique_roles, role_embs)}
 
-    # 🔥 KEY CHANGE:
-    # Instead of taking top 5 → randomly pick from scored list
-    random.shuffle(scored)
+    # Score and sort — highest similarity first
+    scored = sorted(filtered, key=lambda q: role_sim_map.get(q["role"], 0), reverse=True)
 
-    selected = scored[:10]
+    # Take top 20, then randomly sample 10 for variety
+    import random
+    top = scored[:20]
+    selected = random.sample(top, min(10, len(top)))
 
     return {
-        "questions": [q[1]["question"] for q in selected],
-        "ideal_answers": [q[1]["ideal_answer"] for q in selected],
+        "questions":     [q["question"]    for q in selected],
+        "ideal_answers": [q["ideal_answer"] for q in selected],
     }
