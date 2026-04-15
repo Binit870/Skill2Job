@@ -20,7 +20,7 @@ const PostJob = () => {
   } = usePostJob();
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen overflow-y-auto bg-white ">
 
       <PostJobHeader companyLogo={formData.companyLogo} />
 
