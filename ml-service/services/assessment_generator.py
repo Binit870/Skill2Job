@@ -1,11 +1,13 @@
 import json
 import random
 import os
+import functools
 
 # Absolute path relative to this file — works regardless of working directory
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATASET_PATH = os.path.join(BASE_DIR, "dataset", "assessment_questions.json")
 
+@functools.lru_cache(maxsize=1)
 def load_questions():
     with open(DATASET_PATH, encoding="utf-8") as f:
         return json.load(f)

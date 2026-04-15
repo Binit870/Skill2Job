@@ -1,4 +1,68 @@
+# ─── ENV FILES ─────────────────────────────
 .env
-.env*
-/.env*
-node_modules
+.env.local
+.env.production
+.env.development
+# .env.example is intentionally NOT ignored — commit it as a template
+
+# ─── NODE ──────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# ─── PYTHON ────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Egg / build artifacts
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ─── ML MODELS ─────────────────────────────
+# Models are small (< 2 KB) and required at startup — commit them.
+# If you ever retrain with a large dataset and models exceed ~50 MB,
+# move them to Git LFS or download them in your Dockerfile build step.
+# ml-service/models/*.pkl   ← leave commented unless models get large
+
+# ─── UPLOADS (user files — never commit) ───
+mp-backend/uploads/
+
+# ─── FRONTEND BUILD OUTPUT ─────────────────
+mp-frontend/dist/
+mp-frontend/.vercel/
+
+# ─── JUPYTER / NOTEBOOKS ───────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ─── LOGS & TEMP ───────────────────────────
+*.log
+*.tmp
+*.temp
+
+# ─── OS FILES ──────────────────────────────
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+
+# ─── IDE ───────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ─── DOCKER ────────────────────────────────
+*.tar
+
+# ─── DATASET (keep JSON files — they're small) ─
+# ml-service/dataset/*.json   ← leave committed, they're your question banks

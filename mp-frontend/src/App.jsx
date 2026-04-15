@@ -15,6 +15,8 @@ import NotFound from "./routes/NotFound";
 // Public pages
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
+import ForgotPassword from "./auth/ForgotPassword";
+import ResetPassword from "./auth/ResetPassword";
 
 // Student pages
 import Analytics from "./student/analytics/Analytics";
@@ -71,6 +73,8 @@ export default function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
           </Route>
 
           {/* ========== STUDENT ROUTES ========== */}

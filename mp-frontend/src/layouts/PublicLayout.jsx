@@ -6,7 +6,9 @@ export default function PublicLayout() {
 
   const hideNavbar =
     location.pathname === "/login" ||
-    location.pathname === "/signup";
+    location.pathname === "/signup"
+    || location.pathname === "/forgot-password"
+    || location.pathname.startsWith("/reset-password");
 
   return (
     <>
