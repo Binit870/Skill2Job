@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
 import {
   RadialBarChart, RadialBar, PolarAngleAxis,
   ResponsiveContainer, BarChart, Bar,
   XAxis, YAxis, Tooltip, CartesianGrid,
 } from "recharts";
+import API from "../../utils/api";
 
-const API = "http://localhost:5000/api/resume";
 const auth = () => ({ Authorization: `Bearer ${localStorage.getItem("token")}` });
 
 const Analytics = () => {
@@ -34,7 +33,7 @@ const Analytics = () => {
 
   const fetchLatest = async () => {
     try {
-      const res = await axios.get(`${API}/latest`, { headers: auth() });
+      const res = await API.get("/api/resume/latest", { headers: auth() });
       setData(res.data.data); // { atsScore, placementProbability, missingSkills }
     } catch (e) {
       console.error(e);
@@ -43,7 +42,7 @@ const Analytics = () => {
 
   const fetchHistory = async () => {
     try {
-      const res = await axios.get(`${API}/history`, { headers: auth() });
+      const res = await API.get("/api/resume/history", { headers: auth() });
       setHistory(res.data.data || []);
     } catch (e) {
       console.error(e);

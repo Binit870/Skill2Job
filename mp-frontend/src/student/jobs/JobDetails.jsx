@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ApplyModal from "./ApplyModal";
-
-const API = "http://localhost:5000";
+import API from "../../utils/api"; 
 
 const TYPE_STYLES = {
   "Full-Time":  "bg-blue-50 text-blue-700 border-blue-200",
@@ -40,7 +39,7 @@ export default function JobDetails({ job: jobProp, onClose }) {
       try {
         const token = localStorage.getItem("token");
         if (!token) return;
-        const res = await axios.get(`${API}/api/applications/check/${jobProp._id}`, {
+        const res = await API.get(`/api/applications/check/${jobProp._id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.data?.applied) setApplied(true);

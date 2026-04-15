@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import API from "../../utils/api";
 
-const API = "http://localhost:5000";
 
 function Field({ label, optional, hint, children }) {
   return (
@@ -80,7 +80,7 @@ export default function ApplyModal({ job, onClose, onSuccess }) {
     (async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(`${API}/api/auth/me`, {
+        const res = await API.get("/api/auth/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const p = res.data?.data || res.data?.user || res.data;
@@ -127,7 +127,7 @@ export default function ApplyModal({ job, onClose, onSuccess }) {
       if (form.resumeChoice === "upload" && form.resumeFile) {
         fd.append("resume", form.resumeFile);
       }
-      await axios.post(`${API}/api/applications`, fd, {
+      await API.post("/api/applications", fd, {
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
       });
       setSubmitted(true);

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import {
@@ -12,6 +11,7 @@ import {
   RiCheckboxCircleFill,
   RiFilePdf2Line,
 } from "react-icons/ri";
+import API from "../../utils/api";
 
 const S = `
   @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
@@ -191,7 +191,7 @@ const S = `
   }
 `;
 
-const API = "http://localhost:5000/api/resume";
+
 const auth = () => ({ Authorization: `Bearer ${localStorage.getItem("token")}` });
 
 const MyResume = () => {
@@ -202,7 +202,7 @@ const MyResume = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(API, { headers: auth() }).then(r => setResume(r.data.data)).catch(() => {});
+    API.get("/api/resume", { headers: auth() }).then(r => setResume(r.data.data)).catch(() => {});
   }, []);
 
   const handleUpload = async () => {
@@ -211,7 +211,7 @@ const MyResume = () => {
     fd.append("resume", file);
     try {
       setLoading(true);
-      const r = await axios.post(`${API}/analyze`, fd, {
+      const r = await API.post("/api/resume/analyze", fd, {
         headers: { "Content-Type": "multipart/form-data", ...auth() },
       });
       toast.success("Resume analyzed successfully");
@@ -222,7 +222,7 @@ const MyResume = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(API, { headers: auth() });
+      await API.delete("/api/resume", { headers: auth() });
       setResume(null);
       toast.success("Resume deleted");
     } catch { toast.error("Failed to delete"); }
