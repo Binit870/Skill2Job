@@ -87,18 +87,10 @@ const Signup = () => {
 
           {/* Bottom tagline */}
           <div className="absolute bottom-5 left-0 right-0 flex flex-col items-center gap-1.5">
-            <span className="text-white/60 text-[11px] font-medium tracking-widest uppercase">
+            <span className="text-white text-[11px] font-medium tracking-widest uppercase">
               Connect. Grow. Succeed.
             </span>
-            <div className="flex gap-1.5">
-              {[0, 1, 2].map((i) => (
-                <div
-                  key={i}
-                  className={`rounded-full bg-white transition-all ${i === 1 ? "w-5 h-1.5" : "w-1.5 h-1.5 opacity-30"
-                    }`}
-                />
-              ))}
-            </div>
+            
           </div>
         </div>
 

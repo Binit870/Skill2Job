@@ -147,14 +147,7 @@ export default function ForgotPassword() {
             <span className="text-white/60 text-[11px] font-medium tracking-widest uppercase">
               We've got you covered.
             </span>
-            <div className="flex gap-1.5">
-              {[0, 1, 2].map((i) => (
-                <div
-                  key={i}
-                  className={`rounded-full bg-white transition-all ${i === 1 ? "w-5 h-1.5" : "w-1.5 h-1.5 opacity-30"}`}
-                />
-              ))}
-            </div>
+            
           </div>
         </div>
 
