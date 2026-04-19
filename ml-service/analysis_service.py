@@ -8,14 +8,14 @@ from ml_models import get_sklearn_models
 # Skills to check for in resume text
 ROLE_SKILLS = {
     "frontend":  ["react", "typescript", "html", "css", "redux", "javascript"],
-    "backend":   ["nodejs", "python", "java", "sql", "mongodb", "docker", "rest"],
+    "backend":   ["node.js", "python", "java", "sql", "mongodb", "docker", "rest"],
     "ml":        ["python", "tensorflow", "pytorch", "pandas", "numpy", "machine learning"],
-    "fullstack": ["react", "nodejs", "sql", "docker", "git", "javascript"],
+    "fullstack": ["react", "node.js", "sql", "docker", "git", "javascript"],
     "devops":    ["docker", "kubernetes", "aws", "azure", "gcp", "ci/cd", "linux"],
 }
 
 SKILL_IMPORTANCE = {
-    "react": 90, "javascript": 95, "typescript": 85, "nodejs": 88,
+    "react": 90, "javascript": 95, "typescript": 85, "node.js": 88,
     "python": 92, "sql": 80, "mongodb": 75, "docker": 82,
     "kubernetes": 70, "aws": 78, "azure": 72, "gcp": 68,
     "tensorflow": 80, "pytorch": 78, "machine learning": 85,

@@ -30,13 +30,15 @@ export default function RecruiterDashboard() {
 
   const totalJobs = jobs.length;
   const totalApplications = applications.length;
-  const shortlisted = applications.filter(a => a.status === "Shortlisted").length;
-  const pending = applications.filter(a => a.status === "Pending").length;
+  const shortlisted = applications.filter((a) => a.status === "Shortlisted").length;
+  const pending = applications.filter((a) => a.status === "Pending").length;
 
-  const statusColor = (status) => {
-    if (status === "Shortlisted") return "bg-green-50 text-green-700 border border-green-200";
-    if (status === "Rejected") return "bg-red-50 text-red-600 border border-red-200";
-    return "bg-gray-100 text-gray-600 border border-gray-200";
+  const statusStyle = (status) => {
+    if (status === "Shortlisted")
+      return "bg-emerald-50 text-emerald-700 border border-emerald-200";
+    if (status === "Rejected")
+      return "bg-red-50 text-red-600 border border-red-200";
+    return "bg-gray-100 text-gray-500 border border-gray-200";
   };
 
   if (loading) {
@@ -51,21 +53,21 @@ export default function RecruiterDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <div className="min-h-screen bg-gray-50 px-4 py-6 sm:px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto space-y-5">
 
         {/* HEADER */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-7 py-5 flex justify-between items-center">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-5 py-4 sm:px-7 sm:py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold text-[#0f4c35] tracking-widest uppercase mb-1">
+            <p className="text-[10px] sm:text-xs font-semibold text-[#0f4c35] tracking-widest uppercase mb-1">
               Recruiter Dashboard
             </p>
-            <h1 className="text-2xl font-bold text-gray-900">Hiring Overview</h1>
-            <p className="text-sm text-gray-400 mt-0.5">Manage your jobs and candidates</p>
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Hiring Overview</h1>
+            <p className="text-xs sm:text-sm text-gray-400 mt-0.5">Manage your jobs and candidates</p>
           </div>
           <button
             onClick={() => navigate("/recruiter/post-job")}
-            className="flex items-center gap-2 bg-[#0f4c35] hover:bg-[#0a3525] text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-all shadow-sm"
+            className="self-start sm:self-auto flex items-center gap-2 bg-[#0f4c35] hover:bg-[#0a3525] active:scale-95 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-all shadow-sm"
           >
             <Plus size={15} />
             Post a Job
@@ -73,7 +75,7 @@ export default function RecruiterDashboard() {
         </div>
 
         {/* STATS */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <StatCard title="Total Jobs" value={totalJobs} icon={Briefcase} />
           <StatCard title="Applications" value={totalApplications} icon={Users} />
           <StatCard title="Shortlisted" value={shortlisted} icon={TrendingUp} highlight />
@@ -82,10 +84,10 @@ export default function RecruiterDashboard() {
 
         {/* QUICK ACTIONS */}
         <div>
-          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
+          <h2 className="text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
             Quick Actions
           </h2>
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             <ActionCard
               title="Manage Jobs"
               desc="View, edit or close your postings"
@@ -109,11 +111,11 @@ export default function RecruiterDashboard() {
 
         {/* RECENT APPLICATIONS */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
-            <h2 className="text-base font-semibold text-gray-800">Recent Applications</h2>
+          <div className="px-5 py-4 sm:px-6 border-b border-gray-100 flex justify-between items-center">
+            <h2 className="text-sm sm:text-base font-semibold text-gray-800">Recent Applications</h2>
             <button
               onClick={() => navigate("/recruiter/candidates-applications")}
-              className="text-xs text-[#0f4c35] font-semibold hover:underline flex items-center gap-1"
+              className="text-xs text-[#0f4c35] font-semibold hover:underline flex items-center gap-0.5"
             >
               View all <ChevronRight size={13} />
             </button>
@@ -128,17 +130,24 @@ export default function RecruiterDashboard() {
               {applications.slice(0, 5).map((app) => {
                 const user = app.applicant || app.applicantSnapshot || {};
                 return (
-                  <div key={app._id} className="flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition-colors">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-[#f0f7f4] text-[#0f4c35] flex items-center justify-center text-sm font-bold shrink-0">
+                  <div
+                    key={app._id}
+                    className="flex items-center justify-between px-5 sm:px-6 py-3.5 hover:bg-gray-50 transition-colors"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#f0f7f4] text-[#0f4c35] flex items-center justify-center text-xs sm:text-sm font-bold shrink-0">
                         {user.name?.charAt(0)?.toUpperCase() || "?"}
                       </div>
-                      <div>
-                        <p className="text-sm font-semibold text-gray-800">{user.name || "Unknown"}</p>
-                        <p className="text-xs text-gray-400">{app.job?.title || "—"}</p>
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-gray-800 truncate">
+                          {user.name || "Unknown"}
+                        </p>
+                        <p className="text-xs text-gray-400 truncate">{app.job?.title || "—"}</p>
                       </div>
                     </div>
-                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${statusColor(app.status)}`}>
+                    <span
+                      className={`ml-3 shrink-0 text-[11px] font-medium px-2.5 py-1 rounded-full ${statusStyle(app.status)}`}
+                    >
                       {app.status}
                     </span>
                   </div>
@@ -155,13 +164,25 @@ export default function RecruiterDashboard() {
 
 function StatCard({ title, value, icon: Icon, highlight }) {
   return (
-    <div className={`rounded-2xl border shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-shadow duration-200 ${highlight ? "bg-[#0f4c35] border-[#0a3525]" : "bg-white border-gray-100"}`}>
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${highlight ? "bg-white/10" : "bg-[#f0f7f4]"}`}>
-        <Icon size={18} className={highlight ? "text-white" : "text-[#0f4c35]"} />
+    <div
+      className={`rounded-2xl border shadow-sm p-4 sm:p-5 flex items-center gap-3 sm:gap-4 hover:shadow-md transition-shadow duration-200 ${
+        highlight ? "bg-[#0f4c35] border-[#0a3525]" : "bg-white border-gray-100"
+      }`}
+    >
+      <div
+        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 ${
+          highlight ? "bg-white/10" : "bg-[#f0f7f4]"
+        }`}
+      >
+        <Icon size={17} className={highlight ? "text-white" : "text-[#0f4c35]"} />
       </div>
       <div>
-        <p className={`text-xs font-medium ${highlight ? "text-green-200" : "text-gray-400"}`}>{title}</p>
-        <p className={`text-2xl font-bold leading-tight ${highlight ? "text-white" : "text-gray-900"}`}>{value}</p>
+        <p className={`text-[11px] sm:text-xs font-medium ${highlight ? "text-green-200" : "text-gray-400"}`}>
+          {title}
+        </p>
+        <p className={`text-xl sm:text-2xl font-bold leading-tight ${highlight ? "text-white" : "text-gray-900"}`}>
+          {value}
+        </p>
       </div>
     </div>
   );
@@ -171,16 +192,21 @@ function ActionCard({ title, desc, icon: Icon, onClick }) {
   return (
     <div
       onClick={onClick}
-      className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 cursor-pointer hover:shadow-md hover:border-gray-200 transition-all duration-200 group flex items-start gap-4"
+      className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-5 cursor-pointer hover:shadow-md hover:border-gray-200 active:scale-[0.98] transition-all duration-200 group flex items-center gap-4"
     >
-      <div className="w-10 h-10 rounded-xl bg-[#f0f7f4] flex items-center justify-center shrink-0 group-hover:bg-[#0f4c35] transition-colors duration-200">
-        <Icon size={18} className="text-[#0f4c35] group-hover:text-white transition-colors duration-200" />
+      <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#f0f7f4] flex items-center justify-center shrink-0 group-hover:bg-[#0f4c35] transition-colors duration-200">
+        <Icon size={17} className="text-[#0f4c35] group-hover:text-white transition-colors duration-200" />
       </div>
       <div className="flex-1 min-w-0">
-        <h3 className="text-sm font-semibold text-gray-800 group-hover:text-[#0f4c35] transition-colors">{title}</h3>
-        <p className="text-xs text-gray-400 mt-0.5">{desc}</p>
+        <h3 className="text-sm font-semibold text-gray-800 group-hover:text-[#0f4c35] transition-colors truncate">
+          {title}
+        </h3>
+        <p className="text-xs text-gray-400 mt-0.5 truncate">{desc}</p>
       </div>
-      <ChevronRight size={15} className="text-gray-300 group-hover:text-[#0f4c35] mt-0.5 transition-colors shrink-0" />
+      <ChevronRight
+        size={14}
+        className="text-gray-300 group-hover:text-[#0f4c35] shrink-0 transition-colors"
+      />
     </div>
   );
 }
