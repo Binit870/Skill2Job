@@ -116,3 +116,8 @@ def assessment_evaluate(data: AssessmentSubmitRequest):
 @app.get("/health")
 def health():
     return {"status": "ok", "service": "ML Service"}
+
+# Add this right after the /health route at the bottom
+@app.get("/")
+def root():
+    return {"status": "ok"}
