@@ -2,12 +2,18 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 
+// Public pages
+import About from "./public/About";
+import Contact from "./public/Contact";
+import Features from "./public/Features";
+import HowItWorks from "./public/HowItWorks";
+import LandingPage from "./public/LandingPage";
+import ScrollToTop from "./public/ScrollToTop";
+
 // Layouts
-import LandingPage from "./layouts/LandingPage";
 import PublicLayout from "./layouts/PublicLayout";
 import StudentLayout from "./layouts/StudentLayout";
 import RecruiterLayout from "./layouts/RecruiterLayout";
-import ScrollToTop from "./layouts/ScrollToTop";
 
 //Routes
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -73,6 +79,11 @@ export default function App() {
           {/* ========== PUBLIC ROUTES ========== */}
           <Route element={<PublicLayout />}>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/features" element={<Features />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/contact" element={<Contact />} />
+            
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />

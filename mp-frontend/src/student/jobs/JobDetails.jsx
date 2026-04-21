@@ -32,7 +32,7 @@ export default function JobDetails({ job: jobProp, onClose }) {
     setApplied(false);
     const check = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         if (!token) return;
         const res = await API.get(`/api/applications/check/${jobProp._id}`, {
           headers: { Authorization: `Bearer ${token}` },

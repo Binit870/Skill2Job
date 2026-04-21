@@ -6,7 +6,7 @@ import {
 } from "react-icons/fa";
 import { MdOutlineQuiz } from "react-icons/md";
 import AssessmentResult from "./AssessmentResult";
-
+import API from "../../utils/api.js"
 const TOPIC_ICONS = { aptitude: "🧮", reasoning: "🧩", verbal: "📖", technical: "💻", ml: "🤖" };
 const GRADE_COLOR = {
   "A+": "text-green-600", "A": "text-green-600",
@@ -32,10 +32,10 @@ export default function AssessmentHistory({ onBack }) {
   const [detailLoading, setDetailLoading] = useState(false);
   const [fetchError, setFetchError] = useState(null);
 
-  const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 
   useEffect(() => {
-    axios.get(`${API}/api/assessment/history`)
+    API.get(`/api/assessment/history`)
       .then(r => setHistory(r.data))
       .catch(e => { console.error(e); setFetchError("Could not load history."); })
       .finally(() => setLoading(false));
@@ -44,7 +44,7 @@ export default function AssessmentHistory({ onBack }) {
   const handleView = async (id) => {
     setDetailLoading(true);
     try {
-      const r = await axios.get(`${API}/api/assessment/history/${id}`);
+      const r = await API.get(`/api/assessment/history/${id}`);
       setDetail(r.data);
     } catch (e) {
       console.error(e);

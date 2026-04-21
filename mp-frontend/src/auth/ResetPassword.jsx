@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { resetPassword } from "../services/authService";
+import logo from "../assets/logo.png";
 import {
   FaLock, FaArrowRight, FaBriefcase,
   FaEye, FaEyeSlash,
@@ -72,8 +73,12 @@ export default function ResetPassword() {
             onClick={() => navigate("/")}
             className="flex items-center gap-2 mb-8 cursor-pointer"
           >
-            <div className="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-200">
-              <FaBriefcase className="text-white text-sm" />
+            <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-lg border border-green-800">
+              <img
+                src={logo}
+                alt="Logo"
+                className="w-full h-full object-contain p-1 "
+              />
             </div>
             <span className="font-extrabold text-gray-800 text-lg tracking-tight">Skill2Job</span>
           </div>

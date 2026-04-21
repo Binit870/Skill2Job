@@ -77,7 +77,8 @@ export default function StudentDashboard() {
     .slice(0, 5);
 
   return (
-    <div className="min-h-screen bg-[#f7f7f5] p-6 font-['DM_Sans',sans-serif]">
+<div className="min-h-screen bg-[#f7f7f5] p-3 sm:p-6 font-['DM_Sans',sans-serif]">
+
       <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Display&display=swap');`}</style>
 
       <div className="max-w-6xl mx-auto space-y-5">
@@ -113,7 +114,7 @@ export default function StudentDashboard() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.06, ease: "easeOut" }}
-          className="grid md:grid-cols-4 gap-4"
+          className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4"
         >
           <Stat title="Placement Probability" value={`${placementProbability}%`} icon={TrendingUp} accent="#0f4c35" />
           <Stat title="Applications Sent" value={applications.length} icon={Briefcase} accent="#0f4c35" />
@@ -122,7 +123,7 @@ export default function StudentDashboard() {
         </motion.div>
 
         {/* MAIN GRID */}
-        <div className="grid lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
 
           {/* LEFT */}
           <div className="lg:col-span-2 space-y-5">

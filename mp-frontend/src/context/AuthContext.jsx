@@ -1,67 +1,82 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import api from "../utils/api";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    try {
+      const storedUser = sessionStorage.getItem("user");
+      return storedUser ? JSON.parse(storedUser) : null;
+    } catch {
+      return null;
+    }
+  });
 
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser) setUser(storedUser);
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   const refreshUser = async () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (!token) return;
 
-    const res = await api.get(
-      "/api/profile",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await api.get("/api/profile");
+    const fullUser = res.data;
 
-    localStorage.setItem("user", JSON.stringify(res.data));
-    setUser(res.data);
+    sessionStorage.setItem("user", JSON.stringify(fullUser));
+    setUser(fullUser);
   };
 
   const login = async (email, password) => {
-    const res = await api.post(
-      "/api/auth/login",
-      { email, password }
-    );
+    const res = await api.post("/api/auth/login", { email, password });
 
-    localStorage.setItem("token", res.data.token);
-    await refreshUser();
+    const token = res.data.token;
+    const basicUser = res.data.user;
 
-    return res.data.user;
+    sessionStorage.setItem("token", token);
+
+    // ✅ Fetch full profile so companyName, companyLogo, skills etc. are available
+    const profileRes = await api.get("/api/profile", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const fullUser = { ...basicUser, ...profileRes.data };
+
+    sessionStorage.setItem("user", JSON.stringify(fullUser));
+    setUser(fullUser);
+
+    return fullUser;
   };
 
   const signup = async (name, email, password, role) => {
-    const res = await api.post(
-      "/api/auth/signup",
-      { name, email, password, role }
-    );
+    const res = await api.post("/api/auth/signup", { name, email, password, role });
 
-    localStorage.setItem("token", res.data.token);
-    localStorage.setItem("user", JSON.stringify(res.data.user));
-    setUser(res.data.user);
+    const token = res.data.token;
+    const basicUser = res.data.user;
 
-    return res.data;
+    sessionStorage.setItem("token", token);
+
+    // ✅ Fetch full profile immediately after signup too
+    const profileRes = await api.get("/api/profile", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const fullUser = { ...basicUser, ...profileRes.data };
+
+    sessionStorage.setItem("user", JSON.stringify(fullUser));
+    setUser(fullUser);
+
+    return { ...res.data, user: fullUser };
   };
 
   const logout = () => {
-    localStorage.clear();
+    sessionStorage.clear();
     setUser(null);
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, login, signup, logout, refreshUser }}
+      value={{ user, login, signup, logout, refreshUser, loading }}
     >
       {children}
     </AuthContext.Provider>

@@ -6,7 +6,7 @@ export default function SkillsOverview({ matchedSkills, missingSkills }) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.12, ease: "easeOut" }}
-      className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6"
+      className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6"
     >
       <h2 className="text-base font-semibold text-gray-800 mb-5">Skills Overview</h2>
 

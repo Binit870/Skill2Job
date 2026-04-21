@@ -76,7 +76,7 @@ export default function ApplyModal({ job, onClose, onSuccess }) {
   useEffect(() => {
     (async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         const res = await API.get("/api/auth/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -114,7 +114,7 @@ export default function ApplyModal({ job, onClose, onSuccess }) {
     setError("");
     setSubmitting(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       const fd = new FormData();
       fd.append("jobId",            job._id);
       fd.append("coverLetter",      form.coverLetter);

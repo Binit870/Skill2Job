@@ -127,7 +127,7 @@ const StudentProfile = () => {
   const fetchProfile = async () => {
     try {
       const res = await API.get("/api/profile", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
       });
       const user = res.data;
       setForm({
@@ -194,7 +194,7 @@ const StudentProfile = () => {
       if (resumeFile)   formData.append("resume", resumeFile);
       await API.put("/api/profile/student", formData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",
         },
       });

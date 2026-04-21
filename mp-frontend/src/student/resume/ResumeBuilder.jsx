@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import API from "../../utils/api.js"
 import {
   RiArrowLeftLine,
   RiEyeLine,
@@ -220,8 +221,7 @@ const INIT = {
   lang:[""]
 };
 
-const API  = "http://localhost:5000/api/resume";
-const tok  = () => localStorage.getItem("token");
+const tok  = () => sessionStorage.getItem("token");
 const auth = () => ({ Authorization: `Bearer ${tok()}` });
 
 const Field = ({ label, span2, as, type, rows, placeholder, value, onChange, children }) => (
@@ -249,17 +249,17 @@ const ResumeBuilder = () => {
   const [loading, setLoading] = useState(false);
 
   const [fd, setFd] = useState(() => {
-    const saved = localStorage.getItem("resume_draft");
+    const saved = sessionStorage.getItem("resume_draft");
     return saved ? JSON.parse(saved) : INIT;
   });
 
   useEffect(() => {
-    localStorage.setItem("resume_draft", JSON.stringify(fd));
+    sessionStorage.setItem("resume_draft", JSON.stringify(fd));
   }, [fd]);
 
   useEffect(() => {
     if (!tok()) return;
-    axios.get(API, { headers: auth() }).then(res => {
+    API.get("/api/resume", { headers: auth() }).then(res => {
       if (res.data?.success) {
         const d = res.data.data;
         setFd(prev => ({
@@ -312,7 +312,7 @@ const ResumeBuilder = () => {
         achievementsStructured: fd.ach.filter(a => typeof a === "string" ? a.trim() : Object.values(a).some(Boolean)),
         languagesKnown: fd.lang.filter(l => l.trim()),
       };
-      await axios.post(`${API}/create`, payload, { headers: auth() });
+      await API.post(`/api/resume/create`, payload, { headers: auth() });
       toast.success("Resume saved successfully");
       navigate("/student/resume");
     } catch { toast.error("Save failed"); }

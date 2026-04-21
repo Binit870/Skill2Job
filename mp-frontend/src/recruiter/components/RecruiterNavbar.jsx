@@ -9,7 +9,7 @@ export default function RecruiterNavbar({ onMenuClick }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef();
 
-  const handleLogout = () => { logout(); navigate("/login"); };
+  const handleLogout = () => { logout(); navigate("/"); };
 
   useEffect(() => {
     const handleClickOutside = (e) => {

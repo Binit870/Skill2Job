@@ -27,7 +27,7 @@ export default function RecommendedJobs({ matchedJobs, onSelectJob }) {
               transition={{ delay: 0.2 + i * 0.05, duration: 0.3 }}
               className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:shadow-md hover:border-gray-200 transition-all duration-200 group"
             >
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-4">
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-gray-900 text-sm truncate">
                     {job.title}
@@ -50,7 +50,7 @@ export default function RecommendedJobs({ matchedJobs, onSelectJob }) {
                 </div>
                 <Button
                   onClick={() => onSelectJob(job)}
-                  className="shrink-0 flex items-center gap-1.5 group-hover:bg-[#0a3525]"
+                  className="shrink-0 self-start flex items-center gap-1.5 group-hover:bg-[#0a3525]"
                 >
                   Apply
                   <ArrowRight className="w-3.5 h-3.5" />

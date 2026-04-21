@@ -44,7 +44,7 @@ export default function DetailPanel({ app, onClose, onStatusUpdate }) {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       await API.patch(
         `/api/applications/${app._id}/status`,
         { status, recruiterNote: note },

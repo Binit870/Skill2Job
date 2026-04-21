@@ -7,7 +7,7 @@ import {
 } from "recharts";
 import API from "../../utils/api";
 
-const auth = () => ({ Authorization: `Bearer ${localStorage.getItem("token")}` });
+const auth = () => ({ Authorization: `Bearer ${sessionStorage.getItem("token")}` });
 
 /* ── Custom Tooltip ── */
 const CustomTooltip = ({ active, payload }) => {
