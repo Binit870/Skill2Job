@@ -16,6 +16,7 @@ import {
   RiArrowLeftLine,
   RiCheckLine,
 } from "react-icons/ri";
+import api from "../../utils/api.js"
 
 /* ── Google Font inject ── */
 const fontLink = document.createElement("link");
@@ -68,8 +69,8 @@ const RecruiterProfile = () => {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/profile", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      const res = await api.get("/api/profile", {
+        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
       });
       const user = res.data;
       setForm({
@@ -134,9 +135,9 @@ const RecruiterProfile = () => {
       formData.append("industry",           form.industry);
       formData.append("companyLocation",    form.companyLocation);
       if (croppedImage) formData.append("companyLogo", croppedImage, "logo.jpg");
-      await axios.put("http://localhost:5000/api/profile/recruiter", formData, {
+      await api.put("/api/profile/recruiter", formData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",
         },
       });

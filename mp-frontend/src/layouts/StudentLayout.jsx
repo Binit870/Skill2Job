@@ -1,5 +1,5 @@
-import StudentNavbar from "../student/components/StudentNavbar";
-import StudentSidebar from "../student/components/StudentSidebar";
+import StudentNavbar from "../student/dashboard/StudentNavbar";
+import StudentSidebar from "../student/dashboard/StudentSidebar";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 
@@ -7,27 +7,21 @@ export default function StudentLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="h-screen flex bg-gray-100 overflow-hidden">
+    <div className="h-screen flex bg-white">
+      {/* Sidebar wrapper — overflow-visible so toggle button can peek out */}
+      <div className="relative z-10 flex-shrink-0">
+        <StudentSidebar
+          mobileOpen={mobileOpen}
+          onMobileClose={() => setMobileOpen(false)}
+        />
+      </div>
 
-      {/* Sidebar */}
-      <StudentSidebar
-        mobileOpen={mobileOpen}
-        onMobileClose={() => setMobileOpen(false)}
-      />
-
-      {/* Right Section */}
-      <div className="flex-1 flex flex-col min-w-0">
-
-        {/* Navbar */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <StudentNavbar onMenuClick={() => setMobileOpen(true)} />
 
-        {/* Page Content */}
-        <div className="flex-1 overflow-y-auto p-3 md:p-6">
-          <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-sm p-4 md:p-6 min-h-full">
-            <Outlet />
-          </div>
+        <div className="flex-1 overflow-auto bg-gray-50 p-3 md:p-6">
+          <Outlet />
         </div>
-
       </div>
     </div>
   );

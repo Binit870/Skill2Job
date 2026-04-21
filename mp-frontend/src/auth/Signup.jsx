@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import logo from "../assets/logo.png";
 import {
   FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash,
   FaBriefcase, FaUserTie, FaGraduationCap, FaArrowRight,
@@ -51,6 +52,19 @@ const Signup = () => {
 
   return (
     <div className="auth-root">
+      {/* Back to Home — above card */}
+      <div className="w-full max-w-[940px] mb-3 px-1">
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs font-semibold px-4 py-2 rounded-lg shadow transition-all duration-200 group"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Home
+        </button>
+      </div>
+
       <div className="auth-card auth-card-signup">
 
         {/* ══════════════ LEFT: Illustration ══════════════ */}
@@ -87,29 +101,25 @@ const Signup = () => {
 
           {/* Bottom tagline */}
           <div className="absolute bottom-5 left-0 right-0 flex flex-col items-center gap-1.5">
-            <span className="text-white/60 text-[11px] font-medium tracking-widest uppercase">
+            <span className="text-white text-[11px] font-medium tracking-widest uppercase">
               Connect. Grow. Succeed.
             </span>
-            <div className="flex gap-1.5">
-              {[0, 1, 2].map((i) => (
-                <div
-                  key={i}
-                  className={`rounded-full bg-white transition-all ${i === 1 ? "w-5 h-1.5" : "w-1.5 h-1.5 opacity-30"
-                    }`}
-                />
-              ))}
-            </div>
+
           </div>
         </div>
 
         {/* ══════════════ RIGHT: Form ══════════════ */}
         <div className="auth-form-side">
 
-          {/* Logo */}
+          {/* Logo — already exists below */}
           <div className="flex items-center gap-2 mb-6">
-            <div className="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-200">
-              <FaBriefcase className="text-white text-sm" />
-            </div>
+            <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-lg border border-green-800">
+                          <img
+                            src={logo}
+                            alt="Logo"
+                            className="w-full h-full object-contain p-1 "
+                          />
+                        </div>
             <span className="font-extrabold text-gray-800 text-lg tracking-tight">Skill2Job</span>
           </div>
 

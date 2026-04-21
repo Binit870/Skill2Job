@@ -5,7 +5,7 @@ import {
   FaPlay, FaClock, FaListOl, FaCheckCircle
 } from "react-icons/fa";
 import { MdOutlineQuiz, MdTune } from "react-icons/md";
-
+import API from "../../utils/api.js"
 const TOPICS = [
   { id: "aptitude",  label: "Aptitude",          Icon: FaCalculator, desc: "Numbers, percentages, time & work", color: "text-blue-500",   activeBg: "bg-blue-50",   activeBorder: "border-blue-400" },
   { id: "reasoning", label: "Reasoning",         Icon: FaBrain,      desc: "Series, coding, logical deduction", color: "text-purple-500", activeBg: "bg-purple-50", activeBorder: "border-purple-400" },
@@ -31,8 +31,8 @@ export default function AssessmentSetup({ onReady, setLoading }) {
     if (!topic) return;
     setLoading(true);
     try {
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/assessment/generate`,
+      const { data } = await API.post(
+        `api/assessment/generate`,
         { topic, num_questions: numQ, time_per_question: timePerQ, tf_ratio: tfRatio / 100 }
       );
       onReady({ topic, questions: data.questions, timePerQuestion: data.time_per_question });

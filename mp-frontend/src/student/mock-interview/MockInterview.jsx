@@ -12,17 +12,12 @@ export default function MockInterview() {
   const [feedback, setFeedback] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // ✅ FIX: Single callback that sets ALL state together before switching step.
-  // Previously, InterviewSetup called setQuestions/setRole/setStep/setLoading
-  // separately, causing React to render InterviewSession before questions was
-  // populated (because loading:false re-showed the view with stale questions:[]).
   const handleInterviewReady = ({ role: r, questions: q }) => {
-    setRole(r);           // 1. set role
-    setQuestions(q);      // 2. set questions
-    setResponses([]);     // 3. clear any old responses
-    setLoading(false);    // 4. hide loader
-    setStep("interview"); // 5. switch step LAST — so InterviewSession always
-                          //    mounts with role + questions already in state
+    setRole(r);
+    setQuestions(q);
+    setResponses([]);
+    setLoading(false);
+    setStep("interview");
   };
 
   const steps = [
@@ -35,103 +30,122 @@ export default function MockInterview() {
 
   return (
     <div style={{
-      minHeight: "100vh", background: "#f0faf5",
-      display: "flex", flexDirection: "column",
+      minHeight: "100vh",
+      background: "linear-gradient(160deg, #f0faf5 0%, #e8f5f0 100%)",
+      display: "flex",
+      flexDirection: "column",
       fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
     }}>
 
       {/* HEADER */}
       <header style={{
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        padding: "16px 32px", background: "#fff",
-        borderBottom: "1px solid #d1ead9", boxShadow: "0 1px 4px rgba(16,130,72,0.06)",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "14px clamp(16px, 4vw, 32px)",
+        background: "rgba(255,255,255,0.85)",
+        backdropFilter: "blur(12px)",
+        borderBottom: "1px solid #d1ead9",
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
+        
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{
-            width: 36, height: 36, borderRadius: "10px",
+            width: 36, height: 36, borderRadius: 10,
             background: "linear-gradient(135deg, #10b981, #059669)",
             display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: "0 2px 8px rgba(16,185,129,0.35)",
           }}>
             <Sparkles size={18} color="#fff" />
           </div>
-          <span style={{ fontSize: 18, fontWeight: 700, color: "#064e35", letterSpacing: "-0.3px" }}>
-            AI Interview Pro
+          <span style={{ fontSize: "clamp(15px,2vw,18px)", fontWeight: 700, color: "#064e35", letterSpacing: "-0.3px" }}>
+            Mock Interview
           </span>
         </div>
         <span style={{
-          fontSize: 12, fontWeight: 600, color: "#059669",
-          background: "#d1fae5", padding: "4px 12px", borderRadius: 20,
-          border: "1px solid #a7f3d0",
+          fontSize: 12, fontWeight: 700, color: "#059669",
+          background: "#d1fae5", padding: "5px 14px", borderRadius: 20,
+          border: "1px solid #a7f3d0", letterSpacing: "0.02em",
         }}>
-          Step {currentIndex + 1} / {steps.length}
+          {currentIndex + 1} / {steps.length}
         </span>
       </header>
 
       {/* STEPPER */}
-      <div style={{ background: "#fff", borderBottom: "1px solid #d1ead9", padding: "20px 32px" }}>
-        <div style={{ maxWidth: 640, margin: "0 auto" }}>
+      <div style={{
+        background: "rgba(255,255,255,0.7)",
+        borderBottom: "1px solid #d1ead9",
+        padding: "18px clamp(16px,4vw,32px)",
+      }}>
+        <div style={{ maxWidth: 560, margin: "0 auto", position: "relative" }}>
+          {/* connector track */}
           <div style={{
-            display: "flex", alignItems: "center",
-            justifyContent: "space-between", position: "relative",
+            position: "absolute", top: 20, left: "10%", right: "10%",
+            height: 2, background: "#d1fae5", zIndex: 0, borderRadius: 2,
           }}>
-            {steps.map((s, index) => (
-              <div key={s.id} style={{
-                display: "flex", flexDirection: "column", alignItems: "center",
-                flex: 1, position: "relative", zIndex: 1,
-              }}>
-                <div style={{
-                  width: 44, height: 44, borderRadius: "50%",
-                  background: index <= currentIndex
-                    ? "linear-gradient(135deg, #10b981, #059669)"
-                    : "#f0fdf4",
-                  border: index <= currentIndex ? "none" : "2px solid #a7f3d0",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  color: index <= currentIndex ? "#fff" : "#6ee7b7",
-                  boxShadow: index <= currentIndex ? "0 4px 12px rgba(16,185,129,0.35)" : "none",
-                  transition: "all 0.3s ease",
-                }}>
-                  {s.icon}
-                </div>
-                <span style={{
-                  fontSize: 12, marginTop: 6, fontWeight: 600,
-                  color: index <= currentIndex ? "#059669" : "#9ca3af",
-                }}>
-                  {s.label}
-                </span>
-              </div>
-            ))}
-            {/* Connector line */}
             <div style={{
-              position: "absolute", top: 22, left: "10%", right: "10%",
-              height: 2, background: "#d1fae5", zIndex: 0,
-            }}>
-              <div style={{
-                height: "100%", background: "linear-gradient(90deg, #10b981, #059669)",
-                width: `${(currentIndex / (steps.length - 1)) * 100}%`,
-                transition: "width 0.5s ease", borderRadius: 2,
-              }} />
-            </div>
+              height: "100%",
+              background: "linear-gradient(90deg, #10b981, #059669)",
+              width: `${(currentIndex / (steps.length - 1)) * 100}%`,
+              transition: "width 0.5s ease", borderRadius: 2,
+            }} />
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "space-between", position: "relative", zIndex: 1 }}>
+            {steps.map((s, index) => {
+              const done = index < currentIndex;
+              const active = index === currentIndex;
+              return (
+                <div key={s.id} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+                  <div style={{
+                    width: 40, height: 40, borderRadius: "50%",
+                    background: done || active
+                      ? "linear-gradient(135deg, #10b981, #059669)"
+                      : "#fff",
+                    border: done || active ? "none" : "2px solid #a7f3d0",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    color: done || active ? "#fff" : "#6ee7b7",
+                    boxShadow: active ? "0 4px 14px rgba(16,185,129,0.4)" : "none",
+                    transition: "all 0.3s ease",
+                  }}>
+                    {s.icon}
+                  </div>
+                  <span style={{
+                    fontSize: 11, fontWeight: 700,
+                    color: done || active ? "#059669" : "#9ca3af",
+                    letterSpacing: "0.04em",
+                    textTransform: "uppercase",
+                  }}>
+                    {s.label}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
 
       {/* MAIN */}
       <main style={{
-        flex: 1, display: "flex", justifyContent: "center",
-        alignItems: "flex-start", padding: "32px 16px",
+        flex: 1,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        padding: "clamp(16px,4vw,36px) clamp(12px,3vw,16px)",
       }}>
         <div style={{ width: "100%", maxWidth: 720 }}>
 
-          {/* Loading spinner — shown while API call is in flight */}
           {loading && (
             <div style={{
               display: "flex", flexDirection: "column",
               alignItems: "center", justifyContent: "center", padding: "80px 0",
             }}>
               <div style={{
-                width: 52, height: 52, border: "4px solid #d1fae5",
-                borderTopColor: "#10b981", borderRadius: "50%",
-                animation: "spin 0.8s linear infinite",
+                width: 48, height: 48,
+                border: "3px solid #d1fae5", borderTopColor: "#10b981",
+                borderRadius: "50%", animation: "spin 0.8s linear infinite",
               }} />
               <p style={{ color: "#6b7280", marginTop: 16, fontSize: 15 }}>
                 Preparing your interview...
@@ -143,31 +157,19 @@ export default function MockInterview() {
           {!loading && (
             <>
               {step === "setup" && (
-                // ✅ Pass onReady instead of individual setters
-                // InterviewSetup calls onReady({ role, questions }) in one go
-                <InterviewSetup
-                  onReady={handleInterviewReady}
-                  setLoading={setLoading}
-                />
+                <InterviewSetup onReady={handleInterviewReady} setLoading={setLoading} />
               )}
-
               {step === "interview" && (
                 <InterviewSession
-                  role={role}
-                  questions={questions}
-                  responses={responses}
-                  setResponses={setResponses}
-                  setFeedback={setFeedback}
-                  setStep={setStep}
+                  role={role} questions={questions}
+                  responses={responses} setResponses={setResponses}
+                  setFeedback={setFeedback} setStep={setStep}
                 />
               )}
-
               {step === "feedback" && (
                 <FeedbackReport
-                  feedback={feedback}
-                  role={role}
-                  responses={responses}
-                  setStep={setStep}
+                  feedback={feedback} role={role}
+                  responses={responses} setStep={setStep}
                 />
               )}
             </>
@@ -177,10 +179,12 @@ export default function MockInterview() {
 
       {/* FOOTER */}
       <footer style={{
-        textAlign: "center", fontSize: 13, color: "#9ca3af",
-        padding: "16px", borderTop: "1px solid #d1ead9", background: "#fff",
+        textAlign: "center", fontSize: 12, color: "#9ca3af",
+        padding: "14px clamp(12px,3vw,16px)",
+        borderTop: "1px solid #d1ead9",
+        background: "rgba(255,255,255,0.7)",
       }}>
-        © {new Date().getFullYear()} AI Interview Pro • Built for global talent
+        © {new Date().getFullYear()} Mock Interview · Built with ♥ by Skill2Job
       </footer>
     </div>
   );

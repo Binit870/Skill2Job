@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { forgotPassword } from "../services/authService";
+import logo from "../assets/logo.png";
 import {
   FaEnvelope, FaArrowRight, FaBriefcase,
   FaSearch, FaFileAlt, FaStar, FaHandshake,
@@ -60,9 +61,13 @@ export default function ForgotPassword() {
             onClick={() => navigate("/")}
             className="flex items-center gap-2 mb-8 cursor-pointer"
           >
-            <div className="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-200">
-              <FaBriefcase className="text-white text-sm" />
-            </div>
+            <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-lg border border-green-800">
+                          <img
+                            src={logo}
+                            alt="Logo"
+                            className="w-full h-full object-contain p-1 "
+                          />
+                        </div>
             <span className="font-extrabold text-gray-800 text-lg tracking-tight">Skill2Job</span>
           </div>
 
@@ -147,14 +152,7 @@ export default function ForgotPassword() {
             <span className="text-white/60 text-[11px] font-medium tracking-widest uppercase">
               We've got you covered.
             </span>
-            <div className="flex gap-1.5">
-              {[0, 1, 2].map((i) => (
-                <div
-                  key={i}
-                  className={`rounded-full bg-white transition-all ${i === 1 ? "w-5 h-1.5" : "w-1.5 h-1.5 opacity-30"}`}
-                />
-              ))}
-            </div>
+            
           </div>
         </div>
 

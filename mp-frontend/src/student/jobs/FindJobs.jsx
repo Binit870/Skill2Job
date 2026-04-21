@@ -63,7 +63,7 @@ export default function FindJobs() {
   useEffect(() => {
     (async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         const res = await API.get("/api/jobs", {
           headers: { Authorization: `Bearer ${token}` },
         });

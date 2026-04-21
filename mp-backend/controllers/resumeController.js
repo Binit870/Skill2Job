@@ -20,13 +20,17 @@ export const analyzeResume = async (req, res) => {
     });
 
     const response = await axios.post(
-      "http://localhost:8000/analyze",
+      `${process.env.ML_SERVICE_URL}/analyze`,
       formData,
-      { headers: formData.getHeaders(), timeout: 30000 }
+      {
+        headers: formData.getHeaders(),
+        timeout: 30000,
+      }
     );
 
     const result = response.data;
 
+    // REPLACE WITH
     const saved = await ResumeAnalysis.create({
       userId: req.user.id,
       atsScore: result.ats_score || 0,
@@ -34,7 +38,14 @@ export const analyzeResume = async (req, res) => {
       missingSkills: result.missing_skills || []
     });
 
-    res.json({ success: true, data: saved, analysis: result });
+    res.json({
+      success: true,
+      data: saved,
+      analysis: {
+        ...result,
+        missing_skills_detail: result.missing_skills_detail || []
+      }
+    });
   } catch (error) {
     console.error("❌ Analysis Error:", error.message);
     res.status(500).json({ success: false, error: "ML service failed" });
@@ -75,10 +86,10 @@ export const getResume = async (req, res) => {
 
 export const createOrUpdateResume = async (req, res) => {
   try {
-    const { 
-      fullName, email, phone, address, summary, github, linkedin, portfolio, 
-      education, experience, skillsCategorized, projects, 
-      certifications, achievements, languagesKnown, leadership 
+    const {
+      fullName, email, phone, address, summary, github, linkedin, portfolio,
+      education, experience, skillsCategorized, projects,
+      certifications, achievements, languagesKnown, leadership
     } = req.body;
 
     // Validation
@@ -96,26 +107,26 @@ export const createOrUpdateResume = async (req, res) => {
       github: github?.trim() || "",
       linkedin: linkedin?.trim() || "",
       portfolio: portfolio?.trim() || "",
-      
+
       // Filter Objects to avoid saving empty entries
       education: Array.isArray(education) ? education.filter(e => e.institution?.trim()) : [],
       experience: Array.isArray(experience) ? experience.filter(exp => exp.company?.trim() || exp.role?.trim()) : [],
-      
+
       skillsCategorized: skillsCategorized || {},
-      
+
       // Fix for Object filtering (p.trim error fixed here)
-      projects: Array.isArray(projects) 
-        ? projects.filter(p => p.name && p.name.trim() !== "") 
+      projects: Array.isArray(projects)
+        ? projects.filter(p => p.name && p.name.trim() !== "")
         : [],
-      
-      certifications: Array.isArray(certifications) 
-        ? certifications.filter(c => c.courseName && c.courseName.trim() !== "") 
+
+      certifications: Array.isArray(certifications)
+        ? certifications.filter(c => c.courseName && c.courseName.trim() !== "")
         : [],
-      
-      achievements: Array.isArray(achievements) 
-        ? achievements.filter(a => a.academic?.trim() || a.project?.trim() || a.technical?.trim() || a.leadership?.trim()) 
+
+      achievements: Array.isArray(achievements)
+        ? achievements.filter(a => a.academic?.trim() || a.project?.trim() || a.technical?.trim() || a.leadership?.trim())
         : [],
-      
+
       languagesKnown: Array.isArray(languagesKnown) ? languagesKnown.filter(l => l && l.trim() !== "") : [],
       leadership: Array.isArray(leadership) ? leadership.filter(l => l && l.trim() !== "") : [],
       updatedAt: new Date()
@@ -128,10 +139,10 @@ export const createOrUpdateResume = async (req, res) => {
       { returnDocument: 'after', upsert: true, runValidators: true }
     );
 
-    res.status(200).json({ 
-      success: true, 
-      message: 'Resume saved successfully! 🎉', 
-      data: updatedResume 
+    res.status(200).json({
+      success: true,
+      message: 'Resume saved successfully! 🎉',
+      data: updatedResume
     });
 
   } catch (error) {

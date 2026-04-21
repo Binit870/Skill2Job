@@ -6,17 +6,41 @@ from resume_parser import extract_text
 from ml_models import get_sklearn_models
 
 # Skills to check for in resume text
-KNOWN_SKILLS = [
-    "python", "java", "javascript", "react", "node", "nodejs", "sql", "mongodb",
-    "postgresql", "mysql", "aws", "azure", "gcp", "docker", "kubernetes", "git",
-    "machine learning", "deep learning", "tensorflow", "pytorch", "pandas", "numpy",
-    "django", "flask", "fastapi", "typescript", "html", "css", "c++", "golang",
-    "spring", "express", "redux", "graphql", "rest", "api", "linux", "ci/cd",
-]
+ROLE_SKILLS = {
+    "frontend":  ["react", "typescript", "html", "css", "redux", "javascript"],
+    "backend":   ["node.js", "python", "java", "sql", "mongodb", "docker", "rest"],
+    "ml":        ["python", "tensorflow", "pytorch", "pandas", "numpy", "machine learning"],
+    "fullstack": ["react", "node.js", "sql", "docker", "git", "javascript"],
+    "devops":    ["docker", "kubernetes", "aws", "azure", "gcp", "ci/cd", "linux"],
+}
 
-def compute_missing_skills(text: str) -> list[str]:
+SKILL_IMPORTANCE = {
+    "react": 90, "javascript": 95, "typescript": 85, "node.js": 88,
+    "python": 92, "sql": 80, "mongodb": 75, "docker": 82,
+    "kubernetes": 70, "aws": 78, "azure": 72, "gcp": 68,
+    "tensorflow": 80, "pytorch": 78, "machine learning": 85,
+    "html": 70, "css": 68, "git": 88, "rest": 75,
+    "redux": 65, "pandas": 72, "numpy": 70, "java": 80,
+    "linux": 65, "ci/cd": 72,
+}
+
+def detect_role(text_lower: str) -> str:
+    scores = {
+        role: sum(1 for s in skills if s in text_lower)
+        for role, skills in ROLE_SKILLS.items()
+    }
+    return max(scores, key=scores.get)
+
+def compute_missing_skills(text: str) -> list[dict]:
     text_lower = text.lower()
-    return [s for s in KNOWN_SKILLS if s not in text_lower]
+    role = detect_role(text_lower)
+    relevant = ROLE_SKILLS[role]
+    missing = [s for s in relevant if s not in text_lower]
+    # Return with importance score
+    return [
+        {"skill": s, "importance": SKILL_IMPORTANCE.get(s, 60)}
+        for s in missing
+    ]
 
 async def analyze_resume(file):
     contents = await file.read()
@@ -54,5 +78,6 @@ async def analyze_resume(file):
     return {
         "placement_probability": round(placement_prob, 1),
         "ats_score":             round(ats_score, 1),
-        "missing_skills":        missing[:10],  # top 10 only
+        "missing_skills":        [m["skill"] for m in missing[:10]],   # strings for DB
+        "missing_skills_detail": missing[:10],   # with importance scores for frontend
     }

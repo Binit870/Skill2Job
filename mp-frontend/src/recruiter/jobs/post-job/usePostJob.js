@@ -14,7 +14,7 @@ export function usePostJob() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         const { data } = await api.get("/api/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -80,7 +80,7 @@ export function usePostJob() {
     e.preventDefault();
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       await api.post(
         "/api/jobs",
         {

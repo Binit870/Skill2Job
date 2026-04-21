@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import logo from "../../assets/logo.png";
 import {
-  GraduationCap,
+  
   LayoutDashboard,
   Users,
   Briefcase,
@@ -19,7 +20,7 @@ const NAV_ITEMS = [
   { to: "/recruiter/my-jobs", icon: Briefcase, label: "My Jobs" },
   { to: "/recruiter/post-job", icon: PlusCircle, label: "Post Job" },
   { to: "/recruiter/candidates-applications", icon: Users, label: "Candidates" },
-  { to: "/recruiter-dashboard/analytics", icon: BarChart3, label: "Analytics" },
+ 
 ];
 
 const linkClass =
@@ -48,9 +49,13 @@ function SidebarContent({
           className="flex items-center gap-2"
         >
           {/* Logo */}
-          <div className="bg-green-100 text-green-900 p-2 rounded-lg">
-            <GraduationCap className="w-5 h-5" />
-          </div>
+         <div className=" p-2 rounded-lg">
+  <img
+    src={logo}
+    alt="Logo"
+    className="w-7 h-7 object-contain"
+  />
+</div>
 
           {/* Heading */}
           {(!collapsed || isMobile) && (
@@ -121,7 +126,7 @@ export default function RecruiterSidebar({ mobileOpen, onMobileClose }) {
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate("/");
   };
 
   return (
