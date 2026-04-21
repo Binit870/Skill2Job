@@ -5,19 +5,21 @@ import {
   CheckCircle, Search, ClipboardList, BarChart3,
 } from "lucide-react";
 
+// ---------- REAL DATA FOR JOB SEEKERS ----------
 const seekerSteps = [
-  { step: 1, icon: Upload, title: "Create Your Profile", desc: "Sign up and upload your resume. Our AI extracts your skills, education, and experience automatically." },
-  { step: 2, icon: Cpu, title: "AI Skill Analysis", desc: "We analyze your profile, score your skills, and identify your strongest areas and gaps to improve." },
-  { step: 3, icon: Sparkles, title: "Get Matched to Jobs", desc: "Browse personalized job recommendations ranked by how well your skills match each role." },
-  { step: 4, icon: UserCheck, title: "Prepare & Apply", desc: "Use mock interviews, skill assessments, and resume tools to prepare — then apply with confidence." },
-  { step: 5, icon: Briefcase, title: "Get Hired", desc: "Connect directly with recruiters, track your applications, and land the right opportunity." },
+  { step: 1, icon: Upload, title: "Create Your Profile", desc: "Sign up and upload your resume or build a new one using the platform’s resume tools. Your profile captures key skills and experience in a structured format." },
+  { step: 2, icon: Cpu, title: "Skill-Based Analysis", desc: "Your profile is evaluated based on listed skills and experience to help identify suitable job opportunities." },
+  { step: 3, icon: Sparkles, title: "Explore Relevant Jobs", desc: "Browse job listings tailored to your profile, including full-time, part-time, and work-from-home opportunities." },
+  { step: 4, icon: UserCheck, title: "Apply with Ease", desc: "Apply to jobs quickly using a simple and streamlined application process." },
+  { step: 5, icon: Briefcase, title: "Track Your Progress", desc: "Monitor your applications and stay updated on your job search progress." },
 ];
 
+// ---------- REAL DATA FOR RECRUITERS ----------
 const recruiterSteps = [
-  { step: 1, icon: UserCheck, title: "Post Your Job", desc: "Create a detailed job post with required skills, experience, and role expectations in minutes." },
-  { step: 2, icon: Search, title: "AI Candidate Matching", desc: "Our system instantly surfaces the best-fit candidates based on verified skills and profile data." },
-  { step: 3, icon: ClipboardList, title: "Review & Shortlist", desc: "Browse ranked candidate profiles, view skill scores, and shortlist your top picks easily." },
-  { step: 4, icon: BarChart3, title: "Track & Hire", desc: "Manage your pipeline, schedule interviews, and close positions faster with real-time analytics." },
+  { step: 1, icon: UserCheck, title: "Post Job Requirements", desc: "Create detailed job postings by defining required skills, roles, and expectations." },
+  { step: 2, icon: Search, title: "Find Suitable Candidates", desc: "Browse candidate profiles and identify applicants that match your job requirements." },
+  { step: 3, icon: ClipboardList, title: "Review & Shortlist", desc: "Evaluate candidate profiles and shortlist the most relevant applicants efficiently." },
+  { step: 4, icon: BarChart3, title: "Manage Hiring Process", desc: "Track applications and manage the hiring workflow in an organized manner." },
 ];
 
 const fadeUp = {
@@ -28,21 +30,21 @@ const fadeUp = {
 
 function StepCard({ step, icon: Icon, title, desc, delay = 0 }) {
   return (
-    <motion.div {...fadeUp} transition={{ delay }} className="flex gap-4 md:gap-5">
+    <motion.div {...fadeUp} transition={{ delay }} className="flex gap-3 md:gap-5">
       <div className="flex flex-col items-center">
-        <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-green-600 text-white flex items-center justify-center shadow-sm flex-shrink-0">
+        <div className="w-9 h-9 md:w-12 md:h-12 rounded-xl bg-green-600 text-white flex items-center justify-center shadow-sm">
           <Icon className="w-4 h-4 md:w-5 md:h-5" />
         </div>
-        <div className="w-0.5 bg-green-100 flex-1 mt-3 last:hidden min-h-[32px]" />
+        <div className="w-0.5 bg-gray-200 flex-1 mt-2 md:mt-3 last:hidden min-h-[28px] md:min-h-[32px]" />
       </div>
-      <div className="pb-8">
-        <div className="flex items-center gap-2 mb-1.5">
+      <div className="pb-6 md:pb-8">
+        <div className="flex items-center gap-2 mb-1">
           <span className="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full border border-green-100">
             Step {step}
           </span>
         </div>
-        <h3 className="font-semibold text-base md:text-lg mb-1.5">{title}</h3>
-        <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
+        <h3 className="font-semibold text-sm md:text-lg mb-1 text-gray-800">{title}</h3>
+        <p className="text-xs md:text-sm text-gray-500 leading-relaxed">{desc}</p>
       </div>
     </motion.div>
   );
@@ -50,38 +52,38 @@ function StepCard({ step, icon: Icon, title, desc, delay = 0 }) {
 
 export default function HowItWorks() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-gray-50 text-gray-900">
 
       {/* HERO */}
-      <section className="relative pt-20 pb-16 md:pt-32 md:pb-24 overflow-hidden border-b border-gray-100">
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-green-100 blur-[120px] opacity-50 pointer-events-none" />
+      <section className="relative pt-16 pb-12 md:pt-24 md:pb-20 overflow-hidden">
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-green-100 blur-[120px] opacity-30 pointer-events-none" />
         <div className="max-w-4xl mx-auto px-4 text-center relative">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="inline-block px-4 py-1.5 rounded-full bg-green-50 text-green-700 text-xs font-semibold tracking-widest uppercase border border-green-100 mb-6">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-green-100 text-green-700 text-xs font-semibold tracking-widest uppercase border border-green-200 mb-6">
               The Process
             </span>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-5">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-4 text-gray-800">
               How Skill2Job<br />
               <span className="text-green-600">Actually Works</span>
             </h1>
-            <p className="text-base md:text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
-              A simple, intelligent process designed for both job seekers and recruiters to achieve results faster.
+            <p className="text-sm md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed px-4">
+              A structured and practical platform that helps job seekers find relevant opportunities and enables recruiters to manage hiring efficiently.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* TWO COLUMN STEPS */}
-      <section className="py-16 md:py-24">
+      {/* STEPS */}
+      <section className="py-12 md:py-20">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 md:gap-16">
+          <div className="grid md:grid-cols-2 gap-10 md:gap-16">
 
             {/* Job Seekers */}
             <div>
-              <motion.div {...fadeUp} className="mb-8">
-                <span className="text-green-600 text-xs font-bold uppercase tracking-widest">For Job Seekers</span>
-                <h2 className="text-2xl md:text-3xl font-bold mt-2 tracking-tight">Your Path to the Right Job</h2>
-                <p className="text-gray-500 text-sm mt-2">Five steps from profile to placement.</p>
+              <motion.div {...fadeUp} className="mb-6 md:mb-8">
+                <span className="text-green-700 text-xs font-bold uppercase tracking-widest">For Job Seekers</span>
+                <h2 className="text-xl md:text-3xl font-bold mt-1 md:mt-2 text-gray-800">Your Job Search Journey</h2>
+                <p className="text-gray-500 text-xs md:text-sm mt-1">Simple steps from profile to application.</p>
               </motion.div>
               {seekerSteps.map((s, i) => (
                 <StepCard key={s.step} {...s} delay={i * 0.08} />
@@ -90,10 +92,10 @@ export default function HowItWorks() {
 
             {/* Recruiters */}
             <div>
-              <motion.div {...fadeUp} transition={{ delay: 0.1 }} className="mb-8">
+              <motion.div {...fadeUp} transition={{ delay: 0.1 }} className="mb-6 md:mb-8">
                 <span className="text-emerald-700 text-xs font-bold uppercase tracking-widest">For Recruiters</span>
-                <h2 className="text-2xl md:text-3xl font-bold mt-2 tracking-tight">Hire Smarter, Faster</h2>
-                <p className="text-gray-500 text-sm mt-2">Four steps to close positions with confidence.</p>
+                <h2 className="text-xl md:text-3xl font-bold mt-1 md:mt-2 text-gray-800">Efficient Hiring Process</h2>
+                <p className="text-gray-500 text-xs md:text-sm mt-1">Organized workflow to manage candidates.</p>
               </motion.div>
               {recruiterSteps.map((s, i) => (
                 <StepCard key={s.step} {...s} delay={i * 0.08 + 0.1} />
@@ -104,72 +106,24 @@ export default function HowItWorks() {
         </div>
       </section>
 
-      {/* STATS STRIP */}
-      <section className="py-12 md:py-16 bg-gray-50 border-y border-gray-100">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            {[
-              { value: "< 5 min", label: "Profile Setup Time" },
-              { value: "95%", label: "Match Accuracy" },
-              { value: "3x", label: "Faster Than Traditional Hiring" },
-              { value: "10K+", label: "Successful Placements" },
-            ].map((stat) => (
-              <motion.div key={stat.label} {...fadeUp}
-                className="bg-white border border-gray-200 rounded-2xl py-6 px-4 hover:shadow-md transition">
-                <div className="text-2xl md:text-3xl font-bold text-green-600 mb-1">{stat.value}</div>
-                <div className="text-xs text-gray-500 font-medium">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* WHY BETTER */}
-      <section className="py-16 md:py-24">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="text-center mb-10">
-            <span className="text-green-600 text-xs font-bold uppercase tracking-widest">Why We're Different</span>
-            <h2 className="text-3xl md:text-4xl font-bold mt-3 tracking-tight">Skill2Job vs Traditional Hiring</h2>
-          </div>
-          <div className="grid md:grid-cols-2 gap-5">
-            {[
-              { label: "Traditional Hiring", points: ["Keyword-based resume scanning", "Slow manual shortlisting", "High rate of mismatched hires", "No candidate preparation tools", "Limited hiring insights"], bad: true },
-              { label: "Skill2Job", points: ["Skill-based AI matching", "Instant ranked candidate lists", "95% placement accuracy", "Built-in prep & interview tools", "Real-time analytics dashboard"], bad: false },
-            ].map((col) => (
-              <motion.div key={col.label} {...fadeUp}
-                className={`rounded-2xl border p-6 md:p-8 ${col.bad ? "bg-gray-50 border-gray-200" : "bg-green-600 border-green-600"}`}>
-                <h3 className={`font-bold text-lg mb-5 ${col.bad ? "text-gray-700" : "text-white"}`}>{col.label}</h3>
-                <ul className="space-y-3">
-                  {col.points.map((p) => (
-                    <li key={p} className="flex items-start gap-3 text-sm">
-                      <CheckCircle className={`w-4 h-4 mt-0.5 flex-shrink-0 ${col.bad ? "text-gray-300" : "text-green-200"}`} />
-                      <span className={col.bad ? "text-gray-500" : "text-green-50"}>{p}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
-      <section className="py-16 md:py-20 bg-green-600">
+      <section className="py-12 md:py-20 bg-green-600">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Ready to Get Started?</h2>
-          <p className="text-green-100 mb-8 text-sm md:text-base">Join thousands already finding success on Skill2Job.</p>
+          <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 md:mb-4">Get Started Today</h2>
+          <p className="text-green-100 mb-6 md:mb-8 text-sm md:text-base">
+            Start exploring job opportunities or hire the right candidates with ease.
+          </p>
           <div className="flex flex-col sm:flex-row justify-center gap-3">
-            <Link to="/signup" className="inline-flex items-center justify-center gap-2 bg-white text-green-700 font-semibold px-8 py-3 rounded-xl hover:bg-green-50 transition text-sm shadow">
-              Start as Job Seeker <ArrowRight className="w-4 h-4" />
+            <Link to="/signup?type=candidate" className="inline-flex items-center gap-2 bg-white text-green-700 font-semibold px-6 py-3 rounded-xl hover:bg-gray-50 transition text-sm shadow">
+              Job Seeker <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link to="/signup" className="inline-flex items-center justify-center gap-2 border border-white/40 text-white font-semibold px-8 py-3 rounded-xl hover:bg-white/10 transition text-sm">
-              Post a Job
+            <Link to="/signup?type=recruiter" className="inline-flex items-center gap-2 border border-white/40 text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/10 transition text-sm">
+              Recruiter
             </Link>
           </div>
         </div>
       </section>
 
-    
     </div>
   );
 }
