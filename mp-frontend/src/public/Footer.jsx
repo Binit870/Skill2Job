@@ -1,129 +1,133 @@
 import { Link } from "react-router-dom";
-import { GraduationCap, Twitter, Linkedin, Github, Instagram, Mail, ArrowRight } from "lucide-react";
-import { useState } from "react";
-import toast from "react-hot-toast";
 
 const footerLinks = [
   {
-    heading: "Platform",
+    heading: "PLATFORM",
     links: [
       { label: "About", to: "/about" },
       { label: "Features", to: "/features" },
       { label: "How It Works", to: "/how-it-works" },
-      { label: "FAQ", to: "/faq" },
     ],
   },
   {
-    heading: "Job Seekers",
+    heading: "JOB SEEKERS",
     links: [
-      { label: "Find Jobs", to: "/student/jobs" },
-      { label: "Build Resume", to: "/student/resume" },
-      { label: "Mock Interview", to: "/student/mock-interview" },
-      { label: "Mock Assessment", to: "/student/mock-assesment" },
+      { label: "Find Jobs", to: "/student/jobs" },      // will be overridden
+      { label: "Build Resume", to: "/student/resume" }, // will be overridden
+      { label: "Mock Interview", to: "/student/mock-interview" }, // will be overridden
     ],
   },
   {
-    heading: "Recruiters",
+    heading: "RECRUITERS",
     links: [
-      { label: "Post a Job", to: "/recruiter/post-job" },
-      { label: "My Jobs", to: "/recruiter/my-jobs" },
-      { label: "Candidates", to: "/recruiter/candidates-applications" },
-      { label: "Dashboard", to: "/recruiter-dashboard" },
+      { label: "Post a Job", to: "/recruiter/post-job" },          // will be overridden
+      { label: "Candidates", to: "/recruiter/candidates-applications" }, // will be overridden
+      { label: "Dashboard", to: "/recruiter-dashboard" },          // will be overridden
     ],
   },
   {
-    heading: "Company",
-    links: [
-      { label: "Contact", to: "/contact" },
-      { label: "Privacy Policy", to: "/privacy" },
-      { label: "Terms of Service", to: "/terms" },
-      { label: "Sign Up", to: "/signup" },
-    ],
+    heading: "CONTACT",
+    links: [],
+    phone: "+91 98765 43210",
+    email: "careers@skill2job.com",
   },
 ];
 
-const socials = [
-  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: Github, href: "https://github.com", label: "GitHub" },
-  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-];
+// Links that should redirect to login/signup page
+const authRequiredLinks = new Set([
+  "Find Jobs", "Build Resume", "Mock Interview",
+  "Post a Job", "Candidates", "Dashboard"
+]);
 
 export default function Footer() {
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubscribed(true);
-    setEmail("");
-    toast.success("You're subscribed! 🎉");
-  };
-
   return (
-    <footer className="bg-white text-green-400">
-
-
-      {/* Main Footer */}
-      <div className="max-w-6xl mx-auto px-4 py-12 md:py-16">
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-8 md:gap-10">
-
+    <footer className="bg-green-50 border-t border-green-100">
+      <div className="max-w-6xl mx-auto px-4 py-8 md:py-12 lg:py-16">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8 lg:gap-10">
+          
           {/* Brand column */}
-          <div className="col-span-2 md:col-span-2">
+          <div className="col-span-2 md:col-span-1">
             <Link to="/" className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
-                <GraduationCap className="w-4 h-4 text-green-400" />
-              </div>
-              <span className="text-green-800 font-bold text-lg tracking-tight">
-                Skill<span className="text-green-500">2</span>Job
+              <img 
+                src="/src/assets/logo.png" 
+                alt="Skill2Job Logo" 
+                className="w-8 h-8 object-contain"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  const fallback = document.createElement('div');
+                  fallback.className = 'w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white text-sm font-bold';
+                  fallback.textContent = 'S';
+                  e.target.parentNode?.appendChild(fallback);
+                }}
+              />
+              <span className="font-bold text-lg tracking-tight">
+                <span className="text-green-800">Skill</span>
+                <span className="text-green-500">2</span>
+                <span className="text-green-800">Job</span>
               </span>
             </Link>
-            <p className="text-sm text-green-500 leading-relaxed max-w-xs">
+            <p className="text-sm text-black leading-relaxed max-w-xs">
               A skill-first hiring platform that connects talent with the right opportunities through AI-powered matching.
             </p>
-            <div className="flex gap-3 mt-5">
-              {socials.map(({ icon: Icon, href, label }) => (
-                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
-                  className="w-8 h-8 rounded-lg bg-gray-800 hover:bg-green-600 flex items-center justify-center transition-colors group">
-                  <Icon className="w-3.5 h-3.5 text-green-400 group-hover:text-white transition-colors" />
-                </a>
-              ))}
-            </div>
           </div>
 
-          {/* Link columns */}
+          {/* All link columns */}
           {footerLinks.map((col) => (
-            <div key={col.heading} className="col-span-1">
-              <h4 className="text-green-800 text-xs font-bold uppercase tracking-widest mb-4">{col.heading}</h4>
-              <ul className="space-y-2.5">
-                {col.links.map((link) => (
-                  <li key={link.label}>
-                    <Link to={link.to}
-                      className="text-sm text-gray-500 hover:text-green-400 transition-colors">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
+            <div key={col.heading}>
+              <h4 className="text-green-700 text-xs font-bold uppercase tracking-widest mb-3 md:mb-4">
+                {col.heading}
+              </h4>
+              <ul className="space-y-2 md:space-y-2.5">
+                {col.links.map((link) => {
+                  // If this link requires authentication, send to /signup, otherwise use original to
+                  const targetPath = authRequiredLinks.has(link.label) ? "/signup" : link.to;
+                  return (
+                    <li key={link.label}>
+                      <Link
+                        to={targetPath}
+                        className="text-sm text-black hover:text-green-600 transition-colors duration-200"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+                {col.phone && (
+                  <>
+                    <li className="pt-1">
+                      <a
+                        href={`tel:${col.phone}`}
+                        className="text-sm text-black hover:text-green-600 transition-colors duration-200 flex items-center gap-1.5"
+                      >
+                        <img src="/src/assets/phone.png" alt="phone" className="w-4 h-4" />
+                        {col.phone}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href={`mailto:${col.email}`}
+                        className="text-sm text-black hover:text-green-600 transition-colors duration-200 flex items-center gap-1.5"
+                      >
+                        <img src="/src/assets/email.png" alt="email" className="w-4 h-4" />
+                        {col.email}
+                      </a>
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
           ))}
-
         </div>
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-800">
-        <div className="max-w-6xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-600">
-          <span>© {new Date().getFullYear()} Skill2Job. All rights reserved.</span>
-          <div className="flex gap-5">
-            <Link to="/privacy" className="hover:text-gray-400 transition">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-gray-400 transition">Terms of Service</Link>
-            <Link to="/contact" className="hover:text-gray-400 transition">Support</Link>
+      <div className="border-t border-green-100 bg-green-50/80">
+        <div className="max-w-6xl mx-auto px-4 py-4 md:py-5">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-xs text-black">
+            <span>© {new Date().getFullYear()} Skill2Job. All rights reserved.</span>
           </div>
         </div>
       </div>
-
     </footer>
   );
 }
