@@ -4,6 +4,114 @@
       {
         "role": "Frontend Developer",
         "difficulty": "easy",
+        "question": "What is the purpose of the <head> tag in HTML?",
+        "ideal_answer": "The <head> tag contains metadata, links to stylesheets, and scripts for the webpage."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is the difference between HTML and CSS?",
+        "ideal_answer": "HTML defines the structure of a webpage, while CSS defines its style and appearance."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is the use of the <img> tag in HTML?",
+        "ideal_answer": "The <img> tag is used to display images on a webpage."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is a hyperlink in HTML?",
+        "ideal_answer": "A hyperlink is a clickable link that takes the user to another page or resource."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is the purpose of the class attribute in HTML?",
+        "ideal_answer": "The class attribute is used to assign one or more class names to an element for styling or scripting."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What does CSS stand for?",
+        "ideal_answer": "CSS stands for Cascading Style Sheets."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is an unordered list in HTML?",
+        "ideal_answer": "An unordered list is a list of items displayed with bullet points using the <ul> tag."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is the purpose of the <title> tag?",
+        "ideal_answer": "The <title> tag sets the title of the webpage shown in the browser tab."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is the use of the <form> tag in HTML?",
+        "ideal_answer": "The <form> tag is used to create a form for user input."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is an input field in HTML?",
+        "ideal_answer": "An input field is an element that allows users to enter data in a form."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is the purpose of the <button> tag?",
+        "ideal_answer": "The <button> tag creates a clickable button on a webpage."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is inline CSS?",
+        "ideal_answer": "Inline CSS is CSS applied directly to an HTML element using the style attribute."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is the purpose of the <p> tag?",
+        "ideal_answer": "The <p> tag is used to define a paragraph in HTML."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is the use of the <a> tag in HTML?",
+        "ideal_answer": "The <a> tag is used to create hyperlinks."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is a CSS selector?",
+        "ideal_answer": "A CSS selector is used to target HTML elements for styling."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is the purpose of the alt attribute in an image tag?",
+        "ideal_answer": "The alt attribute provides alternative text for an image if it cannot be displayed."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is the difference between an ordered list and an unordered list?",
+        "ideal_answer": "An ordered list displays items in numbered order, while an unordered list displays items with bullet points."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
+        "question": "What is the purpose of JavaScript in web development?",
+        "ideal_answer": "JavaScript is used to add interactivity and dynamic functionality to web pages."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "easy",
         "question": "What is HTML?",
         "ideal_answer": "HTML is the standard markup language used to create the structure of web pages."
       },
@@ -72,6 +180,126 @@
       {
         "role": "Frontend Developer",
         "difficulty": "medium",
+        "question": "What is the difference between inline, block, and inline-block elements in CSS?",
+        "ideal_answer": "Inline elements do not start on a new line and only take up as much width as needed, block elements start on a new line and take full width, while inline-block elements behave like inline elements but allow width and height to be set."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is the difference between relative, absolute, and fixed positioning in CSS?",
+        "ideal_answer": "Relative positioning moves an element relative to its normal position, absolute positioning places an element relative to its nearest positioned ancestor, and fixed positioning places an element relative to the browser window."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is the difference between == and === in JavaScript?",
+        "ideal_answer": "The == operator compares values after type conversion, while === compares both value and type without type conversion."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is the DOM in web development?",
+        "ideal_answer": "The DOM is the Document Object Model, a tree-like representation of HTML elements that allows JavaScript to access and manipulate webpage content."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What are semantic HTML elements?",
+        "ideal_answer": "Semantic HTML elements are tags that clearly describe their meaning, such as <header>, <article>, and <footer>, improving accessibility and SEO."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is event bubbling in JavaScript?",
+        "ideal_answer": "Event bubbling is the process where an event triggered on a child element propagates upward through its parent elements."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is the purpose of media queries in CSS?",
+        "ideal_answer": "Media queries allow developers to apply different styles based on device characteristics such as screen size, resolution, or orientation."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is responsive web design?",
+        "ideal_answer": "Responsive web design is an approach that ensures a website adapts its layout and appearance to different screen sizes and devices."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is the difference between let, const, and var in JavaScript?",
+        "ideal_answer": "var is function-scoped and can be redeclared, let is block-scoped and can be reassigned, while const is block-scoped and cannot be reassigned."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is the purpose of localStorage in JavaScript?",
+        "ideal_answer": "localStorage is used to store data in the browser with no expiration time, allowing data to persist even after the browser is closed."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is the difference between margin and padding in CSS?",
+        "ideal_answer": "Margin is the space outside an element's border, while padding is the space inside the element between the content and the border."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is the purpose of the z-index property in CSS?",
+        "ideal_answer": "The z-index property controls the stacking order of overlapping elements on a webpage."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is a callback function in JavaScript?",
+        "ideal_answer": "A callback function is a function passed as an argument to another function to be executed later."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is the difference between null and undefined in JavaScript?",
+        "ideal_answer": "undefined means a variable has been declared but not assigned a value, while null is an assigned value representing no value."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is the purpose of Flexbox in CSS?",
+        "ideal_answer": "Flexbox is a CSS layout model that helps align and distribute space among items in a container efficiently."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is the purpose of the preventDefault() method in JavaScript?",
+        "ideal_answer": "preventDefault() stops the default action of an event, such as preventing a form from submitting."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is the difference between an ID selector and a class selector in CSS?",
+        "ideal_answer": "An ID selector targets a unique element using #id, while a class selector targets one or more elements using .class."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is asynchronous JavaScript?",
+        "ideal_answer": "Asynchronous JavaScript allows code to run without blocking other operations, often using callbacks, promises, or async/await."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is the purpose of JSON in frontend development?",
+        "ideal_answer": "JSON is used to store and exchange data between the frontend and backend in a lightweight text format."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
+        "question": "What is the purpose of the viewport meta tag in HTML?",
+        "ideal_answer": "The viewport meta tag controls the page's dimensions and scaling on different devices, enabling responsive design."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "medium",
         "question": "What is the box model in CSS?",
         "ideal_answer": "The box model consists of content, padding, border, and margin, which together define the layout of elements."
       },
@@ -137,6 +365,126 @@
       }
     ],
     [
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is the Virtual DOM and how does it improve performance?",
+        "ideal_answer": "The Virtual DOM is a lightweight copy of the real DOM. It improves performance by updating only the changed elements in the real DOM instead of re-rendering the entire page."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What are closures in JavaScript?",
+        "ideal_answer": "Closures are functions that retain access to variables from their lexical scope even after the outer function has finished execution."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is event delegation in JavaScript?",
+        "ideal_answer": "Event delegation is a technique where a parent element handles events for its child elements using event bubbling, improving performance and reducing memory usage."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is the difference between debounce and throttle in JavaScript?",
+        "ideal_answer": "Debounce delays the execution of a function until a specified time has passed since the last event, while throttle limits the function execution to once in a specified interval."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is the difference between synchronous and asynchronous JavaScript?",
+        "ideal_answer": "Synchronous JavaScript executes code line by line, blocking further execution, while asynchronous JavaScript allows operations to run independently without blocking."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is the purpose of the Shadow DOM?",
+        "ideal_answer": "The Shadow DOM allows encapsulation of HTML, CSS, and JavaScript within a component, preventing styles and scripts from affecting the global document."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What are Promises in JavaScript?",
+        "ideal_answer": "Promises are objects representing the eventual completion or failure of an asynchronous operation, allowing cleaner handling of asynchronous code."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is the purpose of async/await in JavaScript?",
+        "ideal_answer": "async/await simplifies asynchronous programming by allowing asynchronous code to be written in a synchronous style while handling Promises."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is CORS and why is it important?",
+        "ideal_answer": "CORS is a browser security feature that controls cross-origin HTTP requests, preventing unauthorized access to resources from different domains."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is tree shaking in JavaScript bundlers?",
+        "ideal_answer": "Tree shaking is the process of removing unused code from the final bundle to reduce file size and improve performance."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is the difference between SSR and CSR?",
+        "ideal_answer": "Server-Side Rendering generates HTML on the server before sending it to the client, while Client-Side Rendering generates HTML in the browser using JavaScript."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What are Web Components?",
+        "ideal_answer": "Web Components are reusable custom elements with encapsulated functionality that can be used across different web applications."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is hydration in frontend frameworks?",
+        "ideal_answer": "Hydration is the process where client-side JavaScript attaches event listeners and interactivity to server-rendered HTML."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is the difference between reflow and repaint in browsers?",
+        "ideal_answer": "Reflow recalculates the layout of elements when their size or position changes, while repaint updates the visual appearance without changing layout."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What are service workers in web development?",
+        "ideal_answer": "Service workers are scripts that run in the background, enabling features like offline support, caching, and push notifications."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is code splitting in frontend applications?",
+        "ideal_answer": "Code splitting is a technique that divides code into smaller bundles loaded on demand, improving initial page load performance."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is the difference between deep copy and shallow copy in JavaScript?",
+        "ideal_answer": "A shallow copy duplicates only the top-level properties, while a deep copy duplicates all nested objects and values recursively."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is memoization in frontend development?",
+        "ideal_answer": "Memoization is an optimization technique that stores the results of expensive function calls and reuses them when the same inputs occur again."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is the purpose of Webpack in frontend development?",
+        "ideal_answer": "Webpack is a module bundler that combines JavaScript, CSS, and assets into optimized bundles for efficient delivery to browsers."
+      },
+      {
+        "role": "Frontend Developer",
+        "difficulty": "hard",
+        "question": "What is lazy loading in frontend development?",
+        "ideal_answer": "Lazy loading is a technique where resources are loaded only when needed, reducing initial page load time and improving performance."
+      },
       {
         "role": "Frontend Developer",
         "difficulty": "hard",
@@ -210,6 +558,126 @@
       {
         "role": "Backend Developer",
         "difficulty": "easy",
+        "question": "What is an API?",
+        "ideal_answer": "An API is a set of rules that allows different software applications to communicate with each other."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is a database?",
+        "ideal_answer": "A database is an organized collection of data that can be stored, managed, and retrieved efficiently."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is HTTP?",
+        "ideal_answer": "HTTP is a protocol used for transferring data between a client and a server over the web."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is the difference between frontend and backend?",
+        "ideal_answer": "Frontend handles the user interface, while backend manages the server, database, and application logic."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is a server-side language?",
+        "ideal_answer": "A server-side language is a programming language used to build backend logic that runs on the server."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is a client in web development?",
+        "ideal_answer": "A client is the user-facing application, such as a browser, that sends requests to a server."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is a request in backend development?",
+        "ideal_answer": "A request is a message sent from a client to a server asking for data or an action."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is a response in backend development?",
+        "ideal_answer": "A response is the data or result sent by the server back to the client after processing a request."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is JSON?",
+        "ideal_answer": "JSON is a lightweight data format used for exchanging data between a client and a server."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is CRUD?",
+        "ideal_answer": "CRUD stands for Create, Read, Update, and Delete, which are the basic operations for managing data."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is the purpose of a database query?",
+        "ideal_answer": "A database query is used to retrieve, insert, update, or delete data in a database."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is authentication?",
+        "ideal_answer": "Authentication is the process of verifying the identity of a user or system."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is authorization?",
+        "ideal_answer": "Authorization is the process of determining what actions or resources a user is allowed to access."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is a framework in backend development?",
+        "ideal_answer": "A framework is a pre-built set of tools and libraries that helps developers build backend applications more efficiently."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is SQL?",
+        "ideal_answer": "SQL is a language used to manage and query relational databases."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is an endpoint in an API?",
+        "ideal_answer": "An endpoint is a specific URL where an API can access resources or perform actions."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is middleware?",
+        "ideal_answer": "Middleware is software that processes requests and responses between the client and the server."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is a status code in HTTP?",
+        "ideal_answer": "A status code is a number returned by the server to indicate the result of a request."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is deployment in backend development?",
+        "ideal_answer": "Deployment is the process of making a backend application available on a server for users to access."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
+        "question": "What is a REST API?",
+        "ideal_answer": "A REST API is an API that follows REST principles for communication between client and server using HTTP methods."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "easy",
         "question": "What is a server?",
         "ideal_answer": "A server is a system that processes requests and delivers data or services to clients over a network."
       },
@@ -278,6 +746,126 @@
       {
         "role": "Backend Developer",
         "difficulty": "medium",
+        "question": "What is the difference between GET and POST requests?",
+        "ideal_answer": "GET requests retrieve data from the server, while POST requests send data to the server to create or update resources."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is middleware in backend development?",
+        "ideal_answer": "Middleware is software that processes requests and responses between the client and the server, often used for logging, authentication, and validation."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is the difference between SQL and NoSQL databases?",
+        "ideal_answer": "SQL databases use structured tables with predefined schemas, while NoSQL databases store data in flexible formats like documents, key-value pairs, or graphs."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is authentication in backend systems?",
+        "ideal_answer": "Authentication is the process of verifying the identity of a user or service before granting access."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is authorization in backend systems?",
+        "ideal_answer": "Authorization determines what actions or resources an authenticated user is allowed to access."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is REST in backend development?",
+        "ideal_answer": "REST is an architectural style for building APIs that use HTTP methods to perform operations on resources."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is an API endpoint?",
+        "ideal_answer": "An API endpoint is a specific URL where a client can access a resource or perform an operation through an API."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is the purpose of status codes in HTTP responses?",
+        "ideal_answer": "HTTP status codes indicate the result of a request, such as success, client errors, or server errors."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is the difference between PUT and PATCH requests?",
+        "ideal_answer": "PUT replaces an entire resource, while PATCH updates only specific fields of a resource."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is connection pooling?",
+        "ideal_answer": "Connection pooling is the practice of reusing database connections instead of creating a new one for every request, improving performance."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is database indexing?",
+        "ideal_answer": "Database indexing improves query performance by creating a data structure that allows faster retrieval of records."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is data validation in backend development?",
+        "ideal_answer": "Data validation ensures that incoming data meets the required format and constraints before being processed or stored."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is the purpose of environment variables in backend applications?",
+        "ideal_answer": "Environment variables store configuration settings like database credentials and API keys outside the application code for security and flexibility."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is rate limiting in APIs?",
+        "ideal_answer": "Rate limiting restricts the number of requests a client can make to an API within a specific time period to prevent abuse."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is serialization in backend development?",
+        "ideal_answer": "Serialization is the process of converting objects or data structures into a format like JSON for storage or transmission."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is caching in backend systems?",
+        "ideal_answer": "Caching stores frequently accessed data temporarily to reduce database load and improve response times."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is the purpose of a load balancer?",
+        "ideal_answer": "A load balancer distributes incoming requests across multiple servers to improve performance and reliability."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is the difference between monolithic and microservices architecture?",
+        "ideal_answer": "A monolithic architecture is a single unified application, while microservices architecture splits functionality into independent services."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is an ORM?",
+        "ideal_answer": "An ORM is a tool that allows developers to interact with databases using programming language objects instead of writing SQL queries directly."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
+        "question": "What is JWT in backend authentication?",
+        "ideal_answer": "JWT is a compact token format used to securely transmit authentication and authorization data between client and server."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "medium",
         "question": "What is the difference between PUT and PATCH?",
         "ideal_answer": "PUT replaces the entire resource, while PATCH updates only specific fields."
       },
@@ -343,6 +931,126 @@
       }
     ],
     [
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is the difference between horizontal scaling and vertical scaling?",
+        "ideal_answer": "Horizontal scaling adds more servers to distribute load, while vertical scaling increases the resources of a single server such as CPU or RAM."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is database sharding?",
+        "ideal_answer": "Database sharding is the process of splitting a database into smaller, independent parts to improve scalability and performance."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is eventual consistency in distributed systems?",
+        "ideal_answer": "Eventual consistency is a consistency model where all nodes in a distributed system will eventually have the same data, though temporary inconsistencies may occur."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is the CAP theorem?",
+        "ideal_answer": "The CAP theorem states that a distributed system can guarantee only two of the following three properties: Consistency, Availability, and Partition Tolerance."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is a message queue and why is it used?",
+        "ideal_answer": "A message queue is a system that allows asynchronous communication between services by storing messages until they are processed, improving scalability and reliability."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is the difference between synchronous and asynchronous processing?",
+        "ideal_answer": "Synchronous processing waits for a task to complete before moving on, while asynchronous processing allows other tasks to continue while waiting for completion."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is database replication?",
+        "ideal_answer": "Database replication is the process of copying data from one database server to others to improve availability, fault tolerance, and read performance."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is a distributed transaction?",
+        "ideal_answer": "A distributed transaction is a transaction that spans multiple services or databases and ensures all operations succeed or fail as a single unit."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is the purpose of an API gateway?",
+        "ideal_answer": "An API gateway acts as a single entry point for client requests, handling routing, authentication, rate limiting, and monitoring for backend services."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is idempotency in APIs?",
+        "ideal_answer": "Idempotency means that making the same API request multiple times produces the same result as making it once."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is optimistic locking?",
+        "ideal_answer": "Optimistic locking is a concurrency control method that allows multiple transactions to proceed but checks for conflicts before committing changes."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is the difference between strong consistency and eventual consistency?",
+        "ideal_answer": "Strong consistency ensures all clients see the same data immediately after an update, while eventual consistency allows temporary differences but synchronizes data over time."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is circuit breaker pattern in backend systems?",
+        "ideal_answer": "The circuit breaker pattern prevents repeated requests to a failing service by temporarily blocking calls until the service recovers."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is the purpose of containerization in backend deployment?",
+        "ideal_answer": "Containerization packages an application and its dependencies into isolated units, ensuring consistent deployment across environments."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is the difference between SQL joins and database denormalization?",
+        "ideal_answer": "SQL joins combine data from normalized tables at query time, while denormalization stores redundant data to reduce joins and improve read performance."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is eventual consistency in NoSQL databases?",
+        "ideal_answer": "Eventual consistency in NoSQL databases means updates are propagated across replicas over time, so all copies become consistent eventually."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is backpressure in distributed systems?",
+        "ideal_answer": "Backpressure is a mechanism to control the flow of data when a system is overwhelmed, preventing resource exhaustion."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is the role of Redis in backend architecture?",
+        "ideal_answer": "Redis is an in-memory data store commonly used for caching, session management, and message brokering to improve performance."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is zero-downtime deployment?",
+        "ideal_answer": "Zero-downtime deployment is a deployment strategy that updates applications without interrupting service availability for users."
+      },
+      {
+        "role": "Backend Developer",
+        "difficulty": "hard",
+        "question": "What is eventual consistency trade-off in distributed backend systems?",
+        "ideal_answer": "The trade-off of eventual consistency is improved availability and partition tolerance at the cost of temporary stale or inconsistent data."
+      },
       {
         "role": "Backend Developer",
         "difficulty": "hard",
@@ -416,6 +1124,126 @@
       {
         "role": "Data Scientist",
         "difficulty": "easy",
+        "question": "What is data science?",
+        "ideal_answer": "Data science is the field of extracting insights and knowledge from data using statistics, programming, and machine learning."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is a dataset?",
+        "ideal_answer": "A dataset is a collection of related data, usually organized in rows and columns for analysis."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is supervised learning?",
+        "ideal_answer": "Supervised learning is a type of machine learning where the model is trained on labeled data to predict outputs."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is unsupervised learning?",
+        "ideal_answer": "Unsupervised learning is a type of machine learning where the model finds patterns in data without labeled outputs."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is a feature in machine learning?",
+        "ideal_answer": "A feature is an individual measurable property or characteristic used as input for a machine learning model."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is a label in machine learning?",
+        "ideal_answer": "A label is the target output or answer that a machine learning model is trained to predict."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is data preprocessing?",
+        "ideal_answer": "Data preprocessing is the process of cleaning and transforming raw data into a suitable format for analysis or modeling."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is overfitting in machine learning?",
+        "ideal_answer": "Overfitting happens when a model learns the training data too well, including noise, and performs poorly on new data."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is a model in machine learning?",
+        "ideal_answer": "A model is a mathematical representation learned from data that is used to make predictions or decisions."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is training data?",
+        "ideal_answer": "Training data is the dataset used to teach a machine learning model how to make predictions."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is testing data?",
+        "ideal_answer": "Testing data is the dataset used to evaluate how well a trained model performs on unseen data."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is data visualization?",
+        "ideal_answer": "Data visualization is the graphical representation of data using charts, graphs, and plots to make insights easier to understand."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is a regression model?",
+        "ideal_answer": "A regression model is a machine learning model used to predict continuous numerical values."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is classification in machine learning?",
+        "ideal_answer": "Classification is a machine learning task where the model predicts categories or classes."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is a missing value in a dataset?",
+        "ideal_answer": "A missing value is a data point that is not stored or recorded for a variable in a dataset."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is normalization in data science?",
+        "ideal_answer": "Normalization is the process of scaling data values into a common range to improve model performance."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is a confusion matrix?",
+        "ideal_answer": "A confusion matrix is a table used to evaluate the performance of a classification model by comparing predicted and actual values."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is Python commonly used for in data science?",
+        "ideal_answer": "Python is commonly used in data science for data analysis, visualization, and building machine learning models."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is a library in Python?",
+        "ideal_answer": "A library in Python is a collection of pre-written code and functions that help perform specific tasks such as data analysis or machine learning."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
+        "question": "What is machine learning accuracy?",
+        "ideal_answer": "Accuracy is the percentage of correct predictions made by a machine learning model out of all predictions."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "easy",
         "question": "What is machine learning?",
         "ideal_answer": "Machine learning is a field of AI where systems learn patterns from data to make predictions or decisions without being explicitly programmed."
       },
@@ -484,6 +1312,126 @@
       {
         "role": "Data Scientist",
         "difficulty": "medium",
+        "question": "What is the difference between supervised and unsupervised learning?",
+        "ideal_answer": "Supervised learning uses labeled data to train models, while unsupervised learning finds hidden patterns in unlabeled data."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is feature engineering?",
+        "ideal_answer": "Feature engineering is the process of selecting, transforming, and creating variables from raw data to improve model performance."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is cross-validation?",
+        "ideal_answer": "Cross-validation is a technique for evaluating a model by dividing the dataset into multiple subsets and testing the model on different parts of the data."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is bias in machine learning?",
+        "ideal_answer": "Bias is the error introduced by overly simplistic assumptions in the learning algorithm, causing underfitting."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is variance in machine learning?",
+        "ideal_answer": "Variance is the model's sensitivity to changes in the training data, which can lead to overfitting."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is the purpose of a validation dataset?",
+        "ideal_answer": "A validation dataset is used to tune model parameters and evaluate performance during training before testing."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is the difference between precision and recall?",
+        "ideal_answer": "Precision measures how many predicted positive results are correct, while recall measures how many actual positive results are identified."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is a decision tree?",
+        "ideal_answer": "A decision tree is a machine learning model that splits data into branches based on conditions to make predictions."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is a confusion matrix used for?",
+        "ideal_answer": "A confusion matrix is used to evaluate the performance of classification models by showing correct and incorrect predictions."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is regularization in machine learning?",
+        "ideal_answer": "Regularization is a technique used to reduce overfitting by adding a penalty to large model coefficients."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is the difference between classification and regression?",
+        "ideal_answer": "Classification predicts discrete categories, while regression predicts continuous numerical values."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is gradient descent?",
+        "ideal_answer": "Gradient descent is an optimization algorithm used to minimize a model's error by adjusting parameters iteratively."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is one-hot encoding?",
+        "ideal_answer": "One-hot encoding converts categorical variables into binary columns so they can be used in machine learning models."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is a training epoch?",
+        "ideal_answer": "An epoch is one complete pass of the entire training dataset through a machine learning model."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is underfitting in machine learning?",
+        "ideal_answer": "Underfitting occurs when a model is too simple to capture the patterns in the training data, resulting in poor performance."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is a random forest model?",
+        "ideal_answer": "A random forest is an ensemble learning method that combines multiple decision trees to improve prediction accuracy."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is feature scaling?",
+        "ideal_answer": "Feature scaling is the process of standardizing the range of independent variables to improve model performance."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is dimensionality reduction?",
+        "ideal_answer": "Dimensionality reduction is the process of reducing the number of input features while preserving important information."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is a ROC curve?",
+        "ideal_answer": "A ROC curve is a graph that shows the performance of a classification model at different threshold settings using true positive and false positive rates."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
+        "question": "What is the purpose of pandas in data science?",
+        "ideal_answer": "Pandas is a Python library used for data manipulation, cleaning, and analysis with structured data."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "medium",
         "question": "What is cross-validation?",
         "ideal_answer": "Cross-validation is a technique used to evaluate model performance by splitting data into multiple training and validation sets."
       },
@@ -549,6 +1497,126 @@
       }
     ],
     [
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is the bias-variance tradeoff in machine learning?",
+        "ideal_answer": "The bias-variance tradeoff is the balance between a model being too simple to capture patterns (high bias) and too sensitive to training data (high variance), affecting overall model performance."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is the difference between bagging and boosting?",
+        "ideal_answer": "Bagging trains multiple models independently and combines their outputs, while boosting trains models sequentially, each correcting the errors of the previous one."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is overfitting and how can it be prevented?",
+        "ideal_answer": "Overfitting occurs when a model learns noise in the training data and performs poorly on unseen data; it can be prevented using techniques like regularization, cross-validation, and pruning."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is the curse of dimensionality?",
+        "ideal_answer": "The curse of dimensionality refers to problems that arise when data has too many features, making models less efficient and increasing the risk of overfitting."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is principal component analysis (PCA)?",
+        "ideal_answer": "PCA is a dimensionality reduction technique that transforms data into a smaller set of uncorrelated variables while preserving most of the variance."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is the difference between L1 and L2 regularization?",
+        "ideal_answer": "L1 regularization adds the absolute value of coefficients as a penalty and can shrink some coefficients to zero, while L2 regularization adds squared coefficients and reduces them smoothly."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is the purpose of a confusion matrix in evaluating models?",
+        "ideal_answer": "A confusion matrix evaluates classification performance by comparing actual and predicted values, showing true positives, true negatives, false positives, and false negatives."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is gradient boosting?",
+        "ideal_answer": "Gradient boosting is an ensemble technique that builds models sequentially, where each new model minimizes the errors of the previous models."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is the difference between precision, recall, and F1-score?",
+        "ideal_answer": "Precision measures correct positive predictions, recall measures the proportion of actual positives identified, and F1-score balances both precision and recall."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is the ROC-AUC score?",
+        "ideal_answer": "ROC-AUC measures a classification model's ability to distinguish between classes by calculating the area under the ROC curve."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is the purpose of hyperparameter tuning?",
+        "ideal_answer": "Hyperparameter tuning is the process of selecting the best configuration values for a machine learning model to improve its performance."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is the difference between generative and discriminative models?",
+        "ideal_answer": "Generative models learn the data distribution and can generate new samples, while discriminative models learn decision boundaries between classes."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is a neural network?",
+        "ideal_answer": "A neural network is a machine learning model inspired by the human brain, consisting of layers of interconnected nodes that learn patterns in data."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is backpropagation in neural networks?",
+        "ideal_answer": "Backpropagation is an algorithm used to update neural network weights by propagating prediction errors backward through the network."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is the purpose of dropout in neural networks?",
+        "ideal_answer": "Dropout is a regularization technique that randomly disables some neurons during training to reduce overfitting."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is class imbalance and how can it be handled?",
+        "ideal_answer": "Class imbalance occurs when one class has significantly more samples than others; it can be handled with resampling, class weights, or specialized algorithms."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is transfer learning?",
+        "ideal_answer": "Transfer learning is the process of using a pre-trained model on a new but related task to improve efficiency and performance."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is a confusion matrix and why is it important?",
+        "ideal_answer": "A confusion matrix summarizes prediction results for classification tasks and helps evaluate where a model makes errors."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is ensemble learning?",
+        "ideal_answer": "Ensemble learning combines multiple models to improve prediction accuracy and robustness compared to a single model."
+      },
+      {
+        "role": "Data Scientist",
+        "difficulty": "hard",
+        "question": "What is feature importance in machine learning?",
+        "ideal_answer": "Feature importance measures how much each input variable contributes to the predictions made by a machine learning model."
+      },
       {
         "role": "Data Scientist",
         "difficulty": "hard",
@@ -622,6 +1690,126 @@
       {
         "role": "DevOps Engineer",
         "difficulty": "easy",
+        "question": "What is CI/CD?",
+        "ideal_answer": "CI/CD is a set of practices that automate code integration, testing, and deployment to deliver software quickly and reliably."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is version control?",
+        "ideal_answer": "Version control is a system that tracks changes to code over time and allows multiple developers to collaborate."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is Git?",
+        "ideal_answer": "Git is a distributed version control system used to track code changes and manage collaboration between developers."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is a repository in Git?",
+        "ideal_answer": "A repository is a storage location where project files and their version history are maintained."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is Docker?",
+        "ideal_answer": "Docker is a platform that allows developers to package applications and their dependencies into containers."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is a container?",
+        "ideal_answer": "A container is a lightweight, portable unit that packages an application and its dependencies to run consistently across environments."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is Kubernetes?",
+        "ideal_answer": "Kubernetes is a container orchestration platform used to automate deployment, scaling, and management of containerized applications."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is continuous integration?",
+        "ideal_answer": "Continuous integration is the practice of automatically merging and testing code changes frequently to detect issues early."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is continuous deployment?",
+        "ideal_answer": "Continuous deployment is the automatic release of validated code changes to production without manual intervention."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is a build in DevOps?",
+        "ideal_answer": "A build is the process of compiling source code and packaging it into an executable application."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is infrastructure as code?",
+        "ideal_answer": "Infrastructure as code is the practice of managing infrastructure using configuration files instead of manual setup."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is Jenkins?",
+        "ideal_answer": "Jenkins is an automation server used to build, test, and deploy applications in CI/CD pipelines."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is monitoring in DevOps?",
+        "ideal_answer": "Monitoring is the process of tracking the performance, health, and availability of systems and applications."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is deployment in DevOps?",
+        "ideal_answer": "Deployment is the process of releasing an application to an environment where users can access it."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is a pipeline in DevOps?",
+        "ideal_answer": "A pipeline is an automated workflow that builds, tests, and deploys code changes."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is a cloud platform?",
+        "ideal_answer": "A cloud platform is an online service that provides computing resources like servers, storage, and networking over the internet."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is scalability in DevOps?",
+        "ideal_answer": "Scalability is the ability of a system to handle increased load by adding resources."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is a rollback in deployment?",
+        "ideal_answer": "A rollback is the process of reverting an application to a previous stable version after a failed deployment."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is automation in DevOps?",
+        "ideal_answer": "Automation in DevOps is the use of tools and scripts to perform repetitive tasks without manual intervention."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
+        "question": "What is configuration management?",
+        "ideal_answer": "Configuration management is the process of maintaining system settings and software configurations consistently across environments."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "easy",
         "question": "What is DevOps?",
         "ideal_answer": "DevOps is a set of practices that combines development and operations to improve collaboration and deliver software faster."
       },
@@ -690,6 +1878,126 @@
       {
         "role": "DevOps Engineer",
         "difficulty": "medium",
+        "question": "What is the difference between continuous delivery and continuous deployment?",
+        "ideal_answer": "Continuous delivery automates code preparation for release but requires manual approval for deployment, while continuous deployment automatically releases every validated change to production."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is Infrastructure as Code (IaC)?",
+        "ideal_answer": "Infrastructure as Code is the practice of provisioning and managing infrastructure using code and automation tools instead of manual processes."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is the purpose of Docker in DevOps?",
+        "ideal_answer": "Docker is used to package applications and their dependencies into containers, ensuring consistent execution across different environments."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is the role of Kubernetes in DevOps?",
+        "ideal_answer": "Kubernetes automates the deployment, scaling, and management of containerized applications."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is a CI/CD pipeline?",
+        "ideal_answer": "A CI/CD pipeline is an automated workflow that builds, tests, and deploys code changes through different stages of software delivery."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is configuration management in DevOps?",
+        "ideal_answer": "Configuration management is the process of maintaining systems in a consistent desired state using automation tools."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is the purpose of monitoring in DevOps?",
+        "ideal_answer": "Monitoring tracks the health, performance, and availability of applications and infrastructure to identify and resolve issues quickly."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is blue-green deployment?",
+        "ideal_answer": "Blue-green deployment is a release strategy where two identical environments are used so traffic can switch from the old version to the new version with minimal downtime."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is a load balancer?",
+        "ideal_answer": "A load balancer distributes incoming traffic across multiple servers to improve reliability and performance."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is the purpose of a rollback in deployments?",
+        "ideal_answer": "A rollback restores the previous stable version of an application when a deployment fails or introduces issues."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is the difference between containers and virtual machines?",
+        "ideal_answer": "Containers share the host operating system kernel and are lightweight, while virtual machines run full operating systems and require more resources."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is Jenkins used for in DevOps?",
+        "ideal_answer": "Jenkins is an automation server used to build, test, and deploy applications as part of CI/CD pipelines."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is the purpose of secrets management in DevOps?",
+        "ideal_answer": "Secrets management securely stores and controls access to sensitive data such as API keys, passwords, and certificates."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is horizontal scaling?",
+        "ideal_answer": "Horizontal scaling is the process of adding more servers or instances to distribute workload and improve capacity."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is vertical scaling?",
+        "ideal_answer": "Vertical scaling is the process of increasing the resources of an existing server, such as CPU or memory, to handle more load."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is a deployment pipeline?",
+        "ideal_answer": "A deployment pipeline is an automated sequence of steps that moves code from development to production through testing and deployment stages."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is artifact management in DevOps?",
+        "ideal_answer": "Artifact management is the process of storing, versioning, and managing build outputs such as binaries, packages, and container images."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is the purpose of logging in DevOps?",
+        "ideal_answer": "Logging records events and system activities to help monitor performance, troubleshoot issues, and audit behavior."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is immutable infrastructure?",
+        "ideal_answer": "Immutable infrastructure is an approach where servers are never modified after deployment; instead, new versions are replaced entirely."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
+        "question": "What is the role of Terraform in DevOps?",
+        "ideal_answer": "Terraform is an Infrastructure as Code tool used to provision and manage cloud and infrastructure resources through configuration files."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "medium",
         "question": "What is Infrastructure as Code (IaC)?",
         "ideal_answer": "IaC is managing infrastructure using code instead of manual processes, using tools like Terraform or CloudFormation."
       },
@@ -755,6 +2063,126 @@
       }
     ],
     [
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is the difference between blue-green deployment and canary deployment?",
+        "ideal_answer": "Blue-green deployment switches all traffic from the old version to the new version at once, while canary deployment gradually routes a small percentage of traffic to the new version before full rollout."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is immutable infrastructure in DevOps?",
+        "ideal_answer": "Immutable infrastructure is an approach where servers are never modified after deployment; instead, they are replaced with new updated instances."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is the purpose of a service mesh in microservices architecture?",
+        "ideal_answer": "A service mesh manages service-to-service communication, providing features like traffic management, security, and observability without changing application code."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is the role of Kubernetes in handling container orchestration?",
+        "ideal_answer": "Kubernetes automates deployment, scaling, networking, and management of containerized applications across clusters of machines."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is the difference between horizontal pod autoscaling and cluster autoscaling in Kubernetes?",
+        "ideal_answer": "Horizontal pod autoscaling adjusts the number of pods based on workload, while cluster autoscaling adjusts the number of nodes in the cluster."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is GitOps?",
+        "ideal_answer": "GitOps is a DevOps practice where infrastructure and application configurations are managed through Git repositories as the single source of truth."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is a sidecar container pattern?",
+        "ideal_answer": "The sidecar container pattern runs a helper container alongside the main application container to provide supporting features such as logging, monitoring, or proxying."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is the purpose of idempotency in infrastructure automation?",
+        "ideal_answer": "Idempotency ensures that running the same automation script multiple times produces the same result without unintended side effects."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is a rolling deployment strategy?",
+        "ideal_answer": "A rolling deployment updates application instances gradually, replacing old versions with new ones while keeping the service available."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is the purpose of observability in DevOps?",
+        "ideal_answer": "Observability provides insights into system behavior through metrics, logs, and traces, helping teams detect and diagnose issues efficiently."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is the difference between stateful and stateless applications?",
+        "ideal_answer": "Stateless applications do not retain session data between requests, while stateful applications preserve data or session state across requests."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is the role of Terraform state files?",
+        "ideal_answer": "Terraform state files store the current state of infrastructure resources so Terraform can track changes and manage updates accurately."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is a daemonset in Kubernetes?",
+        "ideal_answer": "A daemonset ensures that a copy of a specific pod runs on all or selected nodes in a Kubernetes cluster."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is the purpose of circuit breakers in distributed systems?",
+        "ideal_answer": "Circuit breakers prevent repeated calls to failing services, reducing cascading failures and improving system resilience."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is infrastructure drift?",
+        "ideal_answer": "Infrastructure drift occurs when the actual infrastructure state differs from the desired state defined in configuration files."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is the difference between push-based and pull-based deployment models?",
+        "ideal_answer": "Push-based deployment sends changes from a CI/CD system to the target environment, while pull-based deployment allows the target environment to pull changes from a repository."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is the purpose of ingress controllers in Kubernetes?",
+        "ideal_answer": "Ingress controllers manage external access to services in Kubernetes, providing routing, SSL termination, and load balancing."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is zero-downtime deployment?",
+        "ideal_answer": "Zero-downtime deployment is a release process that updates applications without interrupting service availability for users."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is the role of distributed tracing in microservices?",
+        "ideal_answer": "Distributed tracing tracks requests across multiple services, helping identify latency issues and failures in microservice architectures."
+      },
+      {
+        "role": "DevOps Engineer",
+        "difficulty": "hard",
+        "question": "What is the purpose of rate limiting in distributed systems?",
+        "ideal_answer": "Rate limiting controls the number of requests a client can make in a given time period to protect services from overload and abuse."
+      },
       {
         "role": "DevOps Engineer",
         "difficulty": "hard",
@@ -828,6 +2256,126 @@
       {
         "role": "Cybersecurity Analyst",
         "difficulty": "easy",
+        "question": "What is a firewall?",
+        "ideal_answer": "A firewall is a security system that monitors and controls incoming and outgoing network traffic based on predefined rules."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is malware?",
+        "ideal_answer": "Malware is malicious software designed to harm, exploit, or gain unauthorized access to systems or data."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is phishing?",
+        "ideal_answer": "Phishing is a cyberattack where attackers trick users into revealing sensitive information through fake emails or websites."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is antivirus software?",
+        "ideal_answer": "Antivirus software is a program designed to detect, prevent, and remove malicious software from a computer."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is encryption?",
+        "ideal_answer": "Encryption is the process of converting data into a secure format that can only be read with the correct key."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is a password manager?",
+        "ideal_answer": "A password manager is a tool that securely stores and manages passwords for different accounts."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is two-factor authentication?",
+        "ideal_answer": "Two-factor authentication is a security method that requires two forms of verification before granting access."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is a VPN?",
+        "ideal_answer": "A VPN is a secure connection that encrypts internet traffic and protects user privacy online."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is a data breach?",
+        "ideal_answer": "A data breach is an incident where unauthorized individuals gain access to sensitive or confidential data."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is social engineering in cybersecurity?",
+        "ideal_answer": "Social engineering is the manipulation of people into revealing confidential information or performing insecure actions."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is a virus in cybersecurity?",
+        "ideal_answer": "A virus is a type of malicious software that spreads by attaching itself to legitimate files or programs."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is ransomware?",
+        "ideal_answer": "Ransomware is malware that locks or encrypts a victim's data and demands payment for its release."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is authentication?",
+        "ideal_answer": "Authentication is the process of verifying the identity of a user or system."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is authorization?",
+        "ideal_answer": "Authorization is the process of determining what resources or actions a user is allowed to access."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is a security patch?",
+        "ideal_answer": "A security patch is an update released to fix vulnerabilities or improve the security of software."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is spam?",
+        "ideal_answer": "Spam is unwanted or unsolicited digital messages, often sent in bulk for advertising or malicious purposes."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is a brute force attack?",
+        "ideal_answer": "A brute force attack is an attempt to gain access by repeatedly trying many password combinations."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is a network in cybersecurity?",
+        "ideal_answer": "A network is a group of connected devices that can communicate and share resources."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is a vulnerability?",
+        "ideal_answer": "A vulnerability is a weakness in a system that can be exploited by attackers."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
+        "question": "What is a security policy?",
+        "ideal_answer": "A security policy is a set of rules and guidelines designed to protect an organization's systems and data."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "easy",
         "question": "What is cybersecurity?",
         "ideal_answer": "Cybersecurity is the practice of protecting systems, networks, and data from digital attacks."
       },
@@ -890,6 +2438,126 @@
       {
         "role": "Cybersecurity Analyst",
         "difficulty": "medium",
+        "question": "What is the difference between authentication and authorization?",
+        "ideal_answer": "Authentication verifies a user's identity, while authorization determines what resources or actions that authenticated user is allowed to access."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is a man-in-the-middle attack?",
+        "ideal_answer": "A man-in-the-middle attack occurs when an attacker secretly intercepts and possibly alters communication between two parties."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is the purpose of a firewall?",
+        "ideal_answer": "A firewall monitors and filters incoming and outgoing network traffic based on security rules to protect systems from unauthorized access."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is the difference between symmetric and asymmetric encryption?",
+        "ideal_answer": "Symmetric encryption uses the same key for encryption and decryption, while asymmetric encryption uses a public key for encryption and a private key for decryption."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is phishing and how does it work?",
+        "ideal_answer": "Phishing is a cyberattack where attackers impersonate trusted entities to trick users into revealing sensitive information such as passwords or financial details."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is a vulnerability assessment?",
+        "ideal_answer": "A vulnerability assessment is the process of identifying, evaluating, and prioritizing security weaknesses in systems or networks."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is multi-factor authentication?",
+        "ideal_answer": "Multi-factor authentication is a security process that requires users to provide two or more forms of verification before accessing a system."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is a denial-of-service attack?",
+        "ideal_answer": "A denial-of-service attack overwhelms a system or network with traffic, making it unavailable to legitimate users."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is the principle of least privilege?",
+        "ideal_answer": "The principle of least privilege means giving users only the minimum access rights necessary to perform their tasks."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is malware analysis?",
+        "ideal_answer": "Malware analysis is the process of studying malicious software to understand its behavior, origin, and impact."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is the role of intrusion detection systems?",
+        "ideal_answer": "Intrusion detection systems monitor network or system activities to detect suspicious behavior or potential attacks."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is a security incident?",
+        "ideal_answer": "A security incident is an event that compromises or threatens the confidentiality, integrity, or availability of systems or data."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is patch management?",
+        "ideal_answer": "Patch management is the process of updating software to fix vulnerabilities, improve security, and maintain system stability."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is endpoint security?",
+        "ideal_answer": "Endpoint security protects devices such as computers and mobile phones from cyber threats through monitoring and security controls."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is social engineering in cybersecurity?",
+        "ideal_answer": "Social engineering is the use of psychological manipulation to trick individuals into revealing confidential information or performing unsafe actions."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is the purpose of a VPN in cybersecurity?",
+        "ideal_answer": "A VPN encrypts internet traffic and creates a secure connection to protect data privacy and secure remote access."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is a brute force attack?",
+        "ideal_answer": "A brute force attack attempts to gain access by systematically trying many possible passwords or encryption keys."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is the CIA triad in cybersecurity?",
+        "ideal_answer": "The CIA triad stands for confidentiality, integrity, and availability, which are the core principles of information security."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is log monitoring in cybersecurity?",
+        "ideal_answer": "Log monitoring is the process of reviewing system and application logs to detect suspicious activity or security incidents."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
+        "question": "What is risk assessment in cybersecurity?",
+        "ideal_answer": "Risk assessment is the process of identifying threats, evaluating vulnerabilities, and determining the potential impact on an organization."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "medium",
         "question": "What is SQL injection?",
         "ideal_answer": "SQL injection is an attack where malicious SQL queries are inserted into input fields to manipulate a database."
       },
@@ -949,6 +2617,126 @@
       }
     ],
     [
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is the difference between symmetric and asymmetric encryption, and when would you use each?",
+        "ideal_answer": "Symmetric encryption uses one shared key for both encryption and decryption and is faster for large data transfers, while asymmetric encryption uses a public-private key pair and is commonly used for secure key exchange and digital signatures."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is a zero-day vulnerability?",
+        "ideal_answer": "A zero-day vulnerability is a software flaw that is unknown to the vendor and has no available patch, making it highly dangerous because attackers can exploit it before it is fixed."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is the difference between IDS and IPS?",
+        "ideal_answer": "An IDS detects and alerts on suspicious activity, while an IPS actively blocks or prevents malicious traffic in real time."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is the principle of defense in depth?",
+        "ideal_answer": "Defense in depth is a security strategy that uses multiple layers of controls across systems and networks so that if one layer fails, others still provide protection."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is the role of a SIEM system in cybersecurity?",
+        "ideal_answer": "A SIEM system collects, correlates, and analyzes security logs from multiple sources to detect threats, generate alerts, and support incident response."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is privilege escalation in cybersecurity?",
+        "ideal_answer": "Privilege escalation is the act of exploiting a vulnerability or misconfiguration to gain higher access rights than originally authorized."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is a distributed denial-of-service (DDoS) attack?",
+        "ideal_answer": "A DDoS attack overwhelms a target system with traffic from multiple compromised devices, causing service disruption or downtime."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is the difference between hashing and encryption?",
+        "ideal_answer": "Hashing converts data into a fixed-length value that cannot be reversed and is used for integrity checks, while encryption transforms data into a reversible format for confidentiality."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is lateral movement in a cyberattack?",
+        "ideal_answer": "Lateral movement is the process attackers use to move through a network after initial access to reach valuable systems or data."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is the purpose of threat modeling?",
+        "ideal_answer": "Threat modeling identifies potential security threats, attack vectors, and mitigations during system design to reduce security risks proactively."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is a replay attack?",
+        "ideal_answer": "A replay attack occurs when an attacker intercepts and retransmits valid data or authentication messages to gain unauthorized access."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is endpoint detection and response (EDR)?",
+        "ideal_answer": "EDR is a cybersecurity solution that continuously monitors endpoint devices to detect, investigate, and respond to malicious activities."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is the purpose of network segmentation?",
+        "ideal_answer": "Network segmentation divides a network into isolated sections to limit unauthorized access and reduce the spread of attacks."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is a man-in-the-middle attack and how can it be prevented?",
+        "ideal_answer": "A man-in-the-middle attack occurs when an attacker intercepts communication between two parties; it can be prevented using encryption, certificate validation, and secure network protocols."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is the difference between vulnerability scanning and penetration testing?",
+        "ideal_answer": "Vulnerability scanning automatically identifies known weaknesses, while penetration testing actively exploits vulnerabilities to assess real-world security risks."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is the concept of zero trust security?",
+        "ideal_answer": "Zero trust security assumes no user or device is trusted by default and requires continuous verification for every access request."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is a rootkit?",
+        "ideal_answer": "A rootkit is malicious software designed to gain unauthorized privileged access to a system while hiding its presence from users and security tools."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is exfiltration in cybersecurity?",
+        "ideal_answer": "Exfiltration is the unauthorized transfer of sensitive data from a system to an external destination controlled by an attacker."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is the purpose of incident response planning?",
+        "ideal_answer": "Incident response planning defines procedures for detecting, containing, eradicating, and recovering from cybersecurity incidents efficiently."
+      },
+      {
+        "role": "Cybersecurity Analyst",
+        "difficulty": "hard",
+        "question": "What is the MITRE ATT&CK framework?",
+        "ideal_answer": "The MITRE ATT&CK framework is a knowledge base of attacker tactics and techniques used to understand, detect, and defend against cyber threats."
+      },
       {
         "role": "Cybersecurity Analyst",
         "difficulty": "hard",
@@ -1016,6 +2804,126 @@
       {
         "role": "Full Stack Developer",
         "difficulty": "easy",
+        "question": "What is HTML?",
+        "ideal_answer": "HTML is the standard markup language used to create the structure of web pages."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is CSS?",
+        "ideal_answer": "CSS is a stylesheet language used to style and layout web pages."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is JavaScript?",
+        "ideal_answer": "JavaScript is a programming language used to make web pages interactive and dynamic."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is a database?",
+        "ideal_answer": "A database is an organized collection of data that can be stored, managed, and retrieved efficiently."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is an API?",
+        "ideal_answer": "An API is a set of rules that allows different software applications to communicate with each other."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is the difference between frontend and backend?",
+        "ideal_answer": "Frontend is the part users interact with, while backend handles the server, database, and business logic."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is a server?",
+        "ideal_answer": "A server is a system that processes requests and delivers data or services to clients over a network."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is HTTP?",
+        "ideal_answer": "HTTP is a protocol used to transfer data between clients and servers over the web."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is Git?",
+        "ideal_answer": "Git is a version control system used to track code changes and collaborate with other developers."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is responsive web design?",
+        "ideal_answer": "Responsive web design ensures that web pages adapt to different screen sizes and devices."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is JSON?",
+        "ideal_answer": "JSON is a lightweight data format used to exchange data between a client and server."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is CRUD?",
+        "ideal_answer": "CRUD stands for Create, Read, Update, and Delete, the four basic operations for managing data."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is a framework?",
+        "ideal_answer": "A framework is a collection of tools and libraries that helps developers build applications more efficiently."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is the purpose of a form in web development?",
+        "ideal_answer": "A form is used to collect user input and send data to the server for processing."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is SQL?",
+        "ideal_answer": "SQL is a language used to manage and query data in relational databases."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is the DOM?",
+        "ideal_answer": "The DOM is the Document Object Model, which represents the structure of a web page and allows scripts to modify it."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is deployment?",
+        "ideal_answer": "Deployment is the process of making an application available for users on a server."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is authentication?",
+        "ideal_answer": "Authentication is the process of verifying the identity of a user before granting access."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is a REST API?",
+        "ideal_answer": "A REST API is an API that follows REST principles to enable communication between systems using HTTP methods."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
+        "question": "What is version control?",
+        "ideal_answer": "Version control is a system that tracks changes to files over time, allowing collaboration and rollback to previous versions."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "easy",
         "question": "What is full stack development?",
         "ideal_answer": "Full stack development involves working on both frontend (client-side) and backend (server-side) of an application."
       },
@@ -1078,6 +2986,126 @@
       {
         "role": "Full Stack Developer",
         "difficulty": "medium",
+        "question": "What is the difference between client-side and server-side rendering?",
+        "ideal_answer": "Client-side rendering generates content in the browser using JavaScript, while server-side rendering generates HTML on the server before sending it to the client."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is middleware in web development?",
+        "ideal_answer": "Middleware is software that processes requests and responses between the client and the server, often used for authentication, logging, and validation."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is the difference between SQL and NoSQL databases?",
+        "ideal_answer": "SQL databases use structured tables with predefined schemas, while NoSQL databases store data in flexible formats like documents, key-value pairs, or graphs."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is the purpose of RESTful APIs?",
+        "ideal_answer": "RESTful APIs provide a standardized way for clients and servers to communicate using HTTP methods and resources."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is authentication and authorization?",
+        "ideal_answer": "Authentication verifies a user's identity, while authorization determines what resources or actions the authenticated user can access."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is the difference between PUT and PATCH requests?",
+        "ideal_answer": "PUT replaces an entire resource, while PATCH updates only specific fields of a resource."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is state management in frontend development?",
+        "ideal_answer": "State management is the process of managing and updating application data across components in a predictable way."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is the purpose of environment variables?",
+        "ideal_answer": "Environment variables store configuration values such as API keys or database URLs outside the application code for security and flexibility."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is CORS in web applications?",
+        "ideal_answer": "CORS is a security mechanism that controls whether a web application can request resources from a different domain."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is the purpose of an ORM?",
+        "ideal_answer": "An ORM allows developers to interact with databases using programming language objects instead of writing raw SQL queries."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is session management in web applications?",
+        "ideal_answer": "Session management tracks and maintains user interactions across multiple requests in a web application."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is the difference between monolithic and microservices architecture?",
+        "ideal_answer": "A monolithic architecture is a single unified application, while microservices architecture splits the application into smaller independent services."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is database indexing?",
+        "ideal_answer": "Database indexing improves query performance by creating data structures that allow faster data retrieval."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is the purpose of caching?",
+        "ideal_answer": "Caching stores frequently accessed data temporarily to reduce load on servers and improve response times."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is API rate limiting?",
+        "ideal_answer": "API rate limiting restricts the number of requests a client can make within a certain period to prevent abuse and overload."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is the difference between synchronous and asynchronous programming?",
+        "ideal_answer": "Synchronous programming executes tasks one after another, while asynchronous programming allows tasks to run independently without blocking execution."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is load balancing?",
+        "ideal_answer": "Load balancing distributes incoming requests across multiple servers to improve performance and reliability."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is dependency injection?",
+        "ideal_answer": "Dependency injection is a design pattern where objects receive their dependencies from external sources rather than creating them internally."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is token-based authentication?",
+        "ideal_answer": "Token-based authentication uses tokens, such as JWTs, to verify and authorize users without storing session data on the server."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
+        "question": "What is database normalization?",
+        "ideal_answer": "Database normalization is the process of organizing data into related tables to reduce redundancy and improve data integrity."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "medium",
         "question": "What is the MVC architecture?",
         "ideal_answer": "MVC separates an application into Model, View, and Controller to organize code and improve maintainability."
       },
@@ -1137,6 +3165,126 @@
       }
     ],
     [
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is the difference between horizontal scaling and vertical scaling in web applications?",
+        "ideal_answer": "Horizontal scaling adds more servers to distribute traffic, while vertical scaling increases the resources of a single server, such as CPU or memory."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What are the advantages of microservices architecture over monolithic architecture?",
+        "ideal_answer": "Microservices allow independent deployment, better scalability, and fault isolation, whereas monolithic applications are harder to scale and maintain as they grow."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is eventual consistency in distributed systems?",
+        "ideal_answer": "Eventual consistency means that in a distributed system, data updates will propagate to all nodes over time, and all nodes will eventually have the same value."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is the purpose of message queues in backend systems?",
+        "ideal_answer": "Message queues enable asynchronous communication between services, improve scalability, and help decouple system components."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is the CAP theorem?",
+        "ideal_answer": "The CAP theorem states that a distributed system can guarantee only two of the following three properties at the same time: consistency, availability, and partition tolerance."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is the difference between optimistic locking and pessimistic locking?",
+        "ideal_answer": "Optimistic locking assumes conflicts are rare and checks for changes before committing, while pessimistic locking prevents conflicts by locking resources during access."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is the purpose of database sharding?",
+        "ideal_answer": "Database sharding splits data across multiple databases or servers to improve scalability and performance."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is server-side rendering and how does it improve SEO?",
+        "ideal_answer": "Server-side rendering generates HTML on the server before sending it to the client, making content immediately available to search engines and improving SEO."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is the difference between stateless and stateful APIs?",
+        "ideal_answer": "Stateless APIs do not store client session data between requests, while stateful APIs maintain session information on the server."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is the role of reverse proxies in web applications?",
+        "ideal_answer": "A reverse proxy forwards client requests to backend servers, improving load balancing, security, and caching."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is connection pooling in backend systems?",
+        "ideal_answer": "Connection pooling maintains a pool of reusable database connections to reduce overhead and improve application performance."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is the difference between synchronous and event-driven architectures?",
+        "ideal_answer": "Synchronous architectures process requests in sequence with immediate responses, while event-driven architectures react asynchronously to events for better scalability."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is the purpose of API gateways in microservices?",
+        "ideal_answer": "API gateways act as a single entry point for clients, handling routing, authentication, rate limiting, and aggregation of service responses."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is database replication and why is it used?",
+        "ideal_answer": "Database replication copies data from one database server to others to improve availability, reliability, and read performance."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is the difference between WebSockets and HTTP?",
+        "ideal_answer": "HTTP is request-response based, while WebSockets provide a persistent two-way communication channel between client and server."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is distributed caching?",
+        "ideal_answer": "Distributed caching stores cached data across multiple servers, improving scalability and reducing database load in distributed systems."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is eventual consistency and where is it commonly used?",
+        "ideal_answer": "Eventual consistency is a consistency model where data updates propagate over time; it is commonly used in distributed databases and NoSQL systems."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is circuit breaker pattern in backend systems?",
+        "ideal_answer": "The circuit breaker pattern prevents repeated calls to failing services, improving system resilience and preventing cascading failures."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is the purpose of CQRS architecture?",
+        "ideal_answer": "CQRS separates read and write operations into different models to improve scalability, performance, and maintainability."
+      },
+      {
+        "role": "Full Stack Developer",
+        "difficulty": "hard",
+        "question": "What is idempotency in API design?",
+        "ideal_answer": "Idempotency means that making the same API request multiple times produces the same result without unintended side effects."
+      },
       {
         "role": "Full Stack Developer",
         "difficulty": "hard",
@@ -1204,6 +3352,126 @@
       {
         "role": "Cloud Engineer",
         "difficulty": "easy",
+        "question": "What is a cloud service provider?",
+        "ideal_answer": "A cloud service provider is a company that offers cloud computing services such as storage, servers, and networking over the internet."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is IaaS?",
+        "ideal_answer": "IaaS, or Infrastructure as a Service, provides virtualized computing resources such as servers and storage over the internet."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is PaaS?",
+        "ideal_answer": "PaaS, or Platform as a Service, provides a platform for developers to build, run, and manage applications without handling infrastructure."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is SaaS?",
+        "ideal_answer": "SaaS, or Software as a Service, delivers software applications over the internet on a subscription basis."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is a virtual machine?",
+        "ideal_answer": "A virtual machine is a software-based computer that runs an operating system and applications like a physical computer."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is cloud storage?",
+        "ideal_answer": "Cloud storage is a service that stores data on remote servers accessible over the internet."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is scalability in cloud computing?",
+        "ideal_answer": "Scalability is the ability to increase or decrease computing resources based on demand."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is elasticity in cloud computing?",
+        "ideal_answer": "Elasticity is the ability of a cloud system to automatically adjust resources in response to workload changes."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is a data center?",
+        "ideal_answer": "A data center is a facility that houses servers, storage systems, and networking equipment used to deliver computing services."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is cloud deployment?",
+        "ideal_answer": "Cloud deployment is the process of making applications and services available on cloud infrastructure."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is a public cloud?",
+        "ideal_answer": "A public cloud is a cloud environment where services are delivered over the internet and shared among multiple customers."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is a private cloud?",
+        "ideal_answer": "A private cloud is a cloud environment dedicated to a single organization for greater control and security."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is a hybrid cloud?",
+        "ideal_answer": "A hybrid cloud combines public and private cloud environments to allow data and applications to move between them."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is cloud security?",
+        "ideal_answer": "Cloud security is the practice of protecting cloud-based systems, data, and infrastructure from threats."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is load balancing in the cloud?",
+        "ideal_answer": "Load balancing distributes incoming traffic across multiple servers to improve performance and reliability."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is a cloud region?",
+        "ideal_answer": "A cloud region is a geographic area where a cloud provider has one or more data centers."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is high availability in cloud computing?",
+        "ideal_answer": "High availability ensures that cloud services remain accessible with minimal downtime through redundancy and failover mechanisms."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is a cloud backup?",
+        "ideal_answer": "A cloud backup is the process of copying and storing data on cloud servers for recovery in case of data loss."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is a container in cloud computing?",
+        "ideal_answer": "A container is a lightweight package that includes an application and its dependencies, allowing it to run consistently across environments."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
+        "question": "What is monitoring in cloud computing?",
+        "ideal_answer": "Monitoring is the process of tracking the performance, availability, and health of cloud resources and applications."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "easy",
         "question": "What is cloud computing?",
         "ideal_answer": "Cloud computing is the delivery of computing services like storage, servers, and databases over the internet."
       },
@@ -1266,6 +3534,126 @@
       {
         "role": "Cloud Engineer",
         "difficulty": "medium",
+        "question": "What is the difference between IaaS, PaaS, and SaaS?",
+        "ideal_answer": "IaaS provides virtualized infrastructure resources, PaaS provides a development platform for applications, and SaaS delivers software applications over the internet."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is auto-scaling in cloud computing?",
+        "ideal_answer": "Auto-scaling automatically adjusts the number of computing resources based on workload demand to maintain performance and optimize costs."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is the purpose of a load balancer in cloud architecture?",
+        "ideal_answer": "A load balancer distributes incoming traffic across multiple servers to improve availability, scalability, and performance."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is the difference between public cloud and private cloud?",
+        "ideal_answer": "A public cloud provides shared resources over the internet to multiple customers, while a private cloud is dedicated to a single organization for greater control and security."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is cloud elasticity?",
+        "ideal_answer": "Cloud elasticity is the ability of a cloud system to dynamically allocate and release resources based on workload changes."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is the purpose of cloud regions and availability zones?",
+        "ideal_answer": "Cloud regions are geographic areas where providers host infrastructure, and availability zones are isolated locations within a region to improve redundancy and fault tolerance."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is a virtual private cloud (VPC)?",
+        "ideal_answer": "A VPC is a logically isolated virtual network within a cloud provider where users can launch and manage resources securely."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is the shared responsibility model in cloud security?",
+        "ideal_answer": "The shared responsibility model defines that the cloud provider secures the infrastructure, while the customer is responsible for securing their data, applications, and configurations."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is the benefit of using object storage in the cloud?",
+        "ideal_answer": "Object storage provides scalable, durable, and cost-effective storage for unstructured data such as files, images, and backups."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is cloud migration?",
+        "ideal_answer": "Cloud migration is the process of moving applications, data, and workloads from on-premises systems to cloud infrastructure."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is serverless computing?",
+        "ideal_answer": "Serverless computing allows developers to run code without managing servers, where the cloud provider automatically handles provisioning and scaling."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is a CDN in cloud computing?",
+        "ideal_answer": "A CDN, or Content Delivery Network, distributes content across geographically distributed servers to reduce latency and improve delivery speed."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is the purpose of identity and access management (IAM) in the cloud?",
+        "ideal_answer": "IAM controls user identities and permissions to securely manage access to cloud resources."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is disaster recovery in cloud computing?",
+        "ideal_answer": "Disaster recovery is the process of restoring cloud services and data after a failure or outage to ensure business continuity."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is the difference between vertical scaling and horizontal scaling?",
+        "ideal_answer": "Vertical scaling increases the resources of a single server, while horizontal scaling adds more servers to distribute the workload."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is the purpose of monitoring in cloud environments?",
+        "ideal_answer": "Monitoring tracks the health, performance, and availability of cloud resources to identify issues and optimize operations."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is infrastructure as code (IaC) in cloud computing?",
+        "ideal_answer": "Infrastructure as Code is the practice of provisioning and managing cloud infrastructure using configuration files instead of manual setup."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is the advantage of managed cloud services?",
+        "ideal_answer": "Managed cloud services reduce operational overhead by allowing the cloud provider to handle maintenance, updates, and infrastructure management."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is cloud cost optimization?",
+        "ideal_answer": "Cloud cost optimization is the process of reducing unnecessary spending by efficiently managing and scaling cloud resources."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
+        "question": "What is the purpose of backup and snapshot services in cloud computing?",
+        "ideal_answer": "Backup and snapshot services create copies of data and system states to enable recovery in case of failure or data loss."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "medium",
         "question": "What is load balancing in cloud?",
         "ideal_answer": "Load balancing distributes incoming traffic across multiple resources to ensure performance and reliability."
       },
@@ -1325,6 +3713,126 @@
       }
     ],
     [
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is the shared responsibility model in cloud security?",
+        "ideal_answer": "The shared responsibility model defines that the cloud provider is responsible for securing the cloud infrastructure, while the customer is responsible for securing data, applications, identities, and configurations within the cloud."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is the difference between horizontal scaling and vertical scaling in cloud environments?",
+        "ideal_answer": "Horizontal scaling adds more instances to distribute workload, while vertical scaling increases the resources such as CPU or memory of an existing instance."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is eventual consistency in distributed cloud storage systems?",
+        "ideal_answer": "Eventual consistency is a consistency model where data updates propagate across distributed nodes over time, ensuring all replicas eventually become consistent."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is the purpose of infrastructure as code in cloud engineering?",
+        "ideal_answer": "Infrastructure as Code automates the provisioning and management of cloud resources through configuration files, improving consistency, repeatability, and scalability."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is the difference between containers and virtual machines in cloud computing?",
+        "ideal_answer": "Containers share the host operating system kernel and are lightweight, while virtual machines run separate operating systems and require more resources."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is a virtual private cloud (VPC) and why is it important?",
+        "ideal_answer": "A VPC is a logically isolated virtual network in the cloud that provides secure networking, access control, and segmentation for cloud resources."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is the CAP theorem in distributed cloud systems?",
+        "ideal_answer": "The CAP theorem states that a distributed system can only guarantee two of the following three properties simultaneously: consistency, availability, and partition tolerance."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is serverless computing and what are its benefits?",
+        "ideal_answer": "Serverless computing allows developers to run code without managing servers, offering benefits such as automatic scaling, reduced operational overhead, and pay-per-use pricing."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is the purpose of load balancing in cloud architecture?",
+        "ideal_answer": "Load balancing distributes traffic across multiple servers or instances to improve availability, scalability, and fault tolerance."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is cloud bursting?",
+        "ideal_answer": "Cloud bursting is a hybrid cloud strategy where an application runs in a private cloud but uses public cloud resources during peak demand."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is the purpose of a cloud availability zone?",
+        "ideal_answer": "An availability zone is an isolated data center location within a cloud region designed to improve redundancy, fault tolerance, and high availability."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is autoscaling and how does it improve cloud performance?",
+        "ideal_answer": "Autoscaling automatically adjusts the number of computing resources based on workload demand, improving performance while optimizing costs."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is the role of IAM in cloud security?",
+        "ideal_answer": "Identity and Access Management controls user identities, roles, and permissions to ensure secure access to cloud resources."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is multi-tenancy in cloud computing?",
+        "ideal_answer": "Multi-tenancy is an architecture where multiple customers share the same cloud infrastructure while keeping their data and workloads isolated."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is the difference between object storage and block storage?",
+        "ideal_answer": "Object storage stores data as objects with metadata for scalability, while block storage divides data into blocks for low-latency access, commonly used for databases."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is disaster recovery in cloud computing?",
+        "ideal_answer": "Disaster recovery in cloud computing involves strategies and services that restore applications and data after failures to maintain business continuity."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is a service-level agreement (SLA) in cloud services?",
+        "ideal_answer": "A service-level agreement is a contract that defines the expected availability, performance, and responsibilities of a cloud service provider."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is edge computing and how does it relate to cloud computing?",
+        "ideal_answer": "Edge computing processes data closer to the source of generation to reduce latency, while cloud computing provides centralized processing and storage resources."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is the role of Kubernetes in cloud-native applications?",
+        "ideal_answer": "Kubernetes automates deployment, scaling, networking, and management of containerized applications in cloud-native environments."
+      },
+      {
+        "role": "Cloud Engineer",
+        "difficulty": "hard",
+        "question": "What is cloud observability and why is it important?",
+        "ideal_answer": "Cloud observability is the ability to monitor, measure, and analyze cloud system behavior through metrics, logs, and traces to improve reliability and troubleshoot issues."
+      },
       {
         "role": "Cloud Engineer",
         "difficulty": "hard",
