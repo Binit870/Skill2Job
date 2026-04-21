@@ -12,7 +12,7 @@ export default function RecruiterDashboard() {
   useEffect(() => {
     (async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         const h = { Authorization: `Bearer ${token}` };
         const [jobsRes, appsRes] = await Promise.all([
           API.get("/api/jobs/recruiter/my-jobs", { headers: h }),

@@ -7,7 +7,7 @@ import { INITIAL_FORM_DATA } from "./editJobConstants";
 export function useEditJob() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

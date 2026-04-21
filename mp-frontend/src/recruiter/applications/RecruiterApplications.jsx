@@ -20,7 +20,7 @@ export default function RecruiterApplications() {
   useEffect(() => {
     (async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         const h = { Authorization: `Bearer ${token}` };
         const [appsRes, jobsRes] = await Promise.all([
           API.get("/api/applications/recruiter", { headers: h }),

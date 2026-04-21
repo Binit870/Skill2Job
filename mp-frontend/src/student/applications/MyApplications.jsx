@@ -17,7 +17,7 @@ export default function MyApplications() {
   useEffect(() => {
     (async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         const res = await API.get("/api/applications/my", {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -33,7 +33,7 @@ export default function MyApplications() {
   const handleWithdraw = async () => {
     setWithdrawing(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       await API.delete(`/api/applications/${withdrawTarget._id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });

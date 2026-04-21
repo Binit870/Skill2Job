@@ -1,7 +1,0 @@
-__pycache__/
-*.pyc
-*.pyo
-.env
-services/__pycache__/
-training/__pycache__/
-package-lock.json

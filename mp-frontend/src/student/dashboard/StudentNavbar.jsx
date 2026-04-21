@@ -9,7 +9,7 @@ export default function StudentNavbar({ onMenuClick }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef();
 
-  const handleLogout = () => { logout(); navigate("/login"); };
+  const handleLogout = () => { logout(); navigate("/"); };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -20,9 +20,7 @@ export default function StudentNavbar({ onMenuClick }) {
   }, []);
 
   return (
-   <div className="sticky top-0 z-50 w-full h-16 bg-white border-b flex items-center justify-between px-4 md:px-6 gap-4">
-
-      {/* Hamburger — mobile only */}
+    <div className="w-full h-16 bg-white border-b flex items-center justify-between px-4 md:px-6 gap-4">
       <button
         onClick={onMenuClick}
         className="md:hidden p-2 rounded-lg hover:bg-gray-100 flex-shrink-0"
@@ -30,17 +28,15 @@ export default function StudentNavbar({ onMenuClick }) {
         <Menu className="w-5 h-5" />
       </button>
 
-      {/* Search Bar */}
       <div className="relative flex-1 max-w-xs md:max-w-sm lg:w-1/3">
         <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
         <input
           type="text"
           placeholder="Search jobs, recruiters..."
-          className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+          className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
         />
       </div>
 
-      {/* Profile Section */}
       <div className="relative flex-shrink-0" ref={dropdownRef}>
         <button onClick={() => setOpen(!open)} className="flex items-center gap-2 cursor-pointer">
           <div className="w-9 h-9 rounded-full overflow-hidden bg-green-600 flex items-center justify-center">
@@ -50,7 +46,6 @@ export default function StudentNavbar({ onMenuClick }) {
               <User className="w-5 h-5 text-white" />
             )}
           </div>
-          {/* Hide name on small screens */}
           <span className="hidden sm:block text-sm font-medium text-gray-700">
             {user?.name || "Student"}
           </span>
