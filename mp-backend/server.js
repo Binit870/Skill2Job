@@ -20,7 +20,7 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: ["http://localhost:5173", "https://skill-2-job.vercel.app"],
+  origin: [process.env.CLIENT_URL,"http://localhost:5173", "https://skill-2-job.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
