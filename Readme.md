@@ -1,65 +1,152 @@
 # 🚀 Skill2Job - Transforming Skills Into Careers
 
-## 📌 Overview
-This project is a **MERN stack application integrated with Machine Learning** that helps students and job seekers transform their skills into successful careers  
-It provides:
-- 🎤 **Mock Interviews with Voice Interaction**
-- 📝 **Resume Parsing & ATS Score Analysis**
-- 📊 **Placement Prediction**
-- 🧩 **Skill Gap Analysis**
-- 📈 **Personalized Recommendations**
+🔗 **Live Demo:** https://skill-2-job.vercel.app/
+📂 **Repository:** https://github.com/Binit870/Skill2Job
 
-The goal is to simulate real-world interview scenarios, analyze resumes against job descriptions, and provide actionable insights for career growth.
+---
+
+## 📌 Overview
+
+**Skill2Job** is a full-stack MERN + Machine Learning platform designed to help students and job seekers convert their skills into real career opportunities.
+
+It simulates real-world hiring processes using AI-driven insights, enabling users to:
+
+* Practice interviews 🎤
+* Optimize resumes 📝
+* Predict placement chances 📊
+* Identify skill gaps 🧩
+* All in one dashboard 
+
+---
+
+## ✨ Key Features
+
+### 🎤 AI Mock Interviews
+
+* Real-time voice-based interview simulation
+* Dynamic question generation
+
+### 📝 Resume Analysis & ATS Scoring
+
+* Resume parsing using NLP
+* ATS compatibility score
+* Keyword & skill gap detection
+
+### 📊 Placement Prediction
+
+* ML models to estimate job placement probability
+
+### 🧩 Skill Gap Analysis
+
+* Identifies missing skills for target roles
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **React.js** – Interactive UI
-- **Redux / Context API** – State management
-- **TailwindCSS ** – Styling
-- **React-Speech-Recognition** – Voice input for mock interviews
-- **Chart.js / Plotly** – Visualizations
+
+* React.js
+* Redux / Context API
+* TailwindCSS
+* Chart.js / Plotly
+* React-Speech-Recognition
 
 ### Backend
-- **Node.js + Express.js** – REST API
-- **MongoDB + Mongoose** – Database for resumes, interview logs, predictions
-- **Socket.io** – Real-time interview simulation
 
-### Machine Learning (Python)
-- **scikit-learn, XGBoost, LightGBM** – Placement prediction models
-- **TensorFlow / PyTorch** – Deep learning for NLP and voice models
-- **spaCy, NLTK, Transformers (Hugging Face)** – Resume parsing & skill extraction
-- **Whisper / Vosk** – Speech-to-text for interview answers
-- **gTTS / pyttsx3** – Text-to-speech for interviewer questions
+* Node.js
+* Express.js
+* MongoDB 
+
+### Machine Learning
+
+* scikit-learn, XGBoost, LightGBM
+* TensorFlow / PyTorch
+* spaCy, NLTK, Transformers
+* Whisper / Vosk
+* gTTS / pyttsx3
 
 ---
 
-## 📂 Project Structure
+## 🏗️ Architecture
+
+Client → React Frontend
+⬇
+Node.js Backend (API + Auth + DB)
+⬇
+Python ML Service (FastAPI)
+⬇
+MongoDB Database
 
 ---
 
 ## ⚙️ Installation & Setup
 
-### 1️⃣ Clone the Repository
+### 1️⃣ Clone Repository
+
 ```bash
 git clone https://github.com/Binit870/Skill2Job.git
 cd Skill2Job
+```
 
+### 2️⃣ Frontend Setup
+
+```bash
 cd mp-frontend
 npm install
 npm run dev
+```
 
+### 3️⃣ Backend Setup
+
+```bash
 cd ../mp-backend
 npm install
 npm start
+```
 
+### 4️⃣ ML Service Setup
+
+```bash
 cd ../ml-service
 pip install -r requirements.txt
 uvicorn main:app --reload
+```
 
+## 👥 Team
 
+This project was built collaboratively by:
 
+* **Binit Kumar -  Full Stack Developer**
+* **Arjun Singh - Full Stack Developer**
+* **Sagar Malind - Frontend Developer**
+* **Raghunath Soren - Frontend Developer**
+* **Ayush Kumar - UI/UX Engineer**
 
+---
 
+## 🎓 Guidance
+
+This project was developed under the guidance of:
+
+**Prof. Anubhav Shrestha**
+
+---
+
+## 📊 Future Improvements
+
+* Video-based interview analysis
+* Advanced LLM feedback system
+* Company-specific preparation modules
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to fork the repo and submit a PR.
+
+---
+
+## ⭐ Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub!

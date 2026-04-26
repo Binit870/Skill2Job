@@ -10,14 +10,18 @@ export default function RobotAvatar({ isSpeaking = false, isListening = false })
 
       {/* Status label */}
       <div style={{
-        fontSize: 12, fontWeight: 600, letterSpacing: "0.05em",
-        padding: "4px 12px", borderRadius: 20,
-        background: isSpeaking ? "#d1fae5" : isListening ? "#dbeafe" : "#f3f4f6",
-        color: isSpeaking ? "#065f46" : isListening ? "#1e40af" : "#6b7280",
-        border: isSpeaking ? "1px solid #6ee7b7" : isListening ? "1px solid #93c5fd" : "1px solid #e5e7eb",
-        transition: "all 0.3s ease"
+        fontSize: 11, fontWeight: 500, letterSpacing: "0.05em",
+        padding: "4px 12px", borderRadius: 99,
+        background: isSpeaking ? "#f0fdf4" : isListening ? "#eff6ff" : "#f9fafb",
+        color: isSpeaking ? "#16a34a" : isListening ? "#2563eb" : "#9ca3af",
+        border: isSpeaking
+          ? "0.5px solid #bbf7d0"
+          : isListening
+          ? "0.5px solid #bfdbfe"
+          : "0.5px solid #e5e7eb",
+        transition: "all 0.3s ease",
       }}>
-        {isSpeaking ? "● SPEAKING" : isListening ? "◉ LISTENING" : "○ STANDBY"}
+        {isSpeaking ? "● Speaking" : isListening ? "◉ Listening" : "○ Standby"}
       </div>
 
       {/* Robot SVG */}
@@ -60,7 +64,6 @@ export default function RobotAvatar({ isSpeaking = false, isListening = false })
             <stop offset="100%" stopColor="#065f46" />
           </linearGradient>
 
-          {/* Speaking pulse */}
           {isSpeaking && (
             <style>{`
               @keyframes mouthPulse {
@@ -112,66 +115,58 @@ export default function RobotAvatar({ isSpeaking = false, isListening = false })
           <rect x="72" y="130" width="16" height="2" rx="1" fill="rgba(255,255,255,0.2)" />
           <rect x="72" y="134" width="16" height="2" rx="1" fill="rgba(255,255,255,0.2)" />
 
-          {/* HEAD BASE - 3D rounded box */}
+          {/* HEAD BASE */}
           <rect x="22" y="40" width="116" height="92" rx="22" fill="url(#headGrad)" />
 
-          {/* Head top highlight (3D shine) */}
+          {/* Head top highlight */}
           <ellipse cx="65" cy="46" rx="38" ry="10" fill="rgba(255,255,255,0.25)" />
 
-          {/* Head side shadow (right) */}
+          {/* Head side shadow */}
           <rect x="118" y="50" width="20" height="72" rx="12" fill="rgba(0,0,0,0.08)" />
 
           {/* ANTENNA BASE */}
           <rect x="76" y="28" width="8" height="16" rx="3" fill="#059669" />
 
-          {/* ANTENNA BALL - glowing */}
+          {/* ANTENNA BALL */}
           <circle cx="80" cy="23" r="10" fill="url(#antennaGrad)"
             style={{ animation: "antennaBlink 2s ease-in-out infinite" }} />
           <circle cx="77" cy="20" r="3" fill="rgba(255,255,255,0.7)" />
 
-          {/* FACE PANEL (darker inset) */}
+          {/* FACE PANEL */}
           <rect x="34" y="54" width="92" height="70" rx="14" fill="url(#panelGrad)" />
-          {/* Panel inner border / bevel */}
           <rect x="35" y="55" width="90" height="68" rx="13" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
 
-          {/* ===== LEFT EYE ===== */}
+          {/* LEFT EYE */}
           <rect x="44" y="66" width="28" height="22" rx="8" fill="#0f172a" />
           <rect x="45" y="67" width="26" height="20" rx="7" fill="#052e16" />
-          {/* Iris */}
           <circle cx="58" cy="77" r="8" fill="url(#eyeGrad)"
             style={{ animation: isSpeaking ? "eyePulse 0.5s ease-in-out infinite" : "none" }} />
-          {/* Pupil */}
           <circle cx="58" cy="77" r="4" fill="#064e35" />
           <circle cx="55" cy="74" r="2" fill="rgba(255,255,255,0.9)" />
-          {/* Eye shine line */}
           <rect x="45" y="67" width="26" height="4" rx="3" fill="rgba(255,255,255,0.06)" />
 
-          {/* ===== RIGHT EYE ===== */}
+          {/* RIGHT EYE */}
           <rect x="88" y="66" width="28" height="22" rx="8" fill="#0f172a" />
           <rect x="89" y="67" width="26" height="20" rx="7" fill="#052e16" />
-          {/* Iris */}
           <circle cx="102" cy="77" r="8" fill="url(#eyeGrad)"
             style={{ animation: isSpeaking ? "eyePulse 0.5s ease-in-out infinite 0.25s" : "none" }} />
-          {/* Pupil */}
           <circle cx="102" cy="77" r="4" fill="#064e35" />
           <circle cx="99" cy="74" r="2" fill="rgba(255,255,255,0.9)" />
           <rect x="89" y="67" width="26" height="4" rx="3" fill="rgba(255,255,255,0.06)" />
 
-          {/* ===== NOSE (tiny) ===== */}
+          {/* NOSE */}
           <ellipse cx="80" cy="94" rx="4" ry="3" fill="rgba(255,255,255,0.12)" />
 
-          {/* ===== MOUTH AREA ===== */}
+          {/* MOUTH AREA */}
           <rect x="50" y="100" width="60" height="18" rx="9" fill="#0f172a" />
           <rect x="51" y="101" width="58" height="16" rx="8" fill="#052e16" />
 
-          {/* Mouth path — animated when speaking */}
           {isSpeaking ? (
             <>
-              {/* Animated open mouth */}
               <rect x="54" y="104" width="52" height="10" rx="5" fill="#065f46"
                 style={{
                   transformOrigin: "80px 109px",
-                  animation: "mouthOpen 0.4s ease-in-out infinite alternate"
+                  animation: "mouthOpen 0.4s ease-in-out infinite alternate",
                 }}
               />
               <style>{`
@@ -180,13 +175,11 @@ export default function RobotAvatar({ isSpeaking = false, isListening = false })
                   to   { transform: scaleY(1); }
                 }
               `}</style>
-              {/* Teeth row */}
               {[58, 66, 74, 82, 90, 98].map((x, i) => (
                 <rect key={i} x={x} y="103" width="6" height="5" rx="1.5" fill="rgba(255,255,255,0.7)" />
               ))}
             </>
           ) : (
-            /* Neutral smile line */
             <path
               d="M 57 109 Q 80 116 103 109"
               stroke="#10b981" strokeWidth="2.5"
@@ -194,11 +187,11 @@ export default function RobotAvatar({ isSpeaking = false, isListening = false })
             />
           )}
 
-          {/* ===== CHEEK BLUSH (3D effect) ===== */}
+          {/* CHEEK BLUSH */}
           <ellipse cx="36" cy="92" rx="10" ry="7" fill="url(#cheekGrad)" />
           <ellipse cx="124" cy="92" rx="10" ry="7" fill="url(#cheekGrad)" />
 
-          {/* ===== SIDE EARS / BOLTS ===== */}
+          {/* SIDE EARS / BOLTS */}
           <circle cx="22" cy="82" r="8" fill="#059669" />
           <circle cx="22" cy="82" r="5" fill="#d1fae5" />
           <circle cx="22" cy="82" r="2" fill="#059669" />
@@ -207,7 +200,7 @@ export default function RobotAvatar({ isSpeaking = false, isListening = false })
           <circle cx="138" cy="82" r="5" fill="#d1fae5" />
           <circle cx="138" cy="82" r="2" fill="#059669" />
 
-          {/* ===== LISTENING PULSE (when listening) ===== */}
+          {/* LISTENING PULSE */}
           {isListening && (
             <>
               <circle cx="22" cy="82" r="6" fill="none" stroke="#3b82f6" strokeWidth="2"
@@ -219,13 +212,13 @@ export default function RobotAvatar({ isSpeaking = false, isListening = false })
 
         </g>
 
-        {/* ===== SPEAKING SOUND WAVES (right side) ===== */}
+        {/* SPEAKING SOUND WAVES */}
         {isSpeaking && (
           <g>
             {[0, 1, 2].map(i => (
               <path key={i}
                 d={`M ${150 + i * 8} ${68 + i * 4} Q ${155 + i * 8} 80 ${150 + i * 8} ${92 - i * 4}`}
-                fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round"
+                fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round"
                 style={{ animation: `waveFade 0.8s ease-in-out infinite ${i * 0.2}s` }}
               />
             ))}
