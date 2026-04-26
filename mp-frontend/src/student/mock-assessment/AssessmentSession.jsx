@@ -1,35 +1,36 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { FaCheckCircle, FaTimesCircle, FaClock } from "react-icons/fa";
+import { FaClock, FaSignOutAlt } from "react-icons/fa";
 import { MdOutlineTimer } from "react-icons/md";
+import { HiOutlineCheckCircle } from "react-icons/hi";
 
 const fmt = (s) =>
   `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
 
-export default function AssessmentSession({ topic, questions, timePerQuestion, onComplete }) {
+export default function AssessmentSession({
+  topic, questions, timePerQuestion,
+  onComplete, onLeaveRequest,
+}) {
   const totalQ       = questions.length;
   const totalSeconds = totalQ * timePerQuestion;
 
-  const [currentIdx,   setCurrentIdx]   = useState(0);
-  const [selectedOpt,  setSelectedOpt]  = useState(null);
-  const [perQTime,     setPerQTime]     = useState(timePerQuestion);
-  const [overallTime,  setOverallTime]  = useState(totalSeconds);
-  const [showFeedback, setShowFeedback] = useState(false);
+  const [currentIdx,  setCurrentIdx]  = useState(0);
+  const [selectedOpt, setSelectedOpt] = useState(null);
+  const [perQTime,    setPerQTime]    = useState(timePerQuestion);
+  const [overallTime, setOverallTime] = useState(totalSeconds);
+  const [advancing,   setAdvancing]   = useState(false);
 
-  // ── Refs ──────────────────────────────────────────────────────────────────
   const perQRef        = useRef(null);
   const overallRef     = useRef(null);
   const startRef       = useRef(Date.now());
-  const advanceLock    = useRef(false);          // blocks double per-Q timeout
-  const completedRef   = useRef(false);          // one-way gate: onComplete fires once
-  const overallTimeRef = useRef(totalSeconds);   // live copy for elapsed calc
-  const responsesRef   = useRef([]);             // accumulates responses (no stale closure)
-  const advanceTimer   = useRef(null);           // holds the 1.5s feedback setTimeout
-  const commitRef      = useRef(null);           // stable pointer to latest commitAnswer
+  const advanceLock    = useRef(false);
+  const completedRef   = useRef(false);
+  const overallTimeRef = useRef(totalSeconds);
+  const responsesRef   = useRef([]);
+  const advanceTimer   = useRef(null);
+  const commitRef      = useRef(null);
 
-  // keep overallTimeRef current
   useEffect(() => { overallTimeRef.current = overallTime; }, [overallTime]);
 
-  // ── safeComplete — fires onComplete exactly once ──────────────────────────
   const safeComplete = useCallback((elapsed) => {
     if (completedRef.current) return;
     completedRef.current = true;
@@ -39,23 +40,17 @@ export default function AssessmentSession({ topic, questions, timePerQuestion, o
     onComplete(responsesRef.current, Math.max(0, elapsed));
   }, [onComplete]);
 
-  // ── Overall countdown (mount once) ────────────────────────────────────────
   useEffect(() => {
     overallRef.current = setInterval(() => {
       setOverallTime(t => {
         if (t <= 1) {
           clearInterval(overallRef.current);
-          // fill any unanswered questions then complete
           const filled = [...responsesRef.current];
           for (let i = filled.length; i < totalQ; i++) {
             filled.push({
-              question: questions[i].question,
-              type: questions[i].type,
-              selected_option: "",
-              correct_answer: questions[i].answer,
-              explanation: questions[i].explanation || "",
-              time_taken: 0,
-              timed_out: true,
+              question: questions[i].question, type: questions[i].type,
+              selected_option: "", correct_answer: questions[i].answer,
+              explanation: questions[i].explanation || "", time_taken: 0, timed_out: true,
             });
           }
           responsesRef.current = filled;
@@ -68,269 +63,314 @@ export default function AssessmentSession({ topic, questions, timePerQuestion, o
     return () => clearInterval(overallRef.current);
   }, []); // eslint-disable-line
 
-  // ── Per-question countdown (resets on new question) ───────────────────────
   useEffect(() => {
-    if (showFeedback) return;
+    if (advancing) return;
     advanceLock.current = false;
     setPerQTime(timePerQuestion);
     setSelectedOpt(null);
     startRef.current = Date.now();
-
     perQRef.current = setInterval(() => {
       setPerQTime(t => {
         if (t <= 1) {
           clearInterval(perQRef.current);
-          if (!advanceLock.current) {
-            advanceLock.current = true;
-            commitRef.current?.(null, true);
-          }
+          if (!advanceLock.current) { advanceLock.current = true; commitRef.current?.(null, true); }
           return 0;
         }
         return t - 1;
       });
     }, 1000);
-
     return () => clearInterval(perQRef.current);
   }, [currentIdx]); // eslint-disable-line
 
-  // ── commitAnswer ──────────────────────────────────────────────────────────
-  // IMPORTANT: No side effects inside setResponses updater.
-  // We accumulate into responsesRef directly, then schedule advance via a ref'd setTimeout.
   const commitAnswer = useCallback((option, timedOut) => {
     clearInterval(perQRef.current);
-    clearTimeout(advanceTimer.current);    // cancel any pending advance from before
-
+    clearTimeout(advanceTimer.current);
     const q = questions[currentIdx];
     if (!q) return;
-
     const timeTaken = Math.round((Date.now() - startRef.current) / 1000);
-
-    // Push to ref (not state) — avoids the setResponses updater firing twice in Strict Mode
-    responsesRef.current = [
-      ...responsesRef.current,
-      {
-        question:        q.question,
-        type:            q.type,
-        selected_option: option || "",
-        correct_answer:  q.answer,
-        explanation:     q.explanation || "",
-        time_taken:      timeTaken,
-        timed_out:       timedOut,
-      },
-    ];
-
+    responsesRef.current = [...responsesRef.current, {
+      question: q.question, type: q.type,
+      selected_option: option || "", correct_answer: q.answer,
+      explanation: q.explanation || "", time_taken: timeTaken, timed_out: timedOut,
+    }];
     setSelectedOpt(option);
-    setShowFeedback(true);
-
-    const nextIdx    = currentIdx + 1;
-    const isLastQ    = nextIdx >= totalQ;
-
-    // Schedule advance — runs exactly once because we clear it above on re-entry
+    setAdvancing(true);
+    const nextIdx = currentIdx + 1;
+    const isLastQ = nextIdx >= totalQ;
     advanceTimer.current = setTimeout(() => {
-      setShowFeedback(false);
+      setAdvancing(false);
       if (isLastQ) {
         const elapsed = totalSeconds - overallTimeRef.current;
         safeComplete(elapsed);
       } else {
         setCurrentIdx(nextIdx);
       }
-    }, 1500);
-
+    }, 800);
   }, [currentIdx, totalQ, totalSeconds, questions, safeComplete]);
 
   commitRef.current = commitAnswer;
 
   const handleOption = (option) => {
-    if (showFeedback) return;
+    if (advancing) return;
     clearInterval(perQRef.current);
     advanceLock.current = true;
     commitAnswer(option, false);
   };
 
-  // ── Guard (safe after all hooks) ──────────────────────────────────────────
-  const current = questions[currentIdx];
+  const current    = questions[currentIdx];
   if (!current) return null;
 
-  // ── Render values ─────────────────────────────────────────────────────────
-  const perQPct     = (perQTime / timePerQuestion) * 100;
-  const overallPct  = (overallTime / totalSeconds) * 100;
-  const timerColor  = perQPct > 50 ? "#16a34a" : perQPct > 25 ? "#d97706" : "#dc2626";
-  const globalColor = overallPct > 50 ? "#16a34a" : overallPct > 25 ? "#d97706" : "#dc2626";
-
-  const isCorrect  = showFeedback && !!selectedOpt && selectedOpt === current.answer;
-  const isTimedOut = showFeedback && !selectedOpt;
+  const perQPct    = (perQTime / timePerQuestion) * 100;
+  const overallPct = (overallTime / totalSeconds) * 100;
+  const timerColor = perQPct > 50 ? "#16a34a" : perQPct > 25 ? "#d97706" : "#dc2626";
+  const globalColor= overallPct > 50 ? "#16a34a" : overallPct > 25 ? "#d97706" : "#dc2626";
   const isTF       = current.type === "truefalse";
   const progress   = Math.round((currentIdx / totalQ) * 100);
 
   return (
-    <div className="flex flex-col gap-4 pb-6">
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+        @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pulse  { 0%,100%{opacity:1} 50%{opacity:.5} }
 
-      {/* ── Top bar ───────────────────────────────────────────────────── */}
-      <div className="bg-white rounded-2xl px-4 py-3 shadow-sm border border-green-100 flex items-center gap-3">
+        .session-root { font-family:'DM Sans',sans-serif; display:flex; flex-direction:column; gap:14px; padding-bottom:24px; }
 
-        {/* Overall timer pill */}
-        <div
-          className="flex items-center gap-1.5 rounded-full px-3 py-1.5 shrink-0 border"
-          style={{ background: overallPct > 25 ? "#f0fdf4" : "#fef2f2", borderColor: globalColor + "40" }}
-        >
-          <MdOutlineTimer size={14} style={{ color: globalColor }} />
-          <span className="text-xs font-black tabular-nums" style={{ color: globalColor }}>
-            {fmt(overallTime)}
-          </span>
-          <span className="text-xs text-gray-400 hidden sm:inline">total</span>
-        </div>
+        .opt-btn {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          border: 1.5px solid #e5e7eb;
+          border-radius: 12px;
+          background: #fafafa;
+          padding: 13px 16px;
+          font-size: 14px;
+          font-weight: 600;
+          font-family: 'DM Sans', sans-serif;
+          color: #374151;
+          cursor: pointer;
+          text-align: left;
+          transition: border-color .15s, background .15s, transform .12s, box-shadow .15s;
+          width: 100%;
+        }
+        .opt-btn:hover:not(:disabled) {
+          border-color: #86efac;
+          background: #f0fdf4;
+          transform: translateX(3px);
+          box-shadow: 0 2px 10px rgba(22,163,74,0.08);
+        }
+        .opt-btn.selected {
+          border-color: #16a34a;
+          background: #f0fdf4;
+          color: #15803d;
+          box-shadow: 0 0 0 3px rgba(22,163,74,0.12);
+        }
+        .opt-btn.dimmed {
+          background: #f9fafb;
+          border-color: #f3f4f6;
+          color: #d1d5db;
+          cursor: default;
+        }
+        .opt-btn.tf {
+          flex: 1;
+          justify-content: center;
+          padding: 18px;
+          font-size: 16px;
+        }
+      `}</style>
 
-        {/* Progress bar */}
-        <div className="flex-1 min-w-0">
-          <div className="flex justify-between items-center mb-1.5">
-            <span className="text-xs font-bold text-green-700 uppercase tracking-wide truncate">
-              {topic.charAt(0).toUpperCase() + topic.slice(1)}
+      <div className="session-root">
+
+        {/* ── Top bar ── */}
+        <div style={{
+          background:"#fff", borderRadius:16, border:"1px solid #e5e7eb",
+          boxShadow:"0 1px 4px rgba(0,0,0,0.04)",
+          padding:"12px 16px",
+          display:"flex", alignItems:"center", gap:12,
+          animation:"fadeUp .3s ease both",
+        }}>
+          {/* Overall timer */}
+          <div style={{
+            display:"flex", alignItems:"center", gap:6,
+            background: overallPct > 25 ? "#f0fdf4" : "#fef2f2",
+            border:`1px solid ${globalColor}30`,
+            borderRadius:20, padding:"6px 12px", flexShrink:0,
+          }}>
+            <MdOutlineTimer size={14} color={globalColor} />
+            <span style={{ fontSize:12, fontWeight:800, fontVariantNumeric:"tabular-nums", color:globalColor }}>
+              {fmt(overallTime)}
             </span>
-            <span className="text-xs text-gray-400 font-semibold shrink-0 ml-2">
-              {currentIdx + 1} / {totalQ}
-            </span>
+            <span style={{ fontSize:11, color:"#9ca3af" }}>total</span>
           </div>
-          <div className="h-1.5 bg-green-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-green-500 rounded-full transition-all duration-300"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-        </div>
 
-        {/* Type badge */}
-        <span className={`shrink-0 text-xs font-bold px-2.5 py-1 rounded-full border ${
-          isTF ? "bg-amber-50 text-amber-700 border-amber-200"
-               : "bg-green-50 text-green-700 border-green-200"
-        }`}>
-          {isTF ? "T / F" : "MCQ"}
-        </span>
-      </div>
-
-      {/* ── Question card ─────────────────────────────────────────────── */}
-      <div className="bg-white rounded-2xl p-5 sm:p-7 shadow-sm border border-green-100">
-
-        {/* Per-question circular timer */}
-        <div className="flex justify-center mb-6">
-          <div className="relative w-16 h-16 sm:w-20 sm:h-20">
-            <svg width="100%" height="100%" viewBox="0 0 72 72">
-              <circle cx="36" cy="36" r="30" fill="none" stroke="#dcfce7" strokeWidth="5" />
-              <circle
-                cx="36" cy="36" r="30" fill="none"
-                stroke={timerColor} strokeWidth="5"
-                strokeDasharray={`${2 * Math.PI * 30}`}
-                strokeDashoffset={`${2 * Math.PI * 30 * (1 - perQPct / 100)}`}
-                strokeLinecap="round"
-                transform="rotate(-90 36 36)"
-                style={{ transition: "stroke-dashoffset 1s linear, stroke 0.4s" }}
-              />
-            </svg>
-            <div
-              className="absolute inset-0 flex items-center justify-center text-lg sm:text-xl font-black tabular-nums"
-              style={{ color: timerColor }}
-            >
-              {perQTime}
+          {/* Progress */}
+          <div style={{ flex:1, minWidth:0 }}>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:6 }}>
+              <span style={{ fontSize:11, fontWeight:700, color:"#16a34a", textTransform:"uppercase", letterSpacing:"0.1em" }}>
+                {topic.charAt(0).toUpperCase() + topic.slice(1)}
+              </span>
+              <span style={{ fontSize:11, fontWeight:600, color:"#9ca3af" }}>
+                {currentIdx + 1} / {totalQ}
+              </span>
+            </div>
+            <div style={{ height:6, background:"#e5e7eb", borderRadius:99, overflow:"hidden" }}>
+              <div style={{
+                height:"100%", width:`${progress}%`,
+                background:"linear-gradient(90deg,#4ade80,#16a34a)",
+                borderRadius:99, transition:"width .3s ease",
+              }} />
             </div>
           </div>
+
+          {/* Type badge */}
+          <span style={{
+            fontSize:11, fontWeight:700,
+            padding:"5px 10px", borderRadius:8,
+            background: isTF ? "#fffbeb" : "#f0fdf4",
+            color:      isTF ? "#d97706" : "#16a34a",
+            border:     `1px solid ${isTF ? "#fde68a" : "#bbf7d0"}`,
+            flexShrink:0,
+          }}>
+            {isTF ? "T / F" : "MCQ"}
+          </span>
+
+          {/* Leave */}
+          <button
+            onClick={onLeaveRequest}
+            title="Leave test"
+            style={{
+              display:"flex", alignItems:"center", gap:6,
+              fontSize:11, fontWeight:700, color:"#ef4444",
+              background:"#fef2f2", border:"1px solid #fecaca",
+              borderRadius:20, padding:"6px 11px", cursor:"pointer", flexShrink:0,
+              fontFamily:"'DM Sans',sans-serif",
+              transition:"background .15s",
+            }}
+          >
+            <FaSignOutAlt size={10} />
+            <span>Leave</span>
+          </button>
         </div>
 
-        {/* Feedback banner */}
-        {showFeedback && (
-          <div className={`flex items-center gap-2 justify-center rounded-xl px-4 py-2.5 mb-4 text-sm font-bold ${
-            isCorrect  ? "bg-green-50 text-green-700 border border-green-200" :
-            isTimedOut ? "bg-amber-50 text-amber-700 border border-amber-200" :
-                         "bg-red-50 text-red-600 border border-red-200"
-          }`}>
-            {isCorrect  ? <FaCheckCircle size={14} /> :
-             isTimedOut ? <FaClock size={14} /> :
-                          <FaTimesCircle size={14} />}
-            <span>
-              {isCorrect  ? "Correct!" :
-               isTimedOut ? "Time's up — moving on" :
-               `Wrong — Correct: ${current.answer}`}
+        {/* ── Question card ── */}
+        <div style={{
+          background:"#fff", borderRadius:20, border:"1px solid #e5e7eb",
+          boxShadow:"0 2px 12px rgba(0,0,0,0.06)",
+          padding:"clamp(20px,4vw,32px)",
+          animation:"fadeUp .35s ease .05s both",
+        }}>
+
+          {/* Circular per-Q timer */}
+          <div style={{ display:"flex", justifyContent:"center", marginBottom:24 }}>
+            <div style={{ position:"relative", width:72, height:72 }}>
+              <svg width="72" height="72" viewBox="0 0 72 72">
+                <circle cx="36" cy="36" r="30" fill="none" stroke="#e5e7eb" strokeWidth="5" />
+                <circle
+                  cx="36" cy="36" r="30" fill="none"
+                  stroke={timerColor} strokeWidth="5"
+                  strokeDasharray={`${2*Math.PI*30}`}
+                  strokeDashoffset={`${2*Math.PI*30*(1-perQPct/100)}`}
+                  strokeLinecap="round"
+                  transform="rotate(-90 36 36)"
+                  style={{ transition:"stroke-dashoffset 1s linear, stroke .4s" }}
+                />
+              </svg>
+              <div style={{
+                position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center",
+                fontSize:18, fontWeight:800, color:timerColor, fontVariantNumeric:"tabular-nums",
+              }}>
+                {advancing
+                  ? <HiOutlineCheckCircle size={22} color="#16a34a" />
+                  : perQTime
+                }
+              </div>
+            </div>
+          </div>
+
+          {/* Time's up notice */}
+          {advancing && !selectedOpt && (
+            <div style={{
+              display:"flex", alignItems:"center", justifyContent:"center", gap:8,
+              background:"#fffbeb", border:"1px solid #fde68a", color:"#d97706",
+              borderRadius:10, padding:"10px 16px", marginBottom:18,
+              fontSize:13, fontWeight:600,
+            }}>
+              <FaClock size={13} />
+              <span>Time's up — moving to next question</span>
+            </div>
+          )}
+
+          {/* Question number chip */}
+          <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:16 }}>
+            <span style={{
+              fontSize:10, fontWeight:700, letterSpacing:"0.1em",
+              background:"#f0fdf4", color:"#16a34a",
+              border:"1px solid #bbf7d0", padding:"3px 9px", borderRadius:20,
+            }}>
+              Q{currentIdx+1} of {totalQ}
             </span>
           </div>
-        )}
 
-        {/* Question text */}
-        <p className="text-base sm:text-lg font-bold text-gray-800 mb-5 leading-relaxed">
-          {current.question}
+          {/* Question text */}
+          <p style={{
+            fontSize:"clamp(15px,2.5vw,17px)", fontWeight:600, color:"#111827",
+            lineHeight:1.65, marginBottom:22,
+          }}>
+            {current.question}
+          </p>
+
+          {/* Options */}
+          <div style={{ display:"flex", flexDirection: isTF ? "row" : "column", gap:10 }}>
+            {current.options.map((option, i) => {
+              const isSelected = selectedOpt === option;
+              let cls = "opt-btn";
+              if (isTF) cls += " tf";
+              if (advancing) cls += isSelected ? " selected" : " dimmed";
+              return (
+                <button key={i} onClick={() => handleOption(option)} disabled={advancing} className={cls}>
+                  {!isTF && (
+                    <span style={{
+                      width:26, height:26, borderRadius:8, flexShrink:0,
+                      display:"flex", alignItems:"center", justifyContent:"center",
+                      fontSize:11, fontWeight:800,
+                      background: advancing && isSelected ? "#dcfce7" : "#f0fdf4",
+                      color:      advancing && isSelected ? "#16a34a" : "#4ade80",
+                      border:     advancing && isSelected ? "1.5px solid #86efac" : "1.5px solid #d1fae5",
+                      transition:"all .15s",
+                    }}>
+                      {advancing && isSelected
+                        ? <HiOutlineCheckCircle size={14} color="#16a34a" />
+                        : String.fromCharCode(65 + i)
+                      }
+                    </span>
+                  )}
+                  {isTF && (
+                    <span style={{ fontSize:20, marginRight:4 }}>{option === "True" ? "✅" : "❌"}</span>
+                  )}
+                  <span>{option}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── Dot progress ── */}
+        <div style={{ display:"flex", gap:4, justifyContent:"center", flexWrap:"wrap", padding:"0 8px" }}>
+          {questions.map((_, i) => (
+            <div key={i} style={{
+              height:5, borderRadius:99, transition:"all .3s ease",
+              width: i===currentIdx ? 22 : 6,
+              background: i < currentIdx ? "#16a34a" : i===currentIdx ? "#4ade80" : "#e5e7eb",
+            }} />
+          ))}
+        </div>
+
+        {/* Hint */}
+        <p style={{ textAlign:"center", fontSize:11, color:"#9ca3af", fontWeight:500 }}>
+          Results &amp; explanations will be shown after all questions are answered
         </p>
 
-        {/* Options */}
-        <div className={`flex flex-col ${isTF ? "gap-3 sm:flex-row" : "gap-2"}`}>
-          {current.options.map((option, i) => {
-            const isSelected  = selectedOpt === option;
-            const isCorrectOp = option === current.answer;
-
-            let cls = "bg-gray-50 border-gray-200 text-gray-700";
-            if (showFeedback) {
-              cls = isCorrectOp
-                ? "bg-green-50 border-green-400 text-green-800"
-                : isSelected
-                ? "bg-red-50 border-red-400 text-red-700"
-                : "bg-gray-50 border-gray-200 text-gray-400";
-            }
-
-            return (
-              <button
-                key={i}
-                onClick={() => handleOption(option)}
-                disabled={showFeedback}
-                className={`flex items-center gap-3 border-2 rounded-xl font-semibold transition-all duration-150
-                  ${isTF ? "flex-1 py-4 sm:py-5 justify-center text-base sm:text-lg"
-                          : "px-4 py-3 text-sm sm:text-base"}
-                  ${cls}
-                  ${!showFeedback ? "hover:border-green-400 hover:bg-green-50 cursor-pointer active:scale-[0.98]"
-                                  : "cursor-default"}`}
-              >
-                {!isTF && (
-                  <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shrink-0 ${
-                    showFeedback && isCorrectOp ? "bg-green-200 text-green-800" :
-                    showFeedback && isSelected  ? "bg-red-200   text-red-700"   :
-                    "bg-green-100 text-green-700"
-                  }`}>
-                    {showFeedback && isCorrectOp ? "✓" :
-                     showFeedback && isSelected  ? "✗" :
-                     String.fromCharCode(65 + i)}
-                  </span>
-                )}
-                {isTF && (
-                  <span className="text-2xl">{option === "True" ? "✅" : "❌"}</span>
-                )}
-                <span>{option}</span>
-              </button>
-            );
-          })}
-        </div>
       </div>
-
-      {/* ── Dot progress ──────────────────────────────────────────────── */}
-      <div className="flex gap-1 justify-center flex-wrap px-2">
-        {questions.map((q, i) => {
-          const resp = responsesRef.current[i];
-          return (
-            <div
-              key={i}
-              title={`Q${i + 1} · ${q.type === "truefalse" ? "T/F" : "MCQ"}`}
-              className="h-1.5 rounded-full transition-all duration-300"
-              style={{
-                width: i === currentIdx ? 20 : 7,
-                background:
-                  i < currentIdx
-                    ? (resp?.timed_out
-                        ? "#f59e0b"
-                        : resp?.selected_option === resp?.correct_answer
-                        ? "#16a34a"
-                        : "#dc2626")
-                    : i === currentIdx
-                    ? "#4ade80"
-                    : "#e5e7eb",
-              }}
-            />
-          );
-        })}
-      </div>
-    </div>
+    </>
   );
 }

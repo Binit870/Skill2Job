@@ -21,9 +21,9 @@ export default function MockInterview() {
   };
 
   const steps = [
-    { id: "setup",     label: "Setup",     icon: <Briefcase size={18} /> },
-    { id: "interview", label: "Interview", icon: <MessageSquare size={18} /> },
-    { id: "feedback",  label: "Feedback",  icon: <FileText size={18} /> },
+    { id: "setup",     label: "Setup",     icon: <Briefcase size={15} /> },
+    { id: "interview", label: "Interview", icon: <MessageSquare size={15} /> },
+    { id: "feedback",  label: "Feedback",  icon: <FileText size={15} /> },
   ];
 
   const currentIndex = steps.findIndex((s) => s.id === step);
@@ -31,10 +31,10 @@ export default function MockInterview() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "linear-gradient(160deg, #f0faf5 0%, #e8f5f0 100%)",
+      background: "#fff",
       display: "flex",
       flexDirection: "column",
-      fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
+      fontFamily: "'Inter', 'DM Sans', 'Segoe UI', sans-serif",
     }}>
 
       {/* HEADER */}
@@ -43,31 +43,26 @@ export default function MockInterview() {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "14px clamp(16px, 4vw, 32px)",
-        background: "rgba(255,255,255,0.85)",
-        backdropFilter: "blur(12px)",
-        borderBottom: "1px solid #d1ead9",
-        position: "sticky",
-        top: 0,
-        zIndex: 50,
-        
+        background: "#fff",
+        borderBottom: "0.5px solid #e5e7eb",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{
-            width: 36, height: 36, borderRadius: 10,
-            background: "linear-gradient(135deg, #10b981, #059669)",
+            width: 34, height: 34, borderRadius: 9,
+            background: "#f0fdf4",
+            border: "0.5px solid #bbf7d0",
             display: "flex", alignItems: "center", justifyContent: "center",
-            boxShadow: "0 2px 8px rgba(16,185,129,0.35)",
           }}>
-            <Sparkles size={18} color="#fff" />
+            <Sparkles size={16} color="#16a34a" />
           </div>
-          <span style={{ fontSize: "clamp(15px,2vw,18px)", fontWeight: 700, color: "#064e35", letterSpacing: "-0.3px" }}>
+          <span style={{ fontSize: 15, fontWeight: 600, color: "#111827", letterSpacing: "-0.2px" }}>
             Mock Interview
           </span>
         </div>
         <span style={{
-          fontSize: 12, fontWeight: 700, color: "#059669",
-          background: "#d1fae5", padding: "5px 14px", borderRadius: 20,
-          border: "1px solid #a7f3d0", letterSpacing: "0.02em",
+          fontSize: 12, fontWeight: 500, color: "#6b7280",
+          background: "#f9fafb", padding: "4px 12px", borderRadius: 99,
+          border: "0.5px solid #e5e7eb",
         }}>
           {currentIndex + 1} / {steps.length}
         </span>
@@ -75,21 +70,21 @@ export default function MockInterview() {
 
       {/* STEPPER */}
       <div style={{
-        background: "rgba(255,255,255,0.7)",
-        borderBottom: "1px solid #d1ead9",
-        padding: "18px clamp(16px,4vw,32px)",
+        background: "#fff",
+        borderBottom: "0.5px solid #e5e7eb",
+        padding: "16px clamp(16px,4vw,32px)",
       }}>
-        <div style={{ maxWidth: 560, margin: "0 auto", position: "relative" }}>
+        <div style={{ maxWidth: 480, margin: "0 auto", position: "relative" }}>
           {/* connector track */}
           <div style={{
-            position: "absolute", top: 20, left: "10%", right: "10%",
-            height: 2, background: "#d1fae5", zIndex: 0, borderRadius: 2,
+            position: "absolute", top: 16, left: "12%", right: "12%",
+            height: "0.5px", background: "#e5e7eb", zIndex: 0,
           }}>
             <div style={{
               height: "100%",
-              background: "linear-gradient(90deg, #10b981, #059669)",
+              background: "#16a34a",
               width: `${(currentIndex / (steps.length - 1)) * 100}%`,
-              transition: "width 0.5s ease", borderRadius: 2,
+              transition: "width 0.5s ease",
             }} />
           </div>
 
@@ -98,24 +93,22 @@ export default function MockInterview() {
               const done = index < currentIndex;
               const active = index === currentIndex;
               return (
-                <div key={s.id} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+                <div key={s.id} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 7 }}>
                   <div style={{
-                    width: 40, height: 40, borderRadius: "50%",
-                    background: done || active
-                      ? "linear-gradient(135deg, #10b981, #059669)"
-                      : "#fff",
-                    border: done || active ? "none" : "2px solid #a7f3d0",
+                    width: 32, height: 32, borderRadius: "50%",
+                    background: done ? "#f0fdf4" : active ? "#f0fdf4" : "#fff",
+                    border: done || active ? "0.5px solid #bbf7d0" : "0.5px solid #e5e7eb",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    color: done || active ? "#fff" : "#6ee7b7",
-                    boxShadow: active ? "0 4px 14px rgba(16,185,129,0.4)" : "none",
+                    color: done || active ? "#16a34a" : "#d1d5db",
                     transition: "all 0.3s ease",
+                    boxShadow: active ? "0 0 0 3px #dcfce7" : "none",
                   }}>
                     {s.icon}
                   </div>
                   <span style={{
-                    fontSize: 11, fontWeight: 700,
-                    color: done || active ? "#059669" : "#9ca3af",
-                    letterSpacing: "0.04em",
+                    fontSize: 11, fontWeight: 500,
+                    color: done || active ? "#16a34a" : "#9ca3af",
+                    letterSpacing: "0.05em",
                     textTransform: "uppercase",
                   }}>
                     {s.label}
@@ -134,6 +127,7 @@ export default function MockInterview() {
         justifyContent: "center",
         alignItems: "flex-start",
         padding: "clamp(16px,4vw,36px) clamp(12px,3vw,16px)",
+        background: "#fafafa",
       }}>
         <div style={{ width: "100%", maxWidth: 720 }}>
 
@@ -143,11 +137,11 @@ export default function MockInterview() {
               alignItems: "center", justifyContent: "center", padding: "80px 0",
             }}>
               <div style={{
-                width: 48, height: 48,
-                border: "3px solid #d1fae5", borderTopColor: "#10b981",
+                width: 36, height: 36,
+                border: "2px solid #e5e7eb", borderTopColor: "#16a34a",
                 borderRadius: "50%", animation: "spin 0.8s linear infinite",
               }} />
-              <p style={{ color: "#6b7280", marginTop: 16, fontSize: 15 }}>
+              <p style={{ color: "#6b7280", marginTop: 14, fontSize: 14, fontWeight: 500 }}>
                 Preparing your interview...
               </p>
               <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
@@ -181,8 +175,8 @@ export default function MockInterview() {
       <footer style={{
         textAlign: "center", fontSize: 12, color: "#9ca3af",
         padding: "14px clamp(12px,3vw,16px)",
-        borderTop: "1px solid #d1ead9",
-        background: "rgba(255,255,255,0.7)",
+        borderTop: "0.5px solid #e5e7eb",
+        background: "#fff",
       }}>
         © {new Date().getFullYear()} Mock Interview · Built with ♥ by Skill2Job
       </footer>

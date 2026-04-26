@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import {
-  
+
   LayoutDashboard,
   Users,
   Briefcase,
@@ -17,10 +17,10 @@ import { AuthContext } from "../../context/AuthContext";
 
 const NAV_ITEMS = [
   { to: "/recruiter-dashboard", icon: LayoutDashboard, label: "Dashboard" },
-  { to: "/recruiter/my-jobs", icon: Briefcase, label: "My Jobs" },
-  { to: "/recruiter/post-job", icon: PlusCircle, label: "Post Job" },
-  { to: "/recruiter/candidates-applications", icon: Users, label: "Candidates" },
- 
+  { to: "/recruiter/my-jobs", icon: Briefcase, label: "Posted Jobs" },
+  { to: "/recruiter/post-job", icon: PlusCircle, label: "Post New Job" },
+  { to: "/recruiter/candidates-applications", icon: Users, label: "Applied Candidates" },
+
 ];
 
 const linkClass =
@@ -37,9 +37,8 @@ function SidebarContent({
 }) {
   return (
     <div
-      className={`${
-        !isMobile && collapsed ? "w-20" : "w-64"
-      } h-full bg-white border-r border-gray-200 flex flex-col`}
+      className={`${!isMobile && collapsed ? "w-20" : "w-64"
+        } h-full bg-white border-r border-gray-200 flex flex-col`}
     >
       {/* Header */}
       <div className="h-16 flex items-center justify-between border-b px-4">
@@ -49,13 +48,13 @@ function SidebarContent({
           className="flex items-center gap-2"
         >
           {/* Logo */}
-         <div className=" p-2 rounded-lg">
-  <img
-    src={logo}
-    alt="Logo"
-    className="w-7 h-7 object-contain"
-  />
-</div>
+          <div className=" p-2 rounded-lg">
+            <img
+              src={logo}
+              alt="Logo"
+              className="w-7 h-7 object-contain"
+            />
+          </div>
 
           {/* Heading */}
           {(!collapsed || isMobile) && (
@@ -133,9 +132,8 @@ export default function RecruiterSidebar({ mobileOpen, onMobileClose }) {
     <>
       {/* Desktop & Tablet */}
       <div
-        className={`hidden md:flex h-full relative transition-all duration-300 ${
-          collapsed ? "w-20" : "w-64"
-        }`}
+        className={`hidden md:flex h-full relative transition-all duration-300 ${collapsed ? "w-20" : "w-64"
+          }`}
       >
         {/* Toggle Button */}
         <button

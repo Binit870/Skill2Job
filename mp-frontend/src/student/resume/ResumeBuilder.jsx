@@ -425,32 +425,7 @@ const ResumeBuilder = () => {
     sessionStorage.setItem("resume_draft", JSON.stringify(fd));
   }, [fd]);
 
-  useEffect(() => {
-    if (!tok()) return;
-    API.get("/api/resume", { headers: auth() }).then(res => {
-      if (res.data?.success) {
-        const d = res.data.data;
-        setFd(prev => ({
-          ...prev,
-          fn: d.fullName || prev.fn,
-          e: d.email || prev.e,
-          ph: d.phone || prev.ph,
-          ad: d.address || prev.ad,
-          sm: d.summary || prev.sm,
-          gh: d.github || prev.gh,
-          li: d.linkedin || prev.li,
-          pf: d.portfolio || prev.pf,
-          ed: d.education?.length ? d.education : prev.ed,
-          ex: d.experience?.length ? d.experience : prev.ex,
-          skills: d.skillsCategorized || prev.skills,
-          pr: d.projects?.length ? d.projects : prev.pr,
-          cer: d.certifications?.length ? d.certifications : prev.cer,
-          ach: d.achievementsStructured?.length ? d.achievementsStructured : prev.ach,
-          lang: d.languagesKnown?.length ? d.languagesKnown : prev.lang,
-        }));
-      }
-    }).catch(() => { });
-  }, []);
+
 
   const set = (patch) => setFd(p => ({ ...p, ...patch }));
   const setArr = (key, i, patch) => setFd(p => {

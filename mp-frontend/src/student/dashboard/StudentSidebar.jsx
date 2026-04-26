@@ -19,7 +19,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 const NAV_ITEMS = [
   { to: "/student-dashboard", icon: LayoutDashboard, label: "Dashboard" },
-  { to: "/student/resume", icon: FileText, label: "Create Resume" },
+  { to: "/student/resume", icon: FileText, label: "Resume Builder" },
   { to: "/student/jobs", icon: Briefcase, label: "Find Jobs" },
   { to: "/student/my-applications", icon: ClipboardList, label: "My Applications" },
   { to: "/student/mock-interview", icon: MessageSquare, label: "Mock Interview" },
