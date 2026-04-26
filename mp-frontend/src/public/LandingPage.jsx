@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback , useContext} from "react";
+import { AuthContext } from "../context/AuthContext";
 import {
   FileText, Target, TrendingUp, Upload, Cpu, Sparkles,
   ChevronLeft, ChevronRight, Briefcase, BarChart3,
@@ -262,6 +263,11 @@ function JobSeekerSlider() {
    MAIN
 ══════════════════════════════════════════ */
 export default function LandingPage() {
+  const { logout } = useContext(AuthContext);
+
+  useEffect(() => {
+    logout();
+  }, []);
   return (
     <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
 
