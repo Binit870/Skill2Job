@@ -20,14 +20,15 @@ const NAV_ITEMS = [
   { to: "/recruiter/my-jobs", icon: Briefcase, label: "Posted Jobs" },
   { to: "/recruiter/post-job", icon: PlusCircle, label: "Post New Job" },
   { to: "/recruiter/candidates-applications", icon: Users, label: "Applied Candidates" },
+  { to: "/recruiter/analytics", icon: BarChart3, label: "Analytics" },
 
 ];
 
 const linkClass =
-  "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 text-gray-700 hover:bg-green-50 hover:text-gray-600";
+  "flex items-center gap-3 px-4 py-3 rounded-xl transition-colors duration-200 text-ink/65 hover:bg-pine/8 hover:text-ink";
 
 const activeClass =
-  "bg-green-800 text-white font-semibold shadow-sm hover:!bg-green-900 hover:!text-white";
+  "bg-pine text-white font-semibold shadow-sm hover:!bg-pine hover:!text-white";
 
 function SidebarContent({
   collapsed,
@@ -38,10 +39,10 @@ function SidebarContent({
   return (
     <div
       className={`${!isMobile && collapsed ? "w-20" : "w-64"
-        } h-full bg-white border-r border-gray-200 flex flex-col`}
+        } h-full bg-white border-r border-mist flex flex-col`}
     >
       {/* Header */}
-      <div className="h-16 flex items-center justify-between border-b px-4">
+      <div className="h-16 flex items-center justify-between border-b border-mist px-4">
         <NavLink
           to="/recruiter-dashboard"
           onClick={isMobile ? onMobileClose : undefined}
@@ -58,8 +59,8 @@ function SidebarContent({
 
           {/* Heading */}
           {(!collapsed || isMobile) && (
-            <h2 className="text-xl font-bold text-green-900 tracking-tight">
-              Skill<span className="text-green-500">2</span>Job
+            <h2 className="font-display text-xl font-bold text-ink tracking-tight">
+              Skill<span className="text-gold">2</span>Job
             </h2>
           )}
         </NavLink>
@@ -67,9 +68,9 @@ function SidebarContent({
         {isMobile && (
           <button
             onClick={onMobileClose}
-            className="p-1 rounded-lg hover:bg-gray-100"
+            className="p-1 rounded-lg hover:bg-ink/5"
           >
-            <X className="w-5 h-5 text-gray-600" />
+            <X className="w-5 h-5 text-ink/60" />
           </button>
         )}
       </div>
@@ -86,19 +87,19 @@ function SidebarContent({
             }
           >
             <Icon className="w-5 h-5 flex-shrink-0" />
-            {(!collapsed || isMobile) && <span>{label}</span>}
+            {(!collapsed || isMobile) && <span className="text-sm">{label}</span>}
           </NavLink>
         ))}
       </div>
 
       {/* Logout */}
-      <div className="p-3 border-t">
+      <div className="p-3 border-t border-mist">
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-red-50 text-red-600 transition group"
+          className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-red-50 text-red-600 transition-colors group"
         >
           <LogOut className="w-5 h-5 group-hover:scale-110 transition-transform flex-shrink-0" />
-          {(!collapsed || isMobile) && <span>Logout</span>}
+          {(!collapsed || isMobile) && <span className="text-sm">Logout</span>}
         </button>
       </div>
     </div>
@@ -138,7 +139,7 @@ export default function RecruiterSidebar({ mobileOpen, onMobileClose }) {
         {/* Toggle Button */}
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="absolute -right-3 top-6 bg-white border border-gray-200 rounded-full p-1 shadow-md z-10 hover:bg-green-50 hover:text-green-900 transition"
+          className="absolute -right-3 top-6 bg-white border border-mist rounded-full p-1 shadow-md z-10 hover:bg-pine/8 hover:text-pine transition-colors"
         >
           {collapsed ? (
             <ChevronRight className="w-4 h-4" />

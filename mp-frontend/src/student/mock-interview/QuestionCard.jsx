@@ -1,27 +1,10 @@
 export function QuestionCard({ question, index }) {
   return (
-    <div style={{
-      background: "linear-gradient(135deg, #f0fdf4, #ecfdf5)",
-      borderRadius: 16,
-      border: "1px solid #d1fae5",
-      padding: "clamp(14px,3vw,22px) clamp(14px,3vw,24px)",
-      width: "100%",
-      boxSizing: "border-box",
-    }}>
-      <p style={{
-        fontSize: 10, fontWeight: 800, color: "#10b981",
-        textTransform: "uppercase", letterSpacing: "0.1em",
-        margin: "0 0 10px",
-      }}>
+    <div className="bg-gradient-to-br from-pine/8 to-pine/5 rounded-2xl border border-pine/15 px-4 sm:px-6 py-3.5 sm:py-5 w-full box-border">
+      <p className="text-[10px] font-extrabold text-pine uppercase tracking-widest mb-2.5">
         Question {index + 1}
       </p>
-      <p style={{
-        fontSize: "clamp(15px,2vw,18px)",
-        fontWeight: 600,
-        color: "#064e35",
-        margin: 0,
-        lineHeight: 1.65,
-      }}>
+      <p className="text-[15px] sm:text-lg font-semibold text-moss leading-relaxed">
         {question}
       </p>
     </div>

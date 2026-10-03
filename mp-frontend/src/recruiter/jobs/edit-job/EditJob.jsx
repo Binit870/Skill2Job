@@ -25,7 +25,7 @@ export default function EditJob() {
   if (loading) return <LoadingScreen />;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-paper/60">
 
       <EditJobTopBar onBack={() => navigate("/recruiter/my-jobs")} />
 

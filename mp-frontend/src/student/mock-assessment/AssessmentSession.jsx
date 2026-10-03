@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { FaClock, FaSignOutAlt } from "react-icons/fa";
-import { MdOutlineTimer } from "react-icons/md";
-import { HiOutlineCheckCircle } from "react-icons/hi";
+import { Clock, LogOut, Timer, CheckCircle2 } from "lucide-react";
 
 const fmt = (s) =>
   `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
@@ -122,255 +120,174 @@ export default function AssessmentSession({
 
   const perQPct    = (perQTime / timePerQuestion) * 100;
   const overallPct = (overallTime / totalSeconds) * 100;
-  const timerColor = perQPct > 50 ? "#16a34a" : perQPct > 25 ? "#d97706" : "#dc2626";
-  const globalColor= overallPct > 50 ? "#16a34a" : overallPct > 25 ? "#d97706" : "#dc2626";
+  const timerColor = perQPct > 50 ? "#0E6B52" : perQPct > 25 ? "#C99A3B" : "#dc2626";
+  const globalColor= overallPct > 50 ? "#0E6B52" : overallPct > 25 ? "#C99A3B" : "#dc2626";
   const isTF       = current.type === "truefalse";
   const progress   = Math.round((currentIdx / totalQ) * 100);
 
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
-        @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes pulse  { 0%,100%{opacity:1} 50%{opacity:.5} }
+    <div className="flex flex-col gap-3.5 pb-6">
 
-        .session-root { font-family:'DM Sans',sans-serif; display:flex; flex-direction:column; gap:14px; padding-bottom:24px; }
-
-        .opt-btn {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          border: 1.5px solid #e5e7eb;
-          border-radius: 12px;
-          background: #fafafa;
-          padding: 13px 16px;
-          font-size: 14px;
-          font-weight: 600;
-          font-family: 'DM Sans', sans-serif;
-          color: #374151;
-          cursor: pointer;
-          text-align: left;
-          transition: border-color .15s, background .15s, transform .12s, box-shadow .15s;
-          width: 100%;
-        }
-        .opt-btn:hover:not(:disabled) {
-          border-color: #86efac;
-          background: #f0fdf4;
-          transform: translateX(3px);
-          box-shadow: 0 2px 10px rgba(22,163,74,0.08);
-        }
-        .opt-btn.selected {
-          border-color: #16a34a;
-          background: #f0fdf4;
-          color: #15803d;
-          box-shadow: 0 0 0 3px rgba(22,163,74,0.12);
-        }
-        .opt-btn.dimmed {
-          background: #f9fafb;
-          border-color: #f3f4f6;
-          color: #d1d5db;
-          cursor: default;
-        }
-        .opt-btn.tf {
-          flex: 1;
-          justify-content: center;
-          padding: 18px;
-          font-size: 16px;
-        }
-      `}</style>
-
-      <div className="session-root">
-
-        {/* ── Top bar ── */}
-        <div style={{
-          background:"#fff", borderRadius:16, border:"1px solid #e5e7eb",
-          boxShadow:"0 1px 4px rgba(0,0,0,0.04)",
-          padding:"12px 16px",
-          display:"flex", alignItems:"center", gap:12,
-          animation:"fadeUp .3s ease both",
-        }}>
-          {/* Overall timer */}
-          <div style={{
-            display:"flex", alignItems:"center", gap:6,
-            background: overallPct > 25 ? "#f0fdf4" : "#fef2f2",
-            border:`1px solid ${globalColor}30`,
-            borderRadius:20, padding:"6px 12px", flexShrink:0,
-          }}>
-            <MdOutlineTimer size={14} color={globalColor} />
-            <span style={{ fontSize:12, fontWeight:800, fontVariantNumeric:"tabular-nums", color:globalColor }}>
-              {fmt(overallTime)}
-            </span>
-            <span style={{ fontSize:11, color:"#9ca3af" }}>total</span>
-          </div>
-
-          {/* Progress */}
-          <div style={{ flex:1, minWidth:0 }}>
-            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:6 }}>
-              <span style={{ fontSize:11, fontWeight:700, color:"#16a34a", textTransform:"uppercase", letterSpacing:"0.1em" }}>
-                {topic.charAt(0).toUpperCase() + topic.slice(1)}
-              </span>
-              <span style={{ fontSize:11, fontWeight:600, color:"#9ca3af" }}>
-                {currentIdx + 1} / {totalQ}
-              </span>
-            </div>
-            <div style={{ height:6, background:"#e5e7eb", borderRadius:99, overflow:"hidden" }}>
-              <div style={{
-                height:"100%", width:`${progress}%`,
-                background:"linear-gradient(90deg,#4ade80,#16a34a)",
-                borderRadius:99, transition:"width .3s ease",
-              }} />
-            </div>
-          </div>
-
-          {/* Type badge */}
-          <span style={{
-            fontSize:11, fontWeight:700,
-            padding:"5px 10px", borderRadius:8,
-            background: isTF ? "#fffbeb" : "#f0fdf4",
-            color:      isTF ? "#d97706" : "#16a34a",
-            border:     `1px solid ${isTF ? "#fde68a" : "#bbf7d0"}`,
-            flexShrink:0,
-          }}>
-            {isTF ? "T / F" : "MCQ"}
+      {/* Top bar */}
+      <div className="bg-white rounded-2xl border border-mist shadow-card px-4 py-3 flex items-center gap-3">
+        {/* Overall timer */}
+        <div
+          className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 shrink-0 border ${overallPct > 25 ? "bg-pine/8" : "bg-red-50"}`}
+          style={{ borderColor: `${globalColor}30` }}
+        >
+          <Timer className="w-3.5 h-3.5" style={{ color: globalColor }} />
+          <span className="text-xs font-extrabold tabular-nums" style={{ color: globalColor }}>
+            {fmt(overallTime)}
           </span>
-
-          {/* Leave */}
-          <button
-            onClick={onLeaveRequest}
-            title="Leave test"
-            style={{
-              display:"flex", alignItems:"center", gap:6,
-              fontSize:11, fontWeight:700, color:"#ef4444",
-              background:"#fef2f2", border:"1px solid #fecaca",
-              borderRadius:20, padding:"6px 11px", cursor:"pointer", flexShrink:0,
-              fontFamily:"'DM Sans',sans-serif",
-              transition:"background .15s",
-            }}
-          >
-            <FaSignOutAlt size={10} />
-            <span>Leave</span>
-          </button>
+          <span className="text-[11px] text-ink/40">total</span>
         </div>
 
-        {/* ── Question card ── */}
-        <div style={{
-          background:"#fff", borderRadius:20, border:"1px solid #e5e7eb",
-          boxShadow:"0 2px 12px rgba(0,0,0,0.06)",
-          padding:"clamp(20px,4vw,32px)",
-          animation:"fadeUp .35s ease .05s both",
-        }}>
-
-          {/* Circular per-Q timer */}
-          <div style={{ display:"flex", justifyContent:"center", marginBottom:24 }}>
-            <div style={{ position:"relative", width:72, height:72 }}>
-              <svg width="72" height="72" viewBox="0 0 72 72">
-                <circle cx="36" cy="36" r="30" fill="none" stroke="#e5e7eb" strokeWidth="5" />
-                <circle
-                  cx="36" cy="36" r="30" fill="none"
-                  stroke={timerColor} strokeWidth="5"
-                  strokeDasharray={`${2*Math.PI*30}`}
-                  strokeDashoffset={`${2*Math.PI*30*(1-perQPct/100)}`}
-                  strokeLinecap="round"
-                  transform="rotate(-90 36 36)"
-                  style={{ transition:"stroke-dashoffset 1s linear, stroke .4s" }}
-                />
-              </svg>
-              <div style={{
-                position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center",
-                fontSize:18, fontWeight:800, color:timerColor, fontVariantNumeric:"tabular-nums",
-              }}>
-                {advancing
-                  ? <HiOutlineCheckCircle size={22} color="#16a34a" />
-                  : perQTime
-                }
-              </div>
-            </div>
-          </div>
-
-          {/* Time's up notice */}
-          {advancing && !selectedOpt && (
-            <div style={{
-              display:"flex", alignItems:"center", justifyContent:"center", gap:8,
-              background:"#fffbeb", border:"1px solid #fde68a", color:"#d97706",
-              borderRadius:10, padding:"10px 16px", marginBottom:18,
-              fontSize:13, fontWeight:600,
-            }}>
-              <FaClock size={13} />
-              <span>Time's up — moving to next question</span>
-            </div>
-          )}
-
-          {/* Question number chip */}
-          <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:16 }}>
-            <span style={{
-              fontSize:10, fontWeight:700, letterSpacing:"0.1em",
-              background:"#f0fdf4", color:"#16a34a",
-              border:"1px solid #bbf7d0", padding:"3px 9px", borderRadius:20,
-            }}>
-              Q{currentIdx+1} of {totalQ}
+        {/* Progress */}
+        <div className="flex-1 min-w-0">
+          <div className="flex justify-between items-center mb-1.5">
+            <span className="text-[11px] font-bold text-pine uppercase tracking-wider">
+              {topic.charAt(0).toUpperCase() + topic.slice(1)}
+            </span>
+            <span className="text-[11px] font-semibold text-ink/40">
+              {currentIdx + 1} / {totalQ}
             </span>
           </div>
-
-          {/* Question text */}
-          <p style={{
-            fontSize:"clamp(15px,2.5vw,17px)", fontWeight:600, color:"#111827",
-            lineHeight:1.65, marginBottom:22,
-          }}>
-            {current.question}
-          </p>
-
-          {/* Options */}
-          <div style={{ display:"flex", flexDirection: isTF ? "row" : "column", gap:10 }}>
-            {current.options.map((option, i) => {
-              const isSelected = selectedOpt === option;
-              let cls = "opt-btn";
-              if (isTF) cls += " tf";
-              if (advancing) cls += isSelected ? " selected" : " dimmed";
-              return (
-                <button key={i} onClick={() => handleOption(option)} disabled={advancing} className={cls}>
-                  {!isTF && (
-                    <span style={{
-                      width:26, height:26, borderRadius:8, flexShrink:0,
-                      display:"flex", alignItems:"center", justifyContent:"center",
-                      fontSize:11, fontWeight:800,
-                      background: advancing && isSelected ? "#dcfce7" : "#f0fdf4",
-                      color:      advancing && isSelected ? "#16a34a" : "#4ade80",
-                      border:     advancing && isSelected ? "1.5px solid #86efac" : "1.5px solid #d1fae5",
-                      transition:"all .15s",
-                    }}>
-                      {advancing && isSelected
-                        ? <HiOutlineCheckCircle size={14} color="#16a34a" />
-                        : String.fromCharCode(65 + i)
-                      }
-                    </span>
-                  )}
-                  {isTF && (
-                    <span style={{ fontSize:20, marginRight:4 }}>{option === "True" ? "✅" : "❌"}</span>
-                  )}
-                  <span>{option}</span>
-                </button>
-              );
-            })}
+          <div className="h-1.5 bg-mist rounded-full overflow-hidden">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-pine to-moss transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         </div>
 
-        {/* ── Dot progress ── */}
-        <div style={{ display:"flex", gap:4, justifyContent:"center", flexWrap:"wrap", padding:"0 8px" }}>
-          {questions.map((_, i) => (
-            <div key={i} style={{
-              height:5, borderRadius:99, transition:"all .3s ease",
-              width: i===currentIdx ? 22 : 6,
-              background: i < currentIdx ? "#16a34a" : i===currentIdx ? "#4ade80" : "#e5e7eb",
-            }} />
-          ))}
+        {/* Type badge */}
+        <span
+          className={`text-[11px] font-bold px-2.5 py-1 rounded-lg border shrink-0
+            ${isTF ? "bg-gold/10 text-gold border-gold/25" : "bg-pine/8 text-pine border-pine/20"}`}
+        >
+          {isTF ? "T / F" : "MCQ"}
+        </span>
+
+        {/* Leave */}
+        <button
+          onClick={onLeaveRequest}
+          title="Leave test"
+          className="flex items-center gap-1.5 text-[11px] font-bold text-red-500 bg-red-50 border border-red-200 rounded-full px-2.5 py-1.5 shrink-0 hover:bg-red-100 transition-colors"
+        >
+          <LogOut className="w-2.5 h-2.5" />
+          <span>Leave</span>
+        </button>
+      </div>
+
+      {/* Question card */}
+      <div className="bg-white rounded-[20px] border border-mist shadow-md p-5 sm:p-8">
+
+        {/* Circular per-Q timer */}
+        <div className="flex justify-center mb-6">
+          <div className="relative w-[72px] h-[72px]">
+            <svg width="72" height="72" viewBox="0 0 72 72">
+              <circle cx="36" cy="36" r="30" fill="none" stroke="#E7E4DA" strokeWidth="5" />
+              <circle
+                cx="36" cy="36" r="30" fill="none"
+                stroke={timerColor} strokeWidth="5"
+                strokeDasharray={`${2 * Math.PI * 30}`}
+                strokeDashoffset={`${2 * Math.PI * 30 * (1 - perQPct / 100)}`}
+                strokeLinecap="round"
+                transform="rotate(-90 36 36)"
+                style={{ transition: "stroke-dashoffset 1s linear, stroke .4s" }}
+              />
+            </svg>
+            <div
+              className="absolute inset-0 flex items-center justify-center text-lg font-extrabold tabular-nums"
+              style={{ color: timerColor }}
+            >
+              {advancing
+                ? <CheckCircle2 className="w-5.5 h-5.5 text-pine" />
+                : perQTime
+              }
+            </div>
+          </div>
         </div>
 
-        {/* Hint */}
-        <p style={{ textAlign:"center", fontSize:11, color:"#9ca3af", fontWeight:500 }}>
-          Results &amp; explanations will be shown after all questions are answered
+        {/* Time's up notice */}
+        {advancing && !selectedOpt && (
+          <div className="flex items-center justify-center gap-2 bg-gold/10 border border-gold/25 text-gold rounded-[10px] px-4 py-2.5 mb-4.5 text-[13px] font-semibold">
+            <Clock className="w-3.5 h-3.5" />
+            <span>Time's up — moving to next question</span>
+          </div>
+        )}
+
+        {/* Question number chip */}
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-[10px] font-bold tracking-wider bg-pine/8 text-pine border border-pine/20 px-2.5 py-0.5 rounded-full">
+            Q{currentIdx + 1} of {totalQ}
+          </span>
+        </div>
+
+        {/* Question text */}
+        <p className="text-[15px] sm:text-[17px] font-semibold text-ink leading-relaxed mb-5.5">
+          {current.question}
         </p>
 
+        {/* Options */}
+        <div className={`flex gap-2.5 ${isTF ? "flex-row" : "flex-col"}`}>
+          {current.options.map((option, i) => {
+            const isSelected = selectedOpt === option;
+            const dimmed = advancing && !isSelected;
+
+            return (
+              <button
+                key={i}
+                onClick={() => handleOption(option)}
+                disabled={advancing}
+                className={`flex items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-semibold text-left w-full transition-all duration-150
+                  ${isTF ? "flex-1 justify-center py-4.5 text-base" : ""}
+                  ${isSelected
+                    ? "border-2 border-pine bg-pine/8 text-moss shadow-[0_0_0_3px_rgba(14,107,82,0.12)]"
+                    : dimmed
+                      ? "border-[1.5px] border-mist bg-paper/60 text-ink/25 cursor-default"
+                      : "border-[1.5px] border-mist bg-paper/60 text-ink/70 hover:border-pine/40 hover:bg-pine/8 hover:translate-x-0.5"
+                  }`}
+              >
+                {!isTF && (
+                  <span
+                    className={`w-6.5 h-6.5 rounded-lg shrink-0 flex items-center justify-center text-[11px] font-extrabold border-[1.5px] transition-colors
+                      ${advancing && isSelected
+                        ? "bg-pine/20 text-pine border-pine/40"
+                        : "bg-pine/8 text-pine/60 border-pine/20"
+                      }`}
+                  >
+                    {advancing && isSelected
+                      ? <CheckCircle2 className="w-3.5 h-3.5 text-pine" />
+                      : String.fromCharCode(65 + i)
+                    }
+                  </span>
+                )}
+                {isTF && (
+                  <span className="text-xl mr-1">{option === "True" ? "✅" : "❌"}</span>
+                )}
+                <span>{option}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
-    </>
+
+      {/* Dot progress */}
+      <div className="flex gap-1 justify-center flex-wrap px-2">
+        {questions.map((_, i) => (
+          <div
+            key={i}
+            className={`h-1.5 rounded-full transition-all duration-300 ${i === currentIdx ? "w-5.5" : "w-1.5"}`}
+            style={{ background: i < currentIdx ? "#0E6B52" : i === currentIdx ? "#4ade80" : "#E7E4DA" }}
+          />
+        ))}
+      </div>
+
+      {/* Hint */}
+      <p className="text-center text-[11px] text-ink/40 font-medium">
+        Results &amp; explanations will be shown after all questions are answered
+      </p>
+    </div>
   );
 }

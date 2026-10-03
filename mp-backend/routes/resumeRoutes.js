@@ -11,6 +11,7 @@ import {
 
 import { protect } from "../middlewares/authMiddleware.js";
 import upload from "../middlewares/uploadMiddleware.js";
+import { mlLimiter } from "../middlewares/rateLimiter.js";
 
 const router = express.Router();
 
@@ -23,7 +24,7 @@ router.get("/test", (req, res) => {
 });
 
 /* ANALYZE RESUME */
-router.post("/analyze", protect, upload.single("resume"), analyzeResume);
+router.post("/analyze", protect, mlLimiter, upload.single("resume"), analyzeResume);
 
 
 router.get("/latest", protect, getLatest);

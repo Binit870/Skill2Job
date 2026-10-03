@@ -25,7 +25,7 @@ const PostJob = () => {
       <PostJobHeader companyLogo={formData.companyLogo} />
 
       <div className="max-w-3xl mx-auto px-4 md:px-8 py-6 md:py-8">
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 md:p-8">
+        <div className="bg-white rounded-2xl border border-mist shadow-card p-4 md:p-8">
 
           <StepIndicator current={step} />
 

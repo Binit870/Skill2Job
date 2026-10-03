@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback, useContext } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Cropper from "react-easy-crop";
@@ -18,12 +17,6 @@ import {
 } from "react-icons/ri";
 import api from "../../utils/api.js"
 
-/* ── Google Font inject ── */
-const fontLink = document.createElement("link");
-fontLink.href =
-  "https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap";
-fontLink.rel = "stylesheet";
-document.head.appendChild(fontLink);
 
 /* ─────────────────────────────────────────
    STEP META
@@ -144,7 +137,7 @@ const RecruiterProfile = () => {
       await refreshUser();
       toast.success("Company profile created!");
       navigate("/recruiter-dashboard");
-    } catch (error) {
+    } catch {
       toast.error("Update failed");
     } finally {
       setLoading(false);
@@ -163,8 +156,7 @@ const RecruiterProfile = () => {
     <div
       className="min-h-screen flex justify-center items-center p-4"
       style={{
-        fontFamily: "'Sora', sans-serif",
-        background: "linear-gradient(135deg, #f0faf5 0%, #ffffff 50%, #e8f5ee 100%)",
+        background: "linear-gradient(135deg, #E9F2EE 0%, #ffffff 50%, #E9F2EE 100%)",
       }}
     >
       {/* Decorative blobs */}
@@ -194,7 +186,7 @@ const RecruiterProfile = () => {
         }}
       >
         {/* ── Top accent bar ── */}
-        <div style={{ height: 4, background: "linear-gradient(90deg, #059669, #34d399, #6ee7b7)" }} />
+        <div style={{ height: 4, background: "linear-gradient(90deg, #0E6B52, #3FA37F, #6FA98D)" }} />
 
         <div className="px-8 py-8">
 
@@ -204,19 +196,19 @@ const RecruiterProfile = () => {
               className="inline-flex items-center justify-center mb-4"
               style={{
                 width: 52, height: 52, borderRadius: 16,
-                background: "linear-gradient(135deg, #059669, #10b981)",
+                background: "linear-gradient(135deg, #0E6B52, #159A72)",
                 boxShadow: "0 8px 20px rgba(5,150,105,0.25)",
               }}
             >
               <RiBuildingLine size={24} color="#fff" />
             </div>
             <h1
-              className="text-2xl font-bold text-gray-900 mb-1"
-              style={{ fontFamily: "'Lora', serif", letterSpacing: "-0.02em" }}
+              className="font-display text-2xl font-bold text-ink mb-1"
+              style={{ fontFamily: "'Inter Tight', sans-serif", letterSpacing: "-0.02em" }}
             >
               Set Up Your Company
             </h1>
-            <p className="text-sm text-gray-400 font-normal">
+            <p className="text-sm text-ink/40 font-normal">
               Step {step + 1} of {STEPS.length} — {currentStep.label}
             </p>
           </div>
@@ -233,8 +225,8 @@ const RecruiterProfile = () => {
                     style={{
                       width: "100%", height: 3, borderRadius: 4,
                       background: done || active
-                        ? "linear-gradient(90deg, #059669, #10b981)"
-                        : "#e5e7eb",
+                        ? "linear-gradient(90deg, #0E6B52, #159A72)"
+                        : "#E7E4DA",
                       transition: "background 0.3s ease",
                     }}
                   />
@@ -252,9 +244,9 @@ const RecruiterProfile = () => {
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}
             >
-              <StepIcon size={16} color="#059669" />
+              <StepIcon size={16} color="#0E6B52" />
             </div>
-            <span className="text-sm font-semibold text-gray-700 tracking-wide">
+            <span className="text-sm font-semibold text-ink/70 tracking-wide">
               {currentStep.label}
             </span>
           </div>
@@ -269,7 +261,7 @@ const RecruiterProfile = () => {
                   <div className="flex flex-col items-center gap-3">
                     <div style={{
                       width: 112, height: 112, borderRadius: "50%",
-                      border: "3px solid #10b981",
+                      border: "3px solid #159A72",
                       boxShadow: "0 8px 24px rgba(16,185,129,0.2)",
                       overflow: "hidden",
                     }}>
@@ -288,7 +280,7 @@ const RecruiterProfile = () => {
                   <label
                     style={{
                       width: "100%", padding: "36px 24px",
-                      border: "2px dashed #d1fae5",
+                      border: "2px dashed #CFE7DD",
                       borderRadius: 16,
                       background: "rgba(5,150,105,0.02)",
                       cursor: "pointer",
@@ -296,8 +288,8 @@ const RecruiterProfile = () => {
                       alignItems: "center", gap: 10,
                       transition: "border-color 0.2s",
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.borderColor = "#10b981"}
-                    onMouseLeave={(e) => e.currentTarget.style.borderColor = "#d1fae5"}
+                    onMouseEnter={(e) => e.currentTarget.style.borderColor = "#159A72"}
+                    onMouseLeave={(e) => e.currentTarget.style.borderColor = "#CFE7DD"}
                   >
                     <input type="file" accept="image/*" onChange={onFileChange} className="hidden" />
                     <div style={{
@@ -305,11 +297,11 @@ const RecruiterProfile = () => {
                       background: "rgba(5,150,105,0.08)",
                       display: "flex", alignItems: "center", justifyContent: "center",
                     }}>
-                      <RiImageAddLine size={22} color="#059669" />
+                      <RiImageAddLine size={22} color="#0E6B52" />
                     </div>
                     <div className="text-center">
-                      <p className="text-sm font-semibold text-gray-700">Upload Company Logo</p>
-                      <p className="text-xs text-gray-400 mt-0.5">PNG, JPG up to 5MB</p>
+                      <p className="text-sm font-semibold text-ink/70">Upload Company Logo</p>
+                      <p className="text-xs text-ink/40 mt-0.5">PNG, JPG up to 5MB</p>
                     </div>
                   </label>
                 )}
@@ -333,7 +325,7 @@ const RecruiterProfile = () => {
                 <div style={{ position: "relative" }}>
                   <div style={{
                     position: "absolute", left: 14, top: 14,
-                    color: "#9ca3af", pointerEvents: "none",
+                    color: "#9a9e96", pointerEvents: "none",
                   }}>
                     <RiFileTextLine size={16} />
                   </div>
@@ -346,23 +338,22 @@ const RecruiterProfile = () => {
                     style={{
                       width: "100%", paddingLeft: 40, paddingRight: 16,
                       paddingTop: 12, paddingBottom: 12,
-                      background: "#f9fafb",
-                      border: "1.5px solid #e5e7eb",
+                      background: "#F7F5EF",
+                      border: "1.5px solid #E7E4DA",
                       borderRadius: 12,
-                      fontSize: 14, color: "#111827",
+                      fontSize: 14, color: "#0D1512",
                       resize: "none", outline: "none",
-                      fontFamily: "'Sora', sans-serif",
                       transition: "border-color 0.2s, box-shadow 0.2s",
                     }}
                     onFocus={(e) => {
-                      e.target.style.borderColor = "#059669";
+                      e.target.style.borderColor = "#0E6B52";
                       e.target.style.boxShadow   = "0 0 0 3px rgba(5,150,105,0.08)";
                       e.target.style.background  = "#fff";
                     }}
                     onBlur={(e) => {
-                      e.target.style.borderColor = "#e5e7eb";
+                      e.target.style.borderColor = "#E7E4DA";
                       e.target.style.boxShadow   = "none";
-                      e.target.style.background  = "#f9fafb";
+                      e.target.style.background  = "#F7F5EF";
                     }}
                   />
                 </div>
@@ -371,7 +362,7 @@ const RecruiterProfile = () => {
           </div>
 
           {/* ── Navigation ── */}
-          <div className="flex items-center justify-between mt-8 pt-6" style={{ borderTop: "1px solid #f3f4f6" }}>
+          <div className="flex items-center justify-between mt-8 pt-6" style={{ borderTop: "1px solid #F1EFE7" }}>
 
             {/* Back */}
             {step > 0 ? (
@@ -380,15 +371,15 @@ const RecruiterProfile = () => {
                 onClick={prev}
                 style={{
                   width: 40, height: 40, borderRadius: 12,
-                  background: "#f3f4f6",
+                  background: "#F1EFE7",
                   border: "none", cursor: "pointer",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   transition: "background 0.2s",
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.background = "#e5e7eb"}
-                onMouseLeave={(e) => e.currentTarget.style.background = "#f3f4f6"}
+                onMouseEnter={(e) => e.currentTarget.style.background = "#E7E4DA"}
+                onMouseLeave={(e) => e.currentTarget.style.background = "#F1EFE7"}
               >
-                <RiArrowLeftLine size={18} color="#374151" />
+                <RiArrowLeftLine size={18} color="#2B322D" />
               </button>
             ) : <div />}
 
@@ -398,20 +389,19 @@ const RecruiterProfile = () => {
               onClick={() => navigate("/recruiter-dashboard")}
               style={{
                 padding: "8px 18px", borderRadius: 10,
-                border: "1.5px solid #e5e7eb",
+                border: "1.5px solid #E7E4DA",
                 background: "transparent",
                 fontSize: 13, fontWeight: 500,
-                color: "#6b7280", cursor: "pointer",
-                fontFamily: "'Sora', sans-serif",
+                color: "#6b6f68", cursor: "pointer",
                 transition: "all 0.2s",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#9ca3af";
-                e.currentTarget.style.color = "#374151";
+                e.currentTarget.style.borderColor = "#9a9e96";
+                e.currentTarget.style.color = "#2B322D";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "#e5e7eb";
-                e.currentTarget.style.color = "#6b7280";
+                e.currentTarget.style.borderColor = "#E7E4DA";
+                e.currentTarget.style.color = "#6b6f68";
               }}
             >
               Skip for now
@@ -424,7 +414,7 @@ const RecruiterProfile = () => {
                 onClick={next}
                 style={{
                   width: 40, height: 40, borderRadius: 12,
-                  background: "linear-gradient(135deg, #059669, #10b981)",
+                  background: "linear-gradient(135deg, #0E6B52, #159A72)",
                   border: "none", cursor: "pointer",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   boxShadow: "0 4px 12px rgba(5,150,105,0.3)",
@@ -448,11 +438,10 @@ const RecruiterProfile = () => {
                 disabled={loading}
                 style={{
                   padding: "10px 24px", borderRadius: 12,
-                  background: loading ? "#9ca3af" : "linear-gradient(135deg, #059669, #10b981)",
+                  background: loading ? "#9a9e96" : "linear-gradient(135deg, #0E6B52, #159A72)",
                   border: "none", cursor: loading ? "not-allowed" : "pointer",
                   color: "#fff", fontWeight: 600, fontSize: 14,
                   display: "flex", alignItems: "center", gap: 8,
-                  fontFamily: "'Sora', sans-serif",
                   boxShadow: loading ? "none" : "0 4px 14px rgba(5,150,105,0.35)",
                   transition: "all 0.2s",
                 }}
@@ -484,16 +473,16 @@ const RecruiterProfile = () => {
           >
             <h3
               style={{
-                fontFamily: "'Lora', serif",
+                fontFamily: "'Inter Tight', sans-serif",
                 fontSize: 18, fontWeight: 600,
-                textAlign: "center", marginBottom: 16, color: "#111827",
+                textAlign: "center", marginBottom: 16, color: "#0D1512",
               }}
             >
               Crop your logo
             </h3>
             <div style={{
               position: "relative", width: "100%", height: 256,
-              background: "#111827", borderRadius: 14, overflow: "hidden",
+              background: "#0D1512", borderRadius: 14, overflow: "hidden",
             }}>
               <Cropper
                 image={imageSrc}
@@ -512,9 +501,9 @@ const RecruiterProfile = () => {
                 onClick={() => setCropModalOpen(false)}
                 style={{
                   flex: 1, padding: "10px 0", borderRadius: 10,
-                  background: "#f3f4f6", border: "none",
-                  fontSize: 14, fontWeight: 500, color: "#374151",
-                  cursor: "pointer", fontFamily: "'Sora', sans-serif",
+                  background: "#F1EFE7", border: "none",
+                  fontSize: 14, fontWeight: 500, color: "#2B322D",
+                  cursor: "pointer",
                 }}
               >
                 Cancel
@@ -524,10 +513,9 @@ const RecruiterProfile = () => {
                 onClick={handleSaveCrop}
                 style={{
                   flex: 1, padding: "10px 0", borderRadius: 10,
-                  background: "linear-gradient(135deg, #059669, #10b981)",
+                  background: "linear-gradient(135deg, #0E6B52, #159A72)",
                   border: "none", fontSize: 14, fontWeight: 600,
                   color: "#fff", cursor: "pointer",
-                  fontFamily: "'Sora', sans-serif",
                   boxShadow: "0 4px 12px rgba(5,150,105,0.3)",
                 }}
               >
@@ -547,7 +535,7 @@ const StepInput = ({ name, value, onChange, placeholder, icon: Icon }) => (
     <div style={{
       position: "absolute", left: 14, top: "50%",
       transform: "translateY(-50%)",
-      color: "#9ca3af", pointerEvents: "none",
+      color: "#9a9e96", pointerEvents: "none",
     }}>
       <Icon size={16} />
     </div>
@@ -560,24 +548,23 @@ const StepInput = ({ name, value, onChange, placeholder, icon: Icon }) => (
       style={{
         width: "100%", paddingLeft: 40, paddingRight: 16,
         paddingTop: 14, paddingBottom: 14,
-        background: "#f9fafb",
-        border: "1.5px solid #e5e7eb",
+        background: "#F7F5EF",
+        border: "1.5px solid #E7E4DA",
         borderRadius: 12,
-        fontSize: 15, color: "#111827",
+        fontSize: 15, color: "#0D1512",
         outline: "none",
-        fontFamily: "'Sora', sans-serif",
         transition: "border-color 0.2s, box-shadow 0.2s, background 0.2s",
         boxSizing: "border-box",
       }}
       onFocus={(e) => {
-        e.target.style.borderColor = "#059669";
+        e.target.style.borderColor = "#0E6B52";
         e.target.style.boxShadow   = "0 0 0 3px rgba(5,150,105,0.08)";
         e.target.style.background  = "#fff";
       }}
       onBlur={(e) => {
-        e.target.style.borderColor = "#e5e7eb";
+        e.target.style.borderColor = "#E7E4DA";
         e.target.style.boxShadow   = "none";
-        e.target.style.background  = "#f9fafb";
+        e.target.style.background  = "#F7F5EF";
       }}
     />
   </div>

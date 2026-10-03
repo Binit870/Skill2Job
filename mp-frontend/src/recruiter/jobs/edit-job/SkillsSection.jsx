@@ -17,13 +17,13 @@ export default function SkillsSection({
           {skills.map((s, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-1.5 bg-green-50 text-[#498a04] border border-green-200 text-xs font-semibold px-3 py-1.5 rounded-full"
+              className="inline-flex items-center gap-1.5 bg-pine/8 text-pine border border-pine/20 text-xs font-semibold px-3 py-1.5 rounded-full"
             >
               {s}
               <button
                 type="button"
                 onClick={() => removeSkill(s)}
-                className="text-green-800 hover:text-[#498a04] transition leading-none text-base"
+                className="text-pine/70 hover:text-pine transition-colors leading-none text-base"
                 aria-label={`Remove ${s}`}
               >
                 ×
@@ -31,7 +31,7 @@ export default function SkillsSection({
             </span>
           ))}
           {skills.length === 0 && (
-            <p className="text-gray-700 text-sm">No skills added yet</p>
+            <p className="text-ink/50 text-sm">No skills added yet</p>
           )}
         </div>
 
@@ -55,13 +55,13 @@ export default function SkillsSection({
           <button
             type="button"
             onClick={() => addSkill(skillInput)}
-            className="bg-[#1e9d02] hover:bg-[#1b7d05] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors whitespace-nowrap"
+            className="bg-pine hover:bg-moss text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors whitespace-nowrap"
           >
             Add
           </button>
         </div>
 
-        <p className="text-xs text-gray-600">
+        <p className="text-xs text-ink/45">
           Press Enter, comma, or Tab to add each skill
         </p>
 

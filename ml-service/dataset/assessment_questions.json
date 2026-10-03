@@ -497,7 +497,7 @@
         "explanation": "T=200×100/(800×5)=5 years."
       },
       {
-        "question": "4 dozen oranges cost ₹60. Cost of 1 orange?",
+        "question": "4 dozen greens cost ₹60. Cost of 1 green?",
         "options": [
           "₹1.25",
           "₹1.50",
@@ -505,7 +505,7 @@
           "₹0.75"
         ],
         "answer": "₹1.25",
-        "explanation": "1 orange=60/48=₹1.25."
+        "explanation": "1 green=60/48=₹1.25."
       },
       {
         "question": "If 12 men can do a job in 6 days, 4 men will take?",

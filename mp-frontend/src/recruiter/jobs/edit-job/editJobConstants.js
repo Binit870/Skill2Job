@@ -20,4 +20,4 @@ export const INITIAL_FORM_DATA = {
 };
 
 export const inputCls =
-  "w-full border border-gray-200 bg-white rounded-lg px-3.5 py-2.5 text-sm text-gray-800 outline-none focus:border-[#FF9933] focus:ring-2 focus:ring-green-100 transition placeholder-gray-400";
+  "w-full border border-mist bg-white rounded-lg px-3.5 py-2.5 text-sm text-ink outline-none focus:border-pine focus:ring-2 focus:ring-pine/15 transition-colors placeholder:text-ink/35";

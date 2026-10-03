@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
+import {
+  X, MapPin, Users, Building2, Globe, Mail, Bookmark,
+  Check, ArrowRight,
+} from "lucide-react";
 import ApplyModal from "./ApplyModal";
 import API from "../../utils/api";
 
 const TYPE_STYLES = {
-  "Full-Time":  "bg-slate-50 text-slate-600 border-slate-200",
-  "Part-Time":  "bg-slate-50 text-slate-600 border-slate-200",
+  "Full-Time":  "bg-ink/5 text-ink/60 border-mist",
+  "Part-Time":  "bg-ink/5 text-ink/60 border-mist",
   "Internship": "bg-blue-50 text-blue-700 border-blue-200",
-  "Remote":     "bg-emerald-50 text-emerald-700 border-emerald-200",
-  "Contract":   "bg-amber-50 text-amber-700 border-amber-200",
+  "Remote":     "bg-pine/8 text-pine border-pine/20",
+  "Contract":   "bg-gold/10 text-gold border-gold/25",
 };
 
 const deadlineCls = (deadline) => {
@@ -15,8 +19,8 @@ const deadlineCls = (deadline) => {
   const days = Math.ceil((new Date(deadline) - new Date()) / (1000 * 60 * 60 * 24));
   if (days < 0)  return null;
   if (days <= 3) return { label: `${days}d left`, cls: "bg-red-50 text-red-600 border-red-200" };
-  if (days <= 7) return { label: `${days}d left`, cls: "bg-amber-50 text-amber-600 border-amber-200" };
-  return           { label: `${days}d left`, cls: "bg-emerald-50 text-emerald-600 border-emerald-200" };
+  if (days <= 7) return { label: `${days}d left`, cls: "bg-gold/10 text-gold border-gold/25" };
+  return           { label: `${days}d left`, cls: "bg-pine/8 text-pine border-pine/20" };
 };
 
 export default function JobDetails({ job: jobProp, onClose }) {
@@ -30,6 +34,7 @@ export default function JobDetails({ job: jobProp, onClose }) {
   useEffect(() => {
     if (!jobProp?._id) return;
     setApplied(false);
+    setSaved(!!jobProp.isSaved);
     const check = async () => {
       try {
         const token = sessionStorage.getItem("token");
@@ -38,10 +43,22 @@ export default function JobDetails({ job: jobProp, onClose }) {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.data?.applied) setApplied(true);
-      } catch (_) {}
+      } catch { /* best-effort, ignore */ }
     };
     check();
   }, [jobProp?._id]);
+
+  const handleToggleSave = async () => {
+    // Optimistic update — bookmarking should feel instant
+    setSaved((s) => !s);
+    try {
+      const { data } = await API.patch(`/api/jobs/${job._id}/save`);
+      setSaved(data.saved);
+    } catch (err) {
+      setSaved((s) => !s); // revert on failure
+      console.error("Failed to save job:", err);
+    }
+  };
 
   useEffect(() => {
     const h = (e) => { if (e.key === "Escape") onClose?.(); };
@@ -58,7 +75,7 @@ export default function JobDetails({ job: jobProp, onClose }) {
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 z-40 bg-slate-900/20 backdrop-blur-[2px]"
+        className="fixed inset-0 z-40 bg-ink/20 backdrop-blur-[2px]"
         onClick={onClose}
       />
 
@@ -66,60 +83,54 @@ export default function JobDetails({ job: jobProp, onClose }) {
       <div className="fixed inset-y-0 right-0 z-50 w-full sm:max-w-[540px] bg-white shadow-2xl flex flex-col animate-[slideIn_0.3s_cubic-bezier(0.34,1.08,0.64,1)]">
 
         {/* ── Header ── */}
-        <div className="px-5 sm:px-7 pt-4 pb-4 border-b border-slate-100 flex-shrink-0 bg-white">
+        <div className="px-5 sm:px-7 pt-4 pb-4 border-b border-mist flex-shrink-0 bg-white">
 
           {/* Top row: close button pinned right */}
           <div className="flex justify-end mb-3">
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-700 text-lg leading-none transition"
+              className="w-8 h-8 rounded-full bg-ink/5 hover:bg-ink/10 flex items-center justify-center text-ink/40 hover:text-ink transition-colors"
               aria-label="Close"
             >
-              ×
+              <X className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Company row — no pr padding, full width available */}
+          {/* Company row */}
           <div className="flex items-center gap-3 mb-3">
             <img
               src={job.companyLogo || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}
               alt={job.company}
-              className="w-12 h-12 rounded-xl border border-slate-200 object-cover bg-slate-50 shrink-0"
+              className="w-12 h-12 rounded-xl border border-mist object-cover bg-paper/60 shrink-0"
             />
             <div className="min-w-0">
-              <p className="text-xs text-slate-500 font-medium mb-1 truncate">{job.company}</p>
+              <p className="text-xs text-ink/50 font-medium mb-1 truncate">{job.company}</p>
               <span className={`inline-block text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-lg border ${typeStyle}`}>
                 {job.jobType}
               </span>
             </div>
           </div>
 
-          <h2 className="text-lg sm:text-xl font-bold text-slate-900 leading-snug mb-4 tracking-tight">{job.title}</h2>
+          <h2 className="font-display text-lg sm:text-xl font-bold text-ink leading-snug mb-4 tracking-tight">{job.title}</h2>
 
-          {/* Chip strip — scrollable on small screens, wraps on larger */}
-          <div className="flex flex-wrap gap-2 overflow-x-auto pb-0.5" style={{ scrollbarWidth: "none" }}>
-            <span className="flex-shrink-0 flex items-center gap-1.5 text-xs font-medium text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>
-              </svg>
+          {/* Chip strip */}
+          <div className="flex flex-wrap gap-2 overflow-x-auto pb-0.5">
+            <span className="flex-shrink-0 flex items-center gap-1.5 text-xs font-medium text-ink/60 bg-ink/5 px-3 py-1.5 rounded-full">
+              <MapPin className="w-2.5 h-2.5" />
               {job.location}
             </span>
-            <span className="flex-shrink-0 flex items-center gap-1.5 text-xs font-medium text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-              </svg>
+            <span className="flex-shrink-0 flex items-center gap-1.5 text-xs font-medium text-ink/60 bg-ink/5 px-3 py-1.5 rounded-full">
+              <Users className="w-2.5 h-2.5" />
               {job.experienceMin}{job.experienceMax ? `–${job.experienceMax}` : "+"} yrs
             </span>
             {job.vacancies && (
-              <span className="flex-shrink-0 flex items-center gap-1.5 text-xs font-medium text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
-                </svg>
+              <span className="flex-shrink-0 flex items-center gap-1.5 text-xs font-medium text-ink/60 bg-ink/5 px-3 py-1.5 rounded-full">
+                <Users className="w-2.5 h-2.5" />
                 {job.vacancies} opening{job.vacancies > 1 ? "s" : ""}
               </span>
             )}
             {(job.salaryMin || job.salaryMax) && (
-              <span className="flex-shrink-0 text-xs font-bold text-[#0f4c35] bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-full">
+              <span className="flex-shrink-0 text-xs font-bold text-pine bg-pine/8 border border-pine/20 px-3 py-1.5 rounded-full">
                 ₹{job.salaryMin ? `${(job.salaryMin / 1000).toFixed(0)}k` : "?"}–₹{job.salaryMax ? `${(job.salaryMax / 1000).toFixed(0)}k` : "?"}
               </span>
             )}
@@ -136,7 +147,7 @@ export default function JobDetails({ job: jobProp, onClose }) {
 
           {/* Overview grid */}
           <section>
-            <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Overview</h3>
+            <h3 className="text-[10px] font-bold text-ink/40 uppercase tracking-widest mb-3">Overview</h3>
             <div className="grid grid-cols-2 gap-2.5">
               {[
                 ["Job type",    job.jobType],
@@ -146,9 +157,9 @@ export default function JobDetails({ job: jobProp, onClose }) {
                 ...(job.deadline ? [["Deadline", new Date(job.deadline).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })]] : []),
                 ["Posted",     new Date(job.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })],
               ].map(([label, val]) => (
-                <div key={label} className="bg-slate-50 border border-slate-100 rounded-xl px-3.5 py-3">
-                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wide">{label}</p>
-                  <p className="text-[13px] font-semibold text-slate-800 mt-1">{val}</p>
+                <div key={label} className="bg-paper/60 border border-mist rounded-xl px-3.5 py-3">
+                  <p className="text-[9px] font-bold text-ink/40 uppercase tracking-wide">{label}</p>
+                  <p className="text-[13px] font-semibold text-ink mt-1">{val}</p>
                 </div>
               ))}
             </div>
@@ -157,10 +168,10 @@ export default function JobDetails({ job: jobProp, onClose }) {
           {/* Skills */}
           {job.skills?.length > 0 && (
             <section>
-              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Required skills</h3>
+              <h3 className="text-[10px] font-bold text-ink/40 uppercase tracking-widest mb-3">Required skills</h3>
               <div className="flex flex-wrap gap-2">
                 {job.skills.map((s, i) => (
-                  <span key={i} className="text-xs font-semibold px-3 py-1.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 transition">
+                  <span key={i} className="text-xs font-semibold px-3 py-1.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 transition-colors">
                     {s}
                   </span>
                 ))}
@@ -171,34 +182,35 @@ export default function JobDetails({ job: jobProp, onClose }) {
           {/* Description */}
           {job.description && (
             <section>
-              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Job description</h3>
-              <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">{job.description}</p>
+              <h3 className="text-[10px] font-bold text-ink/40 uppercase tracking-widest mb-3">Job description</h3>
+              <p className="text-sm text-ink/65 leading-relaxed whitespace-pre-wrap">{job.description}</p>
             </section>
           )}
 
           {/* Company */}
           <section>
-            <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">About the company</h3>
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+            <h3 className="text-[10px] font-bold text-ink/40 uppercase tracking-widest mb-3">About the company</h3>
+            <div className="bg-paper/60 border border-mist rounded-2xl p-4">
               <div className="flex items-center gap-3 mb-2.5">
                 <img
                   src={job.companyLogo || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}
                   alt={job.company}
-                  className="w-10 h-10 rounded-xl border border-slate-200 object-cover bg-white"
+                  className="w-10 h-10 rounded-xl border border-mist object-cover bg-white"
                 />
-                <p className="text-sm font-bold text-slate-900">{job.company}</p>
+                <p className="text-sm font-bold text-ink flex items-center gap-1.5">
+                  <Building2 className="w-3.5 h-3.5 text-ink/30" />
+                  {job.company}
+                </p>
               </div>
               {job.companyDescription && (
-                <p className="text-sm text-slate-500 leading-relaxed">{job.companyDescription}</p>
+                <p className="text-sm text-ink/55 leading-relaxed">{job.companyDescription}</p>
               )}
               {job.companyWebsite && (
                 <a
                   href={job.companyWebsite} target="_blank" rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0f4c35] hover:underline mt-3"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-pine hover:underline mt-3"
                 >
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/>
-                  </svg>
+                  <Globe className="w-2.5 h-2.5" />
                   {job.companyWebsite.replace(/^https?:\/\//, "")}
                 </a>
               )}
@@ -208,13 +220,10 @@ export default function JobDetails({ job: jobProp, onClose }) {
           {/* Contact */}
           {job.contact?.email && (
             <section>
-              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Contact</h3>
-              <div className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                  <polyline points="22,6 12,13 2,6"/>
-                </svg>
-                <a href={`mailto:${job.contact.email}`} className="text-sm font-medium text-[#0f4c35] hover:underline">
+              <h3 className="text-[10px] font-bold text-ink/40 uppercase tracking-widest mb-3">Contact</h3>
+              <div className="flex items-center gap-3 bg-paper/60 border border-mist rounded-xl px-4 py-3">
+                <Mail className="w-3.5 h-3.5 text-ink/30 shrink-0" />
+                <a href={`mailto:${job.contact.email}`} className="text-sm font-medium text-pine hover:underline">
                   {job.contact.email}
                 </a>
               </div>
@@ -223,19 +232,17 @@ export default function JobDetails({ job: jobProp, onClose }) {
         </div>
 
         {/* ── Footer ── */}
-        <div className="px-5 sm:px-7 py-4 border-t border-slate-100 bg-white flex items-center gap-3 flex-shrink-0">
+        <div className="px-5 sm:px-7 py-4 border-t border-mist bg-white flex items-center gap-3 flex-shrink-0">
           <button
-            onClick={() => setSaved((s) => !s)}
+            onClick={handleToggleSave}
             title={saved ? "Saved" : "Save job"}
-            className={`w-11 h-11 rounded-xl border flex items-center justify-center transition-all shrink-0
+            className={`w-11 h-11 rounded-xl border flex items-center justify-center transition-colors shrink-0
               ${saved
-                ? "border-amber-300 bg-amber-50 text-amber-500"
-                : "border-slate-200 bg-white text-slate-400 hover:border-amber-300 hover:text-amber-500 hover:bg-amber-50"
+                ? "border-gold/40 bg-gold/10 text-gold"
+                : "border-mist bg-white text-ink/35 hover:border-gold/40 hover:text-gold hover:bg-gold/10"
               }`}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/>
-            </svg>
+            <Bookmark className="w-4 h-4" fill={saved ? "currentColor" : "none"} />
           </button>
 
           <button
@@ -243,23 +250,19 @@ export default function JobDetails({ job: jobProp, onClose }) {
             disabled={applied}
             className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2
               ${applied
-                ? "bg-emerald-50 border border-emerald-200 text-emerald-700 cursor-not-allowed"
-                : "bg-[#0f4c35] hover:bg-[#0a3525] text-white shadow-sm shadow-[#0f4c35]/20 hover:-translate-y-0.5 active:scale-[0.98]"
+                ? "bg-pine/8 border border-pine/20 text-pine cursor-not-allowed"
+                : "bg-pine hover:bg-moss text-white shadow-sm shadow-pine/20 hover:-translate-y-0.5 active:scale-[0.98]"
               }`}
           >
             {applied ? (
               <>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 13l4 4L19 7"/>
-                </svg>
+                <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
                 Applied
               </>
             ) : (
               <>
                 Apply now
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
+                <ArrowRight className="w-3.5 h-3.5" />
               </>
             )}
           </button>

@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback, useContext, useRef } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
 import Cropper from "react-easy-crop";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -42,15 +41,6 @@ import {
 import API from "../../utils/api";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-/* ── Font injection ── */
-const fontLink = document.createElement("link");
-fontLink.href =
-  "https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap";
-fontLink.rel = "stylesheet";
-if (!document.head.querySelector(`link[href="${fontLink.href}"]`)) {
-  document.head.appendChild(fontLink);
-}
-
 /* ─────────────────────────────────────────
    INPUTFIELD
 ───────────────────────────────────────── */
@@ -58,7 +48,7 @@ const InputField = ({ icon: Icon, label, name, placeholder, value, onChange, typ
   <div>
     <label style={{
       display: "block", fontSize: 11, fontWeight: 600,
-      color: "#6b7280", textTransform: "uppercase",
+      color: "#6b6f68", textTransform: "uppercase",
       letterSpacing: "0.08em", marginBottom: 6,
     }}>
       {label}
@@ -67,7 +57,7 @@ const InputField = ({ icon: Icon, label, name, placeholder, value, onChange, typ
       <div style={{
         position: "absolute", left: 13, top: "50%",
         transform: "translateY(-50%)",
-        color: "#9ca3af", pointerEvents: "none",
+        color: "#9a9e96", pointerEvents: "none",
       }}>
         <Icon size={15} />
       </div>
@@ -80,25 +70,24 @@ const InputField = ({ icon: Icon, label, name, placeholder, value, onChange, typ
         style={{
           width: "100%", paddingLeft: 38, paddingRight: 14,
           paddingTop: 11, paddingBottom: 11,
-          background: "#f9fafb",
-          border: "1.5px solid #e5e7eb",
+          background: "#F7F5EF",
+          border: "1.5px solid #E7E4DA",
           borderRadius: 10, fontSize: 13.5,
-          color: "#111827", outline: "none",
-          fontFamily: "'Sora', sans-serif",
+          color: "#0D1512", outline: "none",
           transition: "border-color 0.2s, box-shadow 0.2s, background 0.2s",
           boxSizing: "border-box",
         }}
         onFocus={(e) => {
-          e.target.style.borderColor = "#059669";
+          e.target.style.borderColor = "#0E6B52";
           e.target.style.boxShadow = "0 0 0 3px rgba(5,150,105,0.09)";
           e.target.style.background = "#fff";
-          e.target.previousSibling.style.color = "#059669";
+          e.target.previousSibling.style.color = "#0E6B52";
         }}
         onBlur={(e) => {
-          e.target.style.borderColor = "#e5e7eb";
+          e.target.style.borderColor = "#E7E4DA";
           e.target.style.boxShadow = "none";
-          e.target.style.background = "#f9fafb";
-          e.target.previousSibling.style.color = "#9ca3af";
+          e.target.style.background = "#F7F5EF";
+          e.target.previousSibling.style.color = "#9a9e96";
         }}
       />
     </div>
@@ -108,14 +97,14 @@ const InputField = ({ icon: Icon, label, name, placeholder, value, onChange, typ
 /* ── Section Divider ── */
 const SectionLabel = ({ label }) => (
   <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "4px 0" }}>
-    <div style={{ flex: 1, height: 1, background: "#f0fdf4", borderTop: "1px solid #d1fae5" }} />
+    <div style={{ flex: 1, height: 1, background: "#E9F2EE", borderTop: "1px solid #CFE7DD" }} />
     <span style={{
-      fontSize: 10.5, fontWeight: 700, color: "#6b7280",
+      fontSize: 10.5, fontWeight: 700, color: "#6b6f68",
       textTransform: "uppercase", letterSpacing: "0.1em",
     }}>
       {label}
     </span>
-    <div style={{ flex: 1, height: 1, background: "#f0fdf4", borderTop: "1px solid #d1fae5" }} />
+    <div style={{ flex: 1, height: 1, background: "#E9F2EE", borderTop: "1px solid #CFE7DD" }} />
   </div>
 );
 
@@ -129,21 +118,20 @@ const IconBtn = ({ onClick, disabled, children, accent = false }) => (
       display: "flex", alignItems: "center", justifyContent: "center",
       borderRadius: 8, border: "none",
       background: "transparent",
-      color: accent ? "#34d399" : "rgba(255,255,255,0.6)",
+      color: accent ? "#3FA37F" : "rgba(255,255,255,0.6)",
       cursor: disabled ? "not-allowed" : "pointer",
       opacity: disabled ? 0.3 : 1,
       transition: "all 0.15s",
-      fontFamily: "'Sora', sans-serif",
     }}
     onMouseEnter={(e) => {
       if (!disabled) {
         e.currentTarget.style.background = "rgba(255,255,255,0.1)";
-        e.currentTarget.style.color = accent ? "#6ee7b7" : "#fff";
+        e.currentTarget.style.color = accent ? "#6FA98D" : "#fff";
       }
     }}
     onMouseLeave={(e) => {
       e.currentTarget.style.background = "transparent";
-      e.currentTarget.style.color = accent ? "#34d399" : "rgba(255,255,255,0.6)";
+      e.currentTarget.style.color = accent ? "#3FA37F" : "rgba(255,255,255,0.6)";
     }}
   >
     {children}
@@ -171,14 +159,14 @@ const ShareModal = ({ url, onClose }) => {
     >
       <div
         style={{
-          background: "#1e293b", border: "1px solid rgba(255,255,255,0.1)",
+          background: "#0D1512", border: "1px solid rgba(255,255,255,0.1)",
           borderRadius: 20, padding: 24, width: 320,
           boxShadow: "0 32px 80px rgba(0,0,0,0.4)",
         }}
         onClick={e => e.stopPropagation()}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-          <h3 style={{ color: "#fff", fontSize: 14, fontWeight: 600, margin: 0, fontFamily: "'Sora', sans-serif" }}>
+          <h3 style={{ color: "#fff", fontSize: 14, fontWeight: 600, margin: 0 }}>
             Share Resume
           </h3>
           <button onClick={onClose} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.4)", cursor: "pointer" }}>
@@ -194,9 +182,8 @@ const ShareModal = ({ url, onClose }) => {
             {url?.slice(0, 40)}...
           </span>
           <button onClick={copyLink} style={{
-            fontSize: 11, fontWeight: 600, color: "#34d399",
+            fontSize: 11, fontWeight: 600, color: "#3FA37F",
             background: "none", border: "none", cursor: "pointer", flexShrink: 0,
-            fontFamily: "'Sora', sans-serif",
           }}>
             {copied ? "Copied!" : "Copy"}
           </button>
@@ -215,8 +202,7 @@ const ShareModal = ({ url, onClose }) => {
                 padding: 12, borderRadius: 12,
                 border: "1px solid rgba(255,255,255,0.1)",
                 background: "transparent", cursor: "pointer",
-                color: "#34d399", transition: "all 0.15s",
-                fontFamily: "'Sora', sans-serif",
+                color: "#3FA37F", transition: "all 0.15s",
               }}
               onMouseEnter={(e) => e.currentTarget.style.background = "rgba(52,211,153,0.1)"}
               onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
@@ -403,10 +389,9 @@ const StudentEditProfile = () => {
     <div
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(150deg, #f0fdf9 0%, #ffffff 45%, #ecfdf5 100%)",
+        background: "linear-gradient(150deg, #E9F2EE 0%, #ffffff 45%, #E9F2EE 100%)",
         display: "flex", justifyContent: "center", alignItems: "flex-start",
         padding: "40px 16px",
-        fontFamily: "'Sora', sans-serif",
       }}
     >
       {/* Background blobs */}
@@ -434,13 +419,13 @@ const StudentEditProfile = () => {
         }}
       >
         {/* Top accent stripe */}
-        <div style={{ height: 4, background: "linear-gradient(90deg, #059669, #34d399, #a7f3d0)" }} />
+        <div style={{ height: 4, background: "linear-gradient(90deg, #0E6B52, #3FA37F, #BBDACE)" }} />
 
         {/* Hero Banner */}
         <div
           style={{
             height: 148,
-            background: "linear-gradient(135deg, #064e3b 0%, #065f46 55%, #047857 100%)",
+            background: "linear-gradient(135deg, #143D30 0%, #065f46 55%, #047857 100%)",
             position: "relative", overflow: "hidden",
             display: "flex", alignItems: "center", padding: "0 32px", gap: 20,
           }}
@@ -455,12 +440,12 @@ const StudentEditProfile = () => {
           <div style={{
             position: "absolute", right: 40, top: -30,
             width: 160, height: 160, borderRadius: "50%", opacity: 0.15,
-            background: "radial-gradient(circle, #6ee7b7, transparent 70%)",
+            background: "radial-gradient(circle, #6FA98D, transparent 70%)",
           }} />
           <div style={{
             position: "absolute", left: -20, bottom: -20,
             width: 120, height: 120, borderRadius: "50%", opacity: 0.1,
-            background: "radial-gradient(circle, #34d399, transparent 70%)",
+            background: "radial-gradient(circle, #3FA37F, transparent 70%)",
           }} />
 
           {/* Avatar area */}
@@ -486,15 +471,15 @@ const StudentEditProfile = () => {
               style={{
                 position: "absolute", bottom: -4, right: -4,
                 width: 26, height: 26, borderRadius: 8,
-                background: "#10b981",
+                background: "#159A72",
                 border: "2px solid #fff",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 cursor: "pointer",
                 boxShadow: "0 2px 8px rgba(5,150,105,0.4)",
                 transition: "background 0.2s", zIndex: 3,
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = "#059669"}
-              onMouseLeave={(e) => e.currentTarget.style.background = "#10b981"}
+              onMouseEnter={(e) => e.currentTarget.style.background = "#0E6B52"}
+              onMouseLeave={(e) => e.currentTarget.style.background = "#159A72"}
             >
               <RiCameraLine size={13} color="#fff" />
               <input type="file" accept="image/*" onChange={onFileChange} style={{ display: "none" }} />
@@ -504,14 +489,14 @@ const StudentEditProfile = () => {
           {/* Student identity */}
           <div style={{ position: "relative", zIndex: 2, minWidth: 0, flex: 1 }}>
             <h2 style={{
-              fontFamily: "'Lora', serif",
+              fontFamily: "'Inter Tight', sans-serif",
               fontSize: 20, fontWeight: 600,
               color: "#fff", margin: 0,
               whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
             }}>
               {form.name || "Your Name"}
             </h2>
-            <p style={{ color: "#6ee7b7", fontSize: 13, margin: "4px 0 0", opacity: 0.85 }}>
+            <p style={{ color: "#6FA98D", fontSize: 13, margin: "4px 0 0", opacity: 0.85 }}>
               {form.college || "College"}
               {form.branch && ` · ${form.branch}`}
             </p>
@@ -523,8 +508,7 @@ const StudentEditProfile = () => {
                   marginTop: 8,
                   display: "inline-flex", alignItems: "center", gap: 4,
                   fontSize: 11.5, color: "rgba(252,165,165,0.9)",
-                  background: "none", border: "none", cursor: "pointer",
-                  fontFamily: "'Sora', sans-serif", padding: 0,
+                  background: "none", border: "none", cursor: "pointer", padding: 0,
                 }}
               >
                 <RiCloseLine size={13} />
@@ -573,7 +557,7 @@ const StudentEditProfile = () => {
             {/* Resume section */}
             <div style={{
               display: "flex", alignItems: "center", justifyContent: "space-between",
-              background: "#f9fafb", border: "1.5px solid #e5e7eb",
+              background: "#F7F5EF", border: "1.5px solid #E7E4DA",
               borderRadius: 12, padding: "14px 16px", marginTop: 14,
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -585,7 +569,7 @@ const StudentEditProfile = () => {
                   <RiFileTextLine size={18} color="#f87171" />
                 </div>
                 <div>
-                  <p style={{ fontSize: 13, fontWeight: 600, color: "#374151", margin: 0 }}>
+                  <p style={{ fontSize: 13, fontWeight: 600, color: "#2B322D", margin: 0 }}>
                     {resumeFile ? resumeFile.name : form.resume ? "Resume uploaded" : "No resume yet"}
                   </p>
                   {form.resume && !resumeFile && (
@@ -594,10 +578,9 @@ const StudentEditProfile = () => {
                       onClick={openPdf}
                       style={{
                         display: "flex", alignItems: "center", gap: 4,
-                        fontSize: 11.5, color: "#059669", fontWeight: 500,
+                        fontSize: 11.5, color: "#0E6B52", fontWeight: 500,
                         background: "none", border: "none", cursor: "pointer",
                         marginTop: 2, padding: 0,
-                        fontFamily: "'Sora', sans-serif",
                       }}
                     >
                       <RiEyeLine size={11} />
@@ -605,7 +588,7 @@ const StudentEditProfile = () => {
                     </button>
                   )}
                   {resumeFile && (
-                    <p style={{ fontSize: 11.5, color: "#059669", fontWeight: 500, margin: "2px 0 0" }}>
+                    <p style={{ fontSize: 11.5, color: "#0E6B52", fontWeight: 500, margin: "2px 0 0" }}>
                       ✓ Ready to upload
                     </p>
                   )}
@@ -615,15 +598,14 @@ const StudentEditProfile = () => {
               <label style={{
                 display: "flex", alignItems: "center", gap: 6,
                 padding: "8px 16px", borderRadius: 10,
-                background: "#fff", border: "1.5px solid #e5e7eb",
-                fontSize: 12, fontWeight: 600, color: "#374151",
+                background: "#fff", border: "1.5px solid #E7E4DA",
+                fontSize: 12, fontWeight: 600, color: "#2B322D",
                 cursor: "pointer",
-                fontFamily: "'Sora', sans-serif",
                 transition: "all 0.2s",
                 boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
               }}
-              onMouseEnter={(e) => e.currentTarget.style.borderColor = "#9ca3af"}
-              onMouseLeave={(e) => e.currentTarget.style.borderColor = "#e5e7eb"}
+              onMouseEnter={(e) => e.currentTarget.style.borderColor = "#9a9e96"}
+              onMouseLeave={(e) => e.currentTarget.style.borderColor = "#E7E4DA"}
               >
                 <RiUploadLine size={13} />
                 {form.resume ? "Replace" : "Upload PDF"}
@@ -645,13 +627,12 @@ const StudentEditProfile = () => {
                 padding: "13px 0",
                 borderRadius: 12,
                 background: loading
-                  ? "#d1d5db"
-                  : "linear-gradient(135deg, #064e3b, #059669)",
+                  ? "#D6D3C7"
+                  : "linear-gradient(135deg, #143D30, #0E6B52)",
                 border: "none",
                 color: "#fff", fontSize: 14, fontWeight: 600,
                 cursor: loading ? "not-allowed" : "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                fontFamily: "'Sora', sans-serif",
                 boxShadow: loading ? "none" : "0 6px 18px rgba(5,150,105,0.3)",
                 transition: "all 0.2s",
                 letterSpacing: "0.01em",
@@ -697,7 +678,7 @@ const StudentEditProfile = () => {
           style={{
             position: "fixed", inset: 0, zIndex: 50,
             display: "flex", flexDirection: "column",
-            background: "#0c111d",
+            background: "#0D1512",
           }}
         >
           {/* Top toolbar */}
@@ -735,7 +716,6 @@ const StudentEditProfile = () => {
                 <span style={{
                   fontSize: 11, color: "rgba(255,255,255,0.5)",
                   padding: "4px 10px", cursor: "default",
-                  fontFamily: "'Sora', sans-serif",
                 }}>
                   {pageNumber} / {numPages}
                 </span>
@@ -820,7 +800,6 @@ const StudentEditProfile = () => {
                 style={{
                   flex: 1, background: "transparent", border: "none", outline: "none",
                   color: "rgba(255,255,255,0.8)", fontSize: 12,
-                  fontFamily: "'Sora', sans-serif",
                 }}
               />
               <span style={{ fontSize: 10, color: "rgba(255,255,255,0.2)" }}>
@@ -841,7 +820,7 @@ const StudentEditProfile = () => {
             display: "flex", flexDirection: "column",
             alignItems: "center", justifyContent: "flex-start",
             padding: "24px 16px",
-            background: "#161b2e",
+            background: "#0D1512",
           }}>
             {pdfError ? (
               <div style={{
@@ -867,9 +846,9 @@ const StudentEditProfile = () => {
                   <button onClick={downloadPdf} style={{
                     display: "flex", alignItems: "center", gap: 8,
                     padding: "10px 16px", borderRadius: 12,
-                    background: "#059669", border: "none",
+                    background: "#0E6B52", border: "none",
                     color: "#fff", fontSize: 12, fontWeight: 700,
-                    cursor: "pointer", fontFamily: "'Sora', sans-serif",
+                    cursor: "pointer",
                   }}>
                     <RiDownloadLine size={13} /> Download
                   </button>
@@ -878,7 +857,7 @@ const StudentEditProfile = () => {
                     padding: "10px 16px", borderRadius: 12,
                     background: "rgba(255,255,255,0.1)", border: "none",
                     color: "#fff", fontSize: 12, fontWeight: 600,
-                    cursor: "pointer", fontFamily: "'Sora', sans-serif",
+                    cursor: "pointer",
                   }}>
                     <RiExternalLinkLine size={13} /> Open in Tab
                   </button>
@@ -898,10 +877,10 @@ const StudentEditProfile = () => {
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, marginTop: 96 }}>
                       <div style={{
                         width: 40, height: 40,
-                        border: "2px solid #059669", borderTopColor: "transparent",
+                        border: "2px solid #0E6B52", borderTopColor: "transparent",
                         borderRadius: "50%", animation: "spin 0.7s linear infinite",
                       }} />
-                      <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 12, fontFamily: "'Sora', sans-serif" }}>
+                      <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 12 }}>
                         Loading PDF…
                       </p>
                     </div>
@@ -937,11 +916,10 @@ const StudentEditProfile = () => {
                       width: 28, height: 28, borderRadius: 6,
                       border: "none", cursor: "pointer",
                       fontSize: 11, fontWeight: 600,
-                      background: n === pageNumber ? "#059669" : "transparent",
+                      background: n === pageNumber ? "#0E6B52" : "transparent",
                       color: n === pageNumber ? "#fff" : "rgba(255,255,255,0.3)",
                       boxShadow: n === pageNumber ? "0 4px 12px rgba(5,150,105,0.3)" : "none",
                       transition: "all 0.15s", flexShrink: 0,
-                      fontFamily: "'Sora', sans-serif",
                     }}
                     onMouseEnter={(e) => { if (n !== pageNumber) e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }}
                     onMouseLeave={(e) => { if (n !== pageNumber) e.currentTarget.style.color = "rgba(255,255,255,0.3)"; }}
@@ -963,7 +941,7 @@ const StudentEditProfile = () => {
                   type="range" min={50} max={300} step={25}
                   value={Math.round(pdfZoom * 100)}
                   onChange={e => setPdfZoom(+(e.target.value / 100).toFixed(2))}
-                  style={{ width: 96, accentColor: "#059669", cursor: "pointer" }}
+                  style={{ width: 96, accentColor: "#0E6B52", cursor: "pointer" }}
                 />
                 <RiZoomInLine size={12} color="rgba(255,255,255,0.3)" />
                 <span style={{ color: "rgba(255,255,255,0.3)", fontSize: 11, fontFamily: "monospace", width: 36 }}>
@@ -997,15 +975,15 @@ const StudentEditProfile = () => {
             boxShadow: "0 32px 80px rgba(0,0,0,0.25)",
           }}>
             <h3 style={{
-              fontFamily: "'Lora', serif",
+              fontFamily: "'Inter Tight', sans-serif",
               fontSize: 18, fontWeight: 600,
-              textAlign: "center", marginBottom: 16, color: "#111827",
+              textAlign: "center", marginBottom: 16, color: "#0D1512",
             }}>
               Crop Profile Photo
             </h3>
             <div style={{
               position: "relative", width: "100%", height: 256,
-              background: "#0f172a", borderRadius: 14, overflow: "hidden",
+              background: "#0D1512", borderRadius: 14, overflow: "hidden",
             }}>
               <Cropper
                 image={imageSrc}
@@ -1024,9 +1002,9 @@ const StudentEditProfile = () => {
                 onClick={() => setCropModalOpen(false)}
                 style={{
                   flex: 1, padding: "11px 0", borderRadius: 10,
-                  background: "#f3f4f6", border: "none",
-                  fontSize: 13.5, fontWeight: 500, color: "#374151",
-                  cursor: "pointer", fontFamily: "'Sora', sans-serif",
+                  background: "#F1EFE7", border: "none",
+                  fontSize: 13.5, fontWeight: 500, color: "#2B322D",
+                  cursor: "pointer",
                 }}
               >
                 Cancel
@@ -1036,10 +1014,9 @@ const StudentEditProfile = () => {
                 onClick={handleSaveCrop}
                 style={{
                   flex: 1, padding: "11px 0", borderRadius: 10,
-                  background: "linear-gradient(135deg, #059669, #10b981)",
+                  background: "linear-gradient(135deg, #0E6B52, #159A72)",
                   border: "none", fontSize: 13.5, fontWeight: 600,
                   color: "#fff", cursor: "pointer",
-                  fontFamily: "'Sora', sans-serif",
                   boxShadow: "0 4px 14px rgba(5,150,105,0.3)",
                 }}
               >

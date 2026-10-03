@@ -87,10 +87,10 @@ export default function MyJobs() {
   ========================= */
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-paper/60 flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-4 border-[#60e618] border-t-transparent rounded-full animate-spin" />
-          <p className="text-gray-500 font-medium">Loading your jobs...</p>
+          <div className="w-10 h-10 border-4 border-pine border-t-transparent rounded-full animate-spin" />
+          <p className="text-ink/50 font-medium">Loading your jobs...</p>
         </div>
       </div>
     );
@@ -100,20 +100,20 @@ export default function MyJobs() {
       UI
   ========================= */
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-paper/60">
 
-      {/* ── Page Header ── */}
-      <div className="bg-white border-b border-green-200 px-4 py-5 md:px-8">
+      {/* Page Header */}
+      <div className="bg-white border-b border-mist px-4 py-5 md:px-8">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">My Posted Jobs</h1>
-            <p className="text-gray-500 text-sm mt-1">
+            <h1 className="font-display text-2xl md:text-3xl font-bold text-ink">My Posted Jobs</h1>
+            <p className="text-ink/50 text-sm mt-1">
               {jobs.length} {jobs.length === 1 ? "listing" : "listings"} total
             </p>
           </div>
           <button
             onClick={() => navigate("/recruiter/post-job")}
-            className="flex items-center gap-2 bg-[#359b05] hover:bg-[#2e6502] text-white font-semibold px-5 py-2.5 rounded-lg transition-colors shadow-sm text-sm"
+            className="flex items-center gap-2 bg-pine hover:bg-moss text-white font-semibold px-5 py-2.5 rounded-lg transition-colors shadow-sm text-sm"
           >
             <PlusCircle size={18} />
             Post New Job
@@ -125,17 +125,17 @@ export default function MyJobs() {
       <div className="max-w-5xl mx-auto px-4 md:px-8 py-6 md:py-8">
 
         {jobs.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-dashed border-gray-300 py-20 flex flex-col items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-orange-50 flex items-center justify-center">
-              <Briefcase size={28} className="text-[#69e720]" />
+          <div className="bg-white rounded-2xl border border-dashed border-ink/20 py-20 flex flex-col items-center gap-4">
+            <div className="w-16 h-16 rounded-full bg-pine/8 flex items-center justify-center">
+              <Briefcase size={28} className="text-pine" />
             </div>
             <div className="text-center">
-              <p className="text-gray-800 font-semibold text-lg">No jobs posted yet</p>
-              <p className="text-gray-400 text-sm mt-1">Start by posting your first job listing</p>
+              <p className="text-ink font-semibold text-lg">No jobs posted yet</p>
+              <p className="text-ink/40 text-sm mt-1">Start by posting your first job listing</p>
             </div>
             <button
               onClick={() => navigate("/recruiter/post-job")}
-              className="mt-2 bg-[#87ea2a] hover:bg-[#67db1f] text-white font-semibold px-6 py-2.5 rounded-lg transition-colors text-sm"
+              className="mt-2 bg-pine hover:bg-moss text-white font-semibold px-6 py-2.5 rounded-lg transition-colors text-sm"
             >
               Post a Job
             </button>
@@ -145,49 +145,49 @@ export default function MyJobs() {
             {jobs.map((job) => (
               <div
                 key={job._id}
-                className="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow overflow-hidden"
+                className="bg-white rounded-2xl shadow-card border border-mist hover:shadow-card-hover transition-shadow overflow-hidden"
               >
                 {/* Status bar on top */}
-                <div className={`h-1 w-full ${job.status === "Active" ? "bg-[#138808]" : "bg-red-600"}`} />
+                <div className={`h-1 w-full ${job.status === "Active" ? "bg-pine" : "bg-red-500"}`} />
 
                 <div className="p-5 md:p-6">
 
                   {/* Title + Status Badge */}
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                     <div className="flex-1 min-w-0">
-                      <h2 className="text-lg md:text-xl font-bold text-gray-900 truncate">{job.title}</h2>
-                      <p className="text-gray-500 text-sm mt-0.5">{job.company}</p>
+                      <h2 className="text-lg md:text-xl font-bold text-ink truncate">{job.title}</h2>
+                      <p className="text-ink/50 text-sm mt-0.5">{job.company}</p>
                     </div>
                     <span className={`self-start inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap ${job.status === "Active"
-                        ? "bg-green-50 text-[#138808] ring-1 ring-green-200"
-                        : "bg-red-100 text-red-500 ring-1 ring-red-200"
+                        ? "bg-pine/8 text-pine ring-1 ring-pine/20"
+                        : "bg-red-50 text-red-500 ring-1 ring-red-200"
                       }`}>
-                      <span className={`w-1.5 h-1.5 rounded-full ${job.status === "Active" ? "bg-[#138808]" : "bg-red-400"}`} />
+                      <span className={`w-1.5 h-1.5 rounded-full ${job.status === "Active" ? "bg-pine" : "bg-red-400"}`} />
                       {job.status}
                     </span>
                   </div>
 
                   {/* Meta Info */}
-                  <div className="flex flex-wrap gap-3 md:gap-5 mt-4 text-sm text-gray-500">
+                  <div className="flex flex-wrap gap-3 md:gap-5 mt-4 text-sm text-ink/50">
                     <span className="flex items-center gap-1.5">
-                      <MapPin size={15} className="text-[#1e4203]" /> {job.location}
+                      <MapPin size={15} className="text-pine" /> {job.location}
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <Briefcase size={15} className="text-[#1e4203]" /> {job.jobType}
+                      <Briefcase size={15} className="text-pine" /> {job.jobType}
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <IndianRupee size={15} className="text-[#1e4203]" />
+                      <IndianRupee size={15} className="text-pine" />
                       {job.salaryMin && job.salaryMax
                         ? `${job.salaryMin.toLocaleString()} – ${job.salaryMax.toLocaleString()}`
                         : "Not specified"}
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <Users size={15} className="text-[#1e4203]" />
+                      <Users size={15} className="text-pine" />
                       {job.vacancies} {job.vacancies === 1 ? "vacancy" : "vacancies"}
                     </span>
                     {job.deadline && (
                       <span className="flex items-center gap-1.5">
-                        <Calendar size={15} className="text-[#1e4203]" />
+                        <Calendar size={15} className="text-pine" />
                         {new Date(job.deadline).toLocaleDateString("en-IN", {
                           day: "numeric", month: "short", year: "numeric"
                         })}
@@ -201,7 +201,7 @@ export default function MyJobs() {
                       {job.skills.map((skill, i) => (
                         <span
                           key={i}
-                          className="bg-green-50 text-[#2a4302] border border-green-200 text-xs font-medium px-2.5 py-1 rounded-full"
+                          className="bg-pine/8 text-pine border border-pine/20 text-xs font-medium px-2.5 py-1 rounded-full"
                         >
                           {skill}
                         </span>
@@ -210,13 +210,13 @@ export default function MyJobs() {
                   )}
 
                   {/* Divider */}
-                  <div className="border-t border-gray-100 mt-5 pt-4">
+                  <div className="border-t border-mist mt-5 pt-4">
                     <div className="flex flex-wrap gap-2">
 
                       {/* Edit */}
                       <button
                         onClick={() => navigate(`/recruiter/edit-job/${job._id}`)}
-                        className="flex items-center gap-1.5 bg-[#078607] hover:bg-[#105503] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+                        className="flex items-center gap-1.5 bg-pine hover:bg-moss text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
                       >
                         Edit
                       </button>
@@ -225,14 +225,14 @@ export default function MyJobs() {
                       {job.status === "Active" ? (
                         <button
                           onClick={() => handleClose(job._id)}
-                          className="flex items-center gap-1.5 bg-gray-200 hover:bg-gray-300 text-gray-700 border border-gray-200 text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+                          className="flex items-center gap-1.5 bg-ink/5 hover:bg-ink/10 text-ink/70 border border-mist text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
                         >
                           Close
                         </button>
                       ) : (
                         <button
                           onClick={() => handleReopen(job._id)}
-                          className="flex items-center gap-1.5 bg-gray-200 hover:bg-gray-300 text-gray-700 border border-green-200 text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+                          className="flex items-center gap-1.5 bg-pine/8 hover:bg-pine/15 text-pine border border-pine/20 text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
                         >
                           Reopen
                         </button>

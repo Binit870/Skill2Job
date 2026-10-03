@@ -14,7 +14,10 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
-  const [loading, setLoading] = useState(false);
+  // Initial user state is read synchronously from sessionStorage above, so
+  // there's no async "loading" window to track — `loading` stays false and
+  // is only kept because ProtectedRoute reads it from context.
+  const [loading] = useState(false);
 
   const refreshUser = async () => {
     const token = sessionStorage.getItem("token");

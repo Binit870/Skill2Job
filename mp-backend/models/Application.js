@@ -51,6 +51,10 @@ const applicationSchema = new mongoose.Schema(
     },
     recruiterNote:   { type: String,  default: "" },
     seenByRecruiter: { type: Boolean, default: false },
+
+    // Set once, the moment status first transitions to "Hired" — powers
+    // the recruiter analytics dashboard's time-to-hire metric.
+    hiredAt: { type: Date, default: null },
   },
   { timestamps: true }
 );

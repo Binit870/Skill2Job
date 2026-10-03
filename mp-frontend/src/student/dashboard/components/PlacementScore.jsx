@@ -4,10 +4,10 @@ import SubScore from "./SubScore";
 export default function PlacementScore({ placementProbability, analysis, jobs, normalizedUserSkills, normalize }) {
   const scoreColor =
     placementProbability >= 75
-      ? "#16a34a"
+      ? "#0E6B52" // pine
       : placementProbability >= 45
-        ? "#d97706"
-        : "#dc2626";
+        ? "#C99A3B" // gold
+        : "#DC4C4C";
 
   const scoreLabel =
     placementProbability >= 75
@@ -32,16 +32,16 @@ export default function PlacementScore({ placementProbability, analysis, jobs, n
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.22, ease: "easeOut" }}
-      className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6 flex flex-col md:flex-row lg:flex-col items-center md:items-start lg:items-center gap-4"
+      className="bg-white rounded-2xl border border-mist shadow-card p-4 sm:p-6 flex flex-col md:flex-row lg:flex-col items-center md:items-start lg:items-center gap-4"
     >
-      <h2 className="text-base font-semibold text-gray-800 mb-6 w-full self-start">
+      <h2 className="font-display text-base font-semibold text-ink mb-6 w-full self-start">
         Placement Score
       </h2>
 
       {/* Circular Progress */}
       <div className="relative w-36 h-36 mb-5">
         <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
-          <circle cx="60" cy="60" r="54" fill="none" stroke="#f0f0ee" strokeWidth="10" />
+          <circle cx="60" cy="60" r="54" fill="none" stroke="#E7E4DA" strokeWidth="10" />
           <circle
             cx="60"
             cy="60"
@@ -57,8 +57,8 @@ export default function PlacementScore({ placementProbability, analysis, jobs, n
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <span
-            className="text-3xl font-bold"
-            style={{ color: scoreColor, fontFamily: "'DM Serif Display', serif" }}
+            className="font-display text-3xl font-bold"
+            style={{ color: scoreColor }}
           >
             {placementProbability}%
           </span>
@@ -72,7 +72,7 @@ export default function PlacementScore({ placementProbability, analysis, jobs, n
         {scoreLabel}
       </span>
 
-      <p className="mt-4 text-xs text-gray-400 text-center leading-relaxed">
+      <p className="mt-4 text-xs text-ink/40 text-center leading-relaxed">
         Based on your resume, skills, and market demand
       </p>
 
