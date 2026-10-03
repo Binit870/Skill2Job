@@ -23,19 +23,19 @@ export default function SkillsInput({ value, onChange }) {
   return (
     <div>
       <div
-        className="min-h-[46px] border border-gray-200 rounded-lg bg-white px-3 py-2 flex flex-wrap items-center gap-1.5 cursor-text focus-within:border-green-500 focus-within:ring-2 focus-within:ring-green-100 transition"
+        className="min-h-[46px] border border-mist rounded-lg bg-white px-3 py-2 flex flex-wrap items-center gap-1.5 cursor-text focus-within:border-pine focus-within:ring-2 focus-within:ring-pine/15 transition-colors"
         onClick={(e) => e.currentTarget.querySelector("input").focus()}
       >
         {skills.map((s) => (
           <span
             key={s}
-            className="inline-flex items-center gap-1 bg-green-50 text-green-700 border border-green-200 text-xs font-semibold px-2.5 py-1 rounded-full"
+            className="inline-flex items-center gap-1 bg-pine/8 text-pine border border-pine/20 text-xs font-semibold px-2.5 py-1 rounded-full"
           >
             {s}
             <button
               type="button"
               onClick={() => removeSkill(s)}
-              className="text-green-400 hover:text-green-700 transition leading-none ml-0.5"
+              className="text-pine/50 hover:text-pine transition-colors leading-none ml-0.5"
               aria-label={`Remove ${s}`}
             >
               <FiX size={11} />
@@ -54,10 +54,10 @@ export default function SkillsInput({ value, onChange }) {
               removeSkill(skills[skills.length - 1]);
           }}
           placeholder={skills.length ? "" : "Type a skill and press Enter…"}
-          className="flex-1 min-w-[120px] sm:min-w-[140px] border-none outline-none text-sm text-gray-800 bg-transparent placeholder-gray-400"
+          className="flex-1 min-w-[120px] sm:min-w-[140px] border-none outline-none text-sm text-ink bg-transparent placeholder:text-ink/35"
         />
       </div>
-      <p className="text-xs text-gray-400 mt-1">
+      <p className="text-xs text-ink/40 mt-1">
         Press Enter, comma, or Tab to add
       </p>
     </div>

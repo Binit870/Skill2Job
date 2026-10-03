@@ -14,17 +14,17 @@ export default function StepIndicator({ current }) {
               className={`w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300
                 ${
                   i < current
-                    ? "bg-green-600 text-white shadow-md shadow-green-200"
+                    ? "bg-pine text-white shadow-md shadow-pine/25"
                     : i === current
-                    ? "bg-green-500 text-white ring-4 ring-green-100 shadow-md shadow-green-200"
-                    : "bg-gray-100 text-gray-400"
+                    ? "bg-pine text-white ring-4 ring-pine/15 shadow-md shadow-pine/25"
+                    : "bg-ink/5 text-ink/35"
                 }`}
             >
               {i < current ? <FiCheck size={15} /> : i + 1}
             </div>
             <span
               className={`text-[9px] md:text-[10px] font-bold uppercase tracking-wider whitespace-nowrap
-                ${i <= current ? "text-green-600" : "text-gray-400"}`}
+                ${i <= current ? "text-pine" : "text-ink/35"}`}
             >
               {label}
             </span>
@@ -32,7 +32,7 @@ export default function StepIndicator({ current }) {
           {i < STEPS.length - 1 && (
             <div
               className={`flex-1 h-0.5 mx-1.5 md:mx-2 mb-5 transition-all duration-500
-                ${i < current ? "bg-green-500" : "bg-gray-200"}`}
+                ${i < current ? "bg-pine" : "bg-mist"}`}
             />
           )}
         </div>

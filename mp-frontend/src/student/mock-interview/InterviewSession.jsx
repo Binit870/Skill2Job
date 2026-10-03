@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import toast from "react-hot-toast";
+import { Mic, Type, CheckCircle2, Send, AlertTriangle } from "lucide-react";
 import RobotAvatar from "./RobotAvatar";
 import { evaluateInterview } from "../../services/mockInterviewService";
 
 const SILENCE_TIMEOUT_MS = 12000;
 
 export default function InterviewSession({
-  role, questions, responses, setResponses, setFeedback, setStep,
+  role, questions, setResponses, setFeedback, setStep,
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [evaluating, setEvaluating] = useState(false);
@@ -55,7 +57,7 @@ export default function InterviewSession({
     window.speechSynthesis.cancel();
     clearTimeout(silenceTimerRef.current);
     clearInterval(countdownIntervalRef.current);
-    if (recognitionRef.current) { try { recognitionRef.current.abort(); } catch (_) {} }
+    if (recognitionRef.current) { try { recognitionRef.current.abort(); } catch { /* best-effort, ignore */ } }
     intentionalLeave.current = true;
     setShowLeaveModal(false);
     setStep("setup");
@@ -94,8 +96,8 @@ export default function InterviewSession({
       const data = await evaluateInterview({ role, responses: allResponses });
       setFeedback(data);
       setStep("feedback");
-    } catch (err) {
-      alert("Evaluation failed. Please try again.");
+    } catch {
+      toast.error("Evaluation failed. Please try again.");
     } finally {
       setEvaluating(false);
     }
@@ -128,8 +130,8 @@ export default function InterviewSession({
     clearTimeout(silenceTimerRef.current);
     stopCountdown();
     if (recognitionRef.current) {
-      try { recognitionRef.current._manualAbort?.(); } catch (_) {}
-      try { recognitionRef.current.abort(); } catch (_) {}
+      try { recognitionRef.current._manualAbort?.(); } catch { /* best-effort, ignore */ }
+      try { recognitionRef.current.abort(); } catch { /* best-effort, ignore */ }
     }
     setIsListening(false);
     isProcessing.current = false;
@@ -141,7 +143,7 @@ export default function InterviewSession({
     const val = textInput.trim();
     if (!val) return;
     window.speechSynthesis.cancel();
-    if (recognitionRef.current) { try { recognitionRef.current.abort(); } catch (_) {} }
+    if (recognitionRef.current) { try { recognitionRef.current.abort(); } catch { /* best-effort, ignore */ } }
     clearTimeout(silenceTimerRef.current);
     stopCountdown();
     setIsListening(false);
@@ -151,8 +153,8 @@ export default function InterviewSession({
 
   const switchToText = () => {
     if (recognitionRef.current) {
-      try { recognitionRef.current._manualAbort?.(); } catch (_) {}
-      try { recognitionRef.current.abort(); } catch (_) {}
+      try { recognitionRef.current._manualAbort?.(); } catch { /* best-effort, ignore */ }
+      try { recognitionRef.current.abort(); } catch { /* best-effort, ignore */ }
     }
     clearTimeout(silenceTimerRef.current);
     stopCountdown();
@@ -181,7 +183,7 @@ export default function InterviewSession({
       isProcessing.current = false;
       return;
     }
-    if (recognitionRef.current) { try { recognitionRef.current.abort(); } catch (_) {} }
+    if (recognitionRef.current) { try { recognitionRef.current.abort(); } catch { /* best-effort, ignore */ } }
 
     const recognition = new SpeechRecognition();
     recognition.lang = "en-US";
@@ -222,7 +224,7 @@ export default function InterviewSession({
       clearTimeout(silenceTimerRef.current);
       resetCountdown();
       silenceTimerRef.current = setTimeout(() => {
-        try { recognition.stop(); } catch (_) {}
+        try { recognition.stop(); } catch { /* best-effort, ignore */ }
       }, SILENCE_TIMEOUT_MS);
     };
 
@@ -237,7 +239,7 @@ export default function InterviewSession({
 
     recognition.start();
     silenceTimerRef.current = setTimeout(() => {
-      try { recognition.stop(); } catch (_) {}
+      try { recognition.stop(); } catch { /* best-effort, ignore */ }
     }, SILENCE_TIMEOUT_MS);
   }, []);
 
@@ -277,7 +279,7 @@ export default function InterviewSession({
       clearTimeout(silenceTimerRef.current);
       clearInterval(countdownIntervalRef.current);
       window.speechSynthesis.cancel();
-      if (recognitionRef.current) { try { recognitionRef.current.abort(); } catch (_) {} }
+      if (recognitionRef.current) { try { recognitionRef.current.abort(); } catch { /* best-effort, ignore */ } }
       isProcessing.current = false;
     };
   }, [currentIndex, questions]);
@@ -288,79 +290,41 @@ export default function InterviewSession({
 
   return (
     <>
-      <div style={{
-        background: "#fff",
-        borderRadius: 16,
-        border: "0.5px solid #e5e7eb",
-        boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-        overflow: "hidden",
-        width: "100%",
-      }}>
+      <div className="bg-white rounded-2xl border border-mist shadow-card overflow-hidden w-full">
 
         {/* Progress header */}
-        <div style={{
-          background: "#fafafa",
-          borderBottom: "0.5px solid #e5e7eb",
-          padding: "13px clamp(16px,4vw,28px)",
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, gap: 12, flexWrap: "wrap" }}>
-            <span style={{ fontSize: 13, fontWeight: 500, color: "#374151" }}>
+        <div className="bg-paper/60 border-b border-mist px-4 sm:px-7 py-3.5">
+          <div className="flex justify-between items-center mb-2.5 gap-3 flex-wrap">
+            <span className="text-[13px] font-medium text-ink/70">
               Question {currentIndex + 1} of {questions.length}
             </span>
-            <span style={{
-              fontSize: 12, fontWeight: 500, color: "#6b7280",
-              background: "#fff", padding: "3px 12px", borderRadius: 99,
-              border: "0.5px solid #e5e7eb",
-            }}>
+            <span className="text-xs font-medium text-ink/50 bg-white px-3 py-1 rounded-full border border-mist">
               {role}
             </span>
           </div>
-          <div style={{ height: 4, background: "#f0f0f0", borderRadius: 99, overflow: "hidden" }}>
-            <div style={{
-              height: "100%",
-              background: "#16a34a",
-              width: `${progress}%`,
-              borderRadius: 99,
-              transition: "width 0.5s ease",
-            }} />
+          <div className="h-1 bg-mist rounded-full overflow-hidden">
+            <div
+              className="h-full bg-pine rounded-full transition-all duration-500"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         </div>
 
-        <div style={{ padding: "clamp(20px,5vw,36px) clamp(16px,4vw,36px)" }}>
+        <div className="px-4 sm:px-9 py-5 sm:py-9">
 
           {/* Robot + question bubble */}
-          <div style={{
-            display: "flex",
-            gap: "clamp(16px,3vw,28px)",
-            alignItems: "center",
-            marginBottom: 22,
-            flexWrap: "wrap",
-          }}>
-            <div style={{ flexShrink: 0, display: "flex", justifyContent: "center", width: "100%" }}>
-              <div style={{ maxWidth: 180 }}>
+          <div className="flex gap-4 sm:gap-7 items-center mb-5.5 flex-wrap">
+            <div className="shrink-0 flex justify-center w-full">
+              <div className="max-w-[180px]">
                 <RobotAvatar isSpeaking={isSpeaking} isListening={isListening} />
               </div>
             </div>
 
-            <div style={{
-              flex: 1, minWidth: 0,
-              background: "#fafafa",
-              borderRadius: 14,
-              border: "0.5px solid #e5e7eb",
-              padding: "clamp(14px,3vw,20px) clamp(14px,3vw,22px)",
-              width: "100%",
-            }}>
-              <p style={{
-                fontSize: 11, fontWeight: 500, color: "#9ca3af",
-                textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8,
-              }}>
+            <div className="flex-1 min-w-0 bg-paper/60 rounded-2xl border border-mist px-4 sm:px-5.5 py-3.5 sm:py-5 w-full">
+              <p className="text-[11px] font-medium text-ink/40 uppercase tracking-wider mb-2">
                 Question {currentIndex + 1}
               </p>
-              <p style={{
-                fontSize: "clamp(14px,2vw,16px)",
-                fontWeight: 500, color: "#111827",
-                lineHeight: 1.65, margin: 0,
-              }}>
+              <p className="text-sm sm:text-base font-medium text-ink leading-relaxed">
                 {questions[currentIndex]}
               </p>
             </div>
@@ -368,50 +332,21 @@ export default function InterviewSession({
 
           {/* Input Mode Toggle */}
           {!isSpeaking && !evaluating && !isTransitioning && (
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              background: "#f4f4f4",
-              borderRadius: 10,
-              padding: 3,
-              marginBottom: 14,
-              border: "0.5px solid #e5e7eb",
-            }}>
+            <div className="grid grid-cols-2 bg-ink/5 rounded-xl p-0.5 mb-3.5 border border-mist">
               {[
-                { mode: "voice", label: "Voice" },
-                { mode: "text",  label: "Text" },
-              ].map(({ mode, label }) => (
+                { mode: "voice", label: "Voice", Icon: Mic },
+                { mode: "text",  label: "Text",  Icon: Type },
+              ].map(({ mode, label, Icon }) => (
                 <button
                   key={mode}
                   onClick={() => mode === "text" ? switchToText() : switchToVoice()}
-                  style={{
-                    padding: "9px 0",
-                    borderRadius: 8,
-                    border: inputMode === mode ? "0.5px solid #e5e7eb" : "none",
-                    background: inputMode === mode ? "#fff" : "transparent",
-                    color: inputMode === mode ? "#111827" : "#9ca3af",
-                    fontSize: 13,
-                    fontWeight: 500,
-                    cursor: "pointer",
-                    transition: "all 0.15s ease",
-                    fontFamily: "inherit",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 6,
-                  }}
+                  className={`py-2.5 rounded-lg text-[13px] font-medium transition-colors flex items-center justify-center gap-1.5
+                    ${inputMode === mode
+                      ? "bg-white text-ink border border-mist"
+                      : "text-ink/40 border border-transparent hover:text-ink/60"
+                    }`}
                 >
-                  {mode === "voice" ? (
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill="currentColor" />
-                      <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  ) : (
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                      <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="2" />
-                      <path d="M8 9h8M8 13h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  )}
+                  <Icon className="w-3.5 h-3.5" />
                   {label}
                 </button>
               ))}
@@ -421,32 +356,27 @@ export default function InterviewSession({
           {/* VOICE MODE UI */}
           {inputMode === "voice" && !isTransitioning && (
             <>
-              <div style={{
-                background: isListening ? "#eff6ff" : "#fafafa",
-                borderRadius: 12,
-                border: `0.5px solid ${isListening ? "#bfdbfe" : "#e5e7eb"}`,
-                padding: "clamp(12px,2vw,16px)",
-                minHeight: 80,
-                marginBottom: 12,
-                transition: "all 0.2s ease",
-              }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8, flexWrap: "wrap" }}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
-                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill={isListening ? "#3b82f6" : "#d1d5db"} />
-                    <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8" stroke={isListening ? "#3b82f6" : "#d1d5db"} strokeWidth="2" strokeLinecap="round" />
-                  </svg>
-                  <span style={{ fontSize: 12, fontWeight: 500, color: isListening ? "#3b82f6" : "#9ca3af", letterSpacing: "0.04em" }}>
-                    {isListening ? "Recording your answer..." : isSpeaking ? "Listen to the question..." : evaluating ? "Evaluating..." : "Waiting..."}
+              <div
+                className={`rounded-xl border px-3.5 sm:px-4 py-3.5 sm:py-4 min-h-[80px] mb-3 transition-colors duration-200
+                  ${isListening ? "bg-blue-50 border-blue-200" : "bg-paper/60 border-mist"}`}
+              >
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                  <Mic className={`w-3.5 h-3.5 shrink-0 ${isListening ? "text-blue-500" : "text-ink/30"}`} />
+                  <span className={`text-xs font-medium tracking-wide ${isListening ? "text-blue-600" : "text-ink/40"}`}>
+                    {isListening ? "Recording your answer…" : isSpeaking ? "Listen to the question…" : evaluating ? "Evaluating…" : "Waiting…"}
                   </span>
 
                   {isListening && (
-                    <div style={{ display: "flex", gap: 3, marginLeft: "auto", alignItems: "flex-end", height: 18 }}>
+                    <div className="flex gap-0.5 ml-auto items-end h-4.5">
                       {[0, 1, 2, 3].map((i) => (
-                        <div key={i} style={{
-                          width: 3, borderRadius: 2, background: "#3b82f6",
-                          animation: `bar${i} 0.6s ease-in-out infinite`,
-                          animationDelay: `${i * 0.15}s`,
-                        }} />
+                        <div
+                          key={i}
+                          className="w-0.5 rounded-sm bg-blue-500"
+                          style={{
+                            animation: `bar${i} 0.6s ease-in-out infinite`,
+                            animationDelay: `${i * 0.15}s`,
+                          }}
+                        />
                       ))}
                       <style>{`
                         @keyframes bar0 { 0%,100%{height:4px} 50%{height:14px} }
@@ -458,68 +388,37 @@ export default function InterviewSession({
                   )}
 
                   {isListening && silenceCountdown !== null && (
-                    <span style={{
-                      fontSize: 11, fontWeight: 500,
-                      background: urgent ? "#fff1f2" : "#f0fdf4",
-                      color: urgent ? "#dc2626" : "#16a34a",
-                      border: `0.5px solid ${urgent ? "#fecaca" : "#bbf7d0"}`,
-                      padding: "2px 9px", borderRadius: 99,
-                      transition: "all 0.3s",
-                      marginLeft: 4,
-                    }}>
+                    <span
+                      className={`text-[11px] font-medium px-2.5 py-0.5 rounded-full border ml-1 transition-colors duration-300
+                        ${urgent ? "bg-red-50 text-red-600 border-red-200" : "bg-pine/8 text-pine border-pine/20"}`}
+                    >
                       {silenceCountdown}s left
                     </span>
                   )}
                 </div>
 
-                <p style={{
-                  fontSize: 14, lineHeight: 1.65,
-                  color: transcript ? "#111827" : "#9ca3af",
-                  margin: 0,
-                  fontStyle: transcript ? "normal" : "italic",
-                }}>
-                  {transcript || "Your answer will appear here as you speak..."}
+                <p className={`text-sm leading-relaxed ${transcript ? "text-ink not-italic" : "text-ink/40 italic"}`}>
+                  {transcript || "Your answer will appear here as you speak…"}
                 </p>
               </div>
 
               {isListening && (
                 <button
                   onClick={handleVoiceSubmit}
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: 10,
-                    border: "0.5px solid #bbf7d0",
-                    background: "#f0fdf4",
-                    color: "#16a34a",
-                    fontSize: 14,
-                    fontWeight: 500,
-                    cursor: "pointer",
-                    marginBottom: 14,
-                    transition: "all 0.15s",
-                    fontFamily: "inherit",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 7,
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = "#dcfce7"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = "#f0fdf4"; }}
+                  className="w-full py-3 rounded-xl border border-pine/25 bg-pine/8 hover:bg-pine/15 text-pine text-sm font-medium mb-3.5 transition-colors flex items-center justify-center gap-2"
                 >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                    <path d="M20 6L9 17l-5-5" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <CheckCircle2 className="w-3.5 h-3.5" />
                   Submit answer & next question
                 </button>
               )}
 
-              <p style={{ textAlign: "center", fontSize: 12, color: "#9ca3af", margin: 0, lineHeight: 1.6 }}>
+              <p className="text-center text-xs text-ink/40 leading-relaxed">
                 {isListening
                   ? `Speak your answer · Auto-submits after ${SILENCE_TIMEOUT_MS / 1000}s of silence`
                   : isSpeaking
                   ? "Listen carefully — microphone starts automatically after"
                   : evaluating
-                  ? "Generating your feedback report..."
+                  ? "Generating your feedback report…"
                   : ""}
               </p>
             </>
@@ -528,7 +427,7 @@ export default function InterviewSession({
           {/* TEXT MODE UI */}
           {inputMode === "text" && !isSpeaking && !evaluating && !isTransitioning && (
             <div>
-              <div style={{ position: "relative" }}>
+              <div className="relative">
                 <textarea
                   ref={textareaRef}
                   value={textInput}
@@ -541,36 +440,11 @@ export default function InterviewSession({
                   }}
                   placeholder="Type your answer here..."
                   rows={5}
-                  style={{
-                    width: "100%",
-                    boxSizing: "border-box",
-                    padding: "14px 16px",
-                    borderRadius: 12,
-                    border: `0.5px solid ${textInput ? "#bfdbfe" : "#e5e7eb"}`,
-                    background: "#fafafa",
-                    fontSize: 14,
-                    lineHeight: 1.7,
-                    color: "#111827",
-                    resize: "vertical",
-                    outline: "none",
-                    fontFamily: "inherit",
-                    transition: "border-color 0.15s ease",
-                    marginBottom: 10,
-                    display: "block",
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = "#bfdbfe")}
-                  onBlur={(e) => (e.target.style.borderColor = textInput ? "#bfdbfe" : "#e5e7eb")}
+                  className={`w-full box-border px-4 py-3.5 rounded-xl border bg-paper/60 text-sm leading-relaxed text-ink resize-y outline-none transition-colors mb-2.5 block
+                    ${textInput ? "border-blue-200 focus:border-blue-300" : "border-mist focus:border-ink/20"}`}
                 />
                 {textInput.length > 0 && (
-                  <span style={{
-                    position: "absolute",
-                    bottom: 20,
-                    right: 14,
-                    fontSize: 11,
-                    color: "#9ca3af",
-                    fontWeight: 500,
-                    pointerEvents: "none",
-                  }}>
+                  <span className="absolute bottom-5 right-3.5 text-[11px] text-ink/40 font-medium pointer-events-none">
                     {textInput.length} chars
                   </span>
                 )}
@@ -579,35 +453,19 @@ export default function InterviewSession({
               <button
                 onClick={handleTextSubmit}
                 disabled={!canSubmitText}
-                style={{
-                  width: "100%",
-                  padding: "13px",
-                  borderRadius: 10,
-                  border: canSubmitText ? "0.5px solid #bfdbfe" : "0.5px solid #e5e7eb",
-                  background: canSubmitText ? "#eff6ff" : "#f9fafb",
-                  color: canSubmitText ? "#2563eb" : "#9ca3af",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  cursor: canSubmitText ? "pointer" : "not-allowed",
-                  transition: "all 0.15s",
-                  fontFamily: "inherit",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 8,
-                }}
-                onMouseEnter={(e) => { if (canSubmitText) e.currentTarget.style.background = "#dbeafe"; }}
-                onMouseLeave={(e) => { if (canSubmitText) e.currentTarget.style.background = "#eff6ff"; }}
+                className={`w-full py-3 rounded-xl border text-sm font-medium transition-colors flex items-center justify-center gap-2
+                  ${canSubmitText
+                    ? "border-blue-200 bg-blue-50 hover:bg-blue-100 text-blue-600 cursor-pointer"
+                    : "border-mist bg-paper/60 text-ink/35 cursor-not-allowed"
+                  }`}
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                  <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <Send className="w-3.5 h-3.5" />
                 Submit answer
               </button>
 
-              <p style={{ textAlign: "center", fontSize: 11, color: "#9ca3af", margin: "8px 0 0", lineHeight: 1.6 }}>
+              <p className="text-center text-[11px] text-ink/40 leading-relaxed mt-2">
                 Press{" "}
-                <kbd style={{ background: "#f4f4f4", border: "0.5px solid #e5e7eb", borderRadius: 4, padding: "1px 5px", fontSize: 10, fontFamily: "inherit" }}>
+                <kbd className="bg-ink/5 border border-mist rounded px-1.5 py-0.5 text-[10px]">
                   Ctrl+Enter
                 </kbd>{" "}
                 to submit
@@ -617,14 +475,9 @@ export default function InterviewSession({
 
           {/* Evaluating spinner */}
           {evaluating && (
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginTop: 24 }}>
-              <div style={{
-                width: 20, height: 20,
-                border: "2px solid #e5e7eb", borderTopColor: "#16a34a",
-                borderRadius: "50%", animation: "spin 0.8s linear infinite",
-              }} />
-              <span style={{ color: "#374151", fontSize: 14, fontWeight: 500 }}>Generating your report...</span>
-              <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+            <div className="flex items-center justify-center gap-2.5 mt-6">
+              <div className="w-5 h-5 rounded-full border-2 border-mist border-t-pine animate-spin" />
+              <span className="text-ink/70 text-sm font-medium">Generating your report…</span>
             </div>
           )}
         </div>
@@ -632,60 +485,25 @@ export default function InterviewSession({
 
       {/* Leave Confirmation Modal */}
       {showLeaveModal && (
-        <div style={{
-          position: "fixed", inset: 0, zIndex: 1000,
-          background: "rgba(0,0,0,0.35)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          padding: "16px",
-        }}>
-          <div style={{
-            background: "#fff",
-            borderRadius: 16,
-            border: "0.5px solid #e5e7eb",
-            padding: "clamp(24px,4vw,32px)",
-            maxWidth: 400, width: "100%",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
-            textAlign: "center",
-          }}>
-            <div style={{
-              width: 48, height: 48, borderRadius: "50%",
-              background: "#fff1f2",
-              border: "0.5px solid #fecaca",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              margin: "0 auto 14px",
-            }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+        <div className="fixed inset-0 z-[1000] bg-ink/35 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl border border-mist p-6 sm:p-8 max-w-[400px] w-full shadow-2xl text-center">
+            <div className="w-12 h-12 rounded-full bg-red-50 border border-red-200 flex items-center justify-center mx-auto mb-3.5">
+              <AlertTriangle className="w-5 h-5 text-red-600" />
             </div>
-            <h2 style={{ color: "#111827", fontSize: 18, fontWeight: 600, marginBottom: 6 }}>Leave interview?</h2>
-            <p style={{ color: "#6b7280", fontSize: 14, lineHeight: 1.6, margin: "0 0 22px" }}>
+            <h2 className="font-display text-lg font-bold text-ink mb-1.5">Leave interview?</h2>
+            <p className="text-ink/55 text-sm leading-relaxed mb-5.5">
               Your progress will be lost and the interview won't be completed. Are you sure you want to leave?
             </p>
-            <div style={{ display: "flex", gap: 10 }}>
+            <div className="flex gap-2.5">
               <button
                 onClick={() => setShowLeaveModal(false)}
-                style={{
-                  flex: 1, padding: "11px", borderRadius: 10,
-                  border: "0.5px solid #e5e7eb", background: "#fff", color: "#374151",
-                  fontSize: 14, fontWeight: 500, cursor: "pointer", fontFamily: "inherit",
-                  transition: "background 0.15s",
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = "#f9fafb"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; }}
+                className="flex-1 py-2.5 rounded-xl border border-mist bg-white text-ink/70 text-sm font-medium hover:bg-ink/5 transition-colors"
               >
                 Continue interview
               </button>
               <button
                 onClick={confirmLeave}
-                style={{
-                  flex: 1, padding: "11px", borderRadius: 10,
-                  border: "0.5px solid #fecaca", background: "#fff1f2", color: "#dc2626",
-                  fontSize: 14, fontWeight: 500, cursor: "pointer", fontFamily: "inherit",
-                  transition: "background 0.15s",
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = "#fecaca"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = "#fff1f2"; }}
+                className="flex-1 py-2.5 rounded-xl border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-medium transition-colors"
               >
                 Leave
               </button>

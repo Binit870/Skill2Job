@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../../utils/api";
-import { FiBriefcase, FiClipboard } from "react-icons/fi";
+import { Briefcase, Clipboard } from "lucide-react";
 
 import SkeletonCard    from "./SkeletonCard";
 import WithdrawModal   from "./WithdrawModal";
@@ -55,24 +55,24 @@ export default function MyApplications() {
     tab === "All" ? applications : applications.filter((a) => a.status === tab);
 
   return (
-    <div className="min-h-screen overflow-y-auto bg-white [&::-webkit-scrollbar]:hidden">
+    <div className="min-h-screen overflow-y-auto bg-white">
 
       {/* ── Topbar ── */}
-      <div className="bg-white border-b border-slate-100 px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+      <div className="bg-white border-b border-mist px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between sticky top-0 z-10 shadow-sm">
         <div className="flex items-center gap-2 sm:gap-3">
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-green-600 flex items-center justify-center shadow-md shadow-green-200">
-            <FiBriefcase size={16} className="text-white" />
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-pine flex items-center justify-center shadow-sm shadow-pine/20">
+            <Briefcase size={16} className="text-white" />
           </div>
           <div>
-            <h1 className="text-base sm:text-lg font-black text-slate-800 tracking-tight leading-none">
+            <h1 className="font-display text-base sm:text-lg font-bold text-ink tracking-tight leading-none">
               My Applications
             </h1>
-            <p className="text-[11px] text-slate-400 mt-0.5 hidden sm:block">
+            <p className="text-[11px] text-ink/40 mt-0.5 hidden sm:block">
               Track all your job applications
             </p>
           </div>
         </div>
-        <span className="text-xs font-bold text-green-700 bg-green-50 border border-green-200 px-3 sm:px-3.5 py-1.5 rounded-full">
+        <span className="text-xs font-bold text-pine bg-pine/8 border border-pine/20 px-3 sm:px-3.5 py-1.5 rounded-full">
           {loading ? "—" : `${applications.length} total`}
         </span>
       </div>
@@ -88,13 +88,13 @@ export default function MyApplications() {
 
         ) : filtered.length === 0 ? (
           <div className="text-center py-20 sm:py-28 flex flex-col items-center">
-            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-green-50 border border-green-100 flex items-center justify-center mb-4 shadow-sm">
-              <FiClipboard size={24} className="text-green-400" />
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-pine/8 border border-pine/15 flex items-center justify-center mb-4">
+              <Clipboard size={24} className="text-pine/50" />
             </div>
-            <h3 className="text-base font-bold text-slate-600">
+            <h3 className="text-base font-bold text-ink/70">
               {tab === "All" ? "No applications yet" : `No ${tab} applications`}
             </h3>
-            <p className="text-sm text-slate-400 mt-1">
+            <p className="text-sm text-ink/40 mt-1">
               {tab === "All"
                 ? "Start applying for jobs to track them here"
                 : "Switch to another tab"}

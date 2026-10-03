@@ -53,6 +53,14 @@ const userSchema = new mongoose.Schema(
       },
     ],
 
+    // Jobs the student has bookmarked to review/apply later
+    savedJobs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Job",
+      },
+    ],
+
     profileImage: {
       type: String,
       default: "",

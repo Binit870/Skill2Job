@@ -87,7 +87,7 @@ export default function DetailPanel({ app, onClose, onStatusUpdate }) {
     >
       <div className="w-full max-w-[480px] h-full bg-white shadow-2xl flex flex-col animate-[panelIn_0.3s_cubic-bezier(0.34,1.1,0.64,1)]">
         {/* Header */}
-        <div className="px-6 py-5 border-b border-slate-100 bg-slate-50 flex-shrink-0">
+        <div className="px-6 py-5 border-b border-mist bg-paper/60 flex-shrink-0">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-4">
               {photo ? (
@@ -97,15 +97,15 @@ export default function DetailPanel({ app, onClose, onStatusUpdate }) {
                   className="w-14 h-14 rounded-2xl object-cover border-2 border-white shadow-md"
                 />
               ) : (
-                <div className="w-14 h-14 rounded-2xl bg-blue-100 border-2 border-white shadow-md flex items-center justify-center text-blue-700 font-black text-lg">
+                <div className="w-14 h-14 rounded-2xl bg-pine/10 border-2 border-white shadow-md flex items-center justify-center text-pine font-black text-lg">
                   {initials}
                 </div>
               )}
               <div>
-                <h2 className="text-lg font-black text-slate-800">{name}</h2>
+                <h2 className="font-display text-lg font-black text-ink">{name}</h2>
                 <a
                   href={`mailto:${email}`}
-                  className="text-xs text-blue-600 hover:underline"
+                  className="text-xs text-pine hover:underline"
                 >
                   {email}
                 </a>
@@ -113,7 +113,7 @@ export default function DetailPanel({ app, onClose, onStatusUpdate }) {
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-white border border-slate-200 hover:bg-slate-100 text-slate-400 hover:text-slate-700 flex items-center justify-center transition"
+              className="w-8 h-8 rounded-full bg-white border border-mist hover:bg-ink/5 text-ink/40 hover:text-ink flex items-center justify-center transition-colors"
             >
               <FiX size={16} />
             </button>
@@ -131,7 +131,7 @@ export default function DetailPanel({ app, onClose, onStatusUpdate }) {
         <div className="flex-1 overflow-y-auto px-6 py-5 space-y-6">
           {/* Profile */}
           <section>
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">
+            <h3 className="text-[10px] font-black text-ink/40 uppercase tracking-widest mb-3">
               Profile
             </h3>
             <div className="grid grid-cols-2 gap-3">
@@ -144,12 +144,12 @@ export default function DetailPanel({ app, onClose, onStatusUpdate }) {
               ].map(([label, val]) => (
                 <div
                   key={label}
-                  className="bg-slate-50 border border-slate-100 rounded-xl px-3.5 py-3"
+                  className="bg-paper/60 border border-mist rounded-xl px-3.5 py-3"
                 >
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">
+                  <p className="text-[10px] font-bold text-ink/40 uppercase tracking-wide">
                     {label}
                   </p>
-                  <p className="text-sm font-semibold text-slate-700 mt-0.5">
+                  <p className="text-sm font-semibold text-ink/75 mt-0.5">
                     {val}
                   </p>
                 </div>
@@ -160,14 +160,14 @@ export default function DetailPanel({ app, onClose, onStatusUpdate }) {
           {/* Skills */}
           {skills.length > 0 && (
             <section>
-              <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">
+              <h3 className="text-[10px] font-black text-ink/40 uppercase tracking-widest mb-3">
                 Skills
               </h3>
               <div className="flex flex-wrap gap-2">
                 {skills.map((s, i) => (
                   <span
                     key={i}
-                    className="text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-full"
+                    className="text-xs font-semibold text-pine bg-pine/8 border border-pine/20 px-3 py-1.5 rounded-full"
                   >
                     {s}
                   </span>
@@ -178,33 +178,31 @@ export default function DetailPanel({ app, onClose, onStatusUpdate }) {
 
           {/* Resume */}
           <section>
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">
+            <h3 className="text-[10px] font-black text-ink/40 uppercase tracking-widest mb-3">
               Resume
             </h3>
             {app.resume?.url ? (
               <a
                 href={
-                  app.resume.url.startsWith("http")
-                    ? app.resume.url
-                    : `${API}${app.resume.url}`
+                  app.resume.url
                 }
                 target="_blank"
                 rel="noreferrer"
                 download={app.resume.originalName}
-                className="flex items-center gap-3 bg-indigo-50 border border-indigo-200 rounded-2xl px-4 py-3 hover:bg-indigo-100 transition group"
+                className="flex items-center gap-3 bg-pine/8 border border-pine/20 rounded-2xl px-4 py-3 hover:bg-pine/15 transition-colors group"
               >
-                <div className="w-10 h-10 rounded-xl bg-white border border-indigo-200 flex items-center justify-center shrink-0">
-                  <FiFileText size={16} className="text-indigo-600" />
+                <div className="w-10 h-10 rounded-xl bg-white border border-pine/20 flex items-center justify-center shrink-0">
+                  <FiFileText size={16} className="text-pine" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-indigo-700 truncate">
+                  <p className="text-sm font-bold text-pine truncate">
                     {app.resume.originalName || "Resume"}
                   </p>
                 </div>
                 <FiDownload size={14} />
               </a>
             ) : (
-              <p className="text-sm text-slate-400 italic">
+              <p className="text-sm text-ink/40 italic">
                 No resume submitted
               </p>
             )}
@@ -212,7 +210,7 @@ export default function DetailPanel({ app, onClose, onStatusUpdate }) {
 
           {/* Update Status */}
           <section>
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">
+            <h3 className="text-[10px] font-black text-ink/40 uppercase tracking-widest mb-3">
               Update Status
             </h3>
 
@@ -239,13 +237,13 @@ export default function DetailPanel({ app, onClose, onStatusUpdate }) {
               rows={3}
               value={note}
               onChange={(e) => setNote(e.target.value)}
-              className="w-full rounded-xl border px-4 py-3 text-sm"
+              className="w-full rounded-xl border border-mist px-4 py-3 text-sm text-ink focus:outline-none focus:border-pine focus:ring-2 focus:ring-pine/15 transition-colors"
             />
 
             <button
               onClick={handleSave}
               disabled={saving}
-              className="mt-3 w-full py-3 rounded-2xl bg-blue-600 text-white flex items-center justify-center gap-2"
+              className="mt-3 w-full py-3 rounded-2xl bg-pine hover:bg-moss transition-colors text-white flex items-center justify-center gap-2"
             >
               {saving ? (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />

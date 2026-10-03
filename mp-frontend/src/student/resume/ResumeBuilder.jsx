@@ -8,6 +8,7 @@ import {
   RiAddLine,
   RiCloseLine,
   RiSaveLine,
+  RiArrowDownSLine,
   RiLoader4Line,
   RiUser3Line,
   RiToolsLine,
@@ -39,341 +40,6 @@ const JOB_ROLES = [
   "Data Scientist", "DevOps Engineer", "Cybersecurity Analyst", "AI/ML Engineer"
 ];
 
-const S = `
-  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap');
-
-  :root {
-    --bg:        #f2f4f3;
-    --surface:   #ffffff;
-    --border:    #d0d8d3;
-    --primary:   #0d3d22;
-    --primary-h: #145c33;
-    --accent:    #27a85f;
-    --accent-lt: #e6f7ed;
-    --accent-md: #b2e6c8;
-    --text-1:    #0a1f12;
-    --text-2:    #34523e;
-    --text-3:    #7a9984;
-    --danger:    #dc2626;
-    --danger-lt: #fef2f2;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  .rb-page {
-    min-height: 100vh;
-    background: var(--bg);
-    font-family: 'Sora', sans-serif;
-    padding: 2rem 1.25rem 5rem;
-    display: flex;
-    justify-content: center;
-  }
-
-  .rb-wrap {
-    width: 100%;
-    max-width: 860px;
-    animation: rb-rise .35s ease both;
-  }
-  @keyframes rb-rise {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: none; }
-  }
-
-  /* ── Header ── */
-  .rb-header {
-    background: var(--primary);
-    padding: 1.1rem 1.5rem;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    border-radius: 0;
-  }
-  .rb-header-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-width: 0;
-    flex: 1;
-  }
-  .rb-back {
-    width: 34px;
-    height: 34px;
-    flex-shrink: 0;
-    background: rgba(255,255,255,.12);
-    border: 1px solid rgba(255,255,255,.2);
-    color: #fff;
-    border-radius: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background .2s;
-  }
-  .rb-back:hover { background: rgba(255,255,255,.22); }
-  .rb-eyebrow {
-    font-size: .6rem;
-    font-weight: 700;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1px;
-  }
-  .rb-title {
-    font-size: clamp(1.1rem, 3vw, 1.55rem);
-    font-weight: 800;
-    color: #fff;
-    line-height: 1.1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .rb-title span { color: var(--accent); }
-  .rb-preview {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: .5rem 1rem;
-    background: rgba(255,255,255,.1);
-    border: 1px solid rgba(255,255,255,.22);
-    color: #fff;
-    border-radius: 0;
-    font-family: 'Sora', sans-serif;
-    font-size: .78rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background .2s;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .rb-preview:hover { background: rgba(255,255,255,.22); }
-
-  /* ── Section card ── */
-  .rb-sec {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 0;
-    padding: 1.5rem 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  /* ── Section heading ── */
-  .rb-sh {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: .62rem;
-    font-weight: 700;
-    letter-spacing: .13em;
-    text-transform: uppercase;
-    color: var(--text-3);
-    margin-bottom: 1.2rem;
-  }
-  .rb-sh-icon {
-    width: 26px;
-    height: 26px;
-    background: var(--accent-lt);
-    border-radius: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent);
-    font-size: .85rem;
-    flex-shrink: 0;
-  }
-  .rb-sh::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* ── Grid ── */
-  .rb-g2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: .85rem;
-  }
-  .rb-span2 { grid-column: 1 / -1; }
-
-  /* ── Field ── */
-  .rb-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  .rb-lbl { font-size: .7rem; font-weight: 600; color: var(--text-2); }
-
-  .rb-inp,
-  .rb-sel,
-  .rb-ta {
-    width: 100%;
-    min-width: 0;
-    border: 1px solid var(--border);
-    border-radius: 0;
-    padding: .6rem .75rem;
-    font-family: 'Sora', sans-serif;
-    font-size: .84rem;
-    color: var(--text-1);
-    background: var(--surface);
-    transition: border-color .15s, box-shadow .15s;
-    outline: none;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-  .rb-inp:focus,
-  .rb-sel:focus,
-  .rb-ta:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 2px rgba(39,168,95,.12);
-  }
-  .rb-inp::placeholder,
-  .rb-ta::placeholder { color: var(--text-3); }
-
-  /* Custom select wrapper so it works across devices */
-  .rb-sel-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    min-width: 0;
-  }
-  .rb-sel-wrap::after {
-    content: '▾';
-    position: absolute;
-    right: .7rem;
-    color: var(--text-3);
-    font-size: .75rem;
-    pointer-events: none;
-  }
-  .rb-sel {
-    padding-right: 2rem;
-    cursor: pointer;
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-  }
-
-  .rb-ta { resize: vertical; min-height: 78px; }
-
-  /* ── Item card ── */
-  .rb-item {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 0;
-    padding: 1.2rem;
-    margin-bottom: .8rem;
-    position: relative;
-  }
-  .rb-rm {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 26px;
-    height: 26px;
-    background: var(--danger-lt);
-    color: var(--danger);
-    border: none;
-    border-radius: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: .9rem;
-    cursor: pointer;
-    transition: background .15s;
-  }
-  .rb-rm:hover { background: #fca5a5; }
-
-  /* ── Add button ── */
-  .rb-add {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: var(--accent-lt);
-    color: var(--primary);
-    border: 1px dashed var(--accent-md);
-    padding: 6px 14px;
-    border-radius: 0;
-    font-family: 'Sora', sans-serif;
-    font-size: .77rem;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: .25rem;
-    transition: background .15s;
-  }
-  .rb-add:hover { background: #d0f0de; border-color: var(--accent); }
-
-  /* ── Inline row ── */
-  .rb-inline-row {
-    display: flex;
-    gap: 7px;
-    margin-bottom: 7px;
-    align-items: center;
-  }
-  .rb-inline-del {
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
-    background: var(--danger-lt);
-    color: var(--danger);
-    border: none;
-    border-radius: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: .9rem;
-    cursor: pointer;
-    transition: background .15s;
-  }
-  .rb-inline-del:hover { background: #fca5a5; }
-
-  /* ── Save button ── */
-  .rb-save {
-    width: 100%;
-    padding: .9rem;
-    background: var(--primary);
-    color: #fff;
-    border: none;
-    border-radius: 0;
-    font-family: 'Sora', sans-serif;
-    font-size: .92rem;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: background .2s, transform .18s;
-    margin-top: .5rem;
-  }
-  .rb-save:hover:not(:disabled) { background: var(--primary-h); transform: translateY(-1px); }
-  .rb-save:disabled { background: #9aad9e; cursor: not-allowed; }
-
-  /* ── Spinner ── */
-  .rb-spin {
-    width: 17px;
-    height: 17px;
-    border: 2.5px solid rgba(255,255,255,.3);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: spin .7s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ── Responsive ── */
-  @media (max-width: 600px) {
-    .rb-page { padding: .85rem .75rem 4.5rem; }
-    .rb-header { padding: .9rem 1rem; margin-bottom: 1rem; }
-    .rb-sec { padding: 1.1rem 1rem; }
-    .rb-g2 { grid-template-columns: 1fr; }
-    .rb-span2 { grid-column: 1; }
-    .rb-item { padding: 1rem; }
-    .rb-title { font-size: 1.1rem; }
-    .rb-preview span { display: none; }
-  }
-  @media (max-width: 380px) {
-    .rb-title { font-size: .95rem; }
-    .rb-back { width: 30px; height: 30px; }
-  }
-`;
-
 const INIT = {
   fn: "", e: "", ph: "", ad: "", sm: "", gh: "", li: "", pf: "",
   ed: [{ degreeType: "B.Tech - Computer Science", institution: "", state: "", startYear: "", endYear: "", cgpa: "" }],
@@ -389,26 +55,30 @@ const tok = () => sessionStorage.getItem("token");
 const auth = () => ({ Authorization: `Bearer ${tok()}` });
 
 /* ── Field component ── */
+const inputCls = "w-full min-w-0 border border-mist rounded-xl px-3 py-2.5 text-sm text-ink bg-white placeholder:text-ink/35 focus:outline-none focus:border-pine focus:ring-2 focus:ring-pine/15 transition-colors";
+
 const Field = ({ label, span2, as, type, rows, placeholder, value, onChange, children }) => (
-  <div className={`rb-field${span2 ? " rb-span2" : ""}`}>
-    <label className="rb-lbl">{label}</label>
+  <div className={`flex flex-col gap-1 min-w-0${span2 ? " sm:col-span-2" : ""}`}>
+    <label className="text-xs font-semibold text-ink/60">{label}</label>
     {type === "textarea" ? (
-      <textarea className="rb-ta" rows={rows || 2} placeholder={placeholder} value={value} onChange={onChange} />
+      <textarea className={`${inputCls} resize-y min-h-[78px]`} rows={rows || 2} placeholder={placeholder} value={value} onChange={onChange} />
     ) : as === "select" ? (
-      <div className="rb-sel-wrap">
-        <select className="rb-sel" value={value} onChange={onChange}>{children}</select>
+      <div className="relative flex items-center min-w-0">
+        <select className={`${inputCls} pr-8 cursor-pointer appearance-none`} value={value} onChange={onChange}>{children}</select>
+        <RiArrowDownSLine className="absolute right-3 w-3.5 h-3.5 text-ink/35 pointer-events-none" />
       </div>
     ) : (
-      <input className="rb-inp" type={type || "text"} placeholder={placeholder} value={value} onChange={onChange} />
+      <input className={inputCls} type={type || "text"} placeholder={placeholder} value={value} onChange={onChange} />
     )}
   </div>
 );
 
 /* ── Section heading ── */
 const SecHead = ({ icon, label }) => (
-  <p className="rb-sh">
-    <span className="rb-sh-icon">{icon}</span>
+  <p className="flex items-center gap-2 text-[11px] font-bold tracking-wider uppercase text-ink/40 mb-5">
+    <span className="w-6.5 h-6.5 bg-pine/10 rounded-lg flex items-center justify-center text-pine text-sm shrink-0">{icon}</span>
     {label}
+    <span className="flex-1 h-px bg-mist" />
   </p>
 );
 
@@ -464,30 +134,29 @@ const ResumeBuilder = () => {
 
   return (
     <>
-      <style>{S}</style>
-      <div className="rb-page">
-        <div className="rb-wrap">
+      <div className="min-h-screen bg-paper flex justify-center px-3 sm:px-5 py-8 pb-20">
+        <div className="w-full max-w-[860px]">
 
           {/* Header */}
-          <div className="rb-header">
-            <div className="rb-header-left">
-              <button className="rb-back" onClick={() => navigate(-1)} title="Go Back">
+          <div className="bg-ink rounded-2xl px-4 sm:px-6 py-4 mb-6 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2.5 min-w-0 flex-1">
+              <button className="w-9 h-9 shrink-0 bg-white/10 border border-white/15 text-white rounded-xl flex items-center justify-center hover:bg-white/20 transition-colors" onClick={() => navigate(-1)} title="Go Back">
                 <RiArrowLeftLine />
               </button>
               <div>
-                <p className="rb-eyebrow">Career Tools</p>
-                <h1 className="rb-title">Resume <span>Builder</span></h1>
+                <p className="text-[10px] font-bold tracking-widest uppercase text-gold mb-0.5">Career Tools</p>
+                <h1 className="font-display text-lg sm:text-2xl font-bold text-white leading-tight whitespace-nowrap overflow-hidden text-ellipsis">Resume <span className="text-gold">Builder</span></h1>
               </div>
             </div>
-            <button className="rb-preview" onClick={handlePreview}>
+            <button className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/10 border border-white/20 text-white rounded-xl text-xs font-semibold hover:bg-white/20 transition-colors whitespace-nowrap shrink-0" onClick={handlePreview}>
               <RiEyeLine /> <span>Preview</span>
             </button>
           </div>
 
           {/* ── Personal Details ── */}
-          <div className="rb-sec">
+          <div className="bg-white border border-mist rounded-2xl p-5 sm:p-6 mb-4 shadow-card">
             <SecHead icon={<RiUser3Line />} label="Personal Details" />
-            <div className="rb-g2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Field label="Full Name *" placeholder="e.g. Rahul Sharma" value={fd.fn} onChange={e => set({ fn: e.target.value })} />
               <Field label="Email Address *" placeholder="e.g. rahul@gmail.com" value={fd.e} onChange={e => set({ e: e.target.value })} />
               <Field label="Phone" placeholder="e.g. +91 98765 43210" value={fd.ph} onChange={e => set({ ph: e.target.value })} />
@@ -500,39 +169,39 @@ const ResumeBuilder = () => {
           </div>
 
           {/* ── Skills ── */}
-          <div className="rb-sec">
+          <div className="bg-white border border-mist rounded-2xl p-5 sm:p-6 mb-4 shadow-card">
             <SecHead icon={<RiToolsLine />} label="Skills" />
-            <div className="rb-g2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Field label="Technical Skills" placeholder="e.g. HTML, CSS, React, Node.js, MongoDB" value={fd.skills.technical} onChange={e => set({ skills: { ...fd.skills, technical: e.target.value } })} />
               <Field label="Professional Skills" placeholder="e.g. Communication, Teamwork, Leadership" value={fd.skills.professional} onChange={e => set({ skills: { ...fd.skills, professional: e.target.value } })} />
             </div>
           </div>
 
           {/* ── Projects ── */}
-          <div className="rb-sec">
+          <div className="bg-white border border-mist rounded-2xl p-5 sm:p-6 mb-4 shadow-card">
             <SecHead icon={<RiCodeBoxLine />} label="Project Details" />
             {fd.pr.map((proj, i) => (
-              <div key={i} className="rb-item">
-                {i > 0 && <button className="rb-rm" onClick={() => rm("pr", i)}><RiCloseLine /></button>}
-                <div className="rb-g2">
+              <div key={i} className="bg-paper/60 border border-mist rounded-xl p-4 mb-3 relative">
+                {i > 0 && <button className="absolute top-2.5 right-2.5 w-6.5 h-6.5 bg-red-50 text-red-500 rounded-lg flex items-center justify-center hover:bg-red-100 transition-colors" onClick={() => rm("pr", i)}><RiCloseLine /></button>}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <Field label="Project Name" placeholder="e.g. E-Commerce Website" value={proj.name} onChange={e => setArr("pr", i, { name: e.target.value })} />
                   <Field label="Project Link" placeholder="e.g. https://github.com/user/project" value={proj.link} onChange={e => setArr("pr", i, { link: e.target.value })} />
                   <Field label="Description" type="textarea" placeholder="e.g. Built a full-stack e-commerce app using React and Node.js with payment integration..." value={proj.description} onChange={e => setArr("pr", i, { description: e.target.value })} span2 />
                 </div>
               </div>
             ))}
-            <button className="rb-add" onClick={() => addItem("pr", { name: "", description: "", link: "" })}>
+            <button className="inline-flex items-center gap-1.5 bg-pine/8 text-pine border border-dashed border-pine/30 px-3.5 py-1.5 rounded-lg text-xs font-semibold hover:bg-pine/15 hover:border-pine/50 transition-colors mt-1" onClick={() => addItem("pr", { name: "", description: "", link: "" })}>
               <RiAddLine /> Add More
             </button>
           </div>
 
           {/* ── Education ── */}
-          <div className="rb-sec">
+          <div className="bg-white border border-mist rounded-2xl p-5 sm:p-6 mb-4 shadow-card">
             <SecHead icon={<RiBookOpenLine />} label="Education" />
             {fd.ed.map((edu, i) => (
-              <div key={i} className="rb-item">
-                {i > 0 && <button className="rb-rm" onClick={() => rm("ed", i)}><RiCloseLine /></button>}
-                <div className="rb-g2">
+              <div key={i} className="bg-paper/60 border border-mist rounded-xl p-4 mb-3 relative">
+                {i > 0 && <button className="absolute top-2.5 right-2.5 w-6.5 h-6.5 bg-red-50 text-red-500 rounded-lg flex items-center justify-center hover:bg-red-100 transition-colors" onClick={() => rm("ed", i)}><RiCloseLine /></button>}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <Field label="Institution Name" placeholder="e.g. IIT Bombay / Delhi University" value={edu.institution} onChange={e => setArr("ed", i, { institution: e.target.value })} />
                   <Field label="Degree" as="select" value={edu.degreeType} onChange={e => setArr("ed", i, { degreeType: e.target.value })}>
                     {DEGREE_OPTIONS.map(d => <option key={d}>{d}</option>)}
@@ -547,18 +216,18 @@ const ResumeBuilder = () => {
                 </div>
               </div>
             ))}
-            <button className="rb-add" onClick={() => addItem("ed", { degreeType: "B.Tech - Computer Science", institution: "", state: "", startYear: "", endYear: "", cgpa: "" })}>
+            <button className="inline-flex items-center gap-1.5 bg-pine/8 text-pine border border-dashed border-pine/30 px-3.5 py-1.5 rounded-lg text-xs font-semibold hover:bg-pine/15 hover:border-pine/50 transition-colors mt-1" onClick={() => addItem("ed", { degreeType: "B.Tech - Computer Science", institution: "", state: "", startYear: "", endYear: "", cgpa: "" })}>
               <RiAddLine /> Add More
             </button>
           </div>
 
           {/* ── Experience ── */}
-          <div className="rb-sec">
+          <div className="bg-white border border-mist rounded-2xl p-5 sm:p-6 mb-4 shadow-card">
             <SecHead icon={<RiBriefcaseLine />} label="Internship / Experience" />
             {fd.ex.map((exp, i) => (
-              <div key={i} className="rb-item">
-                {i > 0 && <button className="rb-rm" onClick={() => rm("ex", i)}><RiCloseLine /></button>}
-                <div className="rb-g2">
+              <div key={i} className="bg-paper/60 border border-mist rounded-xl p-4 mb-3 relative">
+                {i > 0 && <button className="absolute top-2.5 right-2.5 w-6.5 h-6.5 bg-red-50 text-red-500 rounded-lg flex items-center justify-center hover:bg-red-100 transition-colors" onClick={() => rm("ex", i)}><RiCloseLine /></button>}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <Field label="Role" as="select" value={exp.role} onChange={e => setArr("ex", i, { role: e.target.value })}>
                     <option value="">Select Role</option>
                     {JOB_ROLES.map(r => <option key={r}>{r}</option>)}
@@ -572,18 +241,18 @@ const ResumeBuilder = () => {
                 </div>
               </div>
             ))}
-            <button className="rb-add" onClick={() => addItem("ex", { role: "", company: "", startDate: "", endDate: "", location: "", desc: "", projectUrl: "" })}>
+            <button className="inline-flex items-center gap-1.5 bg-pine/8 text-pine border border-dashed border-pine/30 px-3.5 py-1.5 rounded-lg text-xs font-semibold hover:bg-pine/15 hover:border-pine/50 transition-colors mt-1" onClick={() => addItem("ex", { role: "", company: "", startDate: "", endDate: "", location: "", desc: "", projectUrl: "" })}>
               <RiAddLine /> Add More
             </button>
           </div>
 
           {/* ── Certifications ── */}
-          <div className="rb-sec">
+          <div className="bg-white border border-mist rounded-2xl p-5 sm:p-6 mb-4 shadow-card">
             <SecHead icon={<RiAwardLine />} label="Certifications" />
             {fd.cer.map((cert, i) => (
-              <div key={i} className="rb-item">
-                {i > 0 && <button className="rb-rm" onClick={() => rm("cer", i)}><RiCloseLine /></button>}
-                <div className="rb-g2">
+              <div key={i} className="bg-paper/60 border border-mist rounded-xl p-4 mb-3 relative">
+                {i > 0 && <button className="absolute top-2.5 right-2.5 w-6.5 h-6.5 bg-red-50 text-red-500 rounded-lg flex items-center justify-center hover:bg-red-100 transition-colors" onClick={() => rm("cer", i)}><RiCloseLine /></button>}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <Field label="Course Name" placeholder="e.g. AWS Solutions Architect" value={cert.courseName} onChange={e => setArr("cer", i, { courseName: e.target.value })} />
                   <Field label="Platform / Institution" placeholder="e.g. Coursera, Udemy, NPTEL" value={cert.platform} onChange={e => setArr("cer", i, { platform: e.target.value })} />
                   <Field label="Issue Date" type="date" value={cert.issueDate} onChange={e => setArr("cer", i, { issueDate: e.target.value })} />
@@ -591,18 +260,18 @@ const ResumeBuilder = () => {
                 </div>
               </div>
             ))}
-            <button className="rb-add" onClick={() => addItem("cer", { courseName: "", platform: "", issueDate: "", certificateLink: "" })}>
+            <button className="inline-flex items-center gap-1.5 bg-pine/8 text-pine border border-dashed border-pine/30 px-3.5 py-1.5 rounded-lg text-xs font-semibold hover:bg-pine/15 hover:border-pine/50 transition-colors mt-1" onClick={() => addItem("cer", { courseName: "", platform: "", issueDate: "", certificateLink: "" })}>
               <RiAddLine /> Add More
             </button>
           </div>
 
           {/* ── Achievements ── */}
-          <div className="rb-sec">
+          <div className="bg-white border border-mist rounded-2xl p-5 sm:p-6 mb-4 shadow-card">
             <SecHead icon={<RiTrophyLine />} label="Achievements" />
             {fd.ach.map((item, i) => (
-              <div key={i} className="rb-inline-row">
+              <div key={i} className="flex gap-2 mb-2 items-center">
                 <input
-                  className="rb-inp"
+                  className="w-full min-w-0 border border-mist rounded-xl px-3 py-2.5 text-sm text-ink bg-white placeholder:text-ink/35 focus:outline-none focus:border-pine focus:ring-2 focus:ring-pine/15 transition-colors"
                   style={{ flex: 1, minWidth: 0 }}
                   value={typeof item === "string" ? item : item.academic || ""}
                   onChange={e => {
@@ -611,20 +280,20 @@ const ResumeBuilder = () => {
                   placeholder="e.g. Winner of State-level Hackathon 2023"
                 />
                 {i > 0 && (
-                  <button className="rb-inline-del" onClick={() => rm("ach", i)}><RiCloseLine /></button>
+                  <button className="w-8 h-8 shrink-0 bg-red-50 text-red-500 rounded-lg flex items-center justify-center hover:bg-red-100 transition-colors" onClick={() => rm("ach", i)}><RiCloseLine /></button>
                 )}
               </div>
             ))}
-            <button className="rb-add" onClick={() => addItem("ach", "")}><RiAddLine /> Add More</button>
+            <button className="inline-flex items-center gap-1.5 bg-pine/8 text-pine border border-dashed border-pine/30 px-3.5 py-1.5 rounded-lg text-xs font-semibold hover:bg-pine/15 hover:border-pine/50 transition-colors mt-1" onClick={() => addItem("ach", "")}><RiAddLine /> Add More</button>
           </div>
 
           {/* ── Languages ── */}
-          <div className="rb-sec">
+          <div className="bg-white border border-mist rounded-2xl p-5 sm:p-6 mb-4 shadow-card">
             <SecHead icon={<RiTranslate2 />} label="Languages Known" />
             {fd.lang.map((v, i) => (
-              <div key={i} className="rb-inline-row">
+              <div key={i} className="flex gap-2 mb-2 items-center">
                 <input
-                  className="rb-inp"
+                  className="w-full min-w-0 border border-mist rounded-xl px-3 py-2.5 text-sm text-ink bg-white placeholder:text-ink/35 focus:outline-none focus:border-pine focus:ring-2 focus:ring-pine/15 transition-colors"
                   style={{ flex: 1, minWidth: 0 }}
                   value={v}
                   onChange={e => {
@@ -633,17 +302,17 @@ const ResumeBuilder = () => {
                   placeholder="e.g. Hindi, English, Telugu"
                 />
                 {i > 0 && (
-                  <button className="rb-inline-del" onClick={() => rm("lang", i)}><RiCloseLine /></button>
+                  <button className="w-8 h-8 shrink-0 bg-red-50 text-red-500 rounded-lg flex items-center justify-center hover:bg-red-100 transition-colors" onClick={() => rm("lang", i)}><RiCloseLine /></button>
                 )}
               </div>
             ))}
-            <button className="rb-add" onClick={() => addItem("lang", "")}><RiAddLine /> Add More</button>
+            <button className="inline-flex items-center gap-1.5 bg-pine/8 text-pine border border-dashed border-pine/30 px-3.5 py-1.5 rounded-lg text-xs font-semibold hover:bg-pine/15 hover:border-pine/50 transition-colors mt-1" onClick={() => addItem("lang", "")}><RiAddLine /> Add More</button>
           </div>
 
           {/* ── Save ── */}
-          <button className="rb-save" onClick={saveResume} disabled={loading}>
+          <button className="w-full py-3.5 bg-pine text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 hover:bg-moss transition-colors mt-2 disabled:bg-pine/40 disabled:cursor-not-allowed" onClick={saveResume} disabled={loading}>
             {loading
-              ? <><span className="rb-spin" /> Saving...</>
+              ? <><span className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" /> Saving...</>
               : <><RiSaveLine style={{ fontSize: "1.1rem" }} /> Save Resume</>}
           </button>
 

@@ -50,10 +50,10 @@ export default function StudentDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f7f7f5]">
+      <div className="min-h-screen flex items-center justify-center bg-paper">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-2 border-[#0f4c35] border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-gray-400 tracking-wide font-medium">Loading your dashboard…</p>
+          <div className="w-8 h-8 border-2 border-pine border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm text-ink/40 tracking-wide font-medium">Loading your dashboard…</p>
         </div>
       </div>
     );
@@ -77,9 +77,7 @@ export default function StudentDashboard() {
     .slice(0, 5);
 
   return (
-<div className="min-h-screen bg-[#f7f7f5] p-3 sm:p-6 font-['DM_Sans',sans-serif]">
-
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Display&display=swap');`}</style>
+<div className="min-h-screen bg-paper p-3 sm:p-6">
 
       <div className="max-w-6xl mx-auto space-y-5">
 
@@ -88,19 +86,18 @@ export default function StudentDashboard() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
-          className="bg-white rounded-2xl border border-gray-100 shadow-sm px-7 py-5 flex justify-between items-center"
+          className="bg-white rounded-2xl border border-mist shadow-card px-7 py-5 flex justify-between items-center"
         >
           <div>
-            <p className="text-xs font-semibold text-[#0f4c35] tracking-widest uppercase mb-1">
+            <p className="text-xs font-semibold text-pine tracking-widest uppercase mb-1">
               Student Dashboard
             </p>
             <h1
-              className="text-2xl font-bold text-gray-900 leading-tight"
-              style={{ fontFamily: "'DM Serif Display', serif" }}
+              className="font-display text-2xl font-bold text-ink leading-tight"
             >
               Welcome back, {user?.name}
             </h1>
-            <p className="text-sm text-gray-400 mt-0.5">
+            <p className="text-sm text-ink/40 mt-0.5">
               Track your progress and opportunities
             </p>
           </div>
@@ -116,10 +113,10 @@ export default function StudentDashboard() {
           transition={{ duration: 0.4, delay: 0.06, ease: "easeOut" }}
           className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4"
         >
-          <Stat title="Placement Probability" value={`${placementProbability}%`} icon={TrendingUp} accent="#0f4c35" />
-          <Stat title="Applications Sent" value={applications.length} icon={Briefcase} accent="#0f4c35" />
-          <Stat title="ATS Score" value={`${analysis?.atsScore || 0}%`} icon={BarChart3} accent="#0f4c35" />
-          <Stat title="Open Positions" value={jobs.length} icon={DollarSign} accent="#0f4c35" />
+          <Stat title="Placement Probability" value={`${placementProbability}%`} icon={TrendingUp} accent="pine" />
+          <Stat title="Applications Sent" value={applications.length} icon={Briefcase} accent="pine" />
+          <Stat title="ATS Score" value={`${analysis?.atsScore || 0}%`} icon={BarChart3} accent="gold" />
+          <Stat title="Open Positions" value={jobs.length} icon={DollarSign} accent="pine" />
         </motion.div>
 
         {/* MAIN GRID */}

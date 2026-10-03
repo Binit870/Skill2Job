@@ -4,6 +4,7 @@ import {
   Upload, UserCheck, Cpu, Sparkles, Briefcase, ArrowRight,
   CheckCircle, Search, ClipboardList, BarChart3,
 } from "lucide-react";
+import Seo from "../components/Seo";
 
 // ---------- REAL DATA FOR JOB SEEKERS ----------
 const seekerSteps = [
@@ -32,19 +33,19 @@ function StepCard({ step, icon: Icon, title, desc, delay = 0 }) {
   return (
     <motion.div {...fadeUp} transition={{ delay }} className="flex gap-3 md:gap-5">
       <div className="flex flex-col items-center">
-        <div className="w-9 h-9 md:w-12 md:h-12 rounded-xl bg-green-600 text-white flex items-center justify-center shadow-sm">
+        <div className="w-9 h-9 md:w-12 md:h-12 rounded-xl bg-pine text-white flex items-center justify-center shadow-sm">
           <Icon className="w-4 h-4 md:w-5 md:h-5" />
         </div>
-        <div className="w-0.5 bg-gray-200 flex-1 mt-2 md:mt-3 last:hidden min-h-[28px] md:min-h-[32px]" />
+        <div className="w-0.5 bg-mist flex-1 mt-2 md:mt-3 last:hidden min-h-[28px] md:min-h-[32px]" />
       </div>
       <div className="pb-6 md:pb-8">
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full border border-green-100">
+          <span className="text-[10px] font-bold text-pine bg-pine/8 px-2 py-0.5 rounded-full border border-pine/15">
             Step {step}
           </span>
         </div>
-        <h3 className="font-semibold text-sm md:text-lg mb-1 text-gray-800">{title}</h3>
-        <p className="text-xs md:text-sm text-gray-500 leading-relaxed">{desc}</p>
+        <h3 className="font-semibold text-sm md:text-lg mb-1 text-ink/85">{title}</h3>
+        <p className="text-xs md:text-sm text-ink/50 leading-relaxed">{desc}</p>
       </div>
     </motion.div>
   );
@@ -52,21 +53,26 @@ function StepCard({ step, icon: Icon, title, desc, delay = 0 }) {
 
 export default function HowItWorks() {
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
+    <div className="min-h-screen bg-paper/60 text-ink">
+      <Seo
+        title="How It Works"
+        description="See how Skill2Career works for job seekers and recruiters — from building your profile to getting matched and hired."
+        path="/how-it-works"
+      />
 
       {/* HERO */}
       <section className="relative pt-16 pb-12 md:pt-24 md:pb-20 overflow-hidden">
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-green-100 blur-[120px] opacity-30 pointer-events-none" />
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-pine/12 blur-[120px] opacity-30 pointer-events-none" />
         <div className="max-w-4xl mx-auto px-4 text-center relative">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="inline-block px-4 py-1.5 rounded-full bg-green-100 text-green-700 text-xs font-semibold tracking-widest uppercase border border-green-200 mb-6">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-pine/12 text-pine text-xs font-semibold tracking-widest uppercase border border-pine/20 mb-6">
               The Process
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-4 text-gray-800">
-              How Skill2Job<br />
-              <span className="text-green-600">Actually Works</span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-4 text-ink/85">
+              How Skill2Career<br />
+              <span className="text-pine">Actually Works</span>
             </h1>
-            <p className="text-sm md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed px-4">
+            <p className="text-sm md:text-lg text-ink/60 max-w-2xl mx-auto leading-relaxed px-4">
               A structured and practical platform that helps job seekers find relevant opportunities and enables recruiters to manage hiring efficiently.
             </p>
           </motion.div>
@@ -81,9 +87,9 @@ export default function HowItWorks() {
             {/* Job Seekers */}
             <div>
               <motion.div {...fadeUp} className="mb-6 md:mb-8">
-                <span className="text-green-700 text-xs font-bold uppercase tracking-widest">For Job Seekers</span>
-                <h2 className="text-xl md:text-3xl font-bold mt-1 md:mt-2 text-gray-800">Your Job Search Journey</h2>
-                <p className="text-gray-500 text-xs md:text-sm mt-1">Simple steps from profile to application.</p>
+                <span className="text-pine text-xs font-bold uppercase tracking-widest">For Job Seekers</span>
+                <h2 className="text-xl md:text-3xl font-bold mt-1 md:mt-2 text-ink/85">Your Job Search Journey</h2>
+                <p className="text-ink/50 text-xs md:text-sm mt-1">Simple steps from profile to application.</p>
               </motion.div>
               {seekerSteps.map((s, i) => (
                 <StepCard key={s.step} {...s} delay={i * 0.08} />
@@ -93,9 +99,9 @@ export default function HowItWorks() {
             {/* Recruiters */}
             <div>
               <motion.div {...fadeUp} transition={{ delay: 0.1 }} className="mb-6 md:mb-8">
-                <span className="text-emerald-700 text-xs font-bold uppercase tracking-widest">For Recruiters</span>
-                <h2 className="text-xl md:text-3xl font-bold mt-1 md:mt-2 text-gray-800">Efficient Hiring Process</h2>
-                <p className="text-gray-500 text-xs md:text-sm mt-1">Organized workflow to manage candidates.</p>
+                <span className="text-pine text-xs font-bold uppercase tracking-widest">For Recruiters</span>
+                <h2 className="text-xl md:text-3xl font-bold mt-1 md:mt-2 text-ink/85">Efficient Hiring Process</h2>
+                <p className="text-ink/50 text-xs md:text-sm mt-1">Organized workflow to manage candidates.</p>
               </motion.div>
               {recruiterSteps.map((s, i) => (
                 <StepCard key={s.step} {...s} delay={i * 0.08 + 0.1} />
@@ -107,14 +113,14 @@ export default function HowItWorks() {
       </section>
 
       {/* CTA */}
-      <section className="py-12 md:py-20 bg-green-600">
+      <section className="py-12 md:py-20 bg-pine">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 md:mb-4">Get Started Today</h2>
-          <p className="text-green-100 mb-6 md:mb-8 text-sm md:text-base">
+          <p className="text-pine/15 mb-6 md:mb-8 text-sm md:text-base">
             Start exploring job opportunities or hire the right candidates with ease.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-3">
-            <Link to="/signup?type=candidate" className="inline-flex items-center gap-2 bg-white text-green-700 font-semibold px-6 py-3 rounded-xl hover:bg-gray-50 transition text-sm shadow">
+            <Link to="/signup?type=candidate" className="inline-flex items-center gap-2 bg-white text-pine font-semibold px-6 py-3 rounded-xl hover:bg-paper/60 transition text-sm shadow">
               Job Seeker <ArrowRight className="w-4 h-4" />
             </Link>
             <Link to="/signup?type=recruiter" className="inline-flex items-center gap-2 border border-white/40 text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/10 transition text-sm">

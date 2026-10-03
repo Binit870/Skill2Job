@@ -1,130 +1,98 @@
 import { Link } from "react-router-dom";
+import { Phone, Mail } from "lucide-react";
+import logo from "../assets/logo.png";
 
 const footerLinks = [
   {
-    heading: "PLATFORM",
+    heading: "Platform",
     links: [
       { label: "About", to: "/about" },
       { label: "Features", to: "/features" },
-      { label: "How It Works", to: "/how-it-works" },
+      { label: "How it works", to: "/how-it-works" },
+      { label: "FAQ", to: "/faq" },
     ],
   },
   {
-    heading: "JOB SEEKERS",
+    heading: "Job seekers",
     links: [
-      { label: "Find Jobs", to: "/student/jobs" },      // will be overridden
-      { label: "Build Resume", to: "/student/resume" }, // will be overridden
-      { label: "Mock Interview", to: "/student/mock-interview" }, // will be overridden
+      { label: "Find jobs", to: "/student/jobs" },
+      { label: "Build resume", to: "/student/resume" },
+      { label: "Mock interview", to: "/student/mock-interview" },
     ],
   },
   {
-    heading: "RECRUITERS",
+    heading: "Recruiters",
     links: [
-      { label: "Post a Job", to: "/recruiter/post-job" },          // will be overridden
-      { label: "Candidates", to: "/recruiter/candidates-applications" }, // will be overridden
-      { label: "Dashboard", to: "/recruiter-dashboard" },          // will be overridden
+      { label: "Post a job", to: "/recruiter/post-job" },
+      { label: "Candidates", to: "/recruiter/candidates-applications" },
+      { label: "Dashboard", to: "/recruiter-dashboard" },
     ],
-  },
-  {
-    heading: "CONTACT",
-    links: [],
-    phone: "+91 98765 43210",
-    email: "careers@skill2job.com",
   },
 ];
 
-// Links that should redirect to login/signup page
+// These destinations require an account — send signed-out visitors to sign up instead
 const authRequiredLinks = new Set([
-  "Find Jobs", "Build Resume", "Mock Interview",
-  "Post a Job", "Candidates", "Dashboard"
+  "Find jobs", "Build resume", "Mock interview",
+  "Post a job", "Candidates", "Dashboard",
 ]);
 
 export default function Footer() {
   return (
-    <footer className="bg-green-50 border-t border-green-100">
-      <div className="max-w-6xl mx-auto px-4 py-8 md:py-12 lg:py-16">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8 lg:gap-10">
-          
+    <footer className="bg-ink text-white/70">
+      <div className="max-w-6xl mx-auto px-5 sm:px-6 py-14 md:py-16">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-10">
           {/* Brand column */}
-          <div className="col-span-2 md:col-span-1">
+          <div className="col-span-2 md:col-span-2">
             <Link to="/" className="flex items-center gap-2.5 mb-4">
-              <img 
-                src="/src/assets/logo.png" 
-                alt="Skill2Job Logo" 
-                className="w-8 h-8 object-contain"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  const fallback = document.createElement('div');
-                  fallback.className = 'w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white text-sm font-bold';
-                  fallback.textContent = 'S';
-                  e.target.parentNode?.appendChild(fallback);
-                }}
-              />
-              <span className="font-bold text-lg tracking-tight">
-                <span className="text-green-800">Skill</span>
-                <span className="text-green-500">2</span>
-                <span className="text-green-800">Job</span>
+              <img src={logo} alt="" className="w-7 h-7 object-contain" />
+              <span className="font-display font-bold text-lg tracking-tight text-white">
+                Skill2Career
               </span>
             </Link>
-            <p className="text-sm text-black leading-relaxed max-w-xs">
-              A skill-first hiring platform that connects talent with the right opportunities through AI-powered matching.
+            <p className="text-sm leading-relaxed max-w-xs mb-5">
+              A skill-first hiring platform connecting job-ready talent with roles that
+              actually fit — backed by real ML scoring, not keyword guesswork.
             </p>
+            <div className="flex flex-col gap-2 text-sm">
+              <a href="tel:+919876543210" className="flex items-center gap-2 hover:text-white transition-colors w-fit">
+                <Phone className="w-4 h-4" strokeWidth={1.75} />
+                +91 98765 43210
+              </a>
+              <a href="mailto:careers@Skill2Career.com" className="flex items-center gap-2 hover:text-white transition-colors w-fit">
+                <Mail className="w-4 h-4" strokeWidth={1.75} />
+                careers@Skill2Career.com
+              </a>
+            </div>
           </div>
 
-          {/* All link columns */}
           {footerLinks.map((col) => (
             <div key={col.heading}>
-              <h4 className="text-green-700 text-xs font-bold uppercase tracking-widest mb-3 md:mb-4">
+              <h4 className="text-white/40 text-xs font-display font-semibold uppercase tracking-widest mb-4">
                 {col.heading}
               </h4>
-              <ul className="space-y-2 md:space-y-2.5">
+              <ul className="space-y-2.5">
                 {col.links.map((link) => {
-                  // If this link requires authentication, send to /signup, otherwise use original to
                   const targetPath = authRequiredLinks.has(link.label) ? "/signup" : link.to;
                   return (
                     <li key={link.label}>
-                      <Link
-                        to={targetPath}
-                        className="text-sm text-black hover:text-green-600 transition-colors duration-200"
-                      >
+                      <Link to={targetPath} className="text-sm hover:text-white transition-colors">
                         {link.label}
                       </Link>
                     </li>
                   );
                 })}
-                {col.phone && (
-                  <>
-                    <li className="pt-1">
-                      <a
-                        href={`tel:${col.phone}`}
-                        className="text-sm text-black hover:text-green-600 transition-colors duration-200 flex items-center gap-1.5"
-                      >
-                        <img src="/src/assets/phone.png" alt="phone" className="w-4 h-4" />
-                        {col.phone}
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href={`mailto:${col.email}`}
-                        className="text-sm text-black hover:text-green-600 transition-colors duration-200 flex items-center gap-1.5"
-                      >
-                        <img src="/src/assets/email.png" alt="email" className="w-4 h-4" />
-                        {col.email}
-                      </a>
-                    </li>
-                  </>
-                )}
               </ul>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-green-100 bg-green-50/80">
-        <div className="max-w-6xl mx-auto px-4 py-4 md:py-5">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-xs text-black">
-            <span>© {new Date().getFullYear()} Skill2Job. All rights reserved.</span>
+      <div className="border-t border-white/10">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-center text-xs text-white/40">
+          <span>© {new Date().getFullYear()} Skill2Career. All rights reserved.</span>
+          <div className="flex items-center gap-4">
+            <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

@@ -1,600 +1,342 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useEffect, useState, useRef, useCallback , useContext} from "react";
-import { AuthContext } from "../context/AuthContext";
 import {
-  FileText, Target, TrendingUp, Upload, Cpu, Sparkles,
-  ChevronLeft, ChevronRight, Briefcase, BarChart3,
-  Users, Search, Zap, Clock, Award, Brain,
-  MessageSquare, LayoutDashboard, PlusCircle, CheckCircle,
-  ArrowRight, FlaskConical,
+  Upload, Target, Brain, MessageSquare, FlaskConical, Clock,
+  Briefcase, Users, PlusCircle, ArrowRight, CheckCircle2,
 } from "lucide-react";
+import Seo from "../components/Seo";
 
 /* ══════════════════════════════════════════
-   DATA
+   REAL PRODUCT CONTENT
+   (kept from the original page — this is what the app actually does)
 ══════════════════════════════════════════ */
-const jobSeekerFeatures = [
+const features = [
   {
     icon: Upload,
-    title: "Resume Upload & Parsing",
-    tag: "AI-Powered",
-    tagColor: "bg-green-100 text-green-700",
-    accent: "#16a34a",
-    description:
-      "Instantly extract skills, experience, and education from any resume format. Build a complete, recruiter-ready profile in seconds.",
+    title: "Resume parsing",
+    description: "Extract skills, experience, and education from any resume format in seconds — no manual data entry.",
   },
   {
     icon: Target,
-    title: "Job Matching",
-    tag: "Smart Match",
-    tagColor: "bg-emerald-100 text-emerald-700",
-    accent: "#059669",
-    description:
-      "Get matched to roles that truly fit — based on real skills, not just keywords. Stop applying blindly, start getting noticed.",
+    title: "Skill-based matching",
+    description: "Get matched to roles by what you can actually do, not by keyword overlap. Stop applying blindly.",
   },
   {
     icon: Brain,
-    title: "Skill Gap Analysis",
-    tag: "Personalized",
-    tagColor: "bg-teal-100 text-teal-700",
-    accent: "#0d9488",
-    description:
-      "Pinpoint exactly which skills you're missing for your dream role and get a step-by-step roadmap to close those gaps fast.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Career Insights & Trends",
-    tag: "Live Data",
-    tagColor: "bg-green-100 text-green-700",
-    accent: "#15803d",
-    description:
-      "Stay ahead with real-time salary benchmarks, demand forecasts, and in-demand skill reports tailored to your industry.",
-  },
-  {
-    icon: Clock,
-    title: "Application Tracker",
-    tag: "Organized",
-    tagColor: "bg-emerald-100 text-emerald-700",
-    accent: "#059669",
-    description:
-      "Track every application in one dashboard. Monitor status, set follow-up reminders, and never miss an opportunity again.",
-  },
-  {
-    icon: LayoutDashboard,
-    title: "Candidate Dashboard",
-    tag: "Command Center",
-    tagColor: "bg-teal-100 text-teal-700",
-    accent: "#0d9488",
-    description:
-      "Your personal career hub — view matches, track progress, manage skills, and access all tools from one clean interface.",
+    title: "Skill gap analysis",
+    description: "See exactly which skills stand between you and a role — with a clear path to close the gap.",
   },
   {
     icon: MessageSquare,
-    title: "Mock Interview",
-    tag: "ML-Based",
-    tagColor: "bg-violet-100 text-violet-700",
-    accent: "#7c3aed",
-    description:
-      "Practice with our ML-driven interview simulator trained on thousands of real interviews. Get scored feedback on your responses.",
-    isMl: true,
+    title: "Mock interviews",
+    description: "Practice with an ML-driven interview simulator and get scored feedback on your actual responses.",
   },
   {
     icon: FlaskConical,
-    title: "Mock Assessment",
-    tag: "ML-Based",
-    tagColor: "bg-violet-100 text-violet-700",
-    accent: "#6d28d9",
-    description:
-      "Take adaptive skill assessments powered by ML models — not generic AI prompts. Each test calibrates to your level in real time.",
-    isMl: true,
+    title: "Mock assessments",
+    description: "Adaptive skill tests that calibrate to your level in real time — not generic prompt-based quizzes.",
+  },
+  {
+    icon: Clock,
+    title: "Application tracking",
+    description: "Every application, one dashboard. Status, follow-ups, and outcomes — never lose track again.",
   },
 ];
 
 const recruiterFeatures = [
   {
-    icon: LayoutDashboard,
-    title: "Recruiter Dashboard",
-    description:
-      "One unified command center — view active roles, candidate pipelines, application stats, and hiring metrics at a glance.",
-    detail: ["Live pipeline overview", "Role-wise analytics", "Team collaboration tools"],
+    icon: Briefcase,
+    title: "Post a job",
+    description: "Create a listing in minutes. Set skill requirements and experience level, and matching starts instantly.",
   },
   {
     icon: Users,
-    title: "Manage Applicants",
-    description:
-      "Review, filter, and rank applicants by skill fit score. Shortlist candidates, add notes, and move them through stages effortlessly.",
-    detail: ["Skill-fit scoring", "Stage management", "Bulk actions & filters"],
+    title: "Manage applicants",
+    description: "Review candidates ranked by skill-fit score. Shortlist, leave notes, and move people through stages.",
   },
   {
     icon: PlusCircle,
-    title: "Post a Job",
-    description:
-      "Create detailed job listings in minutes. Set skill requirements, experience level, and let the platform auto-match candidates instantly.",
-    detail: ["Smart requirement builder", "Instant candidate matching", "Visibility controls"],
+    title: "Recruiter dashboard",
+    description: "One view of every open role, every pipeline, and every hiring metric that matters.",
   },
 ];
 
-const steps = [
-  { step: "01", icon: Upload, title: "Upload Resume", description: "Add your resume. Supports PDF, DOCX, and LinkedIn. Our parser does the rest." },
-  { step: "02", icon: Cpu, title: "ML Model Evaluation", description: "Deep skill mapping, gap detection, and role-fit scoring — all automated." },
-  { step: "03", icon: Sparkles, title: "Get Matched", description: "Discover tailored jobs, insights, and assessments built around your profile." },
+const stats = [
+  { value: "95%", label: "Matching accuracy" },
+  { value: "85%", label: "Placement success" },
+  { value: "50+", label: "Live opportunities" },
+  { value: "Skill-first", label: "Hiring approach" },
 ];
 
-const stats = [
-  { value: "Skill-Based", label: "Hiring Approach", icon: Award },
-  { value: "95%", label: "Matching Accuracy", icon: Target },
-  { value: "50+", label: "Opportunities Posted", icon: Briefcase },
-  { value: "85%", label: "Placement Success", icon: TrendingUp },
+const pathStages = [
+  { label: "Build skills", detail: "Resume + assessments", accent: false },
+  { label: "Get scored", detail: "Real ATS + skill scoring", accent: false },
+  { label: "Get matched", detail: "95% matching accuracy", accent: false },
+  { label: "Get hired", detail: "85% placement success", accent: true },
 ];
 
 /* ══════════════════════════════════════════
-   SLIDER
+   SIGNATURE ELEMENT — The Career Path
+   Mirrors the app's real application pipeline (Applied → Reviewed →
+   Shortlisted → Hired). Desktop shows it as a horizontal route; mobile
+   collapses to a vertical stepper rather than shrinking the SVG.
 ══════════════════════════════════════════ */
-function JobSeekerSlider() {
-  const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const total = jobSeekerFeatures.length;
-
-  const prev = useCallback(() => setActive((a) => (a - 1 + total) % total), [total]);
-  const next = useCallback(() => setActive((a) => (a + 1) % total), [total]);
-
-  useEffect(() => {
-    if (paused) return;
-    const t = setInterval(next, 4000);
-    return () => clearInterval(t);
-  }, [next, paused]);
-
-  const indices = [
-    (active - 1 + total) % total,
-    active,
-    (active + 1) % total,
+function CareerPath() {
+  const nodes = [
+    { x: 40, y: 150 },
+    { x: 420, y: 70 },
+    { x: 760, y: 170 },
+    { x: 1120, y: 80 },
   ];
 
+  const d = `M ${nodes[0].x} ${nodes[0].y}
+    C 180 210, 280 30, ${nodes[1].x} ${nodes[1].y}
+    C 520 0, 620 240, ${nodes[2].x} ${nodes[2].y}
+    C 860 240, 980 10, ${nodes[3].x} ${nodes[3].y}`;
+
   return (
-    <div
-      className="relative"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      {/* Cards */}
-      <div className="flex items-center justify-center gap-4 md:gap-5 py-6 overflow-visible">
-        {indices.map((fi, pos) => {
-          const f = jobSeekerFeatures[fi];
-          const isCenter = pos === 1;
-          return (
-            <motion.div
-              key={`${fi}-${pos}`}
-              animate={{
-                scale: isCenter ? 1 : 0.84,
-                opacity: isCenter ? 1 : 0.38,
-                y: isCenter ? 0 : 20,
-                filter: isCenter ? "blur(0px)" : "blur(1.5px)",
-              }}
-              transition={{ type: "spring", stiffness: 320, damping: 30 }}
-              onClick={() => { if (!isCenter) pos === 0 ? prev() : next(); }}
-              className={[
-                "relative flex-shrink-0 rounded-3xl border flex flex-col overflow-hidden cursor-pointer select-none",
-                isCenter
-                  ? "w-[288px] sm:w-[340px] md:w-[380px] min-h-[290px] shadow-2xl border-green-200 bg-white"
-                  : "w-[200px] sm:w-[260px] md:w-[300px] min-h-[240px] border-gray-200 bg-gray-50 hidden sm:flex",
-              ].join(" ")}
-            >
-              {/* Accent bar */}
-              <div className="h-1 w-full flex-shrink-0" style={{ backgroundColor: isCenter ? f.accent : "#e5e7eb" }} />
+    <>
+      <Seo
+        title="Turn Your Skills Into Your Next Job"
+        description="Build an ATS-ready resume, practice with AI mock interviews and assessments, and get matched to full-time, part-time, and remote jobs based on your real skills."
+        path="/"
+      />
+      {/* Desktop / tablet: horizontal route */}
+      <div className="hidden md:block w-full">
+        <svg viewBox="0 0 1160 260" className="w-full h-auto" aria-hidden="true">
+          <defs>
+            <linearGradient id="pathGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#0E6B52" stopOpacity="0.25" />
+              <stop offset="70%" stopColor="#0E6B52" stopOpacity="0.65" />
+              <stop offset="100%" stopColor="#C99A3B" stopOpacity="0.95" />
+            </linearGradient>
+          </defs>
+          <motion.path
+            d={d}
+            stroke="url(#pathGrad)"
+            strokeWidth="2.5"
+            fill="none"
+            strokeLinecap="round"
+            initial={{ pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.4, ease: "easeInOut" }}
+          />
+          {nodes.map((n, i) => {
+            const stage = pathStages[i];
+            return (
+              <g key={stage.label}>
+                <circle cx={n.x} cy={n.y} r={i === 3 ? 13 : 11} fill="none"
+                  stroke={stage.accent ? "#C99A3B" : "#0E6B52"} strokeOpacity="0.25" strokeWidth="6" />
+                <circle cx={n.x} cy={n.y} r={i === 3 ? 6 : 5.5} fill={stage.accent ? "#C99A3B" : "#0E6B52"} />
+                <text
+                  x={i === 0 ? n.x + 4 : i === 3 ? n.x - 4 : n.x}
+                  y={n.y > 100 ? n.y - 28 : n.y + 42}
+                  textAnchor={i === 0 ? "start" : i === 3 ? "end" : "middle"}
+                  className="fill-ink font-display"
+                  style={{ fontSize: 17, fontWeight: 700 }}
+                >
+                  {stage.label}
+                </text>
+                <text
+                  x={i === 0 ? n.x + 4 : i === 3 ? n.x - 4 : n.x}
+                  y={n.y > 100 ? n.y - 8 : n.y + 62}
+                  textAnchor={i === 0 ? "start" : i === 3 ? "end" : "middle"}
+                  className="fill-ink/45"
+                  style={{ fontSize: 13 }}
+                >
+                  {stage.detail}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
 
-              {/* Inner glow */}
-              {isCenter && (
-                <div
-                  className="absolute inset-0 opacity-[0.06] rounded-3xl pointer-events-none"
-                  style={{ background: `radial-gradient(ellipse at 30% 20%, ${f.accent}, transparent 70%)` }}
-                />
+      {/* Mobile: vertical stepper */}
+      <div className="md:hidden flex flex-col gap-0">
+        {pathStages.map((stage, i) => (
+          <div key={stage.label} className="flex gap-4">
+            <div className="flex flex-col items-center">
+              <span
+                className={`w-3.5 h-3.5 rounded-full shrink-0 ${stage.accent ? "bg-gold" : "bg-pine"}`}
+              />
+              {i < pathStages.length - 1 && (
+                <span className="w-px flex-1 bg-mist my-1" style={{ minHeight: 32 }} />
               )}
-
-              <div className="relative z-10 p-6 md:p-8 flex flex-col h-full">
-                <div className="flex items-start justify-between mb-5">
-                  <div
-                    className="w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center shadow-lg"
-                    style={{ backgroundColor: f.accent }}
-                  >
-                    <f.icon className="w-6 h-6 text-white" />
-                  </div>
-                  {f.isMl && isCenter && (
-                    <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-violet-100 text-violet-700 text-[10px] font-black uppercase tracking-wider border border-violet-200">
-                      <FlaskConical className="w-2.5 h-2.5" /> ML Engine
-                    </span>
-                  )}
-                </div>
-                <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold mb-3 w-fit ${f.tagColor}`}>
-                  {f.tag}
-                </span>
-                <h3 className="font-black text-gray-900 text-base md:text-lg mb-2 leading-snug tracking-tight">
-                  {f.title}
-                </h3>
-                <p className="text-sm text-gray-500 leading-relaxed flex-1">{f.description}</p>
-              </div>
-            </motion.div>
-          );
-        })}
+            </div>
+            <div className="pb-6">
+              <p className="font-display font-bold text-ink text-[15px]">{stage.label}</p>
+              <p className="text-sm text-ink/45">{stage.detail}</p>
+            </div>
+          </div>
+        ))}
       </div>
-
-      {/* Nav */}
-      <div className="flex items-center justify-center gap-5 mt-2">
-        <button
-          onClick={prev}
-          className="w-10 h-10 rounded-full border-2 border-gray-200 bg-white hover:border-green-400 hover:bg-green-50 flex items-center justify-center shadow-sm transition-all group"
-        >
-          <ChevronLeft className="w-4 h-4 text-gray-500 group-hover:text-green-600" />
-        </button>
-        <div className="flex items-center gap-2">
-          {jobSeekerFeatures.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActive(i)}
-              className={`transition-all duration-300 rounded-full ${
-                i === active ? "w-7 h-2 bg-green-600 shadow-sm" : "w-2 h-2 bg-gray-300 hover:bg-green-400"
-              }`}
-            />
-          ))}
-        </div>
-        <button
-          onClick={next}
-          className="w-10 h-10 rounded-full border-2 border-gray-200 bg-white hover:border-green-400 hover:bg-green-50 flex items-center justify-center shadow-sm transition-all group"
-        >
-          <ChevronRight className="w-4 h-4 text-gray-500 group-hover:text-green-600" />
-        </button>
-      </div>
-
-      {/* Progress */}
-      <div className="mt-5 max-w-xs mx-auto h-0.5 bg-gray-200 rounded-full overflow-hidden">
-        <motion.div
-          className="h-full bg-gradient-to-r from-green-500 to-emerald-400 rounded-full"
-          animate={{ width: `${((active + 1) / total) * 100}%` }}
-          transition={{ duration: 0.4 }}
-        />
-      </div>
-      <p className="text-center text-xs text-gray-400 mt-2 font-medium tracking-wide">
-        {active + 1} of {total} features
-      </p>
-    </div>
+    </>
   );
 }
 
 /* ══════════════════════════════════════════
-   MAIN
+   PAGE
 ══════════════════════════════════════════ */
 export default function LandingPage() {
-  const { logout } = useContext(AuthContext);
-
-  useEffect(() => {
-    logout();
-  }, []);
   return (
-    <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
-
+    <div className="bg-paper">
       {/* ── HERO ── */}
-      <section className="relative pt-10 sm:pt-20 md:pt-30 pb-20 md:pb-28 overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-green-200 rounded-full blur-[130px] opacity-25" />
-          <div className="absolute top-1/2 -right-32 w-[400px] h-[400px] bg-emerald-300 rounded-full blur-[110px] opacity-15" />
-          <div className="absolute bottom-0 -left-20 w-[300px] h-[300px] bg-teal-200 rounded-full blur-[90px] opacity-20" />
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage: `linear-gradient(#16a34a 1px, transparent 1px), linear-gradient(90deg, #16a34a 1px, transparent 1px)`,
-              backgroundSize: "52px 52px",
-            }}
-          />
-        </div>
-
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 36 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-green-200 shadow-md text-xs sm:text-sm font-bold text-green-700 mb-8"
+      <section className="max-w-6xl mx-auto px-5 sm:px-6 pt-16 md:pt-24 pb-4">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-2xl"
+        >
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pine/8 text-pine text-xs font-display font-semibold uppercase tracking-widest mb-6">
+            Backed by real ML scoring
+          </span>
+          <h1 className="font-display font-extrabold text-ink text-[2.5rem] sm:text-5xl md:text-[3.4rem] leading-[1.08] tracking-tight mb-6">
+            Turn your skills into an offer letter.
+          </h1>
+          <p className="text-ink/60 text-base md:text-lg leading-relaxed mb-9 max-w-xl">
+            Skill2Career scores your resume, tests your skills, and matches you to roles that
+            actually fit — so you spend less time applying and more time interviewing.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link
+              to="/signup"
+              className="group inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-pine text-white font-display font-semibold text-sm hover:bg-moss transition-colors"
             >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
-              </span>
-              Skill-Based Hiring Platform — Now Live
-            </motion.div>
-
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[72px] font-black leading-[1.04] mb-6 tracking-tight">
-              Bridge Skills with the
-              <span className="relative block mt-1">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-green-700">
-                  Right Opportunities
-                </span>
-                <motion.span
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ delay: 0.9, duration: 0.7, ease: "easeOut" }}
-                  className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-[3px] w-56 md:w-80 bg-gradient-to-r from-green-400 via-emerald-400 to-green-600 rounded-full origin-left block"
-                />
-              </span>
-            </h1>
-
-            <p className="text-base sm:text-lg md:text-xl text-gray-500 mb-10 max-w-2xl mx-auto leading-relaxed font-light px-2">
-              Skill2Job connects job seekers with the right roles through intelligent matching, ML-powered assessments,
-              and real career insights — while giving recruiters precision hiring tools.
-            </p>
-
-            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4 sm:px-0">
-              <Link to="/login">
-                <motion.button
-                  whileHover={{ scale: 1.04, boxShadow: "0 20px 40px -10px rgba(22,163,74,0.4)" }}
-                  whileTap={{ scale: 0.96 }}
-                  className="group w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-2xl font-black bg-gradient-to-br from-green-500 to-green-700 text-white px-8 py-4 shadow-lg shadow-green-200 transition-all text-base"
-                >
-                  Get Started Free
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </motion.button>
-              </Link>
-              <Link to="/login">
-                <motion.button
-                  whileHover={{ scale: 1.04 }}
-                  whileTap={{ scale: 0.96 }}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl font-bold border-2 border-gray-200 text-gray-800 hover:border-green-400 hover:bg-green-50 px-8 py-4 bg-white transition-all text-base"
-                >
-                  <Briefcase className="w-4 h-4" />
-                  I'm a Recruiter
-                </motion.button>
-              </Link>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.65 }}
-              className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-12"
+              Get started as a job seeker
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+            <Link
+              to="/signup"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-mist text-ink font-display font-semibold text-sm hover:bg-ink/5 transition-colors"
             >
-              {["95% Match Accuracy", "Free to Join", "ML-Powered Assessments", "No Credit Card"].map((t) => (
-                <span key={t} className="flex items-center gap-1.5 text-sm text-gray-500 font-medium">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                  {t}
-                </span>
-              ))}
-            </motion.div>
-          </motion.div>
-        </div>
+              <Briefcase className="w-4 h-4" />
+              I'm hiring
+            </Link>
+          </div>
+        </motion.div>
       </section>
 
-      {/* ── JOB SEEKER SLIDER ── */}
-      <section className="py-16 md:py-24 bg-gray-50 border-y border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12 md:mb-16"
-          >
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-100 text-green-700 text-xs font-black uppercase tracking-widest mb-5 border border-green-200">
-              <Zap className="w-3 h-3" /> For Job Seekers
-            </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4 leading-tight">
-              Everything to Land
-              <span className="text-green-600"> Your Dream Job</span>
-            </h2>
-            <p className="text-gray-500 max-w-2xl mx-auto text-sm md:text-base leading-relaxed mb-4">
-              From resume parsing to ML-powered mock interviews — 8 powerful tools built for the modern job seeker.
-            </p>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-violet-50 border border-violet-200 text-violet-700 text-xs font-bold">
-              <FlaskConical className="w-3.5 h-3.5" />
-              Mock Interview & Mock Assessment use real ML models — not generic AI
-            </div>
-          </motion.div>
-
-          <JobSeekerSlider />
-        </div>
+      {/* ── SIGNATURE: CAREER PATH ── */}
+      <section className="max-w-6xl mx-auto px-5 sm:px-6 pt-14 md:pt-20 pb-16 md:pb-24">
+        <CareerPath />
       </section>
 
-      {/* ── RECRUITER SECTION ── */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12 md:mb-16"
-          >
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-black uppercase tracking-widest mb-5 border border-emerald-200">
-              <Users className="w-3 h-3" /> For Recruiters
-            </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4">
-              Hire Smarter,
-              <span className="text-green-600"> Not Harder</span>
+      {/* ── FEATURES ── */}
+      <section className="border-t border-mist bg-white">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-16 md:py-24">
+          <div className="max-w-xl mb-12 md:mb-16">
+            <h2 className="font-display font-extrabold text-ink text-3xl md:text-4xl tracking-tight mb-3">
+              Everything between skill and hire
             </h2>
-            <p className="text-gray-500 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
-              Post jobs, review applicants by skill fit, and track hiring performance — all from one powerful dashboard.
+            <p className="text-ink/55 text-base leading-relaxed">
+              One connected toolset — not six disconnected apps you have to stitch together yourself.
             </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 mb-10">
-            {recruiterFeatures.map((f, i) => (
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-mist border border-mist rounded-2xl overflow-hidden">
+            {features.map((f) => (
               <motion.div
                 key={f.title}
-                initial={{ opacity: 0, y: 28 }}
+                initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.12 }}
-                className="group relative bg-white border-2 border-gray-100 rounded-3xl p-7 md:p-8 hover:border-green-300 hover:shadow-2xl hover:shadow-green-50 transition-all duration-300 overflow-hidden"
+                className="bg-white p-7 md:p-8"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl" />
-                <div className="relative z-10">
-                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                    <f.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="font-black text-gray-900 text-base md:text-lg mb-2 tracking-tight">{f.title}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed mb-5">{f.description}</p>
-                  <ul className="space-y-2">
-                    {f.detail.map((d) => (
-                      <li key={d} className="flex items-center gap-2 text-xs text-gray-600 font-medium">
-                        <span className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
-                        {d}
-                      </li>
-                    ))}
-                  </ul>
+                <div className="w-10 h-10 rounded-lg bg-pine/8 flex items-center justify-center mb-5">
+                  <f.icon className="w-5 h-5 text-pine" strokeWidth={1.75} />
                 </div>
+                <h3 className="font-display font-bold text-ink text-base mb-2">{f.title}</h3>
+                <p className="text-sm text-ink/55 leading-relaxed">{f.description}</p>
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="text-center">
-            <Link to="/login">
-              <motion.button
-                whileHover={{ scale: 1.04, boxShadow: "0 16px 32px -8px rgba(22,163,74,0.35)" }}
-                whileTap={{ scale: 0.96 }}
-                className="group inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl bg-gray-900 text-white font-black hover:bg-green-600 transition-all shadow-md text-base"
-              >
-                Go to Recruiter Dashboard
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </motion.button>
+      {/* ── RECRUITERS ── */}
+      <section className="border-t border-mist">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-16 md:py-24">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 md:mb-16">
+            <div className="max-w-xl">
+              <h2 className="font-display font-extrabold text-ink text-3xl md:text-4xl tracking-tight mb-3">
+                Hiring? Skip the resume pile.
+              </h2>
+              <p className="text-ink/55 text-base leading-relaxed">
+                See candidates ranked by real skill fit, not who applied first.
+              </p>
+            </div>
+            <Link
+              to="/signup"
+              className="group inline-flex items-center gap-2 px-5 py-3 rounded-full bg-ink text-white font-display font-semibold text-sm hover:bg-moss transition-colors w-fit shrink-0"
+            >
+              Go to recruiter dashboard
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </Link>
+          </div>
+          <div className="grid md:grid-cols-3 gap-5">
+            {recruiterFeatures.map((f) => (
+              <motion.div
+                key={f.title}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="rounded-2xl border border-mist p-7 md:p-8 bg-white"
+              >
+                <div className="w-10 h-10 rounded-lg bg-gold/12 flex items-center justify-center mb-5">
+                  <f.icon className="w-5 h-5 text-gold" strokeWidth={1.75} />
+                </div>
+                <h3 className="font-display font-bold text-ink text-base mb-2">{f.title}</h3>
+                <p className="text-sm text-ink/55 leading-relaxed">{f.description}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ── STATS ── */}
-      <section className="py-16 md:py-20 bg-gray-50 border-y border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-10"
-          >
-            <h2 className="text-2xl sm:text-3xl font-black tracking-tight mb-2">Why Teams Choose Skill2Job</h2>
-            <p className="text-gray-500 text-sm">Numbers that reflect real impact.</p>
-          </motion.div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {stats.map((item, i) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="group relative bg-white border-2 border-gray-100 rounded-3xl p-6 md:p-8 text-center overflow-hidden hover:border-green-300 hover:shadow-xl hover:shadow-green-50 transition-all duration-300"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative z-10">
-                  <div className="w-10 h-10 mx-auto mb-3 rounded-xl bg-green-100 flex items-center justify-center group-hover:bg-green-600 transition-colors duration-300">
-                    <item.icon className="w-5 h-5 text-green-600 group-hover:text-white transition-colors duration-300" />
-                  </div>
-                  <div className="text-2xl sm:text-3xl font-black text-green-600 mb-1 tracking-tight">{item.value}</div>
-                  <p className="text-gray-500 text-xs md:text-sm font-semibold">{item.label}</p>
+      <section className="border-t border-mist bg-white">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-14 md:py-16">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-6">
+            {stats.map((s) => (
+              <div key={s.label} className="text-center lg:text-left">
+                <div className="font-display font-extrabold text-ink text-3xl md:text-4xl tracking-tight mb-1">
+                  {s.value}
                 </div>
-              </motion.div>
+                <p className="text-sm text-ink/50">{s.label}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── HOW IT WORKS ── */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-12 md:mb-16"
-          >
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-100 text-green-700 text-xs font-black uppercase tracking-widest mb-5 border border-green-200">
-              Simple Process
-            </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4">How It Works</h2>
-            <p className="text-gray-500 max-w-xl mx-auto text-sm md:text-base">Three steps. Intelligent results. Built for speed.</p>
-          </motion.div>
-
-          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
-            <div className="hidden md:block absolute top-[3.25rem] left-[calc(16.66%+3rem)] right-[calc(16.66%+3rem)] h-px bg-gradient-to-r from-green-300 via-emerald-400 to-green-300 z-0" />
-            {steps.map((s, i) => (
-              <motion.div
-                key={s.step}
-                initial={{ opacity: 0, y: 32 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.15 }}
-                className="relative z-10 flex flex-col items-center"
-              >
-                <div className="relative mb-6">
-                  <div className="w-24 h-24 md:w-28 md:h-28 rounded-[28px] bg-gradient-to-br from-green-500 via-green-600 to-emerald-700 flex items-center justify-center shadow-2xl shadow-green-200">
-                    <s.icon className="w-9 h-9 md:w-10 md:h-10 text-white" />
-                  </div>
-                  <span className="absolute -top-2.5 -right-2.5 w-8 h-8 rounded-full bg-gray-900 text-white text-xs font-black flex items-center justify-center border-2 border-white shadow-md">
-                    {s.step}
-                  </span>
-                </div>
-                <h3 className="font-black text-gray-900 text-base md:text-lg mb-2 tracking-tight">{s.title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed max-w-[220px]">{s.description}</p>
-              </motion.div>
-            ))}
+      {/* ── FINAL CTA ── */}
+      <section className="border-t border-mist bg-moss">
+        <div className="max-w-4xl mx-auto px-5 sm:px-6 py-16 md:py-24 text-center">
+          <h2 className="font-display font-extrabold text-white text-3xl md:text-[2.75rem] tracking-tight leading-tight mb-5">
+            Your next role is closer than you think.
+          </h2>
+          <p className="text-white/60 text-base md:text-lg mb-10 max-w-lg mx-auto leading-relaxed">
+            Create a profile, get scored, and start matching with roles — free to start, no recruiter middleman.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-3">
+            <Link
+              to="/signup"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-white text-moss font-display font-semibold text-sm hover:bg-paper transition-colors"
+            >
+              <CheckCircle2 className="w-4 h-4" />
+              Create your profile
+            </Link>
+            <Link
+              to="/login"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full border border-white/25 text-white font-display font-semibold text-sm hover:bg-white/10 transition-colors"
+            >
+              Sign in
+            </Link>
           </div>
         </div>
       </section>
-
-      {/* ── CTA BANNER ── */}
-      <section className="py-16 md:py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-green-700 to-emerald-900" />
-        <div
-          className="absolute inset-0 opacity-[0.08]"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1.5px 1.5px, white 1.5px, transparent 0)`,
-            backgroundSize: "36px 36px",
-          }}
-        />
-        <div className="absolute top-0 left-1/4 w-72 h-72 bg-emerald-400 rounded-full blur-[80px] opacity-20" />
-        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-green-300 rounded-full blur-[80px] opacity-15" />
-
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="w-16 h-16 mx-auto mb-7 rounded-3xl bg-white/15 backdrop-blur-sm flex items-center justify-center border border-white/20 shadow-xl">
-              <Sparkles className="w-8 h-8 text-white" />
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-5 tracking-tight leading-tight">
-              Ready to Find
-              <br />
-              <span className="text-green-200">Your Perfect Match?</span>
-            </h2>
-            <p className="text-green-100 text-base md:text-lg mb-10 leading-relaxed max-w-xl mx-auto">
-              Join thousands using Skill2Job to make smarter career moves — powered by real ML, real insights, and real results.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link to="/login">
-                <motion.button
-                  whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,0,0.25)" }}
-                  whileTap={{ scale: 0.96 }}
-                  className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-white text-green-700 font-black text-base hover:shadow-2xl transition-all"
-                >
-                  Start as Job Seeker
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </motion.button>
-              </Link>
-              <Link to="/login">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.96 }}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-white/10 text-white font-bold border-2 border-white/30 hover:border-white hover:bg-white/20 transition-all text-base backdrop-blur-sm"
-                >
-                  <Briefcase className="w-4 h-4" />
-                  Post as Recruiter
-                </motion.button>
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
     </div>
   );
 }

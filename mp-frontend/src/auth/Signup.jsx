@@ -1,238 +1,136 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import logo from "../assets/logo.png";
-import {
-  FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash,
-  FaBriefcase, FaUserTie, FaGraduationCap, FaArrowRight,
-  FaSearch, FaFileAlt, FaStar, FaHandshake,
-  FaChartLine, FaLaptopCode, FaMedal,
-  FaBuilding, FaRocket, FaClipboardList,
-} from "react-icons/fa";
+import { User, Mail, Lock, ArrowRight, GraduationCap, Briefcase } from "lucide-react";
+import AuthShell from "../components/auth/AuthShell";
+import AuthField from "../components/auth/AuthField";
 
-/* Orbiting bubbles */
-const BUBBLES = [
-  { Icon: FaGraduationCap, top: "10%", left: "55%", size: 46, delay: "0s" },
-  { Icon: FaFileAlt, top: "25%", right: "5%", size: 40, delay: "0.4s" },
-  { Icon: FaChartLine, top: "53%", right: "4%", size: 46, delay: "0.8s" },
-  { Icon: FaHandshake, bottom: "16%", left: "50%", size: 42, delay: "1.2s" },
-  { Icon: FaStar, bottom: "25%", left: "7%", size: 48, delay: "1.6s" },
-  { Icon: FaSearch, top: "37%", left: "5%", size: 38, delay: "2.0s" },
-];
-
-/* Background scattered icons */
-const BG_ICONS = [
-  { Icon: FaRocket, size: 80, style: { top: "5%", left: "5%", transform: "rotate(-15deg)" } },
-  { Icon: FaLaptopCode, size: 88, style: { top: "5%", right: "6%", transform: "rotate(10deg)" } },
-  { Icon: FaMedal, size: 68, style: { bottom: "8%", left: "6%", transform: "rotate(20deg)" } },
-  { Icon: FaClipboardList, size: 72, style: { bottom: "6%", right: "5%", transform: "rotate(-10deg)" } },
-  { Icon: FaBuilding, size: 60, style: { top: "44%", left: "3%", transform: "rotate(-5deg)" } },
-  { Icon: FaUserTie, size: 62, style: { top: "43%", right: "3%", transform: "rotate(8deg)" } },
-];
+const PANEL = {
+  eyebrow: "Join Skill2Career",
+  heading: "Turn your skills into the job you actually want.",
+  points: [
+    "Build an ATS-ready resume in minutes",
+    "Practice with AI mock interviews and assessments",
+    "Apply to roles matched to your skill set",
+  ],
+};
 
 const Signup = () => {
   const { signup } = useContext(AuthContext);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "", role: "student" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const res = await signup(form.name, form.email, form.password, form.role);
       toast.success("Account created successfully!");
       setTimeout(() => {
-        navigate(res.user.role === "student" ? "/student/profile" : "/recruiter/profile");
+        navigate(res.user.role === "student" ? "/student/onboarding" : "/recruiter/profile");
       }, 1000);
     } catch (err) {
       toast.error(err.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="auth-root">
-      {/* Back to Home — above card */}
-      <div className="w-full max-w-[940px] mb-3 px-1">
+    <AuthShell illustrationFirst panel={PANEL}>
+      <h1 className="font-display text-2xl font-bold text-ink leading-snug">
+        Create your account
+      </h1>
+      <p className="text-sm text-ink/50 mt-1.5 mb-7">
+        Join thousands of job seekers and recruiters.
+      </p>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <AuthField
+          label="Full name"
+          icon={User}
+          placeholder="Enter your name"
+          value={form.name}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+        />
+
+        <AuthField
+          label="Email"
+          icon={Mail}
+          type="email"
+          placeholder="you@example.com"
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+        />
+
+        <AuthField
+          label="Password"
+          icon={Lock}
+          placeholder="At least 8 characters"
+          value={form.password}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          showToggle
+          visible={showPassword}
+          onToggleVisible={() => setShowPassword((v) => !v)}
+          minLength={8}
+          hint="Must be at least 8 characters."
+        />
+
+        <div>
+          <label className="block text-xs font-semibold text-ink/60 mb-1.5">I am a</label>
+          <div className="grid grid-cols-2 gap-3">
+            <RoleButton
+              icon={GraduationCap}
+              label="Job seeker"
+              active={form.role === "student"}
+              onClick={() => setForm({ ...form, role: "student" })}
+            />
+            <RoleButton
+              icon={Briefcase}
+              label="Recruiter"
+              active={form.role === "recruiter"}
+              onClick={() => setForm({ ...form, role: "recruiter" })}
+            />
+          </div>
+        </div>
+
         <button
-          onClick={() => navigate("/")}
-          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs font-semibold px-4 py-2 rounded-lg shadow transition-all duration-200 group"
+          type="submit"
+          disabled={loading}
+          className="w-full mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-pine text-white text-sm font-semibold py-3 hover:bg-moss transition-colors disabled:opacity-60"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to Home
+          {loading ? "Creating account…" : "Create account"}
+          {!loading && <ArrowRight className="w-4 h-4" />}
         </button>
-      </div>
+      </form>
 
-      <div className="auth-card auth-card-signup">
-
-        {/* ══════════════ LEFT: Illustration ══════════════ */}
-        <div className="auth-illus-side">
-
-          {/* Large faint background icons */}
-          {BG_ICONS.map(({ Icon, size, style }, i) => (
-            <div key={i} className="auth-bg-icon" style={{ fontSize: size, ...style }}>
-              <Icon />
-            </div>
-          ))}
-
-          {/* Big glow circle */}
-          <div className="auth-circle">
-            <div className="auth-center-icon">
-              <FaRocket />
-            </div>
-          </div>
-
-          {/* Orbiting bubbles */}
-          {BUBBLES.map(({ Icon, top, left, right, bottom, size, delay }, i) => (
-            <div
-              key={i}
-              className="auth-bubble"
-              style={{
-                top, left, right, bottom,
-                width: size, height: size,
-                animationDelay: delay,
-              }}
-            >
-              <Icon style={{ fontSize: size * 0.42 }} />
-            </div>
-          ))}
-
-          {/* Bottom tagline */}
-          <div className="absolute bottom-5 left-0 right-0 flex flex-col items-center gap-1.5">
-            <span className="text-white text-[11px] font-medium tracking-widest uppercase">
-              Connect. Grow. Succeed.
-            </span>
-
-          </div>
-        </div>
-
-        {/* ══════════════ RIGHT: Form ══════════════ */}
-        <div className="auth-form-side">
-
-          {/* Logo — already exists below */}
-          <div className="flex items-center gap-2 mb-6">
-            <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-lg border border-green-800">
-                          <img
-                            src={logo}
-                            alt="Logo"
-                            className="w-full h-full object-contain p-1 "
-                          />
-                        </div>
-            <span className="font-extrabold text-gray-800 text-lg tracking-tight">Skill2Job</span>
-          </div>
-
-          <h2 className="text-[22px] font-bold text-gray-800 leading-snug">
-            Create your Account
-          </h2>
-          <p className="text-xs text-gray-400 mt-1 mb-6">
-            Join thousands of job seekers and recruiters today.
-          </p>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-
-            {/* Name */}
-            <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1.5">Full Name</label>
-              <div className="auth-input-wrap">
-                <FaUser className="auth-input-icon" />
-                <input
-                  type="text"
-                  required
-                  placeholder="Enter your name"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="auth-input-base"
-                />
-              </div>
-            </div>
-
-            {/* Email */}
-            <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1.5">Email</label>
-              <div className="auth-input-wrap">
-                <FaEnvelope className="auth-input-icon" />
-                <input
-                  type="email"
-                  required
-                  placeholder="Enter Email"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="auth-input-base"
-                />
-              </div>
-            </div>
-
-            {/* Password */}
-            <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1.5">Password</label>
-              <div className="auth-input-wrap">
-                <FaLock className="auth-input-icon" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  required
-                  placeholder="Enter Password"
-                  value={form.password}
-                  onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  className="auth-input-base pr-10"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500 transition text-xs"
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
-            </div>
-
-            {/* Role Toggle */}
-            <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1.5">I am a</label>
-              <div className="flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => setForm({ ...form, role: "student" })}
-                  className={`auth-role-btn ${form.role === "student" ? "active" : ""}`}
-                >
-                  <FaGraduationCap className="text-sm" />
-                  Job Seeker
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setForm({ ...form, role: "recruiter" })}
-                  className={`auth-role-btn ${form.role === "recruiter" ? "active" : ""}`}
-                >
-                  <FaUserTie className="text-sm" />
-                  Recruiter
-                </button>
-              </div>
-            </div>
-
-            {/* Submit */}
-            <div className="pt-1">
-              <button type="submit" className="auth-btn-primary">
-                Create Account
-                <FaArrowRight className="text-xs" />
-              </button>
-            </div>
-          </form>
-
-          <p className="text-xs text-gray-400 mt-5 text-center">
-            Already have an account?{" "}
-            <span
-              onClick={() => navigate("/login")}
-              className="text-emerald-600 font-semibold cursor-pointer hover:underline"
-            >
-              Sign in
-            </span>
-          </p>
-        </div>
-
-      </div>
-    </div>
+      <p className="text-sm text-ink/50 mt-6 text-center">
+        Already have an account?{" "}
+        <Link to="/login" className="text-pine font-semibold hover:text-moss">
+          Sign in
+        </Link>
+      </p>
+    </AuthShell>
   );
 };
+
+function RoleButton({ icon: Icon, label, active, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex items-center justify-center gap-2 rounded-xl border py-2.5 text-sm font-medium transition-colors ${active
+          ? "border-pine bg-pine/8 text-pine"
+          : "border-mist text-ink/60 hover:border-ink/20 hover:text-ink"
+        }`}
+    >
+      <Icon className="w-4 h-4" />
+      {label}
+    </button>
+  );
+}
 
 export default Signup;

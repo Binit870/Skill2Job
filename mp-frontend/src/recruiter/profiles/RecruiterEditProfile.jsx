@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback, useContext } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
 import Cropper from "react-easy-crop";
 import { AuthContext } from "../../context/AuthContext";
@@ -17,14 +16,6 @@ import {
   RiCheckLine,
 } from "react-icons/ri";
 import api from "../../utils/api.js"
-/* ── Font injection ── */
-const fontLink = document.createElement("link");
-fontLink.href =
-  "https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap";
-fontLink.rel = "stylesheet";
-if (!document.head.querySelector(`link[href="${fontLink.href}"]`)) {
-  document.head.appendChild(fontLink);
-}
 
 /* ─────────────────────────────────────────
    INPUTFIELD — defined outside to prevent
@@ -36,7 +27,7 @@ const InputField = ({ icon: Icon, label, name, placeholder, value, onChange }) =
       style={{
         display: "block",
         fontSize: 11, fontWeight: 600,
-        color: "#6b7280",
+        color: "#6b6f68",
         textTransform: "uppercase", letterSpacing: "0.08em",
         marginBottom: 6,
       }}
@@ -47,7 +38,7 @@ const InputField = ({ icon: Icon, label, name, placeholder, value, onChange }) =
       <div style={{
         position: "absolute", left: 13, top: "50%",
         transform: "translateY(-50%)",
-        color: "#9ca3af", pointerEvents: "none",
+        color: "#9a9e96", pointerEvents: "none",
       }}>
         <Icon size={15} />
       </div>
@@ -60,25 +51,24 @@ const InputField = ({ icon: Icon, label, name, placeholder, value, onChange }) =
         style={{
           width: "100%", paddingLeft: 38, paddingRight: 14,
           paddingTop: 11, paddingBottom: 11,
-          background: "#f9fafb",
-          border: "1.5px solid #e5e7eb",
+          background: "#F7F5EF",
+          border: "1.5px solid #E7E4DA",
           borderRadius: 10, fontSize: 13.5,
-          color: "#111827", outline: "none",
-          fontFamily: "'Sora', sans-serif",
+          color: "#0D1512", outline: "none",
           transition: "border-color 0.2s, box-shadow 0.2s, background 0.2s",
           boxSizing: "border-box",
         }}
         onFocus={(e) => {
-          e.target.style.borderColor = "#059669";
+          e.target.style.borderColor = "#0E6B52";
           e.target.style.boxShadow = "0 0 0 3px rgba(5,150,105,0.09)";
           e.target.style.background = "#fff";
-          e.target.previousSibling.style.color = "#059669";
+          e.target.previousSibling.style.color = "#0E6B52";
         }}
         onBlur={(e) => {
-          e.target.style.borderColor = "#e5e7eb";
+          e.target.style.borderColor = "#E7E4DA";
           e.target.style.boxShadow = "none";
-          e.target.style.background = "#f9fafb";
-          e.target.previousSibling.style.color = "#9ca3af";
+          e.target.style.background = "#F7F5EF";
+          e.target.previousSibling.style.color = "#9a9e96";
         }}
       />
     </div>
@@ -90,14 +80,14 @@ const InputField = ({ icon: Icon, label, name, placeholder, value, onChange }) =
 ───────────────────────────────────────── */
 const SectionLabel = ({ label }) => (
   <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "4px 0" }}>
-    <div style={{ flex: 1, height: 1, background: "#f0fdf4", borderTop: "1px solid #d1fae5" }} />
+    <div style={{ flex: 1, height: 1, background: "#E9F2EE", borderTop: "1px solid #CFE7DD" }} />
     <span style={{
-      fontSize: 10.5, fontWeight: 700, color: "#6b7280",
+      fontSize: 10.5, fontWeight: 700, color: "#6b6f68",
       textTransform: "uppercase", letterSpacing: "0.1em",
     }}>
       {label}
     </span>
-    <div style={{ flex: 1, height: 1, background: "#f0fdf4", borderTop: "1px solid #d1fae5" }} />
+    <div style={{ flex: 1, height: 1, background: "#E9F2EE", borderTop: "1px solid #CFE7DD" }} />
   </div>
 );
 
@@ -137,7 +127,7 @@ const RecruiterEditProfile = () => {
         companyLocation: user.companyLocation || "",
         companyLogo: user.companyLogo || "",
       });
-    } catch (error) { toast.error("Failed to load profile"); }
+    } catch { toast.error("Failed to load profile"); }
   };
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -199,7 +189,7 @@ const RecruiterEditProfile = () => {
       await refreshUser();
       toast.success("Company profile updated successfully");
       navigate("/recruiter-dashboard");
-    } catch (error) {
+    } catch {
       toast.error("Update failed. Try again.");
     } finally {
       setLoading(false);
@@ -214,10 +204,9 @@ const RecruiterEditProfile = () => {
     <div
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(150deg, #f0fdf9 0%, #ffffff 45%, #ecfdf5 100%)",
+        background: "linear-gradient(150deg, #E9F2EE 0%, #ffffff 45%, #E9F2EE 100%)",
         display: "flex", justifyContent: "center", alignItems: "flex-start",
         padding: "40px 16px",
-        fontFamily: "'Sora', sans-serif",
       }}
     >
       {/* Background blobs */}
@@ -245,13 +234,13 @@ const RecruiterEditProfile = () => {
         }}
       >
         {/* ── Top accent stripe ── */}
-        <div style={{ height: 4, background: "linear-gradient(90deg, #059669, #34d399, #a7f3d0)" }} />
+        <div style={{ height: 4, background: "linear-gradient(90deg, #0E6B52, #3FA37F, #BBDACE)" }} />
 
         {/* ── Hero Banner ── */}
         <div
           style={{
             height: 148,
-            background: "linear-gradient(135deg, #064e3b 0%, #065f46 55%, #047857 100%)",
+            background: "linear-gradient(135deg, #143D30 0%, #175443 55%, #0E6B52 100%)",
             position: "relative", overflow: "hidden",
             display: "flex", alignItems: "center", padding: "0 32px", gap: 20,
           }}
@@ -266,13 +255,13 @@ const RecruiterEditProfile = () => {
           <div style={{
             position: "absolute", right: 40, top: -30,
             width: 160, height: 160, borderRadius: "50%", opacity: 0.15,
-            background: "radial-gradient(circle, #6ee7b7, transparent 70%)",
+            background: "radial-gradient(circle, #6FA98D, transparent 70%)",
           }} />
           {/* Glow orb 2 */}
           <div style={{
             position: "absolute", left: -20, bottom: -20,
             width: 120, height: 120, borderRadius: "50%", opacity: 0.1,
-            background: "radial-gradient(circle, #34d399, transparent 70%)",
+            background: "radial-gradient(circle, #3FA37F, transparent 70%)",
           }} />
 
           {/* Logo area */}
@@ -298,7 +287,7 @@ const RecruiterEditProfile = () => {
               style={{
                 position: "absolute", bottom: -4, right: -4,
                 width: 26, height: 26, borderRadius: 8,
-                background: "#10b981",
+                background: "#159A72",
                 border: "2px solid #fff",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 cursor: "pointer",
@@ -306,8 +295,8 @@ const RecruiterEditProfile = () => {
                 transition: "background 0.2s",
                 zIndex: 3,
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = "#059669"}
-              onMouseLeave={(e) => e.currentTarget.style.background = "#10b981"}
+              onMouseEnter={(e) => e.currentTarget.style.background = "#0E6B52"}
+              onMouseLeave={(e) => e.currentTarget.style.background = "#159A72"}
             >
               <RiCameraLine size={13} color="#fff" />
               <input type="file" accept="image/*" onChange={onFileChange} style={{ display: "none" }} />
@@ -318,7 +307,7 @@ const RecruiterEditProfile = () => {
           <div style={{ position: "relative", zIndex: 2, minWidth: 0, flex: 1 }}>
             <h2
               style={{
-                fontFamily: "'Lora', serif",
+                fontFamily: "'Inter Tight', sans-serif",
                 fontSize: 20, fontWeight: 600,
                 color: "#fff", margin: 0,
                 whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
@@ -326,7 +315,7 @@ const RecruiterEditProfile = () => {
             >
               {form.companyName || "Your Company"}
             </h2>
-            <p style={{ color: "#6ee7b7", fontSize: 13, margin: "4px 0 0", opacity: 0.85 }}>
+            <p style={{ color: "#6FA98D", fontSize: 13, margin: "4px 0 0", opacity: 0.85 }}>
               {form.industry || "Industry"}
               {form.companyLocation && ` · ${form.companyLocation}`}
             </p>
@@ -338,8 +327,7 @@ const RecruiterEditProfile = () => {
                   marginTop: 8,
                   display: "inline-flex", alignItems: "center", gap: 4,
                   fontSize: 11.5, color: "rgba(252,165,165,0.9)",
-                  background: "none", border: "none", cursor: "pointer",
-                  fontFamily: "'Sora', sans-serif", padding: 0,
+                  background: "none", border: "none", cursor: "pointer", padding: 0,
                 }}
               >
                 <RiCloseLine size={13} />
@@ -384,7 +372,7 @@ const RecruiterEditProfile = () => {
             <div style={{ marginTop: 14 }}>
               <label style={{
                 display: "block", fontSize: 11, fontWeight: 600,
-                color: "#6b7280", textTransform: "uppercase",
+                color: "#6b6f68", textTransform: "uppercase",
                 letterSpacing: "0.08em", marginBottom: 6,
               }}>
                 Company Description
@@ -392,7 +380,7 @@ const RecruiterEditProfile = () => {
               <div style={{ position: "relative" }}>
                 <div style={{
                   position: "absolute", left: 13, top: 13,
-                  color: "#9ca3af", pointerEvents: "none",
+                  color: "#9a9e96", pointerEvents: "none",
                 }}>
                   <RiFileTextLine size={15} />
                 </div>
@@ -405,23 +393,22 @@ const RecruiterEditProfile = () => {
                   style={{
                     width: "100%", paddingLeft: 38, paddingRight: 14,
                     paddingTop: 11, paddingBottom: 11,
-                    background: "#f9fafb",
-                    border: "1.5px solid #e5e7eb",
+                    background: "#F7F5EF",
+                    border: "1.5px solid #E7E4DA",
                     borderRadius: 10, fontSize: 13.5,
-                    color: "#111827", outline: "none", resize: "none",
-                    fontFamily: "'Sora', sans-serif",
+                    color: "#0D1512", outline: "none", resize: "none",
                     transition: "border-color 0.2s, box-shadow 0.2s, background 0.2s",
                     boxSizing: "border-box",
                   }}
                   onFocus={(e) => {
-                    e.target.style.borderColor = "#059669";
+                    e.target.style.borderColor = "#0E6B52";
                     e.target.style.boxShadow = "0 0 0 3px rgba(5,150,105,0.09)";
                     e.target.style.background = "#fff";
                   }}
                   onBlur={(e) => {
-                    e.target.style.borderColor = "#e5e7eb";
+                    e.target.style.borderColor = "#E7E4DA";
                     e.target.style.boxShadow = "none";
-                    e.target.style.background = "#f9fafb";
+                    e.target.style.background = "#F7F5EF";
                   }}
                 />
               </div>
@@ -436,13 +423,12 @@ const RecruiterEditProfile = () => {
                 padding: "13px 0",
                 borderRadius: 12,
                 background: loading
-                  ? "#d1d5db"
-                  : "linear-gradient(135deg, #064e3b, #059669)",
+                  ? "#D6D3C7"
+                  : "linear-gradient(135deg, #143D30, #0E6B52)",
                 border: "none",
                 color: "#fff", fontSize: 14, fontWeight: 600,
                 cursor: loading ? "not-allowed" : "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                fontFamily: "'Sora', sans-serif",
                 boxShadow: loading ? "none" : "0 6px 18px rgba(5,150,105,0.3)",
                 transition: "all 0.2s",
                 letterSpacing: "0.01em",
@@ -493,15 +479,15 @@ const RecruiterEditProfile = () => {
             boxShadow: "0 32px 80px rgba(0,0,0,0.25)",
           }}>
             <h3 style={{
-              fontFamily: "'Lora', serif",
+              fontFamily: "'Inter Tight', sans-serif",
               fontSize: 18, fontWeight: 600,
-              textAlign: "center", marginBottom: 16, color: "#111827",
+              textAlign: "center", marginBottom: 16, color: "#0D1512",
             }}>
               Crop Company Logo
             </h3>
             <div style={{
               position: "relative", width: "100%", height: 256,
-              background: "#0f172a", borderRadius: 14, overflow: "hidden",
+              background: "#0D1512", borderRadius: 14, overflow: "hidden",
             }}>
               <Cropper
                 image={imageSrc}
@@ -520,9 +506,9 @@ const RecruiterEditProfile = () => {
                 onClick={() => setCropModalOpen(false)}
                 style={{
                   flex: 1, padding: "11px 0", borderRadius: 10,
-                  background: "#f3f4f6", border: "none",
-                  fontSize: 13.5, fontWeight: 500, color: "#374151",
-                  cursor: "pointer", fontFamily: "'Sora', sans-serif",
+                  background: "#F1EFE7", border: "none",
+                  fontSize: 13.5, fontWeight: 500, color: "#2B322D",
+                  cursor: "pointer",
                 }}
               >
                 Cancel
@@ -532,10 +518,9 @@ const RecruiterEditProfile = () => {
                 onClick={handleSaveCrop}
                 style={{
                   flex: 1, padding: "11px 0", borderRadius: 10,
-                  background: "linear-gradient(135deg, #059669, #10b981)",
+                  background: "linear-gradient(135deg, #0E6B52, #159A72)",
                   border: "none", fontSize: 13.5, fontWeight: 600,
                   color: "#fff", cursor: "pointer",
-                  fontFamily: "'Sora', sans-serif",
                   boxShadow: "0 4px 14px rgba(5,150,105,0.3)",
                 }}
               >

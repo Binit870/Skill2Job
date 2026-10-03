@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+Allow: /about
+Allow: /features
+Allow: /how-it-works
+Allow: /faq
+Allow: /contact
+Allow: /login
+Allow: /signup
+
+# Authenticated app areas add no SEO value and shouldn't be indexed
+Disallow: /student/
+Disallow: /recruiter/
+Disallow: /student-dashboard
+Disallow: /recruiter-dashboard
+Disallow: /reset-password/
+Disallow: /forgot-password
+
+Sitemap: https://skill-2-job.vercel.app/sitemap.xml

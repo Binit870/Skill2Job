@@ -4,6 +4,12 @@ import InterviewSetup from "./InterviewSetup";
 import InterviewSession from "./InterviewSession";
 import FeedbackReport from "./FeedbackReport";
 
+const STEPS = [
+  { id: "setup", label: "Setup", icon: Briefcase },
+  { id: "interview", label: "Interview", icon: MessageSquare },
+  { id: "feedback", label: "Feedback", icon: FileText },
+];
+
 export default function MockInterview() {
   const [step, setStep] = useState("setup");
   const [role, setRole] = useState("");
@@ -20,97 +26,49 @@ export default function MockInterview() {
     setStep("interview");
   };
 
-  const steps = [
-    { id: "setup",     label: "Setup",     icon: <Briefcase size={15} /> },
-    { id: "interview", label: "Interview", icon: <MessageSquare size={15} /> },
-    { id: "feedback",  label: "Feedback",  icon: <FileText size={15} /> },
-  ];
-
-  const currentIndex = steps.findIndex((s) => s.id === step);
+  const currentIndex = STEPS.findIndex((s) => s.id === step);
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "#fff",
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: "'Inter', 'DM Sans', 'Segoe UI', sans-serif",
-    }}>
+    <div className="min-h-screen bg-white flex flex-col">
 
       {/* HEADER */}
-      <header style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "14px clamp(16px, 4vw, 32px)",
-        background: "#fff",
-        borderBottom: "0.5px solid #e5e7eb",
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{
-            width: 34, height: 34, borderRadius: 9,
-            background: "#f0fdf4",
-            border: "0.5px solid #bbf7d0",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <Sparkles size={16} color="#16a34a" />
+      <header className="flex justify-between items-center px-4 sm:px-8 py-3.5 bg-white border-b border-mist">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8.5 h-8.5 rounded-lg bg-pine/8 border border-pine/20 flex items-center justify-center">
+            <Sparkles size={16} className="text-pine" />
           </div>
-          <span style={{ fontSize: 15, fontWeight: 600, color: "#111827", letterSpacing: "-0.2px" }}>
-            Mock Interview
-          </span>
+          <span className="text-[15px] font-semibold text-ink tracking-tight">Mock Interview</span>
         </div>
-        <span style={{
-          fontSize: 12, fontWeight: 500, color: "#6b7280",
-          background: "#f9fafb", padding: "4px 12px", borderRadius: 99,
-          border: "0.5px solid #e5e7eb",
-        }}>
-          {currentIndex + 1} / {steps.length}
+        <span className="text-xs font-medium text-ink/50 bg-paper/60 px-3 py-1 rounded-full border border-mist">
+          {currentIndex + 1} / {STEPS.length}
         </span>
       </header>
 
       {/* STEPPER */}
-      <div style={{
-        background: "#fff",
-        borderBottom: "0.5px solid #e5e7eb",
-        padding: "16px clamp(16px,4vw,32px)",
-      }}>
-        <div style={{ maxWidth: 480, margin: "0 auto", position: "relative" }}>
-          {/* connector track */}
-          <div style={{
-            position: "absolute", top: 16, left: "12%", right: "12%",
-            height: "0.5px", background: "#e5e7eb", zIndex: 0,
-          }}>
-            <div style={{
-              height: "100%",
-              background: "#16a34a",
-              width: `${(currentIndex / (steps.length - 1)) * 100}%`,
-              transition: "width 0.5s ease",
-            }} />
+      <div className="bg-white border-b border-mist px-4 sm:px-8 py-4">
+        <div className="max-w-[480px] mx-auto relative">
+          <div className="absolute top-4 left-[12%] right-[12%] h-px bg-mist z-0">
+            <div
+              className="h-full bg-pine transition-all duration-500"
+              style={{ width: `${(currentIndex / (STEPS.length - 1)) * 100}%` }}
+            />
           </div>
 
-          <div style={{ display: "flex", justifyContent: "space-between", position: "relative", zIndex: 1 }}>
-            {steps.map((s, index) => {
+          <div className="flex justify-between relative z-10">
+            {STEPS.map((s, index) => {
               const done = index < currentIndex;
               const active = index === currentIndex;
+              const Icon = s.icon;
               return (
-                <div key={s.id} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 7 }}>
-                  <div style={{
-                    width: 32, height: 32, borderRadius: "50%",
-                    background: done ? "#f0fdf4" : active ? "#f0fdf4" : "#fff",
-                    border: done || active ? "0.5px solid #bbf7d0" : "0.5px solid #e5e7eb",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    color: done || active ? "#16a34a" : "#d1d5db",
-                    transition: "all 0.3s ease",
-                    boxShadow: active ? "0 0 0 3px #dcfce7" : "none",
-                  }}>
-                    {s.icon}
+                <div key={s.id} className="flex flex-col items-center gap-1.5">
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300
+                      ${done || active ? "bg-pine/8 border border-pine/25 text-pine" : "bg-white border border-mist text-ink/25"}
+                      ${active ? "ring-4 ring-pine/15" : ""}`}
+                  >
+                    <Icon size={15} />
                   </div>
-                  <span style={{
-                    fontSize: 11, fontWeight: 500,
-                    color: done || active ? "#16a34a" : "#9ca3af",
-                    letterSpacing: "0.05em",
-                    textTransform: "uppercase",
-                  }}>
+                  <span className={`text-[11px] font-medium tracking-wide uppercase ${done || active ? "text-pine" : "text-ink/35"}`}>
                     {s.label}
                   </span>
                 </div>
@@ -121,30 +79,13 @@ export default function MockInterview() {
       </div>
 
       {/* MAIN */}
-      <main style={{
-        flex: 1,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "flex-start",
-        padding: "clamp(16px,4vw,36px) clamp(12px,3vw,16px)",
-        background: "#fafafa",
-      }}>
-        <div style={{ width: "100%", maxWidth: 720 }}>
+      <main className="flex-1 flex justify-center items-start px-3 sm:px-4 py-8 sm:py-9 bg-paper/60">
+        <div className="w-full max-w-[720px]">
 
           {loading && (
-            <div style={{
-              display: "flex", flexDirection: "column",
-              alignItems: "center", justifyContent: "center", padding: "80px 0",
-            }}>
-              <div style={{
-                width: 36, height: 36,
-                border: "2px solid #e5e7eb", borderTopColor: "#16a34a",
-                borderRadius: "50%", animation: "spin 0.8s linear infinite",
-              }} />
-              <p style={{ color: "#6b7280", marginTop: 14, fontSize: 14, fontWeight: 500 }}>
-                Preparing your interview...
-              </p>
-              <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+            <div className="flex flex-col items-center justify-center py-20">
+              <div className="w-9 h-9 rounded-full border-2 border-mist border-t-pine animate-spin" />
+              <p className="text-ink/50 mt-3.5 text-sm font-medium">Preparing your interview…</p>
             </div>
           )}
 
@@ -172,13 +113,8 @@ export default function MockInterview() {
       </main>
 
       {/* FOOTER */}
-      <footer style={{
-        textAlign: "center", fontSize: 12, color: "#9ca3af",
-        padding: "14px clamp(12px,3vw,16px)",
-        borderTop: "0.5px solid #e5e7eb",
-        background: "#fff",
-      }}>
-        © {new Date().getFullYear()} Mock Interview · Built with ♥ by Skill2Job
+      <footer className="text-center text-xs text-ink/35 px-4 py-3.5 border-t border-mist bg-white">
+        © {new Date().getFullYear()} Mock Interview · Built with ♥ by Skill2Career
       </footer>
     </div>
   );

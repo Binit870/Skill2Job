@@ -35,39 +35,39 @@ export default function RecruiterDashboard() {
 
   const statusStyle = (status) => {
     if (status === "Shortlisted")
-      return "bg-emerald-50 text-emerald-700 border border-emerald-200";
+      return "bg-pine/8 text-pine border border-pine/20";
     if (status === "Rejected")
       return "bg-red-50 text-red-600 border border-red-200";
-    return "bg-gray-100 text-gray-500 border border-gray-200";
+    return "bg-ink/5 text-ink/50 border border-mist";
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-paper/60 flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-2 border-[#0f4c35] border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-gray-400 font-medium">Loading dashboard…</p>
+          <div className="w-8 h-8 border-2 border-pine border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm text-ink/40 font-medium">Loading dashboard…</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-paper/60 px-4 py-6 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto space-y-5">
 
         {/* HEADER */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-5 py-4 sm:px-7 sm:py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="bg-white rounded-2xl border border-mist shadow-card px-5 py-4 sm:px-7 sm:py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <p className="text-[10px] sm:text-xs font-semibold text-[#0f4c35] tracking-widest uppercase mb-1">
+            <p className="text-[10px] sm:text-xs font-semibold text-pine tracking-widest uppercase mb-1">
               Recruiter Dashboard
             </p>
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Hiring Overview</h1>
-            <p className="text-xs sm:text-sm text-gray-400 mt-0.5">Manage your jobs and candidates</p>
+            <h1 className="font-display text-xl sm:text-2xl font-bold text-ink">Hiring Overview</h1>
+            <p className="text-xs sm:text-sm text-ink/40 mt-0.5">Manage your jobs and candidates</p>
           </div>
           <button
             onClick={() => navigate("/recruiter/post-job")}
-            className="self-start sm:self-auto flex items-center gap-2 bg-[#0f4c35] hover:bg-[#0a3525] active:scale-95 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-all shadow-sm"
+            className="self-start sm:self-auto flex items-center gap-2 bg-pine hover:bg-moss active:scale-95 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-all shadow-sm"
           >
             <Plus size={15} />
             Post a Job
@@ -84,7 +84,7 @@ export default function RecruiterDashboard() {
 
         {/* QUICK ACTIONS */}
         <div>
-          <h2 className="text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+          <h2 className="text-[10px] sm:text-xs font-semibold text-ink/40 uppercase tracking-wider mb-3">
             Quick Actions
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
@@ -110,39 +110,39 @@ export default function RecruiterDashboard() {
         </div>
 
         {/* RECENT APPLICATIONS */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="px-5 py-4 sm:px-6 border-b border-gray-100 flex justify-between items-center">
-            <h2 className="text-sm sm:text-base font-semibold text-gray-800">Recent Applications</h2>
+        <div className="bg-white rounded-2xl border border-mist shadow-card overflow-hidden">
+          <div className="px-5 py-4 sm:px-6 border-b border-mist flex justify-between items-center">
+            <h2 className="font-display text-sm sm:text-base font-semibold text-ink">Recent Applications</h2>
             <button
               onClick={() => navigate("/recruiter/candidates-applications")}
-              className="text-xs text-[#0f4c35] font-semibold hover:underline flex items-center gap-0.5"
+              className="text-xs text-pine font-semibold hover:underline flex items-center gap-0.5"
             >
               View all <ChevronRight size={13} />
             </button>
           </div>
 
           {applications.length === 0 ? (
-            <div className="px-6 py-10 text-center text-sm text-gray-400">
+            <div className="px-6 py-10 text-center text-sm text-ink/40">
               No applications yet.
             </div>
           ) : (
-            <div className="divide-y divide-gray-50">
+            <div className="divide-y divide-mist">
               {applications.slice(0, 5).map((app) => {
                 const user = app.applicant || app.applicantSnapshot || {};
                 return (
                   <div
                     key={app._id}
-                    className="flex items-center justify-between px-5 sm:px-6 py-3.5 hover:bg-gray-50 transition-colors"
+                    className="flex items-center justify-between px-5 sm:px-6 py-3.5 hover:bg-ink/5 transition-colors"
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#f0f7f4] text-[#0f4c35] flex items-center justify-center text-xs sm:text-sm font-bold shrink-0">
+                      <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-pine/8 text-pine flex items-center justify-center text-xs sm:text-sm font-bold shrink-0">
                         {user.name?.charAt(0)?.toUpperCase() || "?"}
                       </div>
                       <div className="min-w-0">
-                        <p className="text-sm font-semibold text-gray-800 truncate">
+                        <p className="text-sm font-semibold text-ink truncate">
                           {user.name || "Unknown"}
                         </p>
-                        <p className="text-xs text-gray-400 truncate">{app.job?.title || "—"}</p>
+                        <p className="text-xs text-ink/40 truncate">{app.job?.title || "—"}</p>
                       </div>
                     </div>
                     <span
@@ -166,21 +166,21 @@ function StatCard({ title, value, icon: Icon, highlight }) {
   return (
     <div
       className={`rounded-2xl border shadow-sm p-4 sm:p-5 flex items-center gap-3 sm:gap-4 hover:shadow-md transition-shadow duration-200 ${
-        highlight ? "bg-[#0f4c35] border-[#0a3525]" : "bg-white border-gray-100"
+        highlight ? "bg-pine border-moss" : "bg-white border-mist"
       }`}
     >
       <div
         className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 ${
-          highlight ? "bg-white/10" : "bg-[#f0f7f4]"
+          highlight ? "bg-white/10" : "bg-pine/8"
         }`}
       >
-        <Icon size={17} className={highlight ? "text-white" : "text-[#0f4c35]"} />
+        <Icon size={17} className={highlight ? "text-white" : "text-pine"} />
       </div>
       <div>
-        <p className={`text-[11px] sm:text-xs font-medium ${highlight ? "text-green-200" : "text-gray-400"}`}>
+        <p className={`text-[11px] sm:text-xs font-medium ${highlight ? "text-white/70" : "text-ink/40"}`}>
           {title}
         </p>
-        <p className={`text-xl sm:text-2xl font-bold leading-tight ${highlight ? "text-white" : "text-gray-900"}`}>
+        <p className={`text-xl sm:text-2xl font-bold leading-tight ${highlight ? "text-white" : "text-ink"}`}>
           {value}
         </p>
       </div>
@@ -192,20 +192,20 @@ function ActionCard({ title, desc, icon: Icon, onClick }) {
   return (
     <div
       onClick={onClick}
-      className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-5 cursor-pointer hover:shadow-md hover:border-gray-200 active:scale-[0.98] transition-all duration-200 group flex items-center gap-4"
+      className="bg-white rounded-2xl border border-mist shadow-card p-4 sm:p-5 cursor-pointer hover:shadow-card-hover hover:border-ink/10 active:scale-[0.98] transition-all duration-200 group flex items-center gap-4"
     >
-      <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#f0f7f4] flex items-center justify-center shrink-0 group-hover:bg-[#0f4c35] transition-colors duration-200">
-        <Icon size={17} className="text-[#0f4c35] group-hover:text-white transition-colors duration-200" />
+      <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-pine/8 flex items-center justify-center shrink-0 group-hover:bg-pine transition-colors duration-200">
+        <Icon size={17} className="text-pine group-hover:text-white transition-colors duration-200" />
       </div>
       <div className="flex-1 min-w-0">
-        <h3 className="text-sm font-semibold text-gray-800 group-hover:text-[#0f4c35] transition-colors truncate">
+        <h3 className="text-sm font-semibold text-ink group-hover:text-pine transition-colors truncate">
           {title}
         </h3>
-        <p className="text-xs text-gray-400 mt-0.5 truncate">{desc}</p>
+        <p className="text-xs text-ink/40 mt-0.5 truncate">{desc}</p>
       </div>
       <ChevronRight
         size={14}
-        className="text-gray-300 group-hover:text-[#0f4c35] shrink-0 transition-colors"
+        className="text-ink/25 group-hover:text-pine shrink-0 transition-colors"
       />
     </div>
   );

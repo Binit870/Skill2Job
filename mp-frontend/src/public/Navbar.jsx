@@ -1,62 +1,109 @@
-import { Link } from "react-router-dom";
-import { Briefcase, Home, Info, Star, Settings, Phone, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X, ArrowRight } from "lucide-react";
+import { useState, useEffect } from "react";
 import logo from "../assets/logo.png";
+
+const NAV_LINKS = [
+  { to: "/", label: "Home" },
+  { to: "/features", label: "Features" },
+  { to: "/how-it-works", label: "How it works" },
+  { to: "/about", label: "About" },
+  { to: "/contact", label: "Contact" },
+];
+
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => setMenuOpen(false), [pathname]);
 
   return (
-    <nav className="w-full bg-white shadow-md px-6 py-4 flex items-center justify-between sticky top-0 z-50">
+    <nav
+      className={`w-full sticky top-0 z-50 transition-shadow ${scrolled ? "shadow-[0_1px_0_0_theme(colors.mist)]" : ""
+        } bg-paper/90 backdrop-blur-md`}
+    >
+      <div className="max-w-6xl mx-auto px-5 sm:px-6 h-16 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-2.5 shrink-0">
+          <img src={logo} alt="" className="h-7 w-7 object-contain" />
+          <span className="font-display font-bold text-lg tracking-tight text-ink">
+            Skill2Career
+          </span>
+        </Link>
 
-      {/* Logo */}
-      <Link to="/" className="flex items-center gap-2">
-        <img
-          src={logo}
-          alt="Skill2Job Logo"
-          className="h-7 w-7 object-contain"
-        />
+        <div className="hidden md:flex items-center gap-1">
+          {NAV_LINKS.map((link) => {
+            const active = pathname === link.to;
+            return (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={`px-3.5 py-2 rounded-full text-sm font-medium transition-colors ${active
+                    ? "text-pine bg-pine/8"
+                    : "text-ink/65 hover:text-ink hover:bg-ink/5"
+                  }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+        </div>
 
-        <h1 className="text-xl font-bold text-green-600">Skill2Job</h1>
-      </Link>
+        <div className="hidden md:flex items-center gap-2">
+          <Link
+            to="/login"
+            className="px-4 py-2 rounded-full text-sm font-medium text-ink/75 hover:text-ink transition-colors"
+          >
+            Sign in
+          </Link>
+          <Link
+            to="/signup"
+            className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-pine text-white text-sm font-semibold hover:bg-moss transition-colors"
+          >
+            Get started
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        </div>
 
-      {/* Desktop Nav Links */}
-      <div className="hidden md:flex items-center gap-6 text-gray-700 font-medium text-sm">
-        <Link to="/" className="flex items-center gap-1 hover:text-green-600 transition"><Home size={15} />Home</Link>
-        <Link to="/about" className="flex items-center gap-1 hover:text-green-600 transition"><Info size={15} />About</Link>
-        <Link to="/features" className="flex items-center gap-1 hover:text-green-600 transition"><Star size={15} />Features</Link>
-        <Link to="/how-it-works" className="flex items-center gap-1 hover:text-green-600 transition"><Settings size={15} />How It Works</Link>
-        <Link to="/contact" className="flex items-center gap-1 hover:text-green-600 transition"><Phone size={15} />Contact</Link>
+        <button
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          className="md:hidden p-2 -mr-2 rounded-full hover:bg-ink/5 transition-colors"
+        >
+          {menuOpen ? <X className="w-5 h-5 text-ink" /> : <Menu className="w-5 h-5 text-ink" />}
+        </button>
       </div>
 
-      {/* Desktop Auth Buttons */}
-      <div className="hidden md:flex items-center gap-3">
-        <Link to="/login" className="px-4 py-2 border border-green-600 text-green-600 rounded-lg hover:bg-green-50 transition text-sm font-medium">
-          Sign In
-        </Link>
-        <Link to="/signup" className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-medium">
-          Get Started
-        </Link>
-      </div>
-
-      {/* Mobile Hamburger */}
-      <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition">
-        {menuOpen ? <X className="w-5 h-5 text-gray-700" /> : <Menu className="w-5 h-5 text-gray-700" />}
-      </button>
-
-      {/* Mobile Dropdown */}
       {menuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-lg px-6 py-4 flex flex-col gap-3 z-50">
-          <Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 text-sm text-gray-700 hover:text-green-600 py-2 border-b border-gray-50"><Home size={15} />Home</Link>
-          <Link to="/about" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 text-sm text-gray-700 hover:text-green-600 py-2 border-b border-gray-50"><Info size={15} />About</Link>
-          <Link to="/features" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 text-sm text-gray-700 hover:text-green-600 py-2 border-b border-gray-50"><Star size={15} />Features</Link>
-          <Link to="/how-it-works" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 text-sm text-gray-700 hover:text-green-600 py-2 border-b border-gray-50"><Settings size={15} />How It Works</Link>
-          <Link to="/contact" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 text-sm text-gray-700 hover:text-green-600 py-2 border-b border-gray-50"><Phone size={15} />Contact</Link>
-          <div className="flex gap-3 pt-2">
-            <Link to="/login" onClick={() => setMenuOpen(false)} className="flex-1 text-center px-4 py-2 border border-green-600 text-green-600 rounded-lg hover:bg-green-50 transition text-sm font-medium">
-              Sign In
+        <div className="md:hidden border-t border-mist bg-paper px-5 py-4 flex flex-col gap-1">
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className="px-3 py-2.5 rounded-lg text-sm font-medium text-ink/75 hover:text-ink hover:bg-ink/5 transition-colors"
+            >
+              {link.label}
             </Link>
-            <Link to="/signup" onClick={() => setMenuOpen(false)} className="flex-1 text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-medium">
-              Get Started
+          ))}
+          <div className="flex gap-2 pt-3 mt-2 border-t border-mist">
+            <Link
+              to="/login"
+              className="flex-1 text-center px-4 py-2.5 rounded-full border border-mist text-ink text-sm font-medium hover:bg-ink/5 transition-colors"
+            >
+              Sign in
+            </Link>
+            <Link
+              to="/signup"
+              className="flex-1 text-center px-4 py-2.5 rounded-full bg-pine text-white text-sm font-semibold hover:bg-moss transition-colors"
+            >
+              Get started
             </Link>
           </div>
         </div>

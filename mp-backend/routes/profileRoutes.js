@@ -8,7 +8,8 @@ import {
 } from "../controllers/profileController.js";
 import { protect } from "../middlewares/authMiddleware.js";
 import upload from "../middlewares/uploadMiddleware.js";
-import { v2 as cloudinary } from "cloudinary";
+import validate from "../middlewares/validate.js";
+import { updateStudentProfileRules, updateRecruiterProfileRules } from "../validators/profileValidators.js";
 const router = express.Router();
 
 // ================= STUDENT PROFILE UPDATE =================
@@ -19,6 +20,8 @@ router.put(
     { name: "profileImage", maxCount: 1 },
     { name: "resume", maxCount: 1 },
   ]),
+  updateStudentProfileRules,
+  validate,
   updateStudentProfile
 );
 
@@ -27,6 +30,8 @@ router.put(
   "/recruiter",
   protect,
   upload.fields([{ name: "companyLogo", maxCount: 1 }]),
+  updateRecruiterProfileRules,
+  validate,
   updateRecruiterProfile
 );
 
@@ -40,11 +45,11 @@ router.get("/resume", protect, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     if (!user?.resume)
-      return res.status(404).json({ message: "No resume found" });
+      return res.status(404).json({ success: false, message: "No resume found" });
 
     const response = await fetch(user.resume);
     if (!response.ok)
-      return res.status(response.status).json({ message: `Cloudinary returned ${response.status}` });
+      return res.status(502).json({ success: false, message: "Could not retrieve resume file" });
 
     const buffer = await response.arrayBuffer();
     res.setHeader("Content-Type", "application/pdf");
@@ -52,7 +57,7 @@ router.get("/resume", protect, async (req, res) => {
     res.send(Buffer.from(buffer));
   } catch (err) {
     console.error("Resume proxy error:", err);
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ success: false, message: "Failed to load resume" });
   }
 });
 
